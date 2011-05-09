@@ -19,7 +19,7 @@ def login_page(request):
     """
     if request.method == "POST":
         form = LoginForm(request.POST)
-        #next = request.POST.get('next', '')
+        next = request.POST.get('next', '')
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
@@ -27,10 +27,9 @@ def login_page(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    #if not next:
-                    #    next = profile_page
-                    #return redirect(next)
-                    return redirect(user)
+                    if not next:
+                        next = user
+                    return redirect(next)
                 else:
                     form.errors['__all__'] = 'This account is inactive.'
             else:

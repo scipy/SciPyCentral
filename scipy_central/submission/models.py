@@ -22,15 +22,10 @@ class License(models.Model):
 
 class Submission(models.Model):
     """
-    A single model for all submission types.
+    A single model for all submission types. Most of the information is stored
+    in the ``Revision`` for the submission, allowing us to store a history of
+    the submission in consecutive revisions.
     """
-    # user-provided submission title. **.
-    title = models.CharField(max_length=255,
-                             help_text='Provide a title for your submission')
-
-    # auto-created slug field [*unique field*]
-    slug = models.SlugField(max_length=255, unique=True, editable=False)
-
     # Submission type
     SUBMISSION_TYPE = (
         ('snippet', 'Example code snippet, a cookbook entry, etc.'),
@@ -39,6 +34,31 @@ class Submission(models.Model):
     )
     sub_type = models.CharField(max_length=10, choices=SUBMISSION_TYPE,
                 help_text = 'Your submission should be one of 3 types')
+
+    # Original submitter
+    created_by = models.ForeignKey('person.UserProfile')
+
+    # Total dowloads: sum of all downloads (code snippets) and total
+    # outgoing clicks (for links)
+    tot_downloads_clicks = models.PositiveIntegerField(default=0)
+
+    # Total pageviews: sum of all views
+    tot_pageviews = models.PositiveIntegerField(default=0)
+
+    # n_revisions: total number of revisions
+    tot_revisions = models.PositiveIntegerField(default=0)
+
+    # FUTURE:
+    # cloned_from = models.ForeignKey('self', null=True, blank=True)
+
+class Revision(models.Model):
+        # user-provided submission title. **.
+    title = models.CharField(max_length=255,
+                             help_text='Provide a title for your submission')
+
+    # auto-created slug field [*unique field*]
+    slug = models.SlugField(max_length=255, unique=True, editable=False)
+
 
     # List of authors for this submission (usually one), but we are
     # provisioning for collaborative authorship as well
@@ -67,27 +87,25 @@ class Submission(models.Model):
                     'your code or link does, how it solves the problem, '
                     'and/or how it works.'), blank=True, null=True)
 
-    # HTML version of the ``description``
+    # HTML version of the ReST ``description`` field
     description_html = models.TextField(editable=False)
 
     # User uploaded image
     screenshot = models.ForeignKey('screenshot.Screenshot', null=True,
                                    blank=True)
 
+    # Code snippet hash
+    hash_id = models.CharField(max_length=40, null=True, blank=True,
+                               editable=False)
+
 
     # Number of downloads
-    n_downloads = models.IntegerField(default=0,
-                                      verbose_name='Number of downloads')
+    n_downloads_clicks = models.IntegerField(default=0,
+                            verbose_name='Number of downloads or page clicks')
 
     # number of full-page views of this submission
     n_views = models.IntegerField(default=0,
                                   verbose_name='Number of page views')
-
-    # number of revisions to submission
-    n_revisions = models.IntegerField(default=0,
-                                      verbose_name='Number of revisions')
-
-    cloned_from = models.ForeignKey('self', null=True, blank=True)
 
     # For link-type submissions
     item_url = models.URLField(verbose_name="URL for link-type submssions",
@@ -96,6 +114,8 @@ class Submission(models.Model):
                            'publication (<a target="_blank" href="http://en.'
                            'wikipedia.org/wiki/Digital_object_identifier">'
                            'DOI preferred</a>)'), max_length=255)
+
+    # fileset
 
     # inspired_by: a comma-separated list of previous submissions
 
@@ -113,5 +133,3 @@ class Submission(models.Model):
 
         # Call the "real" save() method.
         super(Submission, self).save(*args, **kwargs)
-
-
