@@ -1,5 +1,5 @@
 from django import forms
-from models import Submission, License
+from models import Submission, License, Revision
 
 class Submission_Common_Form(forms.Form):
     """
@@ -11,7 +11,7 @@ class Submission_Common_Form(forms.Form):
     required_css_class = 'scipycentral-form-required'
     error_css_class = 'scipycentral-form-error'
     summary = forms.CharField(max_length=150, widget=forms.Textarea,
-                label=Submission._meta.get_field('summary').help_text)
+                label=Revision._meta.get_field('summary').help_text)
     title = forms.CharField(max_length=255, label=('Please provide a title '
                                                    'for your submission'))
 
@@ -22,7 +22,7 @@ class LinkForm(forms.Form):
     required_css_class = 'scipycentral-form-required'
     error_css_class = 'scipycentral-form-error'
 
-    parent = Submission._meta.get_field('item_url')
+    parent = Revision._meta.get_field('item_url')
     item_url = forms.URLField(label='Link',
                               max_length=parent.max_length,
                               help_text=parent.help_text)

@@ -51,8 +51,28 @@ class Submission(models.Model):
     # FUTURE:
     # cloned_from = models.ForeignKey('self', null=True, blank=True)
 
+
+    @property
+    def last_revision(self):
+        try:
+            return self.revisions.order_by('-id')[0]
+        except (KeyError, IndexError):
+            return None
+
+    @property
+    def slug(self):
+        return self.last_revision.slug
+
+    def __unicode__(self):
+        return self.slug + '::rev-' + str(tot_revisions)
+
+
 class Revision(models.Model):
-        # user-provided submission title. **.
+
+    # The submission: parent item for this revision
+    entry = models.ForeignKey(Submission, related_name="revisions")
+
+    # user-provided submission title.
     title = models.CharField(max_length=255,
                              help_text='Provide a title for your submission')
 
@@ -62,7 +82,7 @@ class Revision(models.Model):
 
     # List of authors for this submission (usually one), but we are
     # provisioning for collaborative authorship as well
-    authors = models.ManyToManyField('person.UserProfile')
+    author = models.ForeignKey('person.UserProfile')
 
     # Submission license. Only used for code packages. Code snippets are
     # always CC0 licensed, and external links must list their own license.
