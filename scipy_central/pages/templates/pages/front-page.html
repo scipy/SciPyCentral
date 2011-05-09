@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}SciPy Central{% endblock %}
+
+{% block content %}
+<div id="scipycentral-site-statement">
+A library of code snippets, modules and links for solving scientific problems
+with <a href="http://scipy.org">SciPy</a> and related Python tools.
+</div>
+
+<div id="scipycentral-search">
+  <form method="post" action="/search/" id="scipycentral-search-form">
+  {% csrf_token %}
+  <input id="scipycentral-search-box" name="search_terms" type="search" placeholder="Search over all submissions" value="" />
+  <input id="scipycentral-search-button" type="submit" value="Search"/>
+  </form>
+  <!--TODO: Advanced search link-->
+</div>
+
+<div class="scipycentral-portal" id="portal-top-left">
+<h2>By subject</h2>
+<ul>
+{% for area in subject_area %}
+  <li> <a href="/subject/{{area}}"{{area}}</a>
+{% endfor %}
+</ul>
+</div>
+
+<div class="scipycentral-portal" id="portal-top-right">
+<h2>Top rated submissions</h2>
+<ul>
+{% for submission in top_rated %}
+  <li> <a href="/item/{{submission.slug}}"{{submission.short_name}}</a>
+{% endfor %}
+</ul>
+</div>
+
+<div class="scipycentral-portal" id="portal-bottom-left">
+<h2>Tag cloud</h2>
+{{tag_cloud_html}}
+</div>
+
+<div class="scipycentral-portal" id="portal-bottom-right">
+<h2>Still to come</h2>
+</div>
+
+{% endblock %}

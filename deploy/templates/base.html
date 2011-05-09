@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="en-us" />
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/media/scipy-central.css" type="text/css" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.8/jquery.validate.min.js"></script>
+  </head>
+  <body>
+
+    {% block extra_head %}{% endblock %}
+
+    {% block body %}
+
+    <div id="scipycentral-container">
+
+      <div id="scipycentral-notice">
+      </div><!--#scipycentral-notice -->
+
+      <div id="scipycentral-header">
+        <h1><a href="{% url scipycentral-main-page %}" title="Home page">SciPy Central</a></h1>
+      </div><!--#scipycentral-header -->
+
+
+      <div class="scipycentral-navigation" id="scipycentral-navigation-top">
+        <div class="scipycentral-nav-links">
+          <div id="scipycentral-menu">
+            <div id="scipycentral-menu-left">
+              <a href="{% url scipycentral-new-web-submission %}">Make a Submission</a>
+            </div>
+            <div id="scipycentral-menu-right">
+              <a href="{% url scipycentral-login-signin %}">Sign In</a>
+            </div>
+          </div><!--menu-->
+        </div>
+      </div><!--#scipycentral-navigation-->
+
+
+      <div id="scipycentral-contentwrap">
+        <div id="scipycentral-content-main">
+          <div id="scipycentral-border">
+            <div id="scipycentral-section-body">
+              {% block content %}{% endblock %}
+            </div><!--#scipycentral-section-body-->
+          </div><!--#scipycentral-border-->
+        </div><!--scipycentral-content-main-->
+      </div><!--#scipycentral-contentwrap-->
+
+      <div id="scipycentral-navigation-bottom" class="scipycentral-navigation">
+        <div class="scipycentral-nav-links">
+        <a href="{% url scipycentral-about-page %}">About this site</a>
+        </div>
+      </div> <!--#scipycentral-navigation-bottom-->
+      <div id="scipycentral-footer">
+        Trademarks are property of their respective owners. Code and comments are owned by their respective posters. © {{the_year}} All Rights Reserved.
+        <hr />
+         | Sponsor: <a href="http://connectmv.com/">ConnectMV, Inc.</a>
+      </div><!--#scipycentral-footer-->
+
+    </div><!--#scipycentral-container-->
+
+  {% endblock %}
+</body>
+</html>

@@ -1,0 +1,22 @@
+<ul>
+{% for entry in entries.object_list %}
+<li>
+  <a href="{% url scipyshare.catalog.views.view entry.slug %}">{{ entry.title }}</a>:
+  {{ entry.description|truncatewords:10 }}
+</li>
+{% endfor %}
+</ul>
+
+<div class="pagination">
+  <span class="step-links">
+    {% if entries.has_previous %}
+    <a href="?page={{ contacts.previous_page_number }}">previous</a>
+    {% endif %}
+    <span class="current">
+      Page {{ entries.number }} of {{ entries.paginator.num_pages }}.
+    </span>
+    {% if entries.has_next %}
+    <a href="?page={{ contacts.next_page_number }}">next</a>
+    {% endif %}
+  </span>
+</div>

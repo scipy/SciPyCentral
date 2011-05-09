@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}New SciPy Central submission{% endblock %}
+
+{% block content %}
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+  $("#scipycentral-item-submit").hide();<!--("disabled", true);-->
+  $("[name=sub_type]").click(function() {
+    $("#scipycentral-item-submit").show();
+    var jqxhr1 = $.ajax({
+            url: "{% url scipycentral-next-steps %}",
+            data: "sub_type=" + this.value,
+            type: "GET",
+            context: document.body,
+            success: function(){
+              $("#scipycentral-next-steps").html(jqxhr1.responseText);
+              $("#scipycentral-item-submit").attr("disabled", false);
+            },
+            error: function(){
+              alert("An error occurred. Please report this to " +
+              "admin@scipy-central.org with code SCE001");
+            },
+    });
+
+    var jqxhr2 = $.ajax({
+            url: "{% url scipycentral-tagging-code %}",
+            type: "GET",
+            context: document.body,
+            success: function(){
+              $("#scipycentral-tagging-step").html(jqxhr2.responseText);
+            },
+            error: function(){
+              alert("An error occurred. Please report this to " +
+              "admin@scipy-central.org with code SCE002");
+            },
+    });
+  });
+});
+</script>
+<h1>Create a new submission</h1>
+
+<div class="scipycentral-form">
+<form action="{% url scipy_central.submission.views.new_web_submission %}"
+  method="POST" class="scipycentral-ul-form" enctype="multipart/form-data">
+  {% csrf_token %}
+
+
+  <h3>Step 1: Basic information</h3>
+  <!--Common parts: title and description -->
+  {{basic_info.as_ul}}
+
+  <div id="scipycentral-submission-type">
+    <label for="id_sub_type">Your contribution:</label>
+    <div id="scipycentral-new-radiogroup">
+      <input type="radio" name="sub_type" value="snippet" />
+      A code snippet or recipe (please copy and paste your code here)
+
+      <input type="radio" name="sub_type" value="package" />
+      A code package/module, in two or more files. You will upload a ZIP file.
+
+      <input type="radio" name="sub_type" value="link" />
+      A link to an external website, remote code/recipe, documentation, or publication
+    </div>
+  </div>
+
+  <div id="scipycentral-next-steps">
+  </div>
+
+  <div id="scipycentral-tagging-step">
+  </div>
+
+  <div id="scipycentral-preview-submit" style="overflow: hidden">
+    <input type="submit" value="Preview entry" id="scipycentral-item-submit" />
+  </div>
+</form>
+</div>
+{% endblock %}

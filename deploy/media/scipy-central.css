@@ -1,0 +1,370 @@
+/* -------------------------------------------------------------------------*/
+/* Basic layout of the document: no styling - that is applied further down. */
+/* -------------------------------------------------------------------------*/
+#scipycentral-document-container{
+	position: relative;
+	min-width: 50em;
+	max-width: 90em;
+}
+#scipycentral-header{
+	height: 3em;
+}
+
+.scipycentral-navigation{
+    /* Navigation blocks: top and bottom */
+	display: block;
+}
+
+#scipycentral-navigation-top{
+	clear: both;
+}
+
+#scipycentral-contentwrap{
+	display: block;
+	overflow: hidden;
+}
+#scipycentral-content-main{
+	float: left;
+	width: 100%;
+}
+
+#scipycentral-navigation-bottom{
+	clear: both;
+}
+#scipycentral-footer{
+	clear: both;
+}
+#scipycentral-highlight-floater{
+	display: none;
+}
+
+/* -------------------------------------------- */
+/* Now we will begin styling the various blocks */
+/* -------------------------------------------- */
+
+/* Document container */
+#scipycentral-document-container {
+    font: 13px/1.5 'Lucida Grande','Lucida Sans Unicode','Geneva','Verdana',sans-serif;
+    background: #FFFFFF;
+	margin: auto;              /* display container in the center of the page */
+	padding-top: 12px;
+}
+#scipycentral-document-container img{
+    border: 0
+}
+
+/* Header block */
+#scipycentral-header{
+	text-align: center;
+	font: 18px/1.5 'Lucida Grande','Lucida Sans Unicode','Geneva','Verdana',sans-serif;
+}
+#scipycentral-header h1 a {
+	color: black;
+	text-decoration: none;
+}
+
+/* Navigation blocks: top and bottom */
+.scipycentral-navigation{
+	color: #EE9816;
+	border-top: 1px solid #DDDDDD;
+	border-bottom: 1px solid #DDDDDD;
+	height: 1.8em;
+	background-image: url(/media/navigation.png); /* Styling from the Sphinx website!*/
+}
+.scipycentral-navigation a{
+    font: 13px/1.5 'Lucida Grande','Lucida Sans Unicode','Geneva','Verdana',sans-serif;
+	text-decoration: none;
+	color: #EE9816;
+	font-size: 110%;
+}
+.scipycentral-navigation a:hover{
+	text-decoration: underline;
+}
+
+.scipycentral-nav-links{
+}
+#scipycentral-menu-left {
+	float: left;
+}
+#scipycentral-menu-right {
+	float: right;
+}
+
+/* contentwrap block: applies to everything in the bulk of the page */
+#scipycentral-contentwrap {
+}
+
+/* The major chunk of content (left side); the sidebar comes later */
+#scipycentral-content-main{
+	background: #20435C;
+}
+
+/* scipycentral-border: the 20px margin creates the click elements for the scipycentrals */
+#scipycentral-border {
+	margin-left: 20px;	  /* Only use "px": used in Javascript calculations */
+	background: white;
+	color: black;
+    padding-top: 1em;     /* Don't remove top and bottom padding: leads to    */
+    padding-bottom: 2em;  /* unwanted horizontal borders around the document. */
+	padding-left: 2em;
+	padding-right: 2em;
+}
+
+/* scipycentral-section-body: the current section of the document.  The Sphinx
+   generated HTML is inserted inside this DIV element.  Specific formatting for
+   the HTML should go here */
+/* ----------------------- */
+#scipycentral-section-body {
+}
+
+
+/* Styling for the headers */
+div#scipycentral-section-body h1, h2, h3, h4, h5, h6{
+	color: #20435C;
+	font-family: 'Trebuchet MS', sans-serif;
+    font-weight: normal;
+    border-bottom: 0px solid #ccc;}
+div#scipycentral-section-body h1 {	margin-top: 0;	font-size: 200%; font-weight: bold;}
+div#scipycentral-section-body h2 { font-size: 160%; font-weight: bold; color: #101074;}
+div#scipycentral-section-body h3 { font-size: 140%; color: #362A13;}
+div#scipycentral-section-body h4 { font-size: 120%; }
+div#scipycentral-section-body h5 { font-size: 110%; }
+div#scipycentral-section-body h6 { font-size: 100%; }
+
+
+/* Styling for hyperlinks */
+div#scipycentral-section-body a{
+	text-decoration: underline;
+	color: #EE9816;
+}
+div#scipycentral-section-body a.scipycentral-small-uri{
+	font-size: 70%;
+}
+
+/* Styling for images and figures: images are inline, figures are centered */
+div#scipycentral-section-body .align-center{
+    text-align: center;
+}
+
+/* Styling for <tt></tt> elements (from Sphinx) */
+div#scipycentral-section-body tt, div#scipycentral-content tt {
+	background-color:#F2F2F2;
+	border-bottom-color:#DDDDDD;
+	border-bottom-style:solid;
+	border-bottom-width:1px;
+	color:#333333;
+}
+
+/* Styling for the source code listings: (from pygments.css)*/
+div#scipycentral-section-body pre{
+    overflow: auto;
+    padding: 5px;
+    background-color: #ffffee;
+    color: #333333;
+    line-height: 120%;
+    border: 1px solid #ac9;
+    border-left: none;
+    border-right: none;
+}
+/* Styling for pre elements: from http://perishablepress.com/press/2009/11/09/perfect-pre-tags/ */
+/* no vertical scrollbars for IE 6 */
+* html pre {
+	padding-bottom:25px;
+	overflow-y:hidden;
+	overflow:visible;
+	overflow-x:auto
+}
+/* no vertical scrollbars for IE 7 */
+*:first-child+html pre {
+	padding-bottom:25px;
+	overflow-y:hidden;
+	overflow:visible;
+	overflow-x:auto
+}
+
+
+div#scipycentral-section-body td.linenos pre {
+    padding: 5px 0px;
+    border: 0;
+    background-color: transparent;
+    color: #aaa;
+}
+div#scipycentral-section-body .highlight .hll { background-color: #ffffcc }
+div#scipycentral-section-body .highlight .c { color: #008800; font-style: italic } /* Comment */
+div#scipycentral-section-body .highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
+div#scipycentral-section-body .highlight .k { color: #000080; font-weight: bold } /* Keyword */
+div#scipycentral-section-body .highlight .cm { color: #008800; font-style: italic } /* Comment.Multiline */
+div#scipycentral-section-body .highlight .cp { color: #008080 } /* Comment.Preproc */
+div#scipycentral-section-body .highlight .c1 { color: #008800; font-style: italic } /* Comment.Single */
+div#scipycentral-section-body .highlight .cs { color: #008800; font-weight: bold } /* Comment.Special */
+div#scipycentral-section-body .highlight .gd { color: #000000; background-color: #ffdddd } /* Generic.Deleted */
+div#scipycentral-section-body .highlight .ge { font-style: italic } /* Generic.Emph */
+div#scipycentral-section-body .highlight .gr { color: #aa0000 } /* Generic.Error */
+div#scipycentral-section-body .highlight .gh { color: #999999 } /* Generic.Heading */
+div#scipycentral-section-body .highlight .gi { color: #000000; background-color: #ddffdd } /* Generic.Inserted */
+div#scipycentral-section-body .highlight .go { color: #888888 } /* Generic.Output */
+div#scipycentral-section-body .highlight .gp { color: #555555 } /* Generic.Prompt */
+div#scipycentral-section-body .highlight .gs { font-weight: bold } /* Generic.Strong */
+div#scipycentral-section-body .highlight .gu { color: #aaaaaa } /* Generic.Subheading */
+div#scipycentral-section-body .highlight .gt { color: #aa0000 } /* Generic.Traceback */
+div#scipycentral-section-body .highlight .kc { color: #000080; font-weight: bold } /* Keyword.Constant */
+div#scipycentral-section-body .highlight .kd { color: #000080; font-weight: bold } /* Keyword.Declaration */
+div#scipycentral-section-body .highlight .kn { color: #000080; font-weight: bold } /* Keyword.Namespace */
+div#scipycentral-section-body .highlight .kp { color: #000080; font-weight: bold } /* Keyword.Pseudo */
+div#scipycentral-section-body .highlight .kr { color: #000080; font-weight: bold } /* Keyword.Reserved */
+div#scipycentral-section-body .highlight .kt { color: #000080; font-weight: bold } /* Keyword.Type */
+div#scipycentral-section-body .highlight .m { color: #0000FF } /* Literal.Number */
+div#scipycentral-section-body .highlight .s { color: #0000FF } /* Literal.String */
+div#scipycentral-section-body .highlight .na { color: #FF0000 } /* Name.Attribute */
+div#scipycentral-section-body .highlight .nt { color: #000080; font-weight: bold } /* Name.Tag */
+div#scipycentral-section-body .highlight .ow { font-weight: bold } /* Operator.Word */
+div#scipycentral-section-body .highlight .w { color: #bbbbbb } /* Text.Whitespace */
+div#scipycentral-section-body .highlight .mf { color: #0000FF } /* Literal.Number.Float */
+div#scipycentral-section-body .highlight .mh { color: #0000FF } /* Literal.Number.Hex */
+div#scipycentral-section-body .highlight .mi { color: #0000FF } /* Literal.Number.Integer */
+div#scipycentral-section-body .highlight .mo { color: #0000FF } /* Literal.Number.Oct */
+div#scipycentral-section-body .highlight .sb { color: #0000FF } /* Literal.String.Backtick */
+div#scipycentral-section-body .highlight .sc { color: #800080 } /* Literal.String.Char */
+div#scipycentral-section-body .highlight .sd { color: #0000FF } /* Literal.String.Doc */
+div#scipycentral-section-body .highlight .s2 { color: #0000FF } /* Literal.String.Double */
+div#scipycentral-section-body .highlight .se { color: #0000FF } /* Literal.String.Escape */
+div#scipycentral-section-body .highlight .sh { color: #0000FF } /* Literal.String.Heredoc */
+div#scipycentral-section-body .highlight .si { color: #0000FF } /* Literal.String.Interpol */
+div#scipycentral-section-body .highlight .sx { color: #0000FF } /* Literal.String.Other */
+div#scipycentral-section-body .highlight .sr { color: #0000FF } /* Literal.String.Regex */
+div#scipycentral-section-body .highlight .s1 { color: #0000FF } /* Literal.String.Single */
+div#scipycentral-section-body .highlight .ss { color: #0000FF } /* Literal.String.Symbol */
+div#scipycentral-section-body .highlight .il { color: #0000FF } /* Literal.Number.Integer.Long */
+
+
+/* Submission form */
+
+.scipycentral-form {
+	width: 60%;
+}
+form.scipycentral-ul-form input  {
+	width: 100%;
+}
+form.scipycentral-ul-form label{
+	display: block;
+	padding-top: 15px;
+	width: 100%;
+}
+form.scipycentral-ul-form li {
+	list-style: none none;
+}
+
+/* Next steps area: where user uploads snippet, code, or link */
+div#scipycentral-next-steps{
+	border-top: 1px solid #cccccc;
+	border-bottom: 1px solid #cccccc;
+}
+
+
+
+/* The navigation elements appear at the top and bottom of the document, so
+   they use CSS classes, rather than ID's.  Adjust this bottom navigation ID
+   if you want different styling for the bottom nav region.
+*/
+#scipycentral-navigation-bottom{
+/*  display: none;  to hide the bottom navigation region*/
+}
+
+/* scipycentral-footer */
+#scipycentral-footer {
+    color:#487858;
+    font-size:90%;
+    padding-bottom: 2em;
+}
+
+/* ---------------------- */
+/* User account pages     */
+/* ---------------------- */
+
+div#scipycentral-new-user {
+	width: 500px;
+	position: relative;
+	left: 50%;
+	margin: 20px 0 0 -200px;
+}
+
+div#scipycentral-new-user .textbox .holding input {
+	font: 20px "Helvetica Neue",Helvetica,Arial,sans-serif
+	outline: 0;
+	padding: 8px 6px;
+	width: 382px;
+	border: 1px solid #ccc;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	-moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1),0 1px 0 rgba(255,255,255,0.2);
+	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1),0 1px 0 rgba(255,255,255,0.2);
+}
+
+div.sidetip {
+	position: absolute;
+	left: 406px;
+	width: 250px;
+}
+div#scipycentral-new-user .textbox div.sidetip {
+	margin-top: 14px;
+}
+#scipycentral-new-user div.sidetip p {
+	font-size: 13px;
+	line-height: 16px;
+	padding-left: 18px;
+	background-repeat: no-repeat;
+	background-position: center left;
+	color: gray;
+	display: none;
+}
+/*#phx-signup-form div.sidetip p.active {*/
+/*display: block;*/
+/*}*/
+/*#phx-signup-form div.sidetip p.error {*/
+/*background-image: url(../img/error.png);*/
+/*color: #C33;*/
+/*}*/
+/*#phx-signup-form div.sidetip p.isaok {*/
+/*background-image: url(../img/accept.png);*/
+/*color: #390;*/
+/*}*/
+/*#phx-signup-form div.sidetip p.checking {*/
+/*background-image: url(../img/spinner-small.gif);*/
+/*}*/
+/*#phx-signup-form div.sidetip p.tip {*/
+/*padding-left: 0;*/
+/*}*/
+/*#phx-signup-form .tos div.sidetip p {*/
+/*color: #999;*/
+/*font-size: 11px;*/
+/*line-height: 14px;*/
+/*}*/
+/*#phx-signup-form .tos div.sidetip p a {*/
+/*color: #69A7D7;*/
+/*}*/
+/*#phx-signup-form .tos div.sidetip p a:hover {*/
+/*color: #2D76B9;*/
+/*}*/
+/*#phx-signup-form .tos .sidetip p.info,#phx-signup-form .password .sidetip p.invalid,#phx-signup-form .email .sidetip p.taken {*/
+/*line-height: 16px;*/
+/*position: relative;*/
+/*top: -8px;*/
+/*}*/
+
+
+/* ---------------------- */
+/* Miscellaneous elements */
+/* ---------------------- */
+
+/* Highlights the search terms within the search results page*/
+#scipycentral-search-term{
+	color: red;
+	font-weight: bold;
+}
+#scipycentral-search-results li{
+	padding-bottom: 1em;
+}
+#scipycentral-search-count{
+	color: purple;
+}

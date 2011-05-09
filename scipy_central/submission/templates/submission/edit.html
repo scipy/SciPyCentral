@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{entry.title}}
+{% endblock %}
+
+{% block content %}
+
+<h1>{{entry.title}} [{{entry.entry_type.name}}]</h1>
+
+{% if show_submit %}
+FOO
+{% endif %}
+
+<form action="{% url scipyshare.catalog.views.edit_entry entry.slug %}" enctype="multipart/form-data" method="POST">
+  {% csrf_token %}
+{% if show_submit %}
+  <div style="display: none;">
+{% endif %}
+  {{ form.as_p }}
+{% if show_upload %}
+  <input type="submit" name="submit" value="Upload files" />
+  <input type="submit" name="submit" value="Delete selected files" />
+{% endif %}
+  <hr>
+{% if show_submit %}
+  </div>
+  <input type="submit" name="submit" value="Edit" />
+  <input type="submit" name="submit" value="Submit" />
+{% else %}
+  <input type="submit" name="submit" value="Preview" />
+{% endif %}
+</form>
+
+{% endblock %}

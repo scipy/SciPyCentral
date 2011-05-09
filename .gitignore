@@ -1,0 +1,6 @@
+logfile.log
+*.pyc
+deploy/media/screenshots
+deploy/local_settings.py
+deploy/scipy-central.sqlite
+scipy-central.wpr
