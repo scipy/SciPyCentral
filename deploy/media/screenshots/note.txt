@@ -1,0 +1,1 @@
+User-uploaded screenshots will be placed in subdirectories under this point.
