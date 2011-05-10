@@ -1,13 +1,13 @@
 """
 Wraps the standard DVCS commands: for mercurial.
-From: https://bitbucket.org/kevindunn/ucommentapp
+Modified from: https://bitbucket.org/kevindunn/ucommentapp
 """
-import re, subprocess
+import re, subprocess, os, errno
 
 # Dictionary of Mercurial verbs: first list entry is the actual verb to use at
 # the command line, while the second entry is a dict of error codes and their
 # corresponding error messages.
-hg_verbs = {'pull':   ['pull',    {}],
+verbs = {'pull':   ['pull',    {}],
             'update': ['update',  {1: 'Unresolved files.'}],
             'merge':  ['merge',   {255: 'Conflicts during merge'}],
             'clone':  ['clone',   {}],
@@ -27,16 +27,6 @@ executable = '/usr/local/bin/hg'
 # Will be set to true during unit tests
 testing = False
 
-def ensuredir(path):
-    """Ensure that a path exists."""
-    # Copied from sphinx.util.osutil.ensuredir(): BSD licensed code, so OK.
-    try:
-        os.makedirs(path)
-    except OSError, err:
-        # 0 for Jython/Win32
-        if err.errno not in [0, EEXIST]:
-            raise
-
 
 class DVCSError(Exception):
     """
@@ -45,17 +35,16 @@ class DVCSError(Exception):
     """
     pass
 
-def _run_hg_command(command, repo_dir=''):
+def run_dvcs_command(command, repo_dir=''):
     """
     Runs the given command, as if it were typed at the command line, in the
     directory ``repo_dir``.
     """
     verb = command[0]
-    actions = hg_verbs[verb][1]
+    actions = verbs[verb][1]
     try:
-        command[0] = hg_verbs[verb][0]
+        command[0] = verbs[verb][0]
         command.insert(0, executable)
-        ensuredir(override_dir)
         out = subprocess.Popen(command, stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE,
                                cwd=repo_dir)
@@ -79,7 +68,7 @@ def _run_hg_command(command, repo_dir=''):
 
     except OSError as err:
         if err.strerror == 'No such file or directory':
-            raise DVCSError('The ``hg`` executable file was not found.')
+            raise DVCSError('The DVCS executable file was not found.')
 
 
 def get_revision_info(repo='remote'):
@@ -94,11 +83,11 @@ def get_revision_info(repo='remote'):
     accessed without authentication.
     """
     if repo == 'remote':
-        output = _run_hg_command(['summary', '--remote'])
+        output = run_dvcs_command(['summary', '--remote'])
 
     elif remote.startswith('file://'):
         remote = remote.partition('file://')[2]
-        output = _run_hg_command(['summary'], override_dir=remote)
+        output = run_dvcs_command(['summary'], override_dir=remote)
 
     # Used to signal that a repo does not exist yet:
     if output[0][0:5] == 'abort':
@@ -112,7 +101,7 @@ def init(dest):
 
     This function is not required in ucomment; it is only used for unit-testing.
     """
-    out = _run_hg_command(['init', dest], override_dir=dest)
+    out = run_dvcs_command(['init', dest], override_dir=dest)
     if out != None and out != 0:
         raise DVCSError('Could not initialize the repository at %s' % dest)
 
@@ -125,7 +114,7 @@ def add(repo, *pats):
     """
     command = ['add']
     command.extend(pats)
-    out = _run_hg_command(command, override_dir=repo)
+    out = run_dvcs_command(command, override_dir=repo)
     if out != None and out != 0:
         raise DVCSError('Could not add one or more files to repository.')
 
@@ -138,7 +127,7 @@ def check_out(rev='tip'):
     succeeded.
     """
     # Use str(0), because 0 by itself evaluates to None in Python logical checks
-    _run_hg_command(['update', '-r', str(rev)])
+    run_dvcs_command(['update', '-r', str(rev)])
     return get_revision_info()
 
 def clone_repo(source, dest):
@@ -147,7 +136,7 @@ def clone_repo(source, dest):
 
     Returns the hexadecimal revision number of the destination repo.
     """
-    out = _run_hg_command(['clone', source, dest])
+    out = run_dvcs_command(['clone', source, dest])
     if out != None and out != 0:
         raise DVCSError(('Could not clone the remote repo, %s, to the required '
                          'local destination, %s.' % (source, dest)))
@@ -158,7 +147,7 @@ def commit(message, override_dir=''):
     Commit changes to the ``repo`` repository, with the given commit ``message``
     Returns the hexadecimal revision number.
     """
-    _run_hg_command(['commit', '-m', message],  override_dir)
+    run_dvcs_command(['commit', '-m', message],  override_dir)
     if override_dir:
         return  # Used for unit testing: no output required
     else:
@@ -173,15 +162,15 @@ def commit_and_push_updates(message):
     # Update in the local repo first: can happen when, for example a comment is
     # resubmitted on the same node and the first commit has not been pushed
     # through to the remote server.
-    output = _run_hg_command(['update'])
+    output = run_dvcs_command(['update'])
     if output is not None:
         return False
 
     # Then commit the changes
-    _run_hg_command(['commit', '-m', message])
+    run_dvcs_command(['commit', '-m', message])
 
     # Try pushing the commit
-    out = _run_hg_command(['push'])
+    out = run_dvcs_command(['push'])
     if out != None and out != 0:
         raise DVCSError(('Could not push changes to the source repository: '
                           'additional info = %s' % out[0].strip()))
@@ -206,22 +195,21 @@ def pull_update_and_merge():
     # Performs the equivalent of "hg pull -u; hg merge; hg commit"
 
     # Pull in all changes from the remote repo and update.
-    _run_hg_command(['pull', '-u'])
+    run_dvcs_command(['pull', '-u'])
     # Above will return a message: "not updating, since new heads added"
     # if we require merging.
 
     # Anything to merge?  Are there more than one head?
-    output_heads = _run_hg_command(['heads'])
+    output_heads = run_dvcs_command(['heads'])
     num_heads = len(re.findall('changeset:   (\d)+', output_heads))
 
     # Merge any changes:
     if num_heads > 1:
-        merge_error = _run_hg_command(['merge'])
+        merge_error = run_dvcs_command(['merge'])
 
         # Commit any changes from the merge
         if not merge_error:
-            commit(('Auto commit - ucomment hgwrapper: '
-                                           'updated and merged changes.'))
+            commit(('Auto commit - dvcs_wrapper: updated and merged changes.'))
         else:
             raise DVCSError(('Could not automatically merge during update. '
                              'More info = %s' % merge_error[0].strip()))

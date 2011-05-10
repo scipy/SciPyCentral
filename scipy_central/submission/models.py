@@ -143,8 +143,9 @@ class Revision(models.Model):
 
     # tags: a ``ManyToMany`` field of tags, defined by [[Models: Tag]]
 
-    *	vote_for_inclusion_in_scipy [ForeignKey]
-*	modules (list of modules required to run the code)
+    # vote_for_inclusion_in_scipy [ForeignKey]
+
+    # modules (list of modules required to run the code)
 
 
     def save(self, *args, **kwargs):
