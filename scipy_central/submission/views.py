@@ -16,53 +16,58 @@ import models
 
 def validate_submission(request):
     """
-    Validates the new submission. If valid, creates a database entry and a
-    first revision.
-
-    If invalid, sends back a JSON object with notes on which fields are
-    invalid.
+    Validates the new submission. Returns ``True`` if valid, else sends back
+    a JSON object with notes on which fields are invalid.
     """
+    # Use the built-in forms checking to validate the fields.
     all_valid = False
     basic_info = Submission_Common_Form(request.POST)
     sshot_form = ScreenshotForm(request.POST, request.FILES)
     if basic_info.is_valid() and sshot_form.is_valid():
-        all_valid=True
+        return True
+    else:
+        assert(False)
+        # TODO(KGD): come back to this part still
 
-    if all_valid:
-        post = request.POST
+def create_new_submission_and_revision(request):
+    """
+    Creates a new ``Submission`` and ``Revision`` instance. Returns these in
+    a tuple.
+    """
+    post = request.POST
 
-        sub = models.Submission.objects.create(
-            title = post['title'],
-            sub_type = post['sub_type'],
-            sub_license = post.get('license', None),
-            summary = post['summary'],
-            description = post.get('description', ''),
-            screenshot = None,
-            item_url = post.get('item_url', '')
-        )
+    # A new submission has only 2 fields of interest
+    sub = models.Submission.objects.create(sub_type = post['sub_type'],
+                                            created_by = request.user)
 
-        # Process screenshot:
-        if request.FILES.get('screenshot', ''):
-            sshot_name = '_raw_' + sub.slug + '__' + \
-                                             request.FILES['screenshot'].name
-            sshot = ScreenshotClass()
-            sshot.img_file_raw.save(sshot_name,\
-                            ContentFile(request.FILES['screenshot'].read()))
-            sshot.save()
-            sub.screenshot = sshot
+    # Process screenshot:
+    if request.FILES.get('screenshot', ''):
+        sshot_name = '_raw_' + sub.slug + '__' + \
+                                         request.FILES['screenshot'].name
+        sshot = ScreenshotClass()
+        sshot.img_file_raw.save(sshot_name,\
+                        ContentFile(request.FILES['screenshot'].read()))
+        sshot.save()
+    else:
+        sshot = None
 
-        # Authors is a ManyToMany: add it *after* creating the instance
-        sub.authors = [request.user]
+    # Create a ``Revision`` instance. Must always have a ``title``, ``author``,
+    # and ``summary`` fields; the rest are set automatically, or blank.
+    rev = models.Revision.objects.create(
+                                entry = sub,
+                                title = post['title'],
+                                author = request.user,
+                                sub_license = post.get('sub_license', None),
+                                summary = post['summary'],
+                                description = post.get('description', ''),
+                                screenshot = sshot,
+                                item_url = post.get('item_url', None)
+                            )
+    # TODO(KGD): add the tags
+    rev.tags = []
 
-
-        # TODO(KGD): add the tags
-        #sub.tags = [....]
-
-        # Save the submission
-        sub.save()
-
-
-
+    # Save the revision
+    rev.save()
 
 
 @login_required
@@ -74,6 +79,8 @@ def new_web_submission(request):
         is_valid_submission = validate_submission(request)
 
         if is_valid_submission:
+
+            create_new_submission_and_revision(request)
 
             # Email user
             # TODO(KGD):

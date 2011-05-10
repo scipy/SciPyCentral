@@ -48,9 +48,11 @@ class Submission(models.Model):
     # n_revisions: total number of revisions
     tot_revisions = models.PositiveIntegerField(default=0)
 
-    # FUTURE:
+    # FUTURE
+    # ------
     # cloned_from = models.ForeignKey('self', null=True, blank=True)
-
+    # vote_for_inclusion_in_scipy [ForeignKey] to ThumbsUpDown model
+    # modules_required  [list of modules required to run the code]
 
     @property
     def last_revision(self):
@@ -141,6 +143,9 @@ class Revision(models.Model):
 
     # tags: a ``ManyToMany`` field of tags, defined by [[Models: Tag]]
 
+    *	vote_for_inclusion_in_scipy [ForeignKey]
+*	modules (list of modules required to run the code)
+
 
     def save(self, *args, **kwargs):
         """ Override the model's saving function to create the slug """
@@ -152,4 +157,4 @@ class Revision(models.Model):
         self.description_html = 'DESCRIPTION HTML TO BE CREATED STILL'
 
         # Call the "real" save() method.
-        super(Submission, self).save(*args, **kwargs)
+        super(Revision, self).save(*args, **kwargs)
