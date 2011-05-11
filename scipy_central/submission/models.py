@@ -48,6 +48,9 @@ class Submission(models.Model):
     # n_revisions: total number of revisions
     tot_revisions = models.PositiveIntegerField(default=0)
 
+    # frozen: no further revisions allowed
+    frozen = models.BooleanField(default=False)
+
     # FUTURE
     # ------
     # cloned_from = models.ForeignKey('self', null=True, blank=True)

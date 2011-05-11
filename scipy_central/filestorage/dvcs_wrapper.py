@@ -4,15 +4,14 @@ Wraps the standard DVCS commands: for mercurial.
 
 Hg wrapper: modified from: https://bitbucket.org/kevindunn/ucommentapp
 """
-import re, subprocess, os, string
-#from os.path import exists, join
+import re, subprocess, os
 
 # http://code.activestate.com/recipes/52224-find-a-file-given-a-search-path/
 def search_file(filename, search_path):
     """Given a search path, find file
     """
     file_found = 0
-    paths = string.split(search_path, os.pathsep)
+    paths = search_path.split(os.pathsep)
     for path in paths:
         if os.path.exists(os.path.join(path, filename)):
             file_found = 1
@@ -22,9 +21,6 @@ def search_file(filename, search_path):
     else:
         return None
 
-#hg_executable = '/usr/local/bin/hg'
-#git_executable = '/usr/bin/git'
-#bzr_executable = '/usr/bin/bzr'
 testing = False
 
 class DVCSError(Exception):
@@ -78,10 +74,11 @@ class DVCSRepo(object):
         self.executable = dvcs_executable
         if not self.executable:
             if os.name == 'posix':
-                self.executable = search_file(self.backend, os.defpath)
+                self.executable = search_file(self.backend,
+                                              os.environ['PATH'])
             elif os.name == 'windows':
                 self.executable = search_file(self.backend + '.exe',
-                                              os.defpath)
+                                              os.environ['PATH'])
         if not self.executable:
             raise DVCSError(('Please provide the full path to the executable '
                              'for %s.' % self.backend))
@@ -248,7 +245,8 @@ class DVCSRepo(object):
         out = self.run_dvcs_command(command)
         if out != None and out != 0:
             raise DVCSError(('Could not pull changes from the remote'
-                             ' repository; additional info = %s' % out[0].strip()))
+                             ' repository; additional info = %s' %\
+                             out[0].strip()))
 
         return self.get_revision_info()
 
@@ -279,9 +277,7 @@ class DVCSRepo(object):
         back to the source repository from which the local repo was cloned.
         """
         # Update the local repo first to the 'tip' version
-        output = self.check_out()
-        #if output is not None:
-        #    return False
+        self.check_out()
 
         # Then commit the changes
         self.commit(message)
