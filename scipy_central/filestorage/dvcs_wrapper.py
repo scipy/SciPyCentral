@@ -4,25 +4,38 @@ Wraps the standard DVCS commands: for mercurial.
 
 Hg wrapper: modified from: https://bitbucket.org/kevindunn/ucommentapp
 """
-import re, subprocess
+import re, subprocess, os, string
+#from os.path import exists, join
 
-hg_executable = '/usr/local/bin/hg'
-git_executable = '/usr/bin/git'
-bzr_executable = '/usr/bin/bzr'
+# http://code.activestate.com/recipes/52224-find-a-file-given-a-search-path/
+def search_file(filename, search_path):
+    """Given a search path, find file
+    """
+    file_found = 0
+    paths = string.split(search_path, os.pathsep)
+    for path in paths:
+        if os.path.exists(os.path.join(path, filename)):
+            file_found = 1
+            break
+    if file_found:
+        return os.path.abspath(os.path.join(path, filename))
+    else:
+        return None
+
+#hg_executable = '/usr/local/bin/hg'
+#git_executable = '/usr/bin/git'
+#bzr_executable = '/usr/bin/bzr'
 testing = False
 
 class DVCSError(Exception):
-    """
-    Exception class that must be used to raise any errors related to the DVCS
-    operations.
-    """
+    """ Exception class used to raise errors related to the DVCS operations."""
     pass
 
 class DVCSRepo(object):
     """
     A class for dealing with a DVCS repository.
     """
-    def __init__(self, backend, repo_dir, do_init=True):
+    def __init__(self, backend, repo_dir, do_init=True, dvcs_executable=''):
         """
         Creates and report a DVCSRepo object in the ``repo_dir`` directory.
         If ``do_init`` is True, it will create this directory and initialize
@@ -31,6 +44,7 @@ class DVCSRepo(object):
         A ``DCVSError`` is raised if the directory cannot be written to.
         """
         self.backend = backend
+        self.remote_dir = ''
         if backend == 'hg':
             # Dictionary of Mercurial verbs:  key=internal verb, value = list:
             # First list entry is the actual verb to use at the command line,
@@ -47,27 +61,42 @@ class DVCSRepo(object):
                 'commit':   ['commit',   ['-m',], {1: 'Nothing changed'}],
                 'push':     ['push',     [], {}],
                 'summary':  ['summary',  [], {0: '<string>'}],# return stdout
-                         }
-            self.executable = hg_executable
+            }
             self.local_prefix = 'file://'
 
         elif backend == 'git':
-            self.executable = git_executable
             self.local_prefix = ''
             self.verbs = {}
             raise NotImplementedError('Git DVCS is not implemented yet.')
         elif backend == 'bzr':
-            self.executable = bzr_executable
             self.local_prefix = ''
             self.verbs = {}
             raise NotImplementedError('Bazaar DVCS is not implemented yet.')
         else:
             raise NotImplementedError('That DVCS is not implemented yet.')
 
+        self.executable = dvcs_executable
+        if not self.executable:
+            if os.name == 'posix':
+                self.executable = search_file(self.backend, os.defpath)
+            elif os.name == 'windows':
+                self.executable = search_file(self.backend + '.exe',
+                                              os.defpath)
+        if not self.executable:
+            raise DVCSError(('Please provide the full path to the executable '
+                             'for %s.' % self.backend))
+        if not os.path.exists(self.executable):
+            raise DVCSError(('The given executable file (%s) for %s does not '
+                             'exist.' % (dvcs_executable, self.backend)))
 
         self.local_dir = repo_dir
         if do_init:
             self.init(repo_dir)
+
+    def __repr__(self):
+        """ String representation of self """
+        return '%s repo [%s]: revision %s' % (self.backend, self.local_dir,
+                                               self.get_revision_info())
 
     def run_dvcs_command(self, command, repo_dir=''):
         """
@@ -159,10 +188,11 @@ class DVCSRepo(object):
 
         Returns the revision info after check out.
         """
-        # Use str(0), because 0 by itself evaluates to None in Python logical checks
+        # Use str(0), because 0 by itself evaluates to None in Python
+        # logical checks
         command = [self.verbs['checkout'][0],]
         command.extend(self.verbs['checkout'][1])
-        command.extend(str(rev))
+        command.extend([str(rev),])
         self.run_dvcs_command(command)
         return self.get_revision_info()
 
@@ -179,9 +209,9 @@ class DVCSRepo(object):
         out = self.run_dvcs_command(command, repo_dir=destination)
         if out != None and out != 0:
             raise DVCSError(('Could not clone ``selff`` to %s' % (
-                                        self.local_prefix + self.local_dir)))
-        return DVCSRepo(destination)
-
+                self.local_prefix + self.local_dir)))
+        return DVCSRepo(self.backend, destination, do_init=False,
+                        dvcs_executable=self.executable)
 
     def commit(self, message):
         """
@@ -198,15 +228,17 @@ class DVCSRepo(object):
         """Push local repo to the remote location. The ``self.set_remote(...)``
         function must be called prior to set the remote location.
         """
+        if not self.remote_dir:
+            raise DVCSError(('The remote repo location has not been set yet. '
+                             'Use ``self.set_remote(location)`` first.'))
         command = [self.verbs['push'][0],]
         command.extend(self.verbs['push'][1])
         command.extend([self.remote_dir,])
         out = self.run_dvcs_command(command)
         if out != None and out != 0:
             raise DVCSError(('Could not push changes to the source repository: '
-                              'additional info = %s' % out[0].strip()))
-
-        return self.get_revision_info()
+                             'additional info = %s' % out[0].strip()))
+        return out
 
     def pull(self):
         """Pull updates from the remote location to the local repo.
@@ -216,23 +248,40 @@ class DVCSRepo(object):
         out = self.run_dvcs_command(command)
         if out != None and out != 0:
             raise DVCSError(('Could not pull changes from the remote'
-                        ' repository; additional info = %s' % out[0].strip()))
+                             ' repository; additional info = %s' % out[0].strip()))
 
         return self.get_revision_info()
 
+    def heads(self):
+        """ Returns a list of strings containing the revision hashes for each
+        head."""
+        command = [self.verbs['heads'][0],]
+        command.extend(self.verbs['heads'][1])
+        output_heads = self.run_dvcs_command(command)
+        head_list = re.findall('changeset:   (\d:\w*)+', output_heads)
+        return [h.split(':')[1] for h in head_list]
 
-    def commit_and_push_updates(self, message):
+    def merge(self):
+        """ Merges all heads. Returns ``None`` if successful, otherwise it
+        returns the command line error message.
+        """
+        command = [self.verbs['merge'][0],]
+        command.extend(self.verbs['merge'][1])
+        merge_text = self.run_dvcs_command(command)
+        if merge_text:
+            raise DVCSError(('Could not automatically merge during update. '
+                              'More info = %s' % merge_text[0].strip()))
+
+    def update_commit_and_push_updates(self, message):
         """
         After making changes to file(s), programatically commit them to the
         local repository, with the given commit ``message``; then push changes
         back to the source repository from which the local repo was cloned.
         """
-        # Update in the local repo first: can happen when, for example a
-        # comment is resubmitted on the same node and the first commit has not
-        # been pushed through to the remote server.
+        # Update the local repo first to the 'tip' version
         output = self.check_out()
-        if output is not None:
-            return False
+        #if output is not None:
+        #    return False
 
         # Then commit the changes
         self.commit(message)
@@ -240,24 +289,24 @@ class DVCSRepo(object):
         # Try pushing the commit
         out = self.push()
         if out != None and out != 0:
-            raise DVCSError(('Could not push changes to the source repository: '
-                              'additional info = %s' % out[0].strip()))
+            raise DVCSError(('Could not push changes to the remote repo;'
+                             'additional info = %s' % out[0].strip()))
 
         return self.get_revision_info()
 
     def pull_update_and_merge(self):
         """
-        Pulls, updates and merges changes from the other ``remote`` repository into
-        the ``local`` repository.
+        Pulls, updates and merges changes from the other ``remote`` repository
+        into the ``local`` repository.
 
-        If the "pull" results on more than one head, then we will merge.
-        See: http://hgbook.red-bean.com/read/a-tour-of-mercurial-merging-work.html
+        If the "pull" results on more than one head, then we will merge. See
+        http://hgbook.red-bean.com/read/a-tour-of-mercurial-merging-work.html
 
         After merging, it will automatically commit and leave the local repo at
         this tip revision.
 
-        We cannot handle the case where merging fails!  In that case we will return
-        a DVCSError.
+        We cannot handle the case where merging fails! In that case we will
+        return a DVCSError.
         """
 
         # Performs the equivalent of "hg pull -u; hg merge; hg commit"
@@ -268,16 +317,15 @@ class DVCSRepo(object):
         # if we require merging.
 
         # Anything to merge?  Are there more than one head?
-        output_heads = self.run_dvcs_command(['heads'])
-        num_heads = len(re.findall('changeset:   (\d)+', output_heads))
+        heads = self.heads()
 
         # Merge any changes:
-        if num_heads > 1:
-            merge_error = self.run_dvcs_command(['merge'])
+        if len(heads) > 1:
 
-            # Commit any changes from the merge
-            if not merge_error:
-                self.commit(('Auto commit - dvcs_wrapper: updated and merged changes.'))
+            try:
+                self.merge()
+            except DVCSError:
+                raise
             else:
-                raise DVCSError(('Could not automatically merge during update. '
-                                 'More info = %s' % merge_error[0].strip()))
+                self.commit(('AUTO COMMIT - dvcs_wrapper with %s backend: '
+                             'updated and merged changes.') % self.backend)
