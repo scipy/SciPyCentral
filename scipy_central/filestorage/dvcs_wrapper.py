@@ -1,6 +1,6 @@
 """
-Wraps the standard DVCS commands: for mercurial.
-
+Wraps the standard DVCS commands: for mercurial only (at the moment).
+Simplified BSD-license. (c) Kevin Dunn, 2011.
 
 Hg wrapper: modified from: https://bitbucket.org/kevindunn/ucommentapp
 """
@@ -312,11 +312,9 @@ class DVCSRepo(object):
         # Above will return a message: "not updating, since new heads added"
         # if we require merging.
 
-        # Anything to merge?  Are there more than one head?
-        heads = self.heads()
-
-        # Merge any changes:
-        if len(heads) > 1:
+        # Anything to merge?  Are there more than one head? If so, merge
+        # and commit.
+        if len(self.heads()) > 1:
 
             try:
                 self.merge()

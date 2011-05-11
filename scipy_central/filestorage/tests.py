@@ -1,3 +1,8 @@
+"""
+Unit tests for DVCS wrapper.
+Simplified BSD-license. (c) Kevin Dunn, 2011.
+"""
+
 from django.test import TestCase
 from scipy_central import utils
 
@@ -7,13 +12,6 @@ import shutil
 import tempfile
 
 import scipy_central.filestorage.dvcs_wrapper as dvcs
-
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
 
 class DVCS_Tests(TestCase):
     def setUp(self):
