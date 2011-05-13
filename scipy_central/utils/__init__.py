@@ -1,7 +1,6 @@
 from django.template.defaultfilters import slugify
 import re, os, errno
 
-
 def ensuredir(path):
     """Ensure that a path exists."""
     # Copied from sphinx.util.osutil.ensuredir(): BSD licensed code, so it's OK

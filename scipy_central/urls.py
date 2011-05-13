@@ -13,8 +13,10 @@ urlpatterns = patterns('scipy_central',
 
 
     # Submissions: new and existing, including previous revisions
-    url(r'item/', include('scipy_central.submission.urls'))
+    url(r'item/', include('scipy_central.submission.urls')),
 
+    # reST comment converted to HTML
+    url(r'rest/', include('scipy_central.rest_comments.urls')),
 
     #url(r'^comments/', include('django.contrib.comments.urls')),
 

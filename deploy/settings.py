@@ -6,8 +6,7 @@ parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, parent_dir)
 
 DEBUG = True
-#TEMPLATE_DEBUG = DEBUG
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -157,15 +156,26 @@ LOGIN_URL = '/user/sign-in/'
 # http://docs.djangoproject.com/en/dev/topics/logging for details
 
 # Override in ``local_settings`` if required
-LOGFILE_LOCATION = tempfile.mkdtemp() + os.sep + 'logfile.log'
+tempdir = tempfile.mkdtemp()
+LOGFILE_LOCATION = tempdir + os.sep + 'logfile.log'
+COMMENT_COMPILE_DIR = tempdir + os.sep + 'compile'
 
 try:
     # Import deployment-specific settings
     from local_settings import *
+    #
+    # Recommended settings to go into ``local_settings``
+    #
+    # * EMAIL_HOST           something like "smtp.example.com"
+    # * EMAIL_HOST_USER      something like "username"
+    # * EMAIL_HOST_PASSWORD
+    # * DEFAULT_FROM_EMAIL   e.g. "admin@scipy-central.org"
+    # * SERVER_EMAIL         e.g. "admin@scipy-central.org"
+    # * LOGFILE_LOCATION
+    # * COMMENT_COMPILE_DIR
+
 except ImportError:
     pass
-
-
 
 LOGGING = {
     'version': 1,
@@ -218,6 +228,11 @@ LOGGING = {
             'handlers': ['file'],
             'level': 'DEBUG',
             'propagate': True,
-        }
+        },
+        'scipycentral.rest_comments': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
     }
 }
