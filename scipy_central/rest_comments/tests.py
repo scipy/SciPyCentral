@@ -36,3 +36,16 @@ class SimpleTest(TestCase):
         self.assertEqual(response.content,
                         ('<p>The <a class="reference external" href="http://'
                          'long.cat.com">http://long.cat.com</a> is ...</p>\n'))
+
+        response = self.client.get('/rest/', {'rst_comment':
+                                             'The ``long cat`` walked'})
+        self.assertEqual(response.content,
+                        ('<p>The <tt class="docutils literal"><span class="'
+                         'pre">long</span> <span class="pre">cat</span></tt> '
+                         'walked</p>\n'))
+
+        response = self.client.get('/rest/', {'rst_comment':
+                                             'The::\n\n\tlong\n\tcat\n\n is'})
+        self.assertEqual(response.content,
+                        ('<p>The:</p>\n<div class="highlight-python"><pre>   '
+                         'long\n   cat\n\nis</pre>\n</div>\n'))

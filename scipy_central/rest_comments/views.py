@@ -31,10 +31,16 @@ def compile_rest_to_html(raw_rest):
         Performs any sanitizing of the user's input.
 
         Currently performs:
-        * converts '\\' to '\\\\': i.e. single slash converted to double-slash,
-                              because Sphinx converts is back to a single slash
         """
+        # Converts '\\' to '\\\\': i.e. single slash converted to double-slash,
+        #                    because Sphinx converts is back to a single slash
+
         out = raw_rest.replace('\\', '\\\\')
+
+        # Replace tabs with 4 spaces: so that source code listings don't get
+        # the default 8 spaces that Sphinx/docutils use.
+        out = raw_rest.replace('\t', '    ')
+
         # Perform any other filtering here, if required.
         return out
 
