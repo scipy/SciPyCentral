@@ -13,6 +13,14 @@ class UserProfile(User):
                                                             with-inheritance/
     for guidance.
     """
+    MARKUP_PREFERENCE = (
+        ('rest', 'reStructuredText'),
+        ('markdown', 'Markdown'),
+        ('textile',  'Texttile'),
+        ('mediawiki',  'Mediawiki'),
+        ('creole',  'Creole'),
+    )
+
     # Use UserManager to get the create_user method, etc.
     objects = UserManager()
 
@@ -80,9 +88,11 @@ class UserProfile(User):
                             help_text=('Allow/disallow user to send emails '
                                        'via this site'))
 
-    @models.permalink
-    def get_absolute_url(self):
-        return ('scipycentral-user-profile', [self.username_slug])
+    # Markup preference
+    markup_pref = models.CharField(max_length=10, choices=MARKUP_PREFERENCE)
+
+    class Meta:
+        verbose_name_plural = 'users'
 
     def save(self, *args, **kwargs):
         """ Override the model's saving function to create the slug """
@@ -92,4 +102,8 @@ class UserProfile(User):
 
         # Call the "real" save() method.
         super(UserProfile, self).save(*args, **kwargs)
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('scipycentral-user-profile', [self.username_slug])
 

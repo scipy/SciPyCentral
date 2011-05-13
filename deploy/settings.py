@@ -159,6 +159,7 @@ LOGIN_URL = '/user/sign-in/'
 tempdir = tempfile.mkdtemp()
 LOGFILE_LOCATION = tempdir + os.sep + 'logfile.log'
 COMMENT_COMPILE_DIR = tempdir + os.sep + 'compile'
+JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js'
 
 try:
     # Import deployment-specific settings
