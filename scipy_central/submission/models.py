@@ -51,6 +51,11 @@ class Submission(models.Model):
     # frozen: no further revisions allowed
     frozen = models.BooleanField(default=False)
 
+    # Should this submission be displayed: might decide to remove
+    # remove submissions from display if they violate licenses,
+    # or are improper in some way
+    is_displayed = models.BooleanField(default=False)
+
     # FUTURE
     # ------
     # cloned_from = models.ForeignKey('self', null=True, blank=True)
