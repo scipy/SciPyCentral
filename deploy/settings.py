@@ -1,4 +1,5 @@
 # Django settings for deploy project.
+import django.conf.global_settings as DEFAULT_SETTINGS
 
 # Add the parent to the path, to access files in ``../scipy_central/``
 import os, sys, tempfile
@@ -117,6 +118,11 @@ TEMPLATE_DIRS = (
     os.path.abspath(os.path.join(os.path.dirname(__file__), 'templates')),
 )
 
+# To get access to some global variables used in the templates
+TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
+    'scipy_central.context_processors.global_template_variables',
+)
+
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -159,7 +165,7 @@ LOGIN_URL = '/user/sign-in/'
 tempdir = tempfile.mkdtemp()
 LOGFILE_LOCATION = tempdir + os.sep + 'logfile.log'
 COMMENT_COMPILE_DIR = tempdir + os.sep + 'compile'
-JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js'
+JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js'
 
 try:
     # Import deployment-specific settings

@@ -69,7 +69,6 @@ def create_new_submission_and_revision(request):
     # Save the revision
     rev.save()
 
-
 @login_required
 def new_web_submission(request):
     """
@@ -96,9 +95,9 @@ def new_web_submission(request):
 
     elif request.method == 'GET':
         basic_info = Submission_Common_Form()
-        t = loader.get_template('submission/new-submission.html')
-        c = RequestContext(request, {'basic_info': basic_info})
-        return HttpResponse(t.render(c), status=200)
+        return render_to_response('submission/new-submission.html', {},
+                                  context_instance=RequestContext(request,
+                                                {'basic_info': basic_info}))
 
 def next_steps_HTML(request):
     """
