@@ -9,13 +9,25 @@ with <a href="http://scipy.org">SciPy</a> and related Python tools.
 </div>
 
 <div id="scipycentral-search">
-  <form method="post" action="/search/" id="scipycentral-search-form">
-  {% csrf_token %}
+  <form method="post" action="/search/" id="scipycentral-search-form">{% csrf_token %}
   <input id="scipycentral-search-box" name="search_terms" type="search" placeholder="Search over all submissions" value="" />
   <input id="scipycentral-search-button" type="submit" value="Search"/>
   </form>
   <!--TODO: Advanced search link-->
 </div>
+
+<div id="scipycentral-submission-type">
+  <form method="get" action="/item/new-snippet/" class="scipycentral-new-submission-form">
+    <input class="spc-button" id="scipycentral-submit-snippet-button" type="submit" value="Submit a code snippet/recipe"/>
+  </form>
+  <form method="post" action="/item/new-package/" class="scipycentral-new-submission-form">
+    <input class="spc-button" id="scipycentral-submit-package-button" type="submit" value="Submit a code package/library"/>
+  </form>
+  <form method="post" action="/item/new-link/" class="scipycentral-new-submission-form">
+    <input class="spc-button" id="scipycentral-submit-extlink-button" type="submit" value="Submit a link to an external scientific resource"/>
+  </form>
+</div>
+
 
 <div class="scipycentral-portal" id="portal-top-left">
 <h2>By subject</h2>

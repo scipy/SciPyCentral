@@ -1,5 +1,8 @@
 from django.template.defaultfilters import slugify
-import re, os, errno
+from django.conf import settings
+from django.core.mail import send_mail, BadHeaderError
+import re, os, errno, logging
+logger = logging.getLogger('scipy_central')
 
 def ensuredir(path):
     """Ensure that a path exists."""
@@ -101,6 +104,22 @@ def _slug_strip(value, separator='-'):
         value = re.sub(r'^%s+|%s+$' % (re_sep, re_sep), '', value)
     return value
 
+def send_email(to_addresses, subject, message, from_address=None):
+    """
+    Basic function to send email according to the four required string inputs.
+    Let Django send the message; it takes care of opening and closing the
+    connection, as well as locking for thread safety.
+    """
+    if from_address is None:
+        from_address = settings.SERVER_EMAIL
+
+    if subject and message and from_address:
+        try:
+            send_mail(subject, message, from_address, to_addresses,
+                      fail_silently=True)
+        except BadHeaderError:
+            logger.error(('An error occurred when sending email to %s, with'
+                          'subject [%s]') % (str(to_addresses), subject))
 
 
 

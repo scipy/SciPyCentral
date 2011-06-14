@@ -1,44 +1,43 @@
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext, loader
-from django.core.context_processors import csrf
+from django.conf import settings
 from django.core.files.base import ContentFile
 from django.contrib.auth.decorators import login_required
 
-from forms import Submission_Common_Form, LinkForm, SnippetForm
-from forms import LicenseForm,  PackageForm
-
+# Imports from this app and other SPC apps
 from scipy_central.screenshot.forms import ScreenshotForm as ScreenshotForm
 from scipy_central.screenshot.models import Screenshot as ScreenshotClass
-from scipy_central.person.forms import Inline_Signin_Create_Form
-
+from scipy_central.person.views import create_new_account_internal
+from scipy_central.utils import send_email
 import models
+import forms
 
-def validate_submission(request):
-    """
-    Validates the new submission. Returns ``True`` if valid, else sends back
-    a JSON object with notes on which fields are invalid.
-    """
-    # Use the built-in forms checking to validate the fields.
-    all_valid = False
-    basic_info = Submission_Common_Form(request.POST)
-    sshot_form = ScreenshotForm(request.POST, request.FILES)
-    if basic_info.is_valid() and sshot_form.is_valid():
-        return True
-    else:
-        assert(False)
-        # TODO(KGD): come back to this part still
+# Python imports
+from hashlib import md5
+import logging
+logger = logging.getLogger('scipy_central')
 
-def create_new_submission_and_revision(request):
+def create_new_submission_and_revision(request, snippet, authenticated):
     """
     Creates a new ``Submission`` and ``Revision`` instance. Returns these in
     a tuple.
     """
     post = request.POST
 
+    # NOTE: the ``request.user`` at this point will always already exist in
+    # our database. Code posted by users that have not yet validated themselves
+    # is not displayed until they do so.
+    user = request.user
+    is_displayed = False
+    if authenticated:
+        is_displayed = True
+
     # A new submission has only 2 fields of interest
-    sub = models.Submission.objects.create(sub_type = post['sub_type'],
-                                            created_by = request.user)
+    sub = models.Submission.objects.create(sub_type=\
+                                           snippet.cleaned_data['sub_type'],
+                                           created_by=user,
+                                           is_displayed=is_displayed)
 
     # Process screenshot:
     if request.FILES.get('screenshot', ''):
@@ -53,86 +52,123 @@ def create_new_submission_and_revision(request):
 
     # Create a ``Revision`` instance. Must always have a ``title``, ``author``,
     # and ``summary`` fields; the rest are set automatically, or blank.
+    hash_id = md5(post.get('snippet')).hexdigest()
     rev = models.Revision.objects.create(
-                                entry = sub,
-                                title = post['title'],
-                                author = request.user,
-                                sub_license = post.get('sub_license', None),
-                                summary = post['summary'],
-                                description = post.get('description', ''),
-                                screenshot = sshot,
-                                item_url = post.get('item_url', None)
+                            entry = sub,
+                            title = snippet.cleaned_data['title'],
+                            author = user,
+                            sub_license = snippet.cleaned_data['sub_license'],
+                            summary = snippet.cleaned_data['summary'],
+                            description = None, #post.get('description', ''),
+                            screenshot = sshot,
+                            hash_id = hash_id,
+                            item_url = None
                             )
     # TODO(KGD): add the tags
     rev.tags = []
 
     # Save the revision
     rev.save()
+    logger.info('New snippet: %s [id=%d] and revision id=%d' % (
+                                            snippet.cleaned_data['title'],
+                                            sub.id,
+                                            rev.id))
 
-@login_required
-def new_web_submission(request):
+    # Email the user:
+    if authenticated:
+        # TODO: Get a link back to the submission and let user know that
+        # they have submitted that code
+        message = ''
+    else:
+        # TODO: Get a link to submission.
+        # Also send the user a link saying they must create an account in
+        # order for their submission to start being displayed on the website.
+        message = ''
+
+    send_email(user.email, "Thanks for your submission to SciPy Central",
+               message=message)
+
+def new_snippet_submission(request):
     """
     Users wants to submit a new item via the web.
     """
-    if request.method == 'POST':
-        is_valid_submission = validate_submission(request)
-
-        if is_valid_submission:
-
-            create_new_submission_and_revision(request)
-
-            # Email user
-            # TODO(KGD):
-            extra_message = 'A confirmation email has been sent to you.'
-
-            # Thank user
-            return render_to_response('submission/thank-user.html',
-                                      {'extra_message': extra_message})
-                                                                             #context_instance=RequestContext(request))
+    def get_snippet_form(request, unbound=True):
+        if unbound:
+            snippet = forms.SnippetForm()
         else:
-            assert(False)
+            snippet = forms.SnippetForm(data=request.POST)
+
+        # Rearrange the form order: screenshot and tags at the end
+        snippet.fields.keyOrder = ['title', 'summary', 'snippet',
+                                   'sub_license', 'screenshot', 'email',
+                                   'sub_type']
+
+        if request.user.is_authenticated():
+            # Email field not required for signed-in users
+            snippet.fields.pop('email')
+
+        return snippet
+
+
+    if request.method == 'POST':
+        extra_messages = []
+
+        # Use the built-in forms checking to validate the fields.
+        valid_fields = []
+        snippet = get_snippet_form(request, unbound=False)
+        sshot = ScreenshotForm(request.POST, request.FILES)
+        valid_fields.append(snippet.is_valid())
+        valid_fields.append(sshot.is_valid())
+
+        # 1. Create user account, if required
+        authenticated = True
+        if not(request.user.is_authenticated()):
+            user = create_new_account_internal(snippet.cleaned_data['email'])
+            request.user = user
+            authenticated = False
+
+        if all(valid_fields):
+            # 2. Create entry on hard drive in a repo
+
+
+            # 3. Create the submission and revision and email the user
+            create_new_submission_and_revision(request, snippet, authenticated)
+
+            # 4. Thank user and return with any extra messages
+            if request.user.is_validated:
+                extra_messages = ('A confirmation email has been sent to you.')
+            else:
+                extra_messages  = ('An email has been sent to you to '
+                                       'confirm your submission and to create '
+                                       'an account (if you do not have one '
+                                       'already). Unconfirmed submissions '
+                                       'cannot be accepted, and will be '
+                                       'deleted after %d days.') % \
+                                settings.SPC['unvalidated_subs_deleted_after']
+            return render_to_response('submission/thank-user.html',
+                                      {'extra_message': extra_messages})
+                                    #context_instance=RequestContext(request))
+        else:
+            return render_to_response('submission/new-submission.html', {},
+                                  context_instance=RequestContext(request,
+                                                {'snippet': snippet}))
 
 
     elif request.method == 'GET':
-        basic_info = Submission_Common_Form()
+        snippet = get_snippet_form(request)
+        #sub_type = forms.CharField(max_length=10, initial='snippet',
+        #                       widget=forms.HiddenInput())
         return render_to_response('submission/new-submission.html', {},
                                   context_instance=RequestContext(request,
-                                                {'basic_info': basic_info}))
+                                                {'snippet': snippet}))
 
-def next_steps_HTML(request):
-    """
-    Returns the HTML necessary to complete the next steps of the submission,
-    depending on which type of submission the user is making
 
-    http://www.b-list.org/weblog/2006/jul/31/django-tips-simple-ajax-example-part-1/
-    """
-    if request.method != 'GET':
-        return HttpResponse(status=400)
 
-    sub_type = request.GET.get('sub_type', '')
 
-    response = '<h3>Step 2: '
-    if sub_type == 'snippet':
-        response += 'Code snippet/recipe</h3>'
-        response += SnippetForm().as_ul()
+#def HTML_for_tagging(request):
+    #""" Returns HTML that handles tagging """
+    #response = '<h3>Step 3: Help categorize your submission</h3>'
+    #response+= ('<p>Please provide subject area labels and categorization '
+                #'tags to help other users when searching for your code.')
 
-    elif sub_type == 'package':
-        response += 'Code package/module</h3>'
-        response += PackageForm().as_ul()
-        response += LicenseForm().as_ul()
-
-    elif sub_type == 'link':
-        response += 'Link to external resources</h2>'
-        response += LinkForm().as_ul()
-
-    response += ScreenshotForm().as_ul()
-
-    return HttpResponse(response, status=200)
-
-def HTML_for_tagging(request):
-    """ Returns HTML that handles tagging """
-    response = '<h3>Step 3: Help categorize your submission</h3>'
-    response+= ('<p>Please provide subject area labels and categorization '
-                'tags to help other users when searching for your code.')
-
-    return  HttpResponse(response, status=200)
+    #return  HttpResponse(response, status=200)

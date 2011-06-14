@@ -1,7 +1,9 @@
 from django.conf.urls.defaults import patterns, url
 
 urlpatterns = patterns('scipy_central.person.views',
-    url(r'^sign-in/$', 'login_page', name='scipycentral-login-signin'),
+    # This URL is hard coded in scipy_central.submission.forms
+    # because I can't get the reverse() function to work as expected.
+    url(r'^sign-in/$', 'login_page', name='spc-login-signin'),
     url(r'^$', 'login_page'),
 
     # Sign0out page
@@ -15,5 +17,5 @@ urlpatterns = patterns('scipy_central.person.views',
     url(r'^reset-password$', 'reset_password', name='scipycentral-reset-email'),
 
     # Validation during new account creation
-    url(r'^validate$', 'precheck_new_user', name='scipycentral-new-valid'),
+    url(r'^validate$', 'precheck_new_user', name='scipycentral-new-valid', ),
 )

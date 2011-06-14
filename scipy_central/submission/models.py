@@ -36,7 +36,7 @@ class Submission(models.Model):
                 help_text = 'Your submission should be one of 3 types')
 
     # Original submitter
-    created_by = models.ForeignKey('person.UserProfile')
+    created_by = models.ForeignKey('person.UserProfile', null=True, blank=True)
 
     # Total dowloads: sum of all downloads (code snippets) and total
     # outgoing clicks (for links)
@@ -51,9 +51,10 @@ class Submission(models.Model):
     # frozen: no further revisions allowed
     frozen = models.BooleanField(default=False)
 
-    # Should this submission be displayed: might decide to remove
-    # remove submissions from display if they violate licenses,
-    # or are improper in some way
+    # Should this submission be displayed? One might decide to remove
+    # submissions from display if they violate licenses, or are improper in
+    # some way. Also set False for submissions by users that submit when not
+    # authenticated.
     is_displayed = models.BooleanField(default=False)
 
     # FUTURE
@@ -83,16 +84,18 @@ class Revision(models.Model):
     entry = models.ForeignKey(Submission, related_name="revisions")
 
     # user-provided submission title.
-    title = models.CharField(max_length=255,
+    title = models.CharField(max_length=150,
                              help_text='Provide a title for your submission')
 
     # auto-created slug field [*unique field*]
     slug = models.SlugField(max_length=255, unique=True, editable=False)
 
+    # Created on
+    date_created = models.DateTimeField(auto_now_add=True, editable=False)
 
     # List of authors for this submission (usually one), but we are
     # provisioning for collaborative authorship as well
-    author = models.ForeignKey('person.UserProfile')
+    author = models.ForeignKey('person.UserProfile', null=True, blank=True)
 
     # Submission license. Only used for code packages. Code snippets are
     # always CC0 licensed, and external links must list their own license.
@@ -104,8 +107,8 @@ class Revision(models.Model):
                 verbose_name="Choose a license for your submission")
 
     # A short summary [150 chars] describing the submission.
-    summary = models.CharField(max_length=150, help_text = ('Explain what '
-                    'the submission does in less than 150 characters. Users '
+    summary = models.CharField(max_length=255, help_text = ('Explain what '
+                    'the submission does in less than 250 characters. Users '
                     'initially see this summary to '
                     'decide if they want to view more information about your '
                     'submission.'))
@@ -167,3 +170,7 @@ class Revision(models.Model):
 
         # Call the "real" save() method.
         super(Revision, self).save(*args, **kwargs)
+
+    #def get_absolute_url(self):
+    #    return(....)
+    #get_absolute_url = models.permalink(get_absolute_url)

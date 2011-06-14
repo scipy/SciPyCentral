@@ -17,7 +17,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     # Include the URLs for the website
-    url(r'^', include('scipy_central.urls')),
+    url(r'', include('scipy_central.urls')),
 )
 
 if settings.DEBUG:

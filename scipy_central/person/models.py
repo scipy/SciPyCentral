@@ -26,8 +26,9 @@ class UserProfile(User):
 
     # Inherited field entries:
 
-    # username: 30 characters, alphanumeric, underscores, spaces, $, . and -
+    # username: 30 characters, alphanumeric, underscores, spaces, @, . and -
     #           see ``VALID_USERNAME`` regular expression
+    #           Also Django required this to be unique
 
     # email: an email address
 

@@ -4,7 +4,7 @@ class ScreenshotForm(forms.Form):
     """
     Upload a screenshot for the submission
     """
-    screenshot = forms.ImageField(label=('Upload a screenshot, if you have ',
-                                         'one available'), help_text=('JPEG '
-                                         'or PNG (will be resized to 128x128'),
+    label = 'Upload a screenshot, if you have one available'
+    help_text = 'JPEG or PNG (will be resized to 128x128'
+    screenshot = forms.ImageField(label=label, help_text=help_text,
                                   required=False)

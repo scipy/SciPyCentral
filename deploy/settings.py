@@ -1,4 +1,4 @@
-# Django settings for deploy project.
+# Django settings for ``deploy`` project.
 import django.conf.global_settings as DEFAULT_SETTINGS
 
 # Add the parent to the path, to access files in ``../scipy_central/``
@@ -6,15 +6,19 @@ import os, sys, tempfile
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, parent_dir)
 
+# SciPy Central website behaviour
+SPC = {
+    'unvalidated_subs_deleted_after': 7,  # Delete unconfirmed submission after
+                                          # this number of days
+    }
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
 MANAGERS = ADMINS
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
@@ -123,7 +127,6 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     'scipy_central.context_processors.global_template_variables',
 )
 
-
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -155,35 +158,37 @@ CUSTOM_USER_MODEL = 'person.UserProfile'
 # a function that only logged in users can do
 LOGIN_URL = '/user/sign-in/'
 
+# Override in ``local_settings`` if required
+tempdir = tempfile.mkdtemp()
+
+# Recommended settings to go into ``local_settings``
+# ===================================================
+
+# See https://docs.djangoproject.com/en/1.3/ref/settings/ for EMAIL... settings
+EMAIL_HOST = ''
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+# Visitors will receive email from this address e.g. "admin@scipy-central.org"
+SERVER_EMAIL = ''
+# Logs are written to this location
+LOGFILE_LOCATION = tempdir + os.sep + 'logfile.log'
+# Comments (using Sphinx notation) are compiled in this location
+COMMENT_COMPILE_DIR = tempdir + os.sep + 'compile'
+# Where should JQuery be served from?
+JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js'
+
+
+try:
+    # Import deployment-specific settings
+    from local_settings import *
+except ImportError:
+    pass
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error. See
 #
 # http://docs.djangoproject.com/en/dev/topics/logging for details
-
-# Override in ``local_settings`` if required
-tempdir = tempfile.mkdtemp()
-LOGFILE_LOCATION = tempdir + os.sep + 'logfile.log'
-COMMENT_COMPILE_DIR = tempdir + os.sep + 'compile'
-JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js'
-
-try:
-    # Import deployment-specific settings
-    from local_settings import *
-    #
-    # Recommended settings to go into ``local_settings``
-    #
-    # * EMAIL_HOST           something like "smtp.example.com"
-    # * EMAIL_HOST_USER      something like "username"
-    # * EMAIL_HOST_PASSWORD
-    # * DEFAULT_FROM_EMAIL   e.g. "admin@scipy-central.org"
-    # * SERVER_EMAIL         e.g. "admin@scipy-central.org"
-    # * LOGFILE_LOCATION
-    # * COMMENT_COMPILE_DIR
-
-except ImportError:
-    pass
-
 LOGGING = {
     'version': 1,
 
@@ -231,12 +236,7 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
-        'scipycentral.front': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        'scipycentral.rest_comments': {
+        'scipycentral': {
             'handlers': ['file'],
             'level': 'DEBUG',
             'propagate': True,

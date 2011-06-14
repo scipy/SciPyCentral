@@ -1,5 +1,13 @@
 Installation
 --------------
 
-1. Python Imaging Library (for screenshot handling)
-1. easy_install python-openid
+#.	./manage.py syncdb
+#.	./manage.py loaddata sample
+
+
+Prerequisites
+-------------
+
+#. Python Imaging Library (for screenshot handling)
+#. easy_install python-openid
+

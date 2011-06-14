@@ -12,6 +12,7 @@ from django.db.utils import IntegrityError
 
 import models
 import re
+import random
 
 def login_page(request):
     """
@@ -132,6 +133,27 @@ def precheck_new_user(request):
 
     #return HttpResponse(simplejson.dumps(out),
                                             #mimetype='application/javascript')
+
+def create_new_account_internal(email):
+    """
+    Creates a *temporary* new user account so submissions can be made via
+    email address. User's submission will be deleted if their account is not
+    activated.
+
+    We assume the ``email`` has already been validated as an email address.
+    """
+    # First check if that email address have been used; return ``False``
+    previous = models.UserProfile.objects.filter(email=email)
+    if len(previous) > 0:
+        return previous[0]
+
+    new_user = models.UserProfile.objects.create(username = email,
+                                                 email = email)
+    temp_password = ''.join([random.choice('abcdefghjkmnpqrstuvwxyz2345689')\
+                             for i in range(50)])
+    new_user.set_password(temp_password)
+    new_user.save()
+    return new_user
 
 def create_new_account(request):
     if request.method == 'POST':
