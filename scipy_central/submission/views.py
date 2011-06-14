@@ -16,7 +16,8 @@ import forms
 # Python imports
 from hashlib import md5
 import logging
-logger = logging.getLogger('scipy_central')
+logger = logging.getLogger('scipycentral')
+logger.debug('Initializing submission::views.py')
 
 def create_new_submission_and_revision(request, snippet, authenticated):
     """
@@ -120,14 +121,16 @@ def new_snippet_submission(request):
         valid_fields.append(snippet.is_valid())
         valid_fields.append(sshot.is_valid())
 
-        # 1. Create user account, if required
-        authenticated = True
-        if not(request.user.is_authenticated()):
-            user = create_new_account_internal(snippet.cleaned_data['email'])
-            request.user = user
-            authenticated = False
-
         if all(valid_fields):
+            # 1. Create user account, if required
+            authenticated = True
+            if not(request.user.is_authenticated()):
+                user = create_new_account_internal(\
+                                                snippet.cleaned_data['email'])
+                request.user = user
+                authenticated = False
+
+
             # 2. Create entry on hard drive in a repo
 
 

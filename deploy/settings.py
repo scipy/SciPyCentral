@@ -196,8 +196,8 @@ LOGGING = {
 
     'formatters': {
         'verbose': {
-            'format': ('%(levelname)s %(asctime)s %(module)s %(process)d '
-                       ':: %(message)s')
+            'format': ('%(asctime)s,%(levelname)s,%(filename)s[%(funcName)s'
+                       '(...)],:,%(message)s')
         },
         'simple': {
             'format': '%(levelname)s %(message)s'
@@ -237,7 +237,7 @@ LOGGING = {
             'propagate': True,
         },
         'scipycentral': {
-            'handlers': ['file'],
+            'handlers': ['file', 'mail_admins'],
             'level': 'DEBUG',
             'propagate': True,
         },
