@@ -149,6 +149,7 @@ class Revision(models.Model):
                            'DOI preferred</a>)'), max_length=255)
 
     # fileset
+    fileset = models.ForeignKey('filestorage.FileSet', null=True, blank=True)
 
     # inspired_by: a comma-separated list of previous submissions
 

@@ -6,12 +6,6 @@ import os, sys, tempfile
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, parent_dir)
 
-# SciPy Central website behaviour
-SPC = {
-    'unvalidated_subs_deleted_after': 7,  # Delete unconfirmed submission after
-                                          # this number of days
-    }
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 ADMINS = (
@@ -177,10 +171,11 @@ COMMENT_COMPILE_DIR = tempdir + os.sep + 'compile'
 # Where should JQuery be served from?
 JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js'
 
-
 try:
     # Import deployment-specific settings
     from local_settings import *
+    #from spc_settings import site_settings
+    execfile('spc_settings.py')
 except ImportError:
     pass
 
