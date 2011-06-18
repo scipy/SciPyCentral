@@ -30,11 +30,9 @@ class FileSet(models.Model):
     def add_file_from_string(self, filename, list_strings, commit_msg=''):
         """
         Add a ``filename`` to the repo using the list of strings to create
-        the file. An automatic commit message will be created, unless provided.
+        the file. A commit will be written to the repo is ``commit_msg`` is not
+        empty.
         """
-        if not commit_msg:
-            commit_msg = 'AUTO: added %s to repo.' % filename
-
         fname = self.repo_path + filename
         f = open(fname, 'w')
         f.writelines(list_strings)
@@ -42,8 +40,13 @@ class FileSet(models.Model):
 
         repo = dvcs.DVCSRepo(backend, self.repo_path,
                              dvcs_executable=revisioning_executable)
-        repo.add('.')
-        repo.commit(commit_msg)
         # Save the location for next time
         globals()['revisioning_executable'] = repo.executable
+
+        # Only add this file
+        repo.add(fname)
+        if commit_msg:
+            repo.commit(commit_msg)
+
+
 

@@ -27,5 +27,8 @@ SPC = {
     # <storage><submission_primary_key>/LICENSE.txt
     # where <storage> is the variable defined next, as should always end
     # with ``os.sep``
-    'storage_dir': MEDIA_ROOT + 'code' + os.sep
+    'storage_dir': MEDIA_ROOT + 'code' + os.sep,
+
+    # Default name of license file (e.g. 'LICENSE.TXT')
+    'license_filename': 'LICENSE.TXT',
 }

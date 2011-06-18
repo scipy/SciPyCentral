@@ -77,7 +77,6 @@ class Submission(models.Model):
     def __unicode__(self):
         return self.slug + '::rev-' + str(tot_revisions)
 
-
 class Revision(models.Model):
 
     # The submission: parent item for this revision

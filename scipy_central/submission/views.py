@@ -149,27 +149,31 @@ def new_snippet_submission(request):
             rev.save()
 
             fname = rev.slug.replace('-', '_') + '.py'
-            commit_msg = ('SPC: auto add %s to repo based on web submission '
-                          'by user %s') % (fname, user.username)
-            rev.fileset.add_file_from_string(fname, request.POST['snippet'],
-                                             commit_msg)
-            rev.fileset.add_file_from_string(fname, request.POST['snippet'],
+            commit_msg = ('SPC: auto add "%s" and license to the repo based '
+                          'on the web submission by user "%s"') % (fname,
+                                                                user.username)
+            rev.fileset.add_file_from_string(fname, request.POST['snippet'])
+
+            license_file = settings.SPC['license_filename']
+            license_text = get_license_text(rev)
+            rev.fileset.add_file_from_string(license_file, license_text,
                                              commit_msg)
 
             # 4. Thank user and return with any extra messages
-            if request.user.is_validated:
+            if authenticated:
                 extra_messages = ('A confirmation email has been sent to you.')
             else:
                 extra_messages  = ('An email has been sent to you to '
-                                       'confirm your submission and to create '
-                                       'an account (if you do not have one '
-                                       'already). Unconfirmed submissions '
-                                       'cannot be accepted, and will be '
-                                       'deleted after %d days.') % \
+                                    'confirm your submission and to create '
+                                    'an account (if you do not have one '
+                                    'already). <p>Unconfirmed submissions '
+                                    'cannot be accepted, and will be '
+                                    'deleted after %d days. Please sign-in '
+                                    'to avoid having to confirm your '
+                                    'valuable submissions in the future.') % \
                                 settings.SPC['unvalidated_subs_deleted_after']
             return render_to_response('submission/thank-user.html',
                                       {'extra_message': extra_messages})
-                                    #context_instance=RequestContext(request))
         else:
             return render_to_response('submission/new-submission.html', {},
                                   context_instance=RequestContext(request,
@@ -186,7 +190,13 @@ def new_snippet_submission(request):
 
 
 
-
+def get_license_text(rev):
+    """
+    Generates and returns the license text for the given revision. Uses these
+    revision and authorship information from previous revisions, if necessary,
+    to create the license.
+    """
+    return '****\nGENERATE LICENSE TEXT STILL\n****'
 #def HTML_for_tagging(request):
     #""" Returns HTML that handles tagging """
     #response = '<h3>Step 3: Help categorize your submission</h3>'
