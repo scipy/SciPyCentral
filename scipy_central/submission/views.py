@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from scipy_central.screenshot.forms import ScreenshotForm as ScreenshotForm
 from scipy_central.screenshot.models import Screenshot as ScreenshotClass
 from scipy_central.person.views import create_new_account_internal
+from scipy_central.filestorage.models import FileSet
+
 from scipy_central.utils import send_email
 import models
 import forms
@@ -16,6 +18,8 @@ import forms
 # Python imports
 from hashlib import md5
 import logging
+import os
+import datetime
 logger = logging.getLogger('scipycentral')
 logger.debug('Initializing submission::views.py')
 
@@ -89,6 +93,8 @@ def create_new_submission_and_revision(request, snippet, authenticated):
     send_email(user.email, "Thanks for your submission to SciPy Central",
                message=message)
 
+    return rev
+
 def new_snippet_submission(request):
     """
     Users wants to submit a new item via the web.
@@ -130,12 +136,25 @@ def new_snippet_submission(request):
                 request.user = user
                 authenticated = False
 
+            # 2. Create the submission and revision and email the user
+            rev = create_new_submission_and_revision(request, snippet,
+                                                     authenticated)
 
-            # 2. Create entry on hard drive in a repo
+            # 3. Create entry on hard drive in a repo
+            datenow = datetime.datetime.now()
+            year, month = datenow.strftime('%Y'), datenow.strftime('%m')
+            repo_path = settings.SPC['storage_dir'] + year + os.sep + month
+            repo_path += os.sep + '%06d%s' % (rev.id, os.sep)
+            rev.fileset = FileSet.objects.create(repo_path=repo_path)
+            rev.save()
 
-
-            # 3. Create the submission and revision and email the user
-            create_new_submission_and_revision(request, snippet, authenticated)
+            fname = rev.slug.replace('-', '_') + '.py'
+            commit_msg = ('SPC: auto add %s to repo based on web submission '
+                          'by user %s') % (fname, user.username)
+            rev.fileset.add_file_from_string(fname, request.POST['snippet'],
+                                             commit_msg)
+            rev.fileset.add_file_from_string(fname, request.POST['snippet'],
+                                             commit_msg)
 
             # 4. Thank user and return with any extra messages
             if request.user.is_validated:

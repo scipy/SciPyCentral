@@ -37,7 +37,10 @@ class DVCSRepo(object):
         If ``do_init`` is True, it will create this directory and initialize
         an empty repository at that location.
 
-        A ``DCVSError`` is raised if the directory cannot be written to.
+        A ``DCVSError`` is raised if the directory cannot be written to, but
+        only if the directory does not already contain a repository.
+        i.e. if a ``.hg`` directory exists within ``repo_dir``, then an
+        exception will not be raised.
         """
         self.backend = backend
         self.remote_dir = ''
@@ -88,7 +91,15 @@ class DVCSRepo(object):
 
         self.local_dir = repo_dir
         if do_init:
-            self.init(repo_dir)
+            try:
+                self.init(repo_dir)
+            except DVCSError:
+                if repo_dir[-1] != os.sep:
+                    repo_dir += os.sep
+                if os.path.exists(repo_dir + '.' + backend):
+                    pass
+                else:
+                    raise
 
     def __repr__(self):
         """ String representation of self """
