@@ -151,7 +151,7 @@ def new_snippet_submission(request):
             fname = rev.slug.replace('-', '_') + '.py'
             commit_msg = ('SPC: auto add "%s" and license to the repo based '
                           'on the web submission by user "%s"') % (fname,
-                                                                user.username)
+                                                        request.user.username)
             rev.fileset.add_file_from_string(fname, request.POST['snippet'])
 
             license_file = settings.SPC['license_filename']

@@ -25,7 +25,8 @@ testing = False
 
 class DVCSError(Exception):
     """ Exception class used to raise errors related to the DVCS operations."""
-    pass
+    def __init__(self, value):
+        self.value = value
 
 class DVCSRepo(object):
     """

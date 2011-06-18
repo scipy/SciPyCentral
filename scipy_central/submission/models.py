@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import signals
 from scipy_central.utils import unique_slugify
+from taggit.managers import TaggableManager
 
 class License(models.Model):
     """
@@ -75,9 +76,9 @@ class Submission(models.Model):
         return self.last_revision.slug
 
     def __unicode__(self):
-        return self.slug + '::rev-' + str(tot_revisions)
+        return self.slug + '::rev-' + str(self.tot_revisions)
 
-class Revision(models.Model):
+class  Revision(models.Model):
 
     # The submission: parent item for this revision
     entry = models.ForeignKey(Submission, related_name="revisions")
@@ -150,9 +151,10 @@ class Revision(models.Model):
     # fileset
     fileset = models.ForeignKey('filestorage.FileSet', null=True, blank=True)
 
-    # inspired_by: a comma-separated list of previous submissions
+    # Tags for this revision
+    tags = TaggableManager()
 
-    # tags: a ``ManyToMany`` field of tags, defined by [[Models: Tag]]
+    # inspired_by: a comma-separated list of previous submissions
 
     # vote_for_inclusion_in_scipy [ForeignKey]
 

@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from scipy_central import utils
-import dvcs_wrapper as dvcs
+from dvcs_wrapper import DVCSError, DVCSRepo
 # Python imports
 import os
 
@@ -38,13 +38,21 @@ class FileSet(models.Model):
         f.writelines(list_strings)
         f.close()
 
-        repo = dvcs.DVCSRepo(backend, self.repo_path,
+        repo = DVCSRepo(backend, self.repo_path,
                              dvcs_executable=revisioning_executable)
         # Save the location for next time
         globals()['revisioning_executable'] = repo.executable
 
         # Only add this file
-        repo.add(fname)
+        try:
+            repo.add(fname)
+        except DVCSError as e:
+            # Happens if a file with the same name already exists in the repo
+            if e.value == 'Could not add one or more files to repository.':
+                pass
+            else:
+                raise
+
         if commit_msg:
             repo.commit(commit_msg)
 
