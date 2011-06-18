@@ -78,7 +78,7 @@ class Submission(models.Model):
     def __unicode__(self):
         return self.slug + '::rev-' + str(self.tot_revisions)
 
-class  Revision(models.Model):
+class Revision(models.Model):
 
     # The submission: parent item for this revision
     entry = models.ForeignKey(Submission, related_name="revisions")

@@ -19,5 +19,981 @@
       "name": "Simplified BSD license",
       "slug": "bsd"
     }
+  },
+  {
+    "pk": 1,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "algorithm",
+      "slug": "algorithm"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "automotive",
+      "slug": "automotive"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "biotech",
+      "slug": "biotech"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "chemistry",
+      "slug": "chemistry"
+    }
+  },
+  {
+    "pk": 5,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "communications",
+      "slug": "communications"
+    }
+  },
+  {
+    "pk": 6,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "control systems",
+      "slug": "control-systems"
+    }
+  },
+  {
+    "pk": 7,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "documentation",
+      "slug": "documentation"
+    }
+  },
+  {
+    "pk": 8,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "earth sciences",
+      "slug": "earth-sciences"
+    }
+  },
+  {
+    "pk": 9,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "financial services",
+      "slug": "financial-services"
+    }
+  },
+  {
+    "pk": 10,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "games",
+      "slug": "games"
+    }
+  },
+  {
+    "pk": 11,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "graphical user interface",
+      "slug": "graphical-user-interface"
+    }
+  },
+  {
+    "pk": 12,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "image processing",
+      "slug": "image-processing"
+    }
+  },
+  {
+    "pk": 13,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "video processing",
+      "slug": "video-processing"
+    }
+  },
+  {
+    "pk": 14,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "modeling",
+      "slug": "modeling"
+    }
+  },
+  {
+    "pk": 15,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "pharmaceutical",
+      "slug": "pharmaceutical"
+    }
+  },
+  {
+    "pk": 16,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "physics",
+      "slug": "physics"
+    }
+  },
+  {
+    "pk": 17,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "probability",
+      "slug": "probability"
+    }
+  },
+  {
+    "pk": 18,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "publications",
+      "slug": "publications"
+    }
+  },
+  {
+    "pk": 19,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "simulation",
+      "slug": "simulation"
+    }
+  },
+  {
+    "pk": 20,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "statistics",
+      "slug": "statistics"
+    }
+  },
+  {
+    "pk": 21,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "visualization",
+      "slug": "visualization"
+    }
+  },
+  {
+    "pk": 22,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "dsp",
+      "slug": "dsp"
+    }
+  },
+  {
+    "pk": 23,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "mathematics",
+      "slug": "mathematics"
+    }
+  },
+  {
+    "pk": 24,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "gui",
+      "slug": "gui"
+    }
+  },
+  {
+    "pk": 25,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "signal processing",
+      "slug": "signal-processing"
+    }
+  },
+  {
+    "pk": 26,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "optimization",
+      "slug": "optimization"
+    }
+  },
+  {
+    "pk": 27,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "data import",
+      "slug": "data import"
+    }
+  },
+  {
+    "pk": 28,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "data export",
+      "slug": "data export"
+    }
+  },
+  {
+    "pk": 29,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "plots",
+      "slug": "plots"
+    }
+  },
+  {
+    "pk": 30,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "3D",
+      "slug": "3d"
+    }
+  },
+  {
+    "pk": 31,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "data exploration",
+      "slug": "data-exploration"
+    }
+  },
+  {
+    "pk": 32,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "finance",
+      "slug": "finance"
+    }
+  },
+  {
+    "pk": 33,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "interpolation",
+      "slug": "interpolation"
+    }
+  },
+  {
+    "pk": 34,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "aerospace",
+      "slug": "aerospace"
+    }
+  },
+  {
+    "pk": 35,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "approximation",
+      "slug": "approximation"
+    }
+  },
+  {
+    "pk": 36,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "linear algebra",
+      "slug": "linear-algebra"
+    }
+  },
+  {
+    "pk": 37,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "matrices",
+      "slug": "matrices"
+    }
+  },
+  {
+    "pk": 38,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "measurement",
+      "slug": "measurement"
+    }
+  },
+  {
+    "pk": 39,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "audio processing",
+      "slug": "audio-processing"
+    }
+  },
+  {
+    "pk": 40,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "filter design",
+      "slug": "filter-design"
+    }
+  },
+  {
+    "pk": 41,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "segmentation",
+      "slug": "segmentation"
+    }
+  },
+  {
+    "pk": 42,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "animation",
+      "slug": "animation"
+    }
+  },
+  {
+    "pk": 43,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "differential equations",
+      "slug": "differential-equations"
+    }
+  },
+  {
+    "pk": 44,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "data structures",
+      "slug": "data-structures"
+    }
+  },
+  {
+    "pk": 45,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "compression",
+      "slug": "compression"
+    }
+  },
+  {
+    "pk": 46,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "tutorial",
+      "slug": "tutorial"
+    }
+  },
+  {
+    "pk": 47,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "integration",
+      "slug": "integration"
+    }
+  },
+  {
+    "pk": 48,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "electronics",
+      "slug": "electronics"
+    }
+  },
+  {
+    "pk": 49,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "neural networks",
+      "slug": "neural-networks"
+    }
+  },
+  {
+    "pk": 50,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "clustering",
+      "slug": "clustering"
+    }
+  },
+  {
+    "pk": 51,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "latex",
+      "slug": "latex"
+    }
+  },
+  {
+    "pk": 52,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "nonlinear",
+      "slug": "nonlinear"
+    }
+  },
+  {
+    "pk": 53,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "polynomial",
+      "slug": "polynomial"
+    }
+  },
+  {
+    "pk": 54,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "cloud",
+      "slug": "cloud"
+    }
+  },
+  {
+    "pk": 55,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "gpu",
+      "slug": "gpu"
+    }
+  },
+  {
+    "pk": 56,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "cuda",
+      "slug": "cuda"
+    }
+  },
+  {
+    "pk": 57,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "parallel",
+      "slug": "parallel"
+    }
+  },
+  {
+    "pk": 58,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "filters",
+      "slug": "filters"
+    }
+  },
+  {
+    "pk": 59,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "fft",
+      "slug": "fft"
+    }
+  },
+  {
+    "pk": 60,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "wavelets",
+      "slug": "wavelets"
+    }
+  },
+  {
+    "pk": 61,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "time series",
+      "slug": "time-series"
+    }
+  },
+  {
+    "pk": 62,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "astronomy",
+      "slug": "astronomy"
+    }
+  },
+  {
+    "pk": 63,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "stocks",
+      "slug": "stocks"
+    }
+  },
+  {
+    "pk": 64,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "computer vision",
+      "slug": "computer-vision"
+    }
+  },
+  {
+    "pk": 65,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "distributed",
+      "slug": "distributed"
+    }
+  },
+  {
+    "pk": 66,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "pde",
+      "slug": "pde"
+    }
+  },
+  {
+    "pk": 67,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "multivariate",
+      "slug": "multivariate"
+    }
+  },
+  {
+    "pk": 68,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "genomics",
+      "slug": "genomics"
+    }
+  },
+  {
+    "pk": 69,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "API",
+      "slug": "api"
+    }
+  },
+  {
+    "pk": 70,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "interactive",
+      "slug": "interactive"
+    }
+  },
+  {
+    "pk": 71,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "Google App Engine",
+      "slug": "google-app-engine"
+    }
+  },
+  {
+    "pk": 72,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "search",
+      "slug": "search"
+    }
+  },
+  {
+    "pk": 73,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "recommendation",
+      "slug": "recommendation"
+    }
+  },
+  {
+    "pk": 74,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "quantum",
+      "slug": "quantum"
+    }
+  },
+  {
+    "pk": 75,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "matplotlib",
+      "slug": "matplotlib"
+    }
+  },
+  {
+    "pk": 76,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "numpy",
+      "slug": "numpy"
+    }
+  },
+  {
+    "pk": 77,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "scipy",
+      "slug": "scipy"
+    }
+  },
+  {
+    "pk": 78,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "pytables",
+      "slug": "pytables"
+    }
+  },
+  {
+    "pk": 79,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "symbolic",
+      "slug": "symbolic"
+    }
+  },
+  {
+    "pk": 80,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "traits",
+      "slug": "traits"
+    }
+  },
+  {
+    "pk": 81,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "chaco",
+      "slug": "chaco"
+    }
+  },
+  {
+    "pk": 82,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "sympy",
+      "slug": "sympy"
+    }
+  },
+  {
+    "pk": 83,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "Bayesian",
+      "slug": "bayesian"
+    }
+  },
+  {
+    "pk": 84,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "PyZMQ",
+      "slug": "pyzmq"
+    }
+  },
+  {
+    "pk": 85,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "ipython",
+      "slug": "ipython"
+    }
+  },
+  {
+    "pk": 86,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "OCR",
+      "slug": "ocr"
+    }
+  },
+  {
+    "pk": 87,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "face detection",
+      "slug": "face-detection"
+    }
+  },
+  {
+    "pk": 88,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "swarm",
+      "slug": "swarm"
+    }
+  },
+  {
+    "pk": 89,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "particle swarm algorithm",
+      "slug": "particle-swarm-algorithm"
+    }
+  },
+  {
+    "pk": 90,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "demo",
+      "slug": "demo"
+    }
+  },
+  {
+    "pk": 91,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "Kalman filter",
+      "slug": "kalman-filter"
+    }
+  },
+  {
+    "pk": 92,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "circle detection",
+      "slug": "circle-detection"
+    }
+  },
+  {
+    "pk": 93,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "econometrics",
+      "slug": "econometrics"
+    }
+  },
+  {
+    "pk": 94,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "xml",
+      "slug": "xml"
+    }
+  },
+  {
+    "pk": 95,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "noise",
+      "slug": "noise"
+    }
+  },
+  {
+    "pk": 96,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "MATLAB",
+      "slug": "matlab"
+    }
+  },
+  {
+    "pk": 97,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "Excel",
+      "slug": "excel"
+    }
+  },
+  {
+    "pk": 98,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "PCA",
+      "slug": "pca"
+    }
+  },
+  {
+    "pk": 99,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "least squares",
+      "slug": "least-squares"
+    }
+  },
+  {
+    "pk": 100,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "GARCH",
+      "slug": "garch"
+    }
+  },
+  {
+    "pk": 101,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "C++",
+      "slug": "c%2B%2B"
+    }
+  },
+  {
+    "pk": 102,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "memmap",
+      "slug": "memmap"
+    }
+  },
+  {
+    "pk": 103,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "masked array",
+      "slug": "masked-array"
+    }
+  },
+  {
+    "pk": 104,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "csv",
+      "slug": "csv"
+    }
+  },
+  {
+    "pk": 105,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "NaN",
+      "slug": "nan"
+    }
+  },
+  {
+    "pk": 106,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "sparse",
+      "slug": "sparse"
+    }
+  },
+  {
+    "pk": 107,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "sorting",
+      "slug": "sorting"
+    }
+  },
+  {
+    "pk": 108,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "record array",
+      "slug": "record-array"
+    }
+  },
+  {
+    "pk": 109,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "multicore",
+      "slug": "multicore"
+    }
+  },
+  {
+    "pk": 110,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "memory",
+      "slug": "memory"
+    }
+  },
+  {
+    "pk": 111,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "structured array",
+      "slug": "structured-array"
+    }
+  },
+  {
+    "pk": 112,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "random",
+      "slug": "random"
+    }
+  },
+  {
+    "pk": 113,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "K-means",
+      "slug": "k-means"
+    }
+  },
+  {
+    "pk": 114,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "function zeros",
+      "slug": "function-zeros"
+    }
+  },
+  {
+    "pk": 115,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "indexing",
+      "slug": "indexing"
+    }
+  },
+  {
+    "pk": 116,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "regression",
+      "slug": "regression"
+    }
+  },
+  {
+    "pk": 117,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "Savitzky Golay filtering",
+      "slug": "savitzky-golay-filtering"
+    }
+  },
+  {
+    "pk": 118,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "Markov chains",
+      "slug": "markov-chains"
+    }
+  },
+  {
+    "pk": 119,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "particle filter",
+      "slug": "particle-filter"
+    }
+  },
+  {
+    "pk": 120,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "MINLP",
+      "slug": "minlp"
+    }
+  },
+  {
+    "pk": 121,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "MayaVi",
+      "slug": "mayavi"
+    }
+  },
+  {
+    "pk": 122,
+    "model": "taggit.tag",
+    "fields": {
+      "name": "HDF5",
+      "slug": "hdf5"
+    }
   }
 ]

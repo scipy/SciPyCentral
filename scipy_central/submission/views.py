@@ -163,7 +163,7 @@ def new_snippet_submission(request):
             if authenticated:
                 extra_messages = ('A confirmation email has been sent to you.')
             else:
-                extra_messages  = ('An email has been sent to you to '
+                extra_messages  = ('You have been sent an email to '
                                     'confirm your submission and to create '
                                     'an account (if you do not have one '
                                     'already). <p>Unconfirmed submissions '

@@ -133,6 +133,9 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
 
+    # 3-rd part apps:
+    'taggit',
+
     #  Local apps
     'scipy_central.filestorage',
     'scipy_central.pages',
