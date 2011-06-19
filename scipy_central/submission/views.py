@@ -76,6 +76,7 @@ def create_new_submission_and_revision(request, snippet, authenticated):
                             screenshot = sshot,
                             hash_id = hash_id,
                             item_url = None,
+                            item_code = snippet.cleaned_data['snippet'],
                             )
 
     # Add the tags afterwards and save the revision
@@ -102,7 +103,7 @@ def create_new_submission_and_revision(request, snippet, authenticated):
     send_email(user.email, "Thanks for your submission to SciPy Central",
                message=message)
 
-    return rev
+    return sub, rev
 
 def new_snippet_submission(request):
     """
@@ -145,7 +146,7 @@ def new_snippet_submission(request):
                 authenticated = False
 
             # 2. Create the submission and revision and email the user
-            rev = create_new_submission_and_revision(request, snippet,
+            sub, rev = create_new_submission_and_revision(request, snippet,
                                                      authenticated)
 
             # 3. Create entry on hard drive in a repo
@@ -153,18 +154,18 @@ def new_snippet_submission(request):
             year, month = datenow.strftime('%Y'), datenow.strftime('%m')
             repo_path = settings.SPC['storage_dir'] + year + os.sep + month
             repo_path += os.sep + '%06d%s' % (rev.id, os.sep)
-            rev.fileset = FileSet.objects.create(repo_path=repo_path)
-            rev.save()
+            sub.fileset = FileSet.objects.create(repo_path=repo_path)
+            sub.save()
 
             fname = rev.slug.replace('-', '_') + '.py'
             commit_msg = ('SPC: auto add "%s" and license to the repo based '
                           'on the web submission by user "%s"') % (fname,
                                                         request.user.username)
-            rev.fileset.add_file_from_string(fname, request.POST['snippet'])
+            sub.fileset.add_file_from_string(fname, request.POST['snippet'])
 
             license_file = settings.SPC['license_filename']
             license_text = get_license_text(rev)
-            rev.fileset.add_file_from_string(license_file, license_text,
+            sub.fileset.add_file_from_string(license_file, license_text,
                                              commit_msg)
 
             # 4. Thank user and return with any extra messages

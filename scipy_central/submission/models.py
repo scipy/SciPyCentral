@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import signals
 from scipy_central.utils import unique_slugify
+from pygments import formatters, highlight, lexers
 
 class License(models.Model):
     """
@@ -44,12 +45,15 @@ class Submission(models.Model):
     created_by = models.ForeignKey('person.UserProfile', null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
 
-    # Total dowloads: sum of all downloads (code snippets) and total
-    # outgoing clicks (for links)
-    tot_downloads_clicks = models.PositiveIntegerField(default=0)
+    # fileset: for revisioning of the submission
+    fileset = models.ForeignKey('filestorage.FileSet', null=True, blank=True)
 
-    # Total pageviews: sum of all views
-    tot_pageviews = models.PositiveIntegerField(default=0)
+    ## Total dowloads: sum of all downloads (code snippets) and total
+    ## outgoing clicks (for links)
+    #tot_downloads_clicks = models.PositiveIntegerField(default=0)
+
+    ## Total pageviews: sum of all views
+    #tot_pageviews = models.PositiveIntegerField(default=0)
 
     # num_revisions: total number of revisions to this submission
     #num_revisions = models.PositiveIntegerField(default=0)
@@ -141,13 +145,18 @@ class Revision(models.Model):
     hash_id = models.CharField(max_length=40, null=True, blank=True,
                                editable=False)
 
-    # Number of downloads
-    n_downloads_clicks = models.IntegerField(default=0,
-                            verbose_name='Number of downloads or page clicks')
+    # These should be in another app
+    ## Number of downloads
+    #n_downloads_clicks = models.IntegerField(default=0,
+                            #verbose_name='Number of downloads or page clicks')
 
-    # number of full-page views of this submission
-    n_views = models.IntegerField(default=0,
-                                  verbose_name='Number of page views')
+    ## number of full-page views of this submission
+    #n_views = models.IntegerField(default=0,
+                                  #verbose_name='Number of page views')
+
+    # For snippet submissions
+    item_code = models.TextField()
+    item_highlighted_code = models.TextField(editable=False)
 
     # For link-type submissions
     item_url = models.URLField(verbose_name="URL for link-type submssions",
@@ -156,9 +165,6 @@ class Revision(models.Model):
                            'publication (<a target="_blank" href="http://en.'
                            'wikipedia.org/wiki/Digital_object_identifier">'
                            'DOI preferred</a>)'), max_length=255)
-
-    # fileset
-    fileset = models.ForeignKey('filestorage.FileSet', null=True, blank=True)
 
     # Tags for this revision
     tags = models.ManyToManyField('tagging.Tag')#, null=True, blank=True)
@@ -181,6 +187,10 @@ class Revision(models.Model):
 
         # TODO(KGD):
         self.description_html = 'DESCRIPTION HTML TO BE CREATED STILL'
+
+        self.item_highlighted_code = highlight(self.item_code,
+                                               lexers.PythonLexer,
+                                       formatters.HtmlFormatter(linenos=True))
 
         # Call the "real" save() method.
         super(Revision, self).save(*args, **kwargs)

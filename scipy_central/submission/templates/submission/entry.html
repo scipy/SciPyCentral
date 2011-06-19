@@ -11,7 +11,7 @@
   <dl>
 
   <dt>Original author: </dt>
-  <dd><a href="{% url scipy_central.person.views.profile_page item.author.username_slug %}">{{item.author.username}}</a></dd>
+  <dd><a href="{% url spc-user-profile item.author.username_slug %}">{{item.author.username}}</a></dd>
 
   <dt>Revisions for this {{submission.sub_type}}:</dt>
   <dd>{{submission.num_revisions}}</dd>
@@ -29,5 +29,6 @@
 
   <p>Links to add: update this {{submission.sub_type}}
   <p>Links to add: add tags
+
 
 {% endblock %}
