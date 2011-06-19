@@ -134,7 +134,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
 
     # 3-rd part apps:
-    'taggit',
+
 
     #  Local apps
     'scipy_central.filestorage',
@@ -173,6 +173,8 @@ LOGFILE_LOCATION = tempdir + os.sep + 'logfile.log'
 COMMENT_COMPILE_DIR = tempdir + os.sep + 'compile'
 # Where should JQuery be served from?
 JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js'
+JQUERYUI_URL = 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js'
+JQUERYUI_CSS = 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/smoothness/jquery-ui.css'
 
 try:
     # Import deployment-specific settings

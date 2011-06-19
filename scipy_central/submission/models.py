@@ -1,7 +1,6 @@
 from django.db import models
 from django.db.models import signals
 from scipy_central.utils import unique_slugify
-from taggit.managers import TaggableManager
 
 class License(models.Model):
     """
@@ -131,7 +130,6 @@ class Revision(models.Model):
     hash_id = models.CharField(max_length=40, null=True, blank=True,
                                editable=False)
 
-
     # Number of downloads
     n_downloads_clicks = models.IntegerField(default=0,
                             verbose_name='Number of downloads or page clicks')
@@ -152,7 +150,7 @@ class Revision(models.Model):
     fileset = models.ForeignKey('filestorage.FileSet', null=True, blank=True)
 
     # Tags for this revision
-    tags = TaggableManager()
+    tags = models.ManyToManyField('tagging.Tag', null=True, blank=True)
 
     # inspired_by: a comma-separated list of previous submissions
 

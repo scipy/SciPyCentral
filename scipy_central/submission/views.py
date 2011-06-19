@@ -1,16 +1,18 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render_to_response
 from django.template import RequestContext, loader
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import cache_page
+from django.utils import simplejson
 
 # Imports from this app and other SPC apps
 from scipy_central.screenshot.forms import ScreenshotForm as ScreenshotForm
 from scipy_central.screenshot.models import Screenshot as ScreenshotClass
 from scipy_central.person.views import create_new_account_internal
 from scipy_central.filestorage.models import FileSet
-
+from scipy_central.tagging.models import Tag
 from scipy_central.utils import send_email
 import models
 import forms
@@ -107,8 +109,8 @@ def new_snippet_submission(request):
 
         # Rearrange the form order: screenshot and tags at the end
         snippet.fields.keyOrder = ['title', 'summary', 'snippet',
-                                   'sub_license', 'screenshot', 'email',
-                                   'sub_type']
+                                   'sub_license', 'screenshot', 'sub_tags',
+                                   'email', 'sub_type']
 
         if request.user.is_authenticated():
             # Email field not required for signed-in users
@@ -182,12 +184,9 @@ def new_snippet_submission(request):
 
     elif request.method == 'GET':
         snippet = get_snippet_form(request)
-        #sub_type = forms.CharField(max_length=10, initial='snippet',
-        #                       widget=forms.HiddenInput())
         return render_to_response('submission/new-submission.html', {},
                                   context_instance=RequestContext(request,
                                                 {'snippet': snippet}))
-
 
 
 def get_license_text(rev):
@@ -197,10 +196,54 @@ def get_license_text(rev):
     to create the license.
     """
     return '****\nGENERATE LICENSE TEXT STILL\n****'
-#def HTML_for_tagging(request):
-    #""" Returns HTML that handles tagging """
-    #response = '<h3>Step 3: Help categorize your submission</h3>'
-    #response+= ('<p>Please provide subject area labels and categorization '
-                #'tags to help other users when searching for your code.')
 
-    #return  HttpResponse(response, status=200)
+#def autocomplete(request):
+
+
+    #if not request.GET.get('q'):
+        #return HttpResponse(mimetype='text/plain')
+
+    #q = request.GET.get('q')
+    #limit = request.GET.get('limit', 15)
+    #try:
+        #limit = int(limit)
+    #except ValueError:
+        #return HttpResponseBadRequest()
+
+    #foos = taggit.objects.filter(name__startswith=q)[:limit]
+    #return HttpResponse(iter_results(foos), mimetype='text/plain')
+
+#autocomplete = cache_page(autocomplete, 60 * 60)
+
+def tag_autocomplete(request):
+    """
+    Filters through all available tags to find those starting with, or
+    containing the string ``contains_str``.
+
+    Parts from http://djangosnippets.org/snippets/233/
+    """
+    def iter_results(results):
+        if results:
+            for r in results:
+                yield '%s|%s\n' % (r.slug, r.id)
+
+    # TODO(KGD): cache this lookup for 30 minutes
+    # Also, randomize the tag order to prevent only the those with lower
+    # primary keys from being shown more frequently
+    all_tags = [tag.name for tag in Tag.objects.all()]
+
+    contains_str = request.REQUEST.get('term', '').lower()
+
+    starts = []
+    includes = []
+    for item in all_tags:
+        index = item.lower().find(contains_str)
+        if index == 0:
+            starts.append(item)
+        elif index > 0:
+            includes.append(item)
+
+    # Return tags starting with ``contains_str`` at the top of the list,
+    # followed by tags that only include ``contains_str``
+    starts.extend(includes)
+    return HttpResponse(simplejson.dumps(starts), mimetype='text/plain')
