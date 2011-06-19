@@ -1,67 +1,9 @@
 from django import forms
-from django.core.urlresolvers import reverse
-from models import Submission, License, Revision
+from models import License, Revision
 from scipy_central.screenshot.forms import ScreenshotForm as ScreenshotForm
-#from scipy_central.taggin.models import ScreenshotForm as ScreenshotForm
-
 
 required_css_class = 'spc-form-required'
 error_css_class = 'spc-form-error'
-
-# For the autocomplete widget: http://djangosnippets.org/snippets/233/
-from django.forms.util import flatatt
-from django.utils.encoding import smart_unicode
-from django.utils.html import escape
-from django.utils.simplejson import JSONEncoder
-from django.utils.safestring import mark_safe
-
-class JQueryAutoComplete(forms.TextInput):
-    def __init__(self, source=None, options={}, attrs={}):
-        """source can be a list containing the autocomplete values or a
-        string containing the url used for the XHR request.
-
-        For available options see the autocomplete sample page::
-        http://jquery.bassistance.de/autocomplete/"""
-
-        self.options = None
-        self.attrs = {'autocomplete': 'off'}
-        self.source = source
-        if len(options) > 0:
-            self.options = JSONEncoder().encode(options)
-
-        self.attrs.update(attrs)
-
-    def render_js(self, field_id):
-        if isinstance(self.source, list):
-            source = JSONEncoder().encode(self.source)
-        elif isinstance(self.source, str):
-            source = "'%s'" % escape(self.source)
-        else:
-            raise ValueError('source type is not valid')
-
-        options = ''
-        if self.options:
-            options += ',%s' % self.options
-
-        return u'$(\'#%s\').autocomplete({source: %s});' % (field_id, source)
-
-    def render(self, name, value=None, attrs=None):
-        final_attrs = self.build_attrs(attrs, name=name)
-        if value:
-            final_attrs['value'] = escape(smart_unicode(value))
-
-        if not self.attrs.has_key('id'):
-            final_attrs['id'] = 'id_%s' % name
-
-        q=mark_safe(u'''<input type="text" %(attrs)s/>
-        <script type="text/javascript"><!--//
-        %(js)s//--></script>
-        ''' % {
-            'attrs' : flatatt(final_attrs),
-            'js' : self.render_js(final_attrs['id']),
-        })
-        return q
-
 
 class Submission_Form__Common_Parts(forms.Form):
     """
@@ -82,7 +24,6 @@ class Submission_Form__Common_Parts(forms.Form):
                              help_text=('Please <a href="/user/sign-in/">sign'
                                 ' in </a> if you already have an account.'),
                              required=True)
-
 
 class SnippetForm(Submission_Form__Common_Parts, ScreenshotForm):
     """

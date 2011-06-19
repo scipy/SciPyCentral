@@ -12,7 +12,7 @@ from scipy_central.screenshot.forms import ScreenshotForm as ScreenshotForm
 from scipy_central.screenshot.models import Screenshot as ScreenshotClass
 from scipy_central.person.views import create_new_account_internal
 from scipy_central.filestorage.models import FileSet
-from scipy_central.tagging.models import Tag
+from scipy_central.tagging.models import Tag, parse_tags
 from scipy_central.utils import send_email
 import models
 import forms
@@ -57,6 +57,11 @@ def create_new_submission_and_revision(request, snippet, authenticated):
     else:
         sshot = None
 
+    # Process any tags
+    tag_list = []
+    for tag in parse_tags(snippet.cleaned_data['sub_tags']):
+        tag_list.append(Tag.objects.get_or_create(name=tag)[0])
+
     # Create a ``Revision`` instance. Must always have a ``title``, ``author``,
     # and ``summary`` fields; the rest are set automatically, or blank.
     hash_id = md5(post.get('snippet')).hexdigest()
@@ -69,13 +74,16 @@ def create_new_submission_and_revision(request, snippet, authenticated):
                             description = None, #post.get('description', ''),
                             screenshot = sshot,
                             hash_id = hash_id,
-                            item_url = None
+                            item_url = None,
                             )
-    # TODO(KGD): add the tags
-    rev.tags = []
+
+    # Add the tags afterwards:
+    for tag in tag_list:
+        rev.tags.add(tag)
 
     # Save the revision
     rev.save()
+
     logger.info('New snippet: %s [id=%d] and revision id=%d' % (
                                             snippet.cleaned_data['title'],
                                             sub.id,
@@ -196,22 +204,6 @@ def get_license_text(rev):
     to create the license.
     """
     return '****\nGENERATE LICENSE TEXT STILL\n****'
-
-#def autocomplete(request):
-
-
-    #if not request.GET.get('q'):
-        #return HttpResponse(mimetype='text/plain')
-
-    #q = request.GET.get('q')
-    #limit = request.GET.get('limit', 15)
-    #try:
-        #limit = int(limit)
-    #except ValueError:
-        #return HttpResponseBadRequest()
-
-    #foos = taggit.objects.filter(name__startswith=q)[:limit]
-    #return HttpResponse(iter_results(foos), mimetype='text/plain')
 
 #autocomplete = cache_page(autocomplete, 60 * 60)
 

@@ -7,7 +7,8 @@ parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, parent_dir)
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+#TEMPLATE_DEBUG = DEBUG
+TEMPLATE_DEBUG = True
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
@@ -179,10 +180,40 @@ JQUERYUI_CSS = 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/smoo
 try:
     # Import deployment-specific settings
     from local_settings import *
-    #from spc_settings import site_settings
-    execfile('spc_settings.py')
 except ImportError:
     pass
+
+try:
+    execfile('spc_settings.py')
+except IOError:
+    # Use default settings
+    SPC = {
+        # Delete unconfirmed submission after this number of days
+        'unvalidated_subs_deleted_after': 7,
+
+        # We only support Mercurial at the moment. Code can support git and
+        # other version control systems in the future.
+        # Do not change this once files have been added.
+        'revisioning_backend': 'hg',
+
+        # Can be left as '', but then we will search for the executable everytime
+        # we need to access the repo. Rather specify the full path to the
+        # revision control system executable.
+        'revisioning_executable': '',
+
+        # Where should files from each submission be stored?
+        # Files are stored using revision control in directories as follows:
+        #
+        # <storage><submission_primary_key>/<submission_slug>.py
+        # <storage><submission_primary_key>/LICENSE.txt
+        # where <storage> is the variable defined next, as should always end
+        # with ``os.sep``
+        'storage_dir': MEDIA_ROOT + 'code' + os.sep,
+
+        # Default name of license file (e.g. 'LICENSE.TXT')
+        'license_filename': 'LICENSE.TXT',
+    }
+
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

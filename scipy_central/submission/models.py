@@ -20,12 +20,17 @@ class License(models.Model):
     class Meta:
         permissions = (("can_edit", "Can edit this license"),)
 
+class SubmissionManager(models.Manager):
+    def all(self, keyword):
+        return self.filter(is_displayed=True)
+
 class Submission(models.Model):
     """
     A single model for all submission types. Most of the information is stored
     in the ``Revision`` for the submission, allowing us to store a history of
     the submission in consecutive revisions.
     """
+    objects = SubmissionManager()
     # Submission type
     SUBMISSION_TYPE = (
         ('snippet', 'Example code snippet, a cookbook entry, etc.'),
@@ -76,6 +81,7 @@ class Submission(models.Model):
 
     def __unicode__(self):
         return self.slug + '::rev-' + str(self.tot_revisions)
+
 
 class Revision(models.Model):
 
@@ -150,7 +156,7 @@ class Revision(models.Model):
     fileset = models.ForeignKey('filestorage.FileSet', null=True, blank=True)
 
     # Tags for this revision
-    tags = models.ManyToManyField('tagging.Tag', null=True, blank=True)
+    tags = models.ManyToManyField('tagging.Tag')#, null=True, blank=True)
 
     # inspired_by: a comma-separated list of previous submissions
 
