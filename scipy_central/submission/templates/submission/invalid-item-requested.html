@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Invalid item requested{% endblock %}
+
+{% block content %}
+
+<div id="spc-notice">
+
+<p>You requested an invalid item, or an item that's not yet approved for display.
+
+<p>Try <a href="{% url spc-main-page %}">searching for it</a> on the main page.
+</div>
+{% endblock %}

@@ -2,6 +2,10 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from django.utils.encoding import force_unicode
 
+import logging
+logger = logging.getLogger('scipycentral')
+logger.debug('Initializing tagging::models.py')
+
 def parse_tags(tagstring):
     """
     Parses tag input, with multiple word input being activated and
@@ -137,4 +141,5 @@ class Tag(models.Model):
         else:
             # Call the "real" save() method.
             self.slug = slug
+            logger.info('TAGS: created a new tag: %s', slug)
             super(Tag, self).save(*args, **kwargs)

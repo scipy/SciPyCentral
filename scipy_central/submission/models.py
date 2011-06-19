@@ -177,6 +177,6 @@ class Revision(models.Model):
         # Call the "real" save() method.
         super(Revision, self).save(*args, **kwargs)
 
-    #def get_absolute_url(self):
-    #    return(....)
-    #get_absolute_url = models.permalink(get_absolute_url)
+    @models.permalink
+    def get_absolute_url(self):
+        return('view_snippet', (self.pk,))

@@ -3,6 +3,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext, loader
 from django.conf import settings
 from django.core.files.base import ContentFile
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_page
 from django.utils import simplejson
@@ -186,12 +187,33 @@ def new_snippet_submission(request):
                                   context_instance=RequestContext(request,
                                                 {'snippet': snippet}))
 
-
     elif request.method == 'GET':
         snippet = get_snippet_form(request)
         return render_to_response('submission/new-submission.html', {},
                                   context_instance=RequestContext(request,
                                                 {'snippet': snippet}))
+
+def view_snippet(request, snippet_id, slug=None, revision=None):
+    """
+    Shows a snippet to web users. The ``slug`` is always ignored, but appears
+    in the URLs mainly for the sake of search engines.
+    The revision, if specified >= 0 will show the particular revision of the
+    snippet, rather than than the latest revision (default).
+    """
+    show_error = False
+    try:
+        the_snippet = models.Submission.objects.get(id=snippet_id)
+    except ObjectDoesNotExist:
+        show_error = True
+
+    if show_error or not(the_snippet.is_displayed):
+        return render_to_response('submission/invalid-item-requested.html',
+                                 {}, context_instance=RequestContext(request))
+
+    return render_to_response('submission/entry.html', {},
+                              context_instance=RequestContext(request,
+                                                    {'snippet': the_snippet}))
+
 
 
 def get_license_text(rev):

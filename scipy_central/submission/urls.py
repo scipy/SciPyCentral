@@ -6,8 +6,13 @@ urlpatterns = patterns('scipy_central.submission.views',
     url(r'new-snippet', 'new_snippet_submission',
                                             name='spc-new-snippet-submission'),
 
-    ## AJAX: get the HTML for the next steps, after picking the submission type
-    #url(r'^next-steps$', 'next_steps_HTML', name='spc-next-steps'),
+    # Show an existing submission; some valid examples include:
+    # Maximal information:   http://.../23/draw-an-ellipse/revision/4/
+    # Typical link:          http://.../23/draw-an-ellipse/
+    # Minimal working link:  http://.../23/
+    url(r'(?P<snippet_id>\d)$',
+        #/(?P<slug>[-\w]*?)/revision/(<?rev_num>[\d].?)$',
+        'view_snippet', name='spc-view-a-submission'),
 
     # AJAX: get suggestions to complete tagging based on a partial string
     # We will accept any input, but the views function will ignore any
