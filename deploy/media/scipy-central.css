@@ -1,40 +1,40 @@
 /* -------------------------------------------------------------------------*/
 /* Basic layout of the document: no styling - that is applied further down. */
 /* -------------------------------------------------------------------------*/
-#scipycentral-document-container{
+#spc-document-container{
 	position: relative;
 	min-width: 50em;
 	max-width: 90em;
 }
-#scipycentral-header{
+#spc-header{
 	height: 3em;
 }
 
-.scipycentral-navigation{
+.spc-navigation{
     /* Navigation blocks: top and bottom */
 	display: block;
 }
 
-#scipycentral-navigation-top{
+#spc-navigation-top{
 	clear: both;
 }
 
-#scipycentral-contentwrap{
+#spc-contentwrap{
 	display: block;
 	overflow: hidden;
 }
-#scipycentral-content-main{
+#spc-content-main{
 	float: left;
 	width: 100%;
 }
 
-#scipycentral-navigation-bottom{
+#spc-navigation-bottom{
 	clear: both;
 }
-#scipycentral-footer{
+#spc-footer{
 	clear: both;
 }
-#scipycentral-highlight-floater{
+#spc-highlight-floater{
 	display: none;
 }
 
@@ -43,64 +43,64 @@
 /* -------------------------------------------- */
 
 /* Document container */
-#scipycentral-document-container {
+#spc-document-container {
     font: 13px/1.5 'Lucida Grande','Lucida Sans Unicode','Geneva','Verdana',sans-serif;
     background: #FFFFFF;
 	margin: auto;              /* display container in the center of the page */
 	padding-top: 12px;
 }
-#scipycentral-document-container img{
+#spc-document-container img{
     border: 0
 }
 
 /* Header block */
-#scipycentral-header{
+#spc-header{
 	text-align: center;
 	font: 18px/1.5 'Lucida Grande','Lucida Sans Unicode','Geneva','Verdana',sans-serif;
 }
-#scipycentral-header h1 a {
+#spc-header h1 a {
 	color: black;
 	text-decoration: none;
 }
 
 /* Navigation blocks: top and bottom */
-.scipycentral-navigation{
+.spc-navigation{
 	color: #EE9816;
 	border-top: 1px solid #DDDDDD;
 	border-bottom: 1px solid #DDDDDD;
 	height: 1.8em;
 	background-image: url(/media/navigation.png); /* Styling from the Sphinx website!*/
 }
-.scipycentral-navigation a{
+.spc-navigation a{
     font: 13px/1.5 'Lucida Grande','Lucida Sans Unicode','Geneva','Verdana',sans-serif;
 	text-decoration: none;
 	color: #EE9816;
 	font-size: 110%;
 }
-.scipycentral-navigation a:hover{
+.spc-navigation a:hover{
 	text-decoration: underline;
 }
 
-.scipycentral-nav-links{
+.spc-nav-links{
 }
-#scipycentral-menu-left {
+#spc-menu-left {
 	float: left;
 }
-#scipycentral-menu-right {
+#spc-menu-right {
 	float: right;
 }
 
 /* contentwrap block: applies to everything in the bulk of the page */
-#scipycentral-contentwrap {
+#spc-contentwrap {
 }
 
 /* The major chunk of content (left side); the sidebar comes later */
-#scipycentral-content-main{
+#spc-content-main{
 	background: #20435C;
 }
 
-/* scipycentral-border: the 20px margin creates the click elements for the scipycentrals */
-#scipycentral-border {
+/* spc-border: the 20px margin creates the click elements for the spcs */
+#spc-border {
 	margin-left: 20px;	  /* Only use "px": used in Javascript calculations */
 	background: white;
 	color: black;
@@ -110,44 +110,44 @@
 	padding-right: 2em;
 }
 
-/* scipycentral-section-body: the current section of the document.  The Sphinx
+/* spc-section-body: the current section of the document.  The Sphinx
    generated HTML is inserted inside this DIV element.  Specific formatting for
    the HTML should go here */
 /* ----------------------- */
-#scipycentral-section-body {
+#spc-section-body {
 }
 
 
 /* Styling for the headers */
-div#scipycentral-section-body h1, h2, h3, h4, h5, h6{
+div#spc-section-body h1, h2, h3, h4, h5, h6{
 	color: #20435C;
 	font-family: 'Trebuchet MS', sans-serif;
     font-weight: normal;
     border-bottom: 0px solid #ccc;}
-div#scipycentral-section-body h1 {	margin-top: 0;	font-size: 200%; font-weight: bold;}
-div#scipycentral-section-body h2 { font-size: 160%; font-weight: bold; color: #101074;}
-div#scipycentral-section-body h3 { font-size: 140%; color: #362A13;}
-div#scipycentral-section-body h4 { font-size: 120%; }
-div#scipycentral-section-body h5 { font-size: 110%; }
-div#scipycentral-section-body h6 { font-size: 100%; }
+div#spc-section-body h1 {	margin-top: 0;	font-size: 200%; font-weight: bold;}
+div#spc-section-body h2 { font-size: 160%; font-weight: bold; color: #101074;}
+div#spc-section-body h3 { font-size: 140%; color: #362A13;}
+div#spc-section-body h4 { font-size: 120%; }
+div#spc-section-body h5 { font-size: 110%; }
+div#spc-section-body h6 { font-size: 100%; }
 
 
 /* Styling for hyperlinks */
-div#scipycentral-section-body a{
+div#spc-section-body a{
 	text-decoration: underline;
 	color: #EE9816;
 }
-div#scipycentral-section-body a.scipycentral-small-uri{
+div#spc-section-body a.spc-small-uri{
 	font-size: 70%;
 }
 
 /* Styling for images and figures: images are inline, figures are centered */
-div#scipycentral-section-body .align-center{
+div#spc-section-body .align-center{
     text-align: center;
 }
 
 /* Styling for <tt></tt> elements (from Sphinx) */
-div#scipycentral-section-body tt, div#scipycentral-content tt {
+div#spc-section-body tt, div#spc-content tt {
 	background-color:#F2F2F2;
 	border-bottom-color:#DDDDDD;
 	border-bottom-style:solid;
@@ -156,7 +156,7 @@ div#scipycentral-section-body tt, div#scipycentral-content tt {
 }
 
 /* Styling for the source code listings: (from pygments.css)*/
-div#scipycentral-section-body pre{
+div#spc-section-body pre{
     overflow: auto;
     padding: 5px;
     background-color: #ffffee;
@@ -183,79 +183,79 @@ div#scipycentral-section-body pre{
 }
 
 
-div#scipycentral-section-body td.linenos pre {
+div#spc-section-body td.linenos pre {
     padding: 5px 0px;
     border: 0;
     background-color: transparent;
     color: #aaa;
 }
-div#scipycentral-section-body .highlight .hll { background-color: #ffffcc }
-div#scipycentral-section-body .highlight .c { color: #008800; font-style: italic } /* Comment */
-div#scipycentral-section-body .highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
-div#scipycentral-section-body .highlight .k { color: #000080; font-weight: bold } /* Keyword */
-div#scipycentral-section-body .highlight .cm { color: #008800; font-style: italic } /* Comment.Multiline */
-div#scipycentral-section-body .highlight .cp { color: #008080 } /* Comment.Preproc */
-div#scipycentral-section-body .highlight .c1 { color: #008800; font-style: italic } /* Comment.Single */
-div#scipycentral-section-body .highlight .cs { color: #008800; font-weight: bold } /* Comment.Special */
-div#scipycentral-section-body .highlight .gd { color: #000000; background-color: #ffdddd } /* Generic.Deleted */
-div#scipycentral-section-body .highlight .ge { font-style: italic } /* Generic.Emph */
-div#scipycentral-section-body .highlight .gr { color: #aa0000 } /* Generic.Error */
-div#scipycentral-section-body .highlight .gh { color: #999999 } /* Generic.Heading */
-div#scipycentral-section-body .highlight .gi { color: #000000; background-color: #ddffdd } /* Generic.Inserted */
-div#scipycentral-section-body .highlight .go { color: #888888 } /* Generic.Output */
-div#scipycentral-section-body .highlight .gp { color: #555555 } /* Generic.Prompt */
-div#scipycentral-section-body .highlight .gs { font-weight: bold } /* Generic.Strong */
-div#scipycentral-section-body .highlight .gu { color: #aaaaaa } /* Generic.Subheading */
-div#scipycentral-section-body .highlight .gt { color: #aa0000 } /* Generic.Traceback */
-div#scipycentral-section-body .highlight .kc { color: #000080; font-weight: bold } /* Keyword.Constant */
-div#scipycentral-section-body .highlight .kd { color: #000080; font-weight: bold } /* Keyword.Declaration */
-div#scipycentral-section-body .highlight .kn { color: #000080; font-weight: bold } /* Keyword.Namespace */
-div#scipycentral-section-body .highlight .kp { color: #000080; font-weight: bold } /* Keyword.Pseudo */
-div#scipycentral-section-body .highlight .kr { color: #000080; font-weight: bold } /* Keyword.Reserved */
-div#scipycentral-section-body .highlight .kt { color: #000080; font-weight: bold } /* Keyword.Type */
-div#scipycentral-section-body .highlight .m { color: #0000FF } /* Literal.Number */
-div#scipycentral-section-body .highlight .s { color: #0000FF } /* Literal.String */
-div#scipycentral-section-body .highlight .na { color: #FF0000 } /* Name.Attribute */
-div#scipycentral-section-body .highlight .nt { color: #000080; font-weight: bold } /* Name.Tag */
-div#scipycentral-section-body .highlight .ow { font-weight: bold } /* Operator.Word */
-div#scipycentral-section-body .highlight .w { color: #bbbbbb } /* Text.Whitespace */
-div#scipycentral-section-body .highlight .mf { color: #0000FF } /* Literal.Number.Float */
-div#scipycentral-section-body .highlight .mh { color: #0000FF } /* Literal.Number.Hex */
-div#scipycentral-section-body .highlight .mi { color: #0000FF } /* Literal.Number.Integer */
-div#scipycentral-section-body .highlight .mo { color: #0000FF } /* Literal.Number.Oct */
-div#scipycentral-section-body .highlight .sb { color: #0000FF } /* Literal.String.Backtick */
-div#scipycentral-section-body .highlight .sc { color: #800080 } /* Literal.String.Char */
-div#scipycentral-section-body .highlight .sd { color: #0000FF } /* Literal.String.Doc */
-div#scipycentral-section-body .highlight .s2 { color: #0000FF } /* Literal.String.Double */
-div#scipycentral-section-body .highlight .se { color: #0000FF } /* Literal.String.Escape */
-div#scipycentral-section-body .highlight .sh { color: #0000FF } /* Literal.String.Heredoc */
-div#scipycentral-section-body .highlight .si { color: #0000FF } /* Literal.String.Interpol */
-div#scipycentral-section-body .highlight .sx { color: #0000FF } /* Literal.String.Other */
-div#scipycentral-section-body .highlight .sr { color: #0000FF } /* Literal.String.Regex */
-div#scipycentral-section-body .highlight .s1 { color: #0000FF } /* Literal.String.Single */
-div#scipycentral-section-body .highlight .ss { color: #0000FF } /* Literal.String.Symbol */
-div#scipycentral-section-body .highlight .il { color: #0000FF } /* Literal.Number.Integer.Long */
+div#spc-section-body .highlight .hll { background-color: #ffffcc }
+div#spc-section-body .highlight .c { color: #008800; font-style: italic } /* Comment */
+div#spc-section-body .highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
+div#spc-section-body .highlight .k { color: #000080; font-weight: bold } /* Keyword */
+div#spc-section-body .highlight .cm { color: #008800; font-style: italic } /* Comment.Multiline */
+div#spc-section-body .highlight .cp { color: #008080 } /* Comment.Preproc */
+div#spc-section-body .highlight .c1 { color: #008800; font-style: italic } /* Comment.Single */
+div#spc-section-body .highlight .cs { color: #008800; font-weight: bold } /* Comment.Special */
+div#spc-section-body .highlight .gd { color: #000000; background-color: #ffdddd } /* Generic.Deleted */
+div#spc-section-body .highlight .ge { font-style: italic } /* Generic.Emph */
+div#spc-section-body .highlight .gr { color: #aa0000 } /* Generic.Error */
+div#spc-section-body .highlight .gh { color: #999999 } /* Generic.Heading */
+div#spc-section-body .highlight .gi { color: #000000; background-color: #ddffdd } /* Generic.Inserted */
+div#spc-section-body .highlight .go { color: #888888 } /* Generic.Output */
+div#spc-section-body .highlight .gp { color: #555555 } /* Generic.Prompt */
+div#spc-section-body .highlight .gs { font-weight: bold } /* Generic.Strong */
+div#spc-section-body .highlight .gu { color: #aaaaaa } /* Generic.Subheading */
+div#spc-section-body .highlight .gt { color: #aa0000 } /* Generic.Traceback */
+div#spc-section-body .highlight .kc { color: #000080; font-weight: bold } /* Keyword.Constant */
+div#spc-section-body .highlight .kd { color: #000080; font-weight: bold } /* Keyword.Declaration */
+div#spc-section-body .highlight .kn { color: #000080; font-weight: bold } /* Keyword.Namespace */
+div#spc-section-body .highlight .kp { color: #000080; font-weight: bold } /* Keyword.Pseudo */
+div#spc-section-body .highlight .kr { color: #000080; font-weight: bold } /* Keyword.Reserved */
+div#spc-section-body .highlight .kt { color: #000080; font-weight: bold } /* Keyword.Type */
+div#spc-section-body .highlight .m { color: #0000FF } /* Literal.Number */
+div#spc-section-body .highlight .s { color: #0000FF } /* Literal.String */
+div#spc-section-body .highlight .na { color: #FF0000 } /* Name.Attribute */
+div#spc-section-body .highlight .nt { color: #000080; font-weight: bold } /* Name.Tag */
+div#spc-section-body .highlight .ow { font-weight: bold } /* Operator.Word */
+div#spc-section-body .highlight .w { color: #bbbbbb } /* Text.Whitespace */
+div#spc-section-body .highlight .mf { color: #0000FF } /* Literal.Number.Float */
+div#spc-section-body .highlight .mh { color: #0000FF } /* Literal.Number.Hex */
+div#spc-section-body .highlight .mi { color: #0000FF } /* Literal.Number.Integer */
+div#spc-section-body .highlight .mo { color: #0000FF } /* Literal.Number.Oct */
+div#spc-section-body .highlight .sb { color: #0000FF } /* Literal.String.Backtick */
+div#spc-section-body .highlight .sc { color: #800080 } /* Literal.String.Char */
+div#spc-section-body .highlight .sd { color: #0000FF } /* Literal.String.Doc */
+div#spc-section-body .highlight .s2 { color: #0000FF } /* Literal.String.Double */
+div#spc-section-body .highlight .se { color: #0000FF } /* Literal.String.Escape */
+div#spc-section-body .highlight .sh { color: #0000FF } /* Literal.String.Heredoc */
+div#spc-section-body .highlight .si { color: #0000FF } /* Literal.String.Interpol */
+div#spc-section-body .highlight .sx { color: #0000FF } /* Literal.String.Other */
+div#spc-section-body .highlight .sr { color: #0000FF } /* Literal.String.Regex */
+div#spc-section-body .highlight .s1 { color: #0000FF } /* Literal.String.Single */
+div#spc-section-body .highlight .ss { color: #0000FF } /* Literal.String.Symbol */
+div#spc-section-body .highlight .il { color: #0000FF } /* Literal.Number.Integer.Long */
 
 
 /* Submission form */
 
-.scipycentral-form {
+.spc-form {
 	width: 60%;
 }
-form.scipycentral-ul-form input  {
+form.spc-ul-form input  {
 	width: 100%;
 }
-form.scipycentral-ul-form label{
+form.spc-ul-form label{
 	display: block;
 	padding-top: 15px;
 	width: 100%;
 }
-form.scipycentral-ul-form li {
+form.spc-ul-form li {
 	list-style: none none;
 }
 
 /* Next steps area: where user uploads snippet, code, or link */
-div#scipycentral-next-steps{
+div#spc-next-steps{
 	border-top: 1px solid #cccccc;
 	border-bottom: 1px solid #cccccc;
 }
@@ -266,12 +266,12 @@ div#scipycentral-next-steps{
    they use CSS classes, rather than ID's.  Adjust this bottom navigation ID
    if you want different styling for the bottom nav region.
 */
-#scipycentral-navigation-bottom{
+#spc-navigation-bottom{
 /*  display: none;  to hide the bottom navigation region*/
 }
 
-/* scipycentral-footer */
-#scipycentral-footer {
+/* spc-footer */
+#spc-footer {
     color:#487858;
     font-size:90%;
     padding-bottom: 2em;
@@ -281,14 +281,14 @@ div#scipycentral-next-steps{
 /* User account pages     */
 /* ---------------------- */
 
-div#scipycentral-new-user {
+div#spc-new-user {
 	width: 500px;
 	position: relative;
 	left: 50%;
 	margin: 20px 0 0 -200px;
 }
 
-div#scipycentral-new-user .textbox .holding input {
+div#spc-new-user .textbox .holding input {
 	font: 20px "Helvetica Neue",Helvetica,Arial,sans-serif
 	outline: 0;
 	padding: 8px 6px;
@@ -306,10 +306,10 @@ div.sidetip {
 	left: 406px;
 	width: 250px;
 }
-div#scipycentral-new-user .textbox div.sidetip {
+div#spc-new-user .textbox div.sidetip {
 	margin-top: 14px;
 }
-#scipycentral-new-user div.sidetip p {
+#spc-new-user div.sidetip p {
 	font-size: 13px;
 	line-height: 16px;
 	padding-left: 18px;
@@ -358,13 +358,13 @@ div#scipycentral-new-user .textbox div.sidetip {
 /* ---------------------- */
 
 /* Highlights the search terms within the search results page*/
-#scipycentral-search-term{
+#spc-search-term{
 	color: red;
 	font-weight: bold;
 }
-#scipycentral-search-results li{
+#spc-search-results li{
 	padding-bottom: 1em;
 }
-#scipycentral-search-count{
+#spc-search-count{
 	color: purple;
 }

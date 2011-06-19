@@ -106,5 +106,5 @@ class UserProfile(User):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('scipycentral-user-profile', [self.username_slug])
+        return ('spc-user-profile', [self.username_slug])
 

@@ -5,7 +5,7 @@ Converts user's reStructuredText input to HTML.
 import os, pickle, time, shutil
 from StringIO import StringIO
 import logging
-logger = logging.getLogger('scipycentral.rest_comments')
+logger = logging.getLogger('scipycentral')
 
 # 3rd party (non-Django) imports
 from sphinx.application import Sphinx, SphinxError

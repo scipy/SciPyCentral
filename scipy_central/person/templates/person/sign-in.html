@@ -4,7 +4,7 @@
 
 {% block body %}
 
-<div id="scipycentral-existing-user">
+<div id="spc-existing-user">
   <form action="{% url scipy_central.person.views.login_page %}" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
@@ -15,7 +15,7 @@
   </form>
 </div>
 
-<div id="scipycentral-new-user">
+<div id="spc-new-user">
 <p>We know that creating yet another user acount is annoying. Here's an
 alternative. You might <a href="http://openid.net/get-an-openid/">already have
 an OpenID</a> account. What are <a href="http://openid.net/get-an-openid/individuals/">the benefits of OpenID?</a>
@@ -61,7 +61,7 @@ $(document).ready(function() {
   <!--$(".data-entry").blur(function(){-->
     <!--var item = this.name;-->
     <!--var jqxhr2 = $.ajax({-->
-            <!--url: "{% url scipycentral-new-valid %}",-->
+            <!--url: "{% url spc-new-valid %}",-->
             <!--data: 'which=' + item + '&value=' + this.value,-->
             <!--type: "POST",-->
             <!--context: document.body,-->
@@ -77,9 +77,9 @@ $(document).ready(function() {
     <!--});-->
   <!--});-->
 
-  $("form#scipycentral-new-account").submit(function() {
+  $("form#spc-new-account").submit(function() {
     var jqxhr1 = $.ajax({
-            url: "{% url scipycentral-new-valid %}",
+            url: "{% url spc-new-valid %}",
             data: 'which=all&' +
                   'new_username='  + $("[name=new_username]").val() +
                   '&new_email='    + $("[name=new_email]").val() +
@@ -99,7 +99,7 @@ $(document).ready(function() {
     return false;
   })
 
-  <!--$("#scipycentral-new-account").validate({-->
+  <!--$("#spc-new-account").validate({-->
     <!--onkeyup: true,-->
     <!--rules: {-->
       <!--'new_email': {required: true, email: true},-->
@@ -114,7 +114,7 @@ $(document).ready(function() {
 });
 </script>
 
-<form id="scipycentral-new-account" method="POST" class="scipycentral-ul-form">{% csrf_token %}
+<form id="spc-new-account" method="POST" class="spc-ul-form">{% csrf_token %}
 
  <div class="prompt" >
     <div class="holding " id="new_openid">
@@ -172,8 +172,8 @@ $(document).ready(function() {
     </div>
   </div>
 
-  <div class="scipycentral-button">
-    <input type="submit" value="Create an account for me" id="scipycentral-user-submit" />
+  <div class="spc-button">
+    <input type="submit" value="Create an account for me" id="spc-user-submit" />
   </div>
 
 

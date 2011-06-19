@@ -3,33 +3,33 @@
 {% block title %}SciPy Central{% endblock %}
 
 {% block content %}
-<div id="scipycentral-site-statement">
+<div id="spc-site-statement">
 A library of code snippets, modules and links for solving scientific problems
 with <a href="http://scipy.org">SciPy</a> and related Python tools.
 </div>
 
-<div id="scipycentral-search">
-  <form method="post" action="/search/" id="scipycentral-search-form">{% csrf_token %}
-  <input id="scipycentral-search-box" name="search_terms" type="search" placeholder="Search over all submissions" value="" />
-  <input id="scipycentral-search-button" type="submit" value="Search"/>
+<div id="spc-search">
+  <form method="post" action="/search/" id="spc-search-form">{% csrf_token %}
+  <input id="spc-search-box" name="search_terms" type="search" placeholder="Search over all submissions" value="" />
+  <input id="spc-search-button" type="submit" value="Search"/>
   </form>
   <!--TODO: Advanced search link-->
 </div>
 
-<div id="scipycentral-submission-type">
-  <form method="get" action="/item/new-snippet/" class="scipycentral-new-submission-form">
-    <input class="spc-button" id="scipycentral-submit-snippet-button" type="submit" value="Submit a code snippet/recipe"/>
+<div id="spc-submission-type">
+  <form method="get" action="/item/new-snippet/" class="spc-new-submission-form">
+    <input class="spc-button" id="spc-submit-snippet-button" type="submit" value="Submit a code snippet/recipe"/>
   </form>
-  <form method="post" action="/item/new-package/" class="scipycentral-new-submission-form">
-    <input class="spc-button" id="scipycentral-submit-package-button" type="submit" value="Submit a code package/library"/>
+  <form method="post" action="/item/new-package/" class="spc-new-submission-form">
+    <input class="spc-button" id="spc-submit-package-button" type="submit" value="Submit a code package/library"/>
   </form>
-  <form method="post" action="/item/new-link/" class="scipycentral-new-submission-form">
-    <input class="spc-button" id="scipycentral-submit-extlink-button" type="submit" value="Submit a link to an external scientific resource"/>
+  <form method="post" action="/item/new-link/" class="spc-new-submission-form">
+    <input class="spc-button" id="spc-submit-extlink-button" type="submit" value="Submit a link to an external scientific resource"/>
   </form>
 </div>
 
 
-<div class="scipycentral-portal" id="portal-top-left">
+<div class="spc-portal" id="portal-top-left">
 <h2>By subject</h2>
 <ul>
 {% for area in subject_area %}
@@ -38,7 +38,7 @@ with <a href="http://scipy.org">SciPy</a> and related Python tools.
 </ul>
 </div>
 
-<div class="scipycentral-portal" id="portal-top-right">
+<div class="spc-portal" id="portal-top-right">
 <h2>Top rated submissions</h2>
 <ul>
 {% for submission in top_rated %}
@@ -47,12 +47,12 @@ with <a href="http://scipy.org">SciPy</a> and related Python tools.
 </ul>
 </div>
 
-<div class="scipycentral-portal" id="portal-bottom-left">
+<div class="spc-portal" id="portal-bottom-left">
 <h2>Tag cloud</h2>
 {{tag_cloud_html}}
 </div>
 
-<div class="scipycentral-portal" id="portal-bottom-right">
+<div class="spc-portal" id="portal-bottom-right">
 <h2>Still to come</h2>
 </div>
 

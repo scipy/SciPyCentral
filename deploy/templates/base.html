@@ -16,52 +16,52 @@
 
     {% block body %}
 
-    <div id="scipycentral-container">
+    <div id="spc-container">
 
-      <div id="scipycentral-notice">
-      </div><!--#scipycentral-notice -->
+      <div id="spc-notice">
+      </div><!--#spc-notice -->
 
-      <div id="scipycentral-header">
-        <h1><a href="{% url scipycentral-main-page %}" title="Home page">SciPy Central</a></h1>
-      </div><!--#scipycentral-header -->
+      <div id="spc-header">
+        <h1><a href="{% url spc-main-page %}" title="Home page">SciPy Central</a></h1>
+      </div><!--#spc-header -->
 
 
-      <div class="scipycentral-navigation" id="scipycentral-navigation-top">
-        <div class="scipycentral-nav-links">
-          <div id="scipycentral-menu">
-            <div id="scipycentral-menu-left">
+      <div class="spc-navigation" id="spc-navigation-top">
+        <div class="spc-nav-links">
+          <div id="spc-menu">
+            <div id="spc-menu-left">
               <!--<a href="">Make a Submission</a>-->
             </div>
-            <div id="scipycentral-menu-right">
+            <div id="spc-menu-right">
               <a href="{% url spc-login-signin %}">Sign In</a>
             </div>
           </div><!--menu-->
         </div>
-      </div><!--#scipycentral-navigation-->
+      </div><!--#spc-navigation-->
 
 
-      <div id="scipycentral-contentwrap">
-        <div id="scipycentral-content-main">
-          <div id="scipycentral-border">
-            <div id="scipycentral-section-body">
+      <div id="spc-contentwrap">
+        <div id="spc-content-main">
+          <div id="spc-border">
+            <div id="spc-section-body">
               {% block content %}{% endblock %}
-            </div><!--#scipycentral-section-body-->
-          </div><!--#scipycentral-border-->
-        </div><!--scipycentral-content-main-->
-      </div><!--#scipycentral-contentwrap-->
+            </div><!--#spc-section-body-->
+          </div><!--#spc-border-->
+        </div><!--spc-content-main-->
+      </div><!--#spc-contentwrap-->
 
-      <div id="scipycentral-navigation-bottom" class="scipycentral-navigation">
-        <div class="scipycentral-nav-links">
-        <a href="{% url scipycentral-about-page %}">About this site</a>
+      <div id="spc-navigation-bottom" class="spc-navigation">
+        <div class="spc-nav-links">
+        <a href="{% url spc-about-page %}">About this site</a>
         </div>
-      </div> <!--#scipycentral-navigation-bottom-->
-      <div id="scipycentral-footer">
+      </div> <!--#spc-navigation-bottom-->
+      <div id="spc-footer">
         Trademarks are property of their respective owners. Code and comments are owned by their respective posters. © {{the_year}} All Rights Reserved.
         <hr />
          | Sponsor: <a href="http://connectmv.com/">ConnectMV, Inc.</a>
-      </div><!--#scipycentral-footer-->
+      </div><!--#spc-footer-->
 
-    </div><!--#scipycentral-container-->
+    </div><!--#spc-container-->
 
   {% endblock %}
 </body>

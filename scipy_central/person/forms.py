@@ -23,14 +23,14 @@ class Inline_Signin_Create_Form(forms.Form):
     Does this inline with the rest of the form elements, so that user doesn't
     have to come back and repeat the task they were starting.
     """
-    required_css_class = 'scipycentral-form-required'
-    error_css_class = 'scipycentral-form-error'
+    required_css_class = 'spc-form-required'
+    error_css_class = 'spc-form-error'
 
     email_openid = forms.CharField(label=mark_safe('Your <a href="http://ope'
             'nid.net/get-an-openid/individuals/" target="_blank">OpenID URL'
             '</a> that begins with <tt>http://</tt> or your email address'),
             initial='http://...     or    user@example.com',
-            help_text=('<a class="scipycentral-small-uri" target="_blank"'
+            help_text=('<a class="spc-small-uri" target="_blank"'
                 'href="http://openid.net/get-an-openid/">Get an OpenID</a>'))
 
     # Ideally would like to use a template tag for the Reset Password URL,
@@ -38,8 +38,8 @@ class Inline_Signin_Create_Form(forms.Form):
     password = forms.CharField(max_length=255, label=mark_safe((''
                        'Enter a new password (if creating an account), or '
                        'enter your existing SciPy Central password')),
-                        help_text=('<a target="_blank" class="scipycentral-'
-                                   'small-uri" href="/user/reset-password/">'
+                        help_text=('<a target="_blank" class="spc-small-uri"'
+                                   'href="/user/reset-password/">'
                                    'Forgot password?</a>'),
                         widget=forms.PasswordInput(render_value=False))
 

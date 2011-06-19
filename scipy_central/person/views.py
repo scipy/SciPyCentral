@@ -182,7 +182,7 @@ def create_new_account(request):
         # Redirect user to a page where they enter the validation code from their
         # email.
 
-        #return redirect(new_user)# redirect(new_user) #'scipycentral-user-profile', new_user.username_slug)
+        #return redirect(new_user)# redirect(new_user) #'spc-user-profile', new_user.username_slug)
 
     else:
         form = LoginForm()

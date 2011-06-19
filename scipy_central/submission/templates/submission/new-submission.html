@@ -74,18 +74,18 @@
 
 <h1>Create a new submission</h1>
 
-<div class="scipycentral-form">
+<div class="spc-form">
 <form action="{% url spc-new-snippet-submission %}"
-  method="POST" class="scipycentral-ul-form" enctype="multipart/form-data">
+  method="POST" class="spc-ul-form" enctype="multipart/form-data">
   {% csrf_token %}
 
   {{snippet.as_ul}}
 
-  <div id="scipycentral-tagging-step">
+  <div id="spc-tagging-step">
   </div>
 
-  <div id="scipycentral-preview-submit" style="overflow: hidden">
-    <input type="submit" value="Preview entry" id="scipycentral-item-submit" />
+  <div id="spc-preview-submit" style="overflow: hidden">
+    <input type="submit" value="Preview entry" id="spc-item-submit" />
   </div>
 </form>
 </div>

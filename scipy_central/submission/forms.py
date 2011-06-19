@@ -33,7 +33,7 @@ class SnippetForm(Submission_Form__Common_Parts, ScreenshotForm):
     # views.py under the ``new_snippet_submission(...)`` function.
 
     snippet = forms.CharField(label="Copy and paste your code snippet/recipe",
-        widget=forms.Textarea(attrs={'class':'scipycentral-code-snippet',
+        widget=forms.Textarea(attrs={'class':'spc-code-snippet',
                                       'cols': 80, 'rows': 20}),
         #help_text=('This code will be licensed under the <a target="_blank" '
         #           'href="/licenses">CC0</a> license, which allows other '
