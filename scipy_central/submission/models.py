@@ -42,6 +42,7 @@ class Submission(models.Model):
 
     # Original submitter
     created_by = models.ForeignKey('person.UserProfile', null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True, editable=False)
 
     # Total dowloads: sum of all downloads (code snippets) and total
     # outgoing clicks (for links)
@@ -50,8 +51,8 @@ class Submission(models.Model):
     # Total pageviews: sum of all views
     tot_pageviews = models.PositiveIntegerField(default=0)
 
-    # n_revisions: total number of revisions
-    tot_revisions = models.PositiveIntegerField(default=0)
+    # num_revisions: total number of revisions to this submission
+    #num_revisions = models.PositiveIntegerField(default=0)
 
     # frozen: no further revisions allowed
     frozen = models.BooleanField(default=False)
@@ -76,11 +77,15 @@ class Submission(models.Model):
             return None
 
     @property
+    def num_revisions(self):
+        return self.revisions.count()
+
+    @property
     def slug(self):
         return self.last_revision.slug
 
     def __unicode__(self):
-        return self.slug + '::rev-' + str(self.tot_revisions)
+        return self.slug + '::rev-' + str(self.num_revisions)
 
 
 class Revision(models.Model):
@@ -163,6 +168,9 @@ class Revision(models.Model):
     # vote_for_inclusion_in_scipy [ForeignKey]
 
     # modules (list of modules required to run the code)
+
+    def __unicode__(self):
+        return self.title + '::' + str(self.author.username)
 
 
     def save(self, *args, **kwargs):

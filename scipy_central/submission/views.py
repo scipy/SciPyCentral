@@ -210,9 +210,11 @@ def view_snippet(request, snippet_id, slug=None, revision=None):
         return render_to_response('submission/invalid-item-requested.html',
                                  {}, context_instance=RequestContext(request))
 
+    the_revision = the_snippet.last_revision
     return render_to_response('submission/entry.html', {},
                               context_instance=RequestContext(request,
-                                                    {'snippet': the_snippet}))
+                                                {'submission': the_snippet,
+                                                 'item': the_revision}))
 
 
 

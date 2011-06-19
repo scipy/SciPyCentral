@@ -1,115 +1,33 @@
 {% extends "base.html" %}
 
 {% block title %}
-{{entry.title}}
+{{item.title}}
 {% endblock %}
 
 {% block content %}
 
-<h1>{{entry.title}} [{{entry.entry_type}}]</h1>
+  <h1>{{item.title}}</h1>
 
-{% ifperm can_edit_entry entry %}
-<a href="{% url scipyshare.catalog.views.edit_entry entry.slug %}">Edit entry</a>
-{% endifperm %}
-{% ifperm can_tag_entry entry %}
-<a href="{% url scipyshare.community.views.assign_tags entry.slug %}">Edit tags</a>
-{% endifperm %}
+  <dl>
 
-<dl>
+  <dt>Original author: </dt>
+  <dd><a href="{% url scipy_central.person.views.profile_page item.author.username_slug %}">{{item.author.username}}</a></dd>
 
-<dt>Description</dt>
-<dd>{{revision.description}}</dd>
+  <dt>Revisions for this {{submission.sub_type}}:</dt>
+  <dd>{{submission.num_revisions}}</dd>
 
-<dt>License</dt>
-<dd>{{revision.license.name}}</dd>
+  <dt>Created:</dt>
+  <dd>{{item.date_created|date}}</dd>
 
-<dt>Author</dt>
-<dd>{{revision.author}}</dd>
+  {% ifnotequal submission.num_revisions 1 %}
+  <dt>Last modified:</dt>
+  <dd>{{item.date_created|date}}</dd>
+  {% endifnotequal %}
 
-<dt>Created</dt>
-<dd>{{revision.created}}</dd>
+  <dt>Code</dt>
+  <dd>STILL TO COME</dd>
 
-<dt>Modified</dt>
-<dd>{{entry.modified}}</dd>
-
-<dt>Tags</dt>
-<dd>
-{% tag_list entry %}
-</dd>
-
-{% if revision.url %}
-<dt>Home page</dt>
-<dd><a rel="nofollow" href="{{revision.url}}">{{revision.url}}</a></dd>
-{% endif %}
-
-{% if revision.pypi_name %}
-<dt>Package on Python Package Index</dt>
-<dd><a rel="nofollow" href="http://python.org/pypi/{{revision.pypi_name}}/">{{revision.pypi_name}}</a></dd>
-{% endif %}
-
-{% if fileset %}
-<dt>Files</dt>
-<dd>
-{% for file in fileset.listdir %}
-<a href="{% url scipyshare.catalog.views.download entry.slug file %}">{{ file }}</a>
-{% endfor %}
-</dd>
-{% endif %}
-
-{% if entry.owner %}
-<dt>Managed by</dt>
-<dd>
-TODO
-</dd>
-{% endif %}
-
-</dl>
-
-{% if snippet %}
-<h2>The code snippet</h2>
-<a href="{% url scipyshare.catalog.views.download entry.slug "snippet.py" %}">[raw]</a>
-<pre>{{ snippet }}</pre>
-{% endif %}
-
-<div class="comments">
-<h2>Comments</h2>
-
-{% render_comment_list for entry %}
-
-{% ifperm can_comment %}
-{% get_comment_form for entry as form %}
-<table>
-<form action="{% comment_form_target %}" method="post">
-  {% csrf_token %}
-  {% for field in form %}
-  {% ifequal field.name "email" %}
-  {% else %}
-  {% ifequal field.name "name" %}
-  {% else %}
-  {% ifequal field.name "url" %}
-  {% else %}
-  {% ifequal field.name "honeypot" %}
-  <p style="display:none;">{{ field.label_tag }}: {{ field }}</p>
-  {% else %}
-  {% if field.is_hidden %}
-  <span style="display:none;">{{ field }}</span>
-  {% else %}
-  <p>{{ field.label_tag }}: {{ field }}</p>
-  {% endif %}
-  {% endifequal %}
-  {% endifequal %}
-  {% endifequal %}
-  {% endifequal %}
-  {% endfor %}
-  <input type="hidden" name="next" value="{% url scipyshare.catalog.views.view entry.slug %}">
-  <tr>
-    <td></td>
-    <td><input type="submit" name="preview" class="submit-post" value="Preview"></td>
-  </tr>
-</form>
-</table>
-{% endifperm %}
-
-</div>
+  <p>Links to add: update this {{submission.sub_type}}
+  <p>Links to add: add tags
 
 {% endblock %}

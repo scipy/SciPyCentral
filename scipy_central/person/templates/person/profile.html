@@ -3,10 +3,13 @@
 {% block title %}Sign-in page{% endblock %}
 
 {% block body %}
-Welcome! You are now signed in.
 
-<form action="{% url scipy_central.person.views.logout_page %}" method="POST">
-  {% csrf_token %}
-  <input type="submit" name="submit" value="Sign out" />
-</form>
+You are user {{user.username}}
+
+<!--Welcome! You are now signed in.-->
+
+<!--<form action="{% url scipy_central.person.views.logout_page %}" method="POST">-->
+  <!--{% csrf_token %}-->
+  <!--<input type="submit" name="submit" value="Sign out" />-->
+<!--</form>-->
 {% endblock %}
