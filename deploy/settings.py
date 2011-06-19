@@ -212,6 +212,9 @@ except IOError:
 
         # Default name of license file (e.g. 'LICENSE.TXT')
         'license_filename': 'LICENSE.TXT',
+
+        # Short link URL root (must end with a trailing slash)
+        'short_URL_root': 'http://scpyce.org/'
     }
 
 

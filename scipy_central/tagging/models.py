@@ -21,13 +21,17 @@ def parse_tags(tagstring):
 
     tagstring = force_unicode(tagstring)
 
+    # SPC: removing this: we require commas to separate multiword tags
     # Special case - if there are no commas or double quotes in the
     # input, we don't *do* a recall... I mean, we know we only need to
     # split on spaces.
+    #if u',' not in tagstring and u'"' not in tagstring:
+        #words = list(set(split_strip(tagstring, u' ')))
+        #words.sort()
+        #return words
+
     if u',' not in tagstring and u'"' not in tagstring:
-        words = list(set(split_strip(tagstring, u' ')))
-        words.sort()
-        return words
+        tagstring += ','
 
     words = []
     buffer = []
@@ -133,21 +137,4 @@ class Tag(models.Model):
         else:
             # Call the "real" save() method.
             self.slug = slug
-            # From https://github.com/alex/django-taggit/blob/master/taggit/
-            #import django
-            #if django.VERSION >= (1, 2):
-                #from django.db import router
-                #using = kwargs.get("using") or router.db_for_write(
-                    #type(self), instance=self)
-                ## Make sure we write to the same db for all attempted writes,
-                ## with a multi-master setup, theoretically we could try to
-                ## write and rollback on different DBs
-                #kwargs["using"] = using
-                #trans_kwargs = {"using": using}
-
             super(Tag, self).save(*args, **kwargs)
-            #from django.db import transaction
-            #sid = transaction.savepoint(**trans_kwargs)
-            #res = super(Tag, self).save(*args, **kwargs)
-            #transaction.savepoint_commit(sid, **trans_kwargs)
-            #return res

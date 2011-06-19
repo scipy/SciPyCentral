@@ -77,13 +77,11 @@ def create_new_submission_and_revision(request, snippet, authenticated):
                             item_url = None,
                             )
 
-    # Add the tags afterwards:
+    # Add the tags afterwards and save the revision
     for tag in tag_list:
         rev.tags.add(tag)
 
-    # Save the revision
     rev.save()
-
     logger.info('New snippet: %s [id=%d] and revision id=%d' % (
                                             snippet.cleaned_data['title'],
                                             sub.id,
@@ -125,7 +123,6 @@ def new_snippet_submission(request):
             snippet.fields.pop('email')
 
         return snippet
-
 
     if request.method == 'POST':
         extra_messages = []

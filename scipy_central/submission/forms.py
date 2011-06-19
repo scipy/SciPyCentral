@@ -49,8 +49,10 @@ class SnippetForm(Submission_Form__Common_Parts, ScreenshotForm):
     sub_type = forms.CharField(max_length=10, initial='snippet',
                                widget=forms.HiddenInput())
 
-    sub_tags = forms.CharField(max_length=50)#, widget=JQueryAutoComplete(\
-                                              #  '/item/tag_autocomplete'))
+    sub_tags = forms.CharField(max_length=50, label='Tag your submission',
+                               help_text=('Please provide between 1 and 5 tags'
+                                          ' that describe your code (use '
+                                          'commas to separate tags)'))
 
 class PackageForm(Submission_Form__Common_Parts, ScreenshotForm):
     """
