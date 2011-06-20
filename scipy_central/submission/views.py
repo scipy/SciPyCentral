@@ -1,11 +1,9 @@
-from django.http import HttpResponse, HttpResponseBadRequest
-from django.shortcuts import render_to_response, get_object_or_404
-from django.template import RequestContext, loader
+from django.http import HttpResponse
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.cache import cache_page
 from django.utils import simplejson
 from django.template.loader import get_template
 
@@ -53,7 +51,7 @@ def create_new_submission_and_revision(request, snippet, authenticated):
         sshot_name = '_raw_' + sub.slug + '__' + \
                                          request.FILES['screenshot'].name
         sshot = ScreenshotClass()
-        sshot.img_file_raw.save(sshot_name,\
+        sshot.img_file_raw.save(sshot_name, \
                         ContentFile(request.FILES['screenshot'].read()))
         sshot.save()
     else:
@@ -240,11 +238,6 @@ def tag_autocomplete(request):
 
     Parts from http://djangosnippets.org/snippets/233/
     """
-    def iter_results(results):
-        if results:
-            for r in results:
-                yield '%s|%s\n' % (r.slug, r.id)
-
     # TODO(KGD): cache this lookup for 30 minutes
     # Also, randomize the tag order to prevent only the those with lower
     # primary keys from being shown more frequently
