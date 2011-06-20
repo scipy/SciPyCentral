@@ -22,7 +22,7 @@ class License(models.Model):
         permissions = (("can_edit", "Can edit this license"),)
 
 class SubmissionManager(models.Manager):
-    def all(self, keyword):
+    def all(self):
         return self.filter(is_displayed=True)
 
 class Submission(models.Model):
@@ -145,15 +145,6 @@ class Revision(models.Model):
     hash_id = models.CharField(max_length=40, null=True, blank=True,
                                editable=False)
 
-    # These should be in another app
-    ## Number of downloads
-    #n_downloads_clicks = models.IntegerField(default=0,
-                            #verbose_name='Number of downloads or page clicks')
-
-    ## number of full-page views of this submission
-    #n_views = models.IntegerField(default=0,
-                                  #verbose_name='Number of page views')
-
     # For snippet submissions
     item_code = models.TextField()
     item_highlighted_code = models.TextField(editable=False)
@@ -175,6 +166,15 @@ class Revision(models.Model):
 
     # modules (list of modules required to run the code)
 
+    # These should be in another app
+    ## Number of downloads
+    #n_downloads_clicks = models.IntegerField(default=0,
+                            #verbose_name='Number of downloads or page clicks')
+
+    ## number of full-page views of this submission
+    #n_views = models.IntegerField(default=0,
+                                  #verbose_name='Number of page views')
+
     def __unicode__(self):
         return self.title + '::' + str(self.author.username)
 
@@ -188,8 +188,9 @@ class Revision(models.Model):
         # TODO(KGD):
         self.description_html = 'DESCRIPTION HTML TO BE CREATED STILL'
 
+        a = formatters.HtmlFormatter().get_style_defs('.highlight')
         self.item_highlighted_code = highlight(self.item_code,
-                                               lexers.PythonLexer,
+                                               lexers.PythonLexer(),
                                        formatters.HtmlFormatter(linenos=True))
 
         # Call the "real" save() method.

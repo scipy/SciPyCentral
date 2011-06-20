@@ -21,6 +21,8 @@ urlpatterns = patterns('',
 )
 
 if settings.DEBUG:
+    # Small problem: cannot show 404 templates /media/....css file, because
+    # 404 gets overridden by Django when in debug mode
     urlpatterns += patterns(
         '',
         (r'^media/(?P<path>.*)$',

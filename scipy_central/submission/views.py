@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpResponseBadRequest
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext, loader
 from django.conf import settings
 from django.core.files.base import ContentFile
@@ -7,6 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_page
 from django.utils import simplejson
+from django.template.loader import get_template
 
 # Imports from this app and other SPC apps
 from scipy_central.screenshot.forms import ScreenshotForm as ScreenshotForm
@@ -208,8 +209,11 @@ def view_snippet(request, snippet_id, slug=None, revision=None):
         show_error = True
 
     if show_error or not(the_snippet.is_displayed):
-        return render_to_response('submission/invalid-item-requested.html',
-                                 {}, context_instance=RequestContext(request))
+        # Since ``render_to_response`` doesn't yet support status codes, do
+        # this manually
+        t = get_template('404.html')
+        html = t.render(RequestContext(request))
+        return HttpResponse(html, status=404)
 
     the_revision = the_snippet.last_revision
     return render_to_response('submission/entry.html', {},

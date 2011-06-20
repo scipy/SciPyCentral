@@ -38,7 +38,8 @@ class SnippetForm(Submission_Form__Common_Parts, ScreenshotForm):
         #help_text=('This code will be licensed under the <a target="_blank" '
         #           'href="/licenses">CC0</a> license, which allows other '
         #           'users to freely use it.')
-        initial="# Code licensed under the Creative Commons Zero license.",
+        initial=('# Code licensed under the Creative Commons Zero license, '
+                 'http://scpyce.org/cczero'),
         )
 
     sub_license = forms.ModelChoiceField(License.objects.filter(slug='CC0'),
