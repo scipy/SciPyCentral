@@ -1,11 +1,23 @@
 from django import forms
+from django.forms.forms import BoundField
+from django.utils.safestring import mark_safe
 from models import License, Revision
 from scipy_central.screenshot.forms import ScreenshotForm as ScreenshotForm
 
 required_css_class = 'spc-form-required'
 error_css_class = 'spc-form-error'
 
-class Submission_Form__Common_Parts(forms.Form):
+# From: http://djangosnippets.org/snippets/316/
+class HiddenBaseForm(forms.BaseForm):
+    def as_hidden(self):
+        """
+        Returns this form rendered entirely as hidden fields.
+        """
+        return mark_safe(u'\n'.join(BoundField(self, field, name).as_hidden() \
+                                    for name, field in self.fields.items()))
+    as_hidden.needs_autoescape = True
+
+class Submission_Form__Common_Parts(HiddenBaseForm, forms.Form):
     """
     The common parts to all submissions:
 
@@ -48,7 +60,7 @@ class SnippetForm(Submission_Form__Common_Parts, ScreenshotForm):
         help_text='<a href="/licenses">More on licenses</a>')
 
     sub_type = forms.CharField(max_length=10, initial='snippet',
-                               widget=forms.HiddenInput())
+                               widget=forms.HiddenInput(), required=False)
 
     sub_tags = forms.CharField(max_length=50, label='Tag your submission',
                                help_text=('Please provide between 1 and 5 tags'

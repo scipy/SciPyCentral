@@ -156,8 +156,8 @@ def preview_snippet_submission(request):
 
         # 2. Create the submission and revision and email the user
         sub, rev, _ = create_new_submission_and_revision(request,
-                                                               snippet,
-                                                     authenticated=False)
+                                                         snippet,
+                                                         authenticated)
 
         extra_html = """
         <form action="/item/new-snippet-preview"
@@ -171,10 +171,12 @@ def preview_snippet_submission(request):
         # Create the 3-button form via a template to account for hyperlinks
         # and CSRF
         context = RequestContext(request)
+        context['snippet'] = snippet
         html = ('<div id="spc-preview-edit-submit" class="spc-form">'
                 '<form action="{% url spc-new-snippet-submit %}" '
                 'method="POST" enctype="multipart/form-data">\n'
                 '{% csrf_token %}\n'
+                '{{snippet.as_hidden}}'
                 '<input type="submit" name="spc-cancel" value="Cancel"'
                 'id="spc-item-cancel" />\n'
                 '<input type="submit" name="spc-edit"   value="Edit"'
@@ -190,7 +192,7 @@ def preview_snippet_submission(request):
                                                    'item': rev,
                                                    'extra_html': extra_html,
                                                    'wrapper_id': 'preview',
-                                                   'unvalidated_user': True}))
+                                          'unvalidated_user': authenticated}))
     else:
         return render_to_response('submission/new-submission.html', {},
                               context_instance=RequestContext(request,
@@ -229,6 +231,7 @@ def submit_snippet_submission(request):
         repo_path = settings.SPC['storage_dir'] + year + os.sep + month
         repo_path += os.sep + '%06d%s' % (rev.id, os.sep)
         sub.fileset = FileSet.objects.create(repo_path=repo_path)
+        sub.is_preview = False
         sub.save()
 
         fname = rev.slug.replace('-', '_') + '.py'
