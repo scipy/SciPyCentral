@@ -1,0 +1,16 @@
+Background
+==========
+Original code based on https://github.com/pv/scipyshare/ by Jason Grout and 
+Pauli Virtanen, May 2011.
+
+Current code was reworked from the above, and extended by Kevin Dunn in May
+and June 2011.
+
+License
+=======
+All code is BSD-licensed. Contributors must agree to have their contributions
+placed under this license. See ``LICENSE`` for the full license agreement.
+
+Subsequent contributors
+=======================
+
