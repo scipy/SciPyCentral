@@ -3,11 +3,11 @@ Prerequisites
 
 Please ensure these Python packages are available on your server:
 
-*   http://djangoproject.com: ``easy_install -U pygments`
+*   Django, http://djangoproject.com: ``easy_install -U django`
 
     We developed on Django 1.3.0; earlier versions may also work.
 
-*   `Pygments <http://pygments.org>`_: ``easy_install -U pygments``
+*   Pygments, http://pygments.org: ``easy_install -U pygments``
 
     We used version 1.4 during development; earlier versions may also work.
 
