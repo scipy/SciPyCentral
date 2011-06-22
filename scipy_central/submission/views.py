@@ -1,11 +1,13 @@
 from django.http import HttpResponse
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.core.exceptions import ObjectDoesNotExist
+#from django.core.context_processors import csrf
 from django.utils import simplejson
 from django.template.loader import get_template
+from django import template
 
 # Imports from this app and other SPC apps
 from scipy_central.screenshot.forms import ScreenshotForm as ScreenshotForm
@@ -99,99 +101,172 @@ def create_new_submission_and_revision(request, snippet, authenticated):
         # order for their submission to start being displayed on the website.
         message = ''
 
-    send_email(user.email, "Thanks for your submission to SciPy Central",
-               message=message)
+    return sub, rev, message
 
-    return sub, rev
+def get_snippet_form(request, unbound=True):
+    if unbound:
+        snippet = forms.SnippetForm()
+    else:
+        snippet = forms.SnippetForm(data=request.POST)
+
+    # Rearrange the form order: screenshot and tags at the end
+    snippet.fields.keyOrder = ['title', 'summary', 'snippet',
+                               'sub_license', 'screenshot', 'sub_tags',
+                               'email', 'sub_type']
+
+    if request.user.is_authenticated():
+        # Email field not required for signed-in users
+        snippet.fields.pop('email')
+
+    return snippet
 
 def new_snippet_submission(request):
     """
     Users wants to submit a new item via the web.
     """
-    def get_snippet_form(request, unbound=True):
-        if unbound:
-            snippet = forms.SnippetForm()
-        else:
-            snippet = forms.SnippetForm(data=request.POST)
+    snippet = get_snippet_form(request)
+    return render_to_response('submission/new-submission.html', {},
+                              context_instance=RequestContext(request,
+                                                        {'snippet': snippet}))
 
-        # Rearrange the form order: screenshot and tags at the end
-        snippet.fields.keyOrder = ['title', 'summary', 'snippet',
-                                   'sub_license', 'screenshot', 'sub_tags',
-                                   'email', 'sub_type']
+def preview_snippet_submission(request):
+    """
+    Users wants to preview a new snippet.
+    """
+    if request.method != 'POST':
+        return redirect('spc-new-snippet-submission')
 
-        if request.user.is_authenticated():
-            # Email field not required for signed-in users
-            snippet.fields.pop('email')
+    extra_messages = []
 
-        return snippet
+    # Use the built-in forms checking to validate the fields.
+    valid_fields = []
+    snippet = get_snippet_form(request, unbound=False)
+    sshot = ScreenshotForm(request.POST, request.FILES)
+    valid_fields.append(snippet.is_valid())
+    valid_fields.append(sshot.is_valid())
 
-    if request.method == 'POST':
-        extra_messages = []
+    if all(valid_fields):
+        # 1. Create user account, if required
+        authenticated = True
+        if not(request.user.is_authenticated()):
+            user = create_new_account_internal(\
+                                            snippet.cleaned_data['email'])
+            request.user = user
+            authenticated = False
 
-        # Use the built-in forms checking to validate the fields.
-        valid_fields = []
-        snippet = get_snippet_form(request, unbound=False)
-        sshot = ScreenshotForm(request.POST, request.FILES)
-        valid_fields.append(snippet.is_valid())
-        valid_fields.append(sshot.is_valid())
+        # 2. Create the submission and revision and email the user
+        sub, rev, _ = create_new_submission_and_revision(request,
+                                                               snippet,
+                                                     authenticated=False)
 
-        if all(valid_fields):
-            # 1. Create user account, if required
-            authenticated = True
-            if not(request.user.is_authenticated()):
-                user = create_new_account_internal(\
-                                                snippet.cleaned_data['email'])
-                request.user = user
-                authenticated = False
+        extra_html = """
+        <form action="/item/new-snippet-preview"
+  method="POST" class="spc-ul-form" enctype="multipart/form-data">
 
-            # 2. Create the submission and revision and email the user
-            sub, rev = create_new_submission_and_revision(request, snippet,
-                                                     authenticated)
-
-            # 3. Create entry on hard drive in a repo
-            datenow = datetime.datetime.now()
-            year, month = datenow.strftime('%Y'), datenow.strftime('%m')
-            repo_path = settings.SPC['storage_dir'] + year + os.sep + month
-            repo_path += os.sep + '%06d%s' % (rev.id, os.sep)
-            sub.fileset = FileSet.objects.create(repo_path=repo_path)
-            sub.save()
-
-            fname = rev.slug.replace('-', '_') + '.py'
-            commit_msg = ('SPC: auto add "%s" and license to the repo based '
-                          'on the web submission by user "%s"') % (fname,
-                                                        request.user.username)
-            sub.fileset.add_file_from_string(fname, request.POST['snippet'])
-
-            license_file = settings.SPC['license_filename']
-            license_text = get_license_text(rev)
-            sub.fileset.add_file_from_string(license_file, license_text,
-                                             commit_msg)
-
-            # 4. Thank user and return with any extra messages
-            if authenticated:
-                extra_messages = ('A confirmation email has been sent to you.')
-            else:
-                extra_messages  = ('You have been sent an email to '
-                                    'confirm your submission and to create '
-                                    'an account (if you do not have one '
-                                    'already). <p>Unconfirmed submissions '
-                                    'cannot be accepted, and will be '
-                                    'deleted after %d days. Please sign-in '
-                                    'to avoid having to confirm your '
-                                    'valuable submissions in the future.') % \
-                                settings.SPC['unvalidated_subs_deleted_after']
-            return render_to_response('submission/thank-user.html',
-                                      {'extra_message': extra_messages})
-        else:
-            return render_to_response('submission/new-submission.html', {},
+          <input type="submit" name="spc-cancel" value="Cancel"       id="spc-item-cancel" />
+          <input type="submit" name="spc-edit"   value="Edit"         id="spc-item-edit" />
+          <input type="submit" name="spc-submit" value="Submit entry" id="spc-item-submit" />
+        </div>
+        """
+        # Create the 3-button form via a template to account for hyperlinks
+        # and CSRF
+        context = RequestContext(request)
+        html = ('<div id="spc-preview-edit-submit" class="spc-form">'
+                '<form action="{% url spc-new-snippet-submit %}" '
+                'method="POST" enctype="multipart/form-data">\n'
+                '{% csrf_token %}\n'
+                '<input type="submit" name="spc-cancel" value="Cancel"'
+                'id="spc-item-cancel" />\n'
+                '<input type="submit" name="spc-edit"   value="Edit"'
+                'id="spc-item-edit" />\n'
+                '<input type="submit" name="spc-submit" value="Submit entry"'
+                'id="spc-item-submit" />\n'
+                '</form></div>')
+        resp = template.Template(html)
+        extra_html = resp.render(template.Context(context))
+        return render_to_response('submission/snippet.html', {},
                                   context_instance=RequestContext(request,
-                                                {'snippet': snippet}))
-
-    elif request.method == 'GET':
-        snippet = get_snippet_form(request)
+                                                  {'submission': sub,
+                                                   'item': rev,
+                                                   'extra_html': extra_html,
+                                                   'wrapper_id': 'preview',
+                                                   'unvalidated_user': True}))
+    else:
         return render_to_response('submission/new-submission.html', {},
-                                  context_instance=RequestContext(request,
-                                                {'snippet': snippet}))
+                              context_instance=RequestContext(request,
+                                            {'snippet': snippet}))
+
+def submit_snippet_submission(request):
+    if request.method != 'POST':
+        return redirect('spc-new-snippet-submission')
+
+    extra_messages = []
+
+    # Use the built-in forms checking to validate the fields.
+    valid_fields = []
+    snippet = get_snippet_form(request, unbound=False)
+    sshot = ScreenshotForm(request.POST, request.FILES)
+    valid_fields.append(snippet.is_valid())
+    valid_fields.append(sshot.is_valid())
+
+    if all(valid_fields):
+        # 1. Create user account, if required
+        authenticated = True
+        if not(request.user.is_authenticated()):
+            user = create_new_account_internal(\
+                                            snippet.cleaned_data['email'])
+            request.user = user
+            authenticated = False
+
+        # 2. Create the submission and revision and email the user
+        sub, rev, message = create_new_submission_and_revision(request,
+                                                               snippet,
+                                                               authenticated)
+
+        # 3. Create entry on hard drive in a repo
+        datenow = datetime.datetime.now()
+        year, month = datenow.strftime('%Y'), datenow.strftime('%m')
+        repo_path = settings.SPC['storage_dir'] + year + os.sep + month
+        repo_path += os.sep + '%06d%s' % (rev.id, os.sep)
+        sub.fileset = FileSet.objects.create(repo_path=repo_path)
+        sub.save()
+
+        fname = rev.slug.replace('-', '_') + '.py'
+        commit_msg = ('SPC: auto add "%s" and license to the repo based '
+                      'on the web submission by user "%s"') % (fname,
+                                                    request.user.username)
+        sub.fileset.add_file_from_string(fname, request.POST['snippet'])
+
+        license_file = settings.SPC['license_filename']
+        license_text = get_license_text(rev)
+        sub.fileset.add_file_from_string(license_file, license_text,
+                                         commit_msg)
+
+        # 4. Thank user and return with any extra messages
+        if authenticated:
+            extra_messages = ('A confirmation email has been sent to you.')
+        else:
+            extra_messages  = ('You have been sent an email to '
+                                'confirm your submission and to create '
+                                'an account (if you do not have one '
+                                'already). <p>Unconfirmed submissions '
+                                'cannot be accepted, and will be '
+                                'deleted after %d days. Please sign-in '
+                                'to avoid having to confirm your '
+                                'valuable submissions in the future.') % \
+                            settings.SPC['unvalidated_subs_deleted_after']
+
+        return render_to_response('submission/thank-user.html',
+                                  {'extra_message': extra_messages})
+    else:
+        return render_to_response('submission/new-submission.html', {},
+                              context_instance=RequestContext(request,
+                                            {'snippet': snippet}))
+
+    send_email(user.email, "Thanks for your submission to SciPy Central",
+               message=message)
+
+    pass
 
 def view_snippet(request, snippet_id, slug=None, revision=None):
     """
@@ -214,12 +289,11 @@ def view_snippet(request, snippet_id, slug=None, revision=None):
         return HttpResponse(html, status=404)
 
     the_revision = the_snippet.last_revision
-    return render_to_response('submission/entry.html', {},
+    return render_to_response('submission/snippet.html', {},
                               context_instance=RequestContext(request,
                                                 {'submission': the_snippet,
-                                                 'item': the_revision}))
-
-
+                                                 'item': the_revision,
+                                                 'extra_html': ''}))
 
 def get_license_text(rev):
     """

@@ -75,7 +75,7 @@
 <h1>Create a new submission</h1>
 
 <div class="spc-form">
-<form action="{% url spc-new-snippet-submission %}"
+<form action="{% url spc-new-snippet-preview %}"
   method="POST" class="spc-ul-form" enctype="multipart/form-data">
   {% csrf_token %}
 
@@ -84,8 +84,8 @@
   <div id="spc-tagging-step">
   </div>
 
-  <div id="spc-preview-submit" style="overflow: hidden">
-    <input type="submit" value="Preview entry" id="spc-item-submit" />
+  <div id="spc-preview-edit-submit">
+    <input type="submit" name="spc-preview" value="Preview entry" id="spc-item-preview" />
   </div>
 </form>
 </div>

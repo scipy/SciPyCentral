@@ -23,7 +23,7 @@ class License(models.Model):
 
 class SubmissionManager(models.Manager):
     def all(self):
-        return self.filter(is_displayed=True)
+        return self.filter(is_displayed=True).filter(is_preview=False)
 
 class Submission(models.Model):
     """
@@ -63,9 +63,14 @@ class Submission(models.Model):
 
     # Should this submission be displayed? One might decide to remove
     # submissions from display if they violate licenses, or are improper in
-    # some way. Also set False for submissions by users that submit when not
+    # some way.
+    # Also set False for submissions by users that submit when not
     # authenticated.
     is_displayed = models.BooleanField(default=False)
+
+    # For submissions created only for previewing. Is set to False once the
+    # submission is actually submitted.
+    is_preview = models.BooleanField(default=True)
 
     # FUTURE
     # ------

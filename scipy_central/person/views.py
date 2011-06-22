@@ -147,8 +147,8 @@ def create_new_account_internal(email):
     if len(previous) > 0:
         return previous[0]
 
-    new_user = models.UserProfile.objects.create(username = email,
-                                                 email = email)
+    new_user = models.UserProfile.objects.create(username=email,
+                                                 email=email)
     temp_password = ''.join([random.choice('abcdefghjkmnpqrstuvwxyz2345689')\
                              for i in range(50)])
     new_user.set_password(temp_password)

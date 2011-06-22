@@ -6,12 +6,17 @@
 
 {% block content %}
 
+<div id="{{wrapper_id}}">
+
   <h1>{{item.title}}</h1>
 
   <dl>
 
   <dt>Original author: </dt>
-  <dd><a href="{% url spc-user-profile item.author.username_slug %}">{{item.author.username}}</a></dd>
+  <dd>{% if unvalidated_user %}Unvalidated user{% else %}
+  <a href="{% url spc-user-profile item.author.username_slug %}">{{item.author.username}}</a>
+  {% endif %}
+  </dd>
 
   <dt>Revisions for this {{submission.sub_type}}:</dt>
   <dd>{{submission.num_revisions}}</dd>
@@ -30,5 +35,8 @@
   <p>Links to add: update this {{submission.sub_type}}
   <p>Links to add: add tags
 
+  <div id="spc-extra-message">{{extra_html|safe}}</div>
+
+</div>
 
 {% endblock %}
