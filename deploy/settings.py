@@ -16,12 +16,12 @@ ADMINS = (
 MANAGERS = ADMINS
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/home/kevindunn/django-projects/scipy_central/deploy/scipy-central.sqlite',         # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE':   '', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME':     '', # Or path to database file if using sqlite3.
+        'USER':     '', # Not used with sqlite3.
+        'PASSWORD': '', # Not used with sqlite3.
+        'HOST':     '', # Set to empty string for localhost. Not used with sqlite3.
+        'PORT':     '', # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -53,7 +53,9 @@ USE_L10N = True
 if DEBUG:
     MEDIA_ROOT = os.path.dirname(__file__) + os.sep + 'media' + os.sep
 else:
-    MEDIA_ROOT = 'media'
+    # For production: you'll want to copy the <base>/media/* files to your
+    # static location and modify them to your taste.
+    MEDIA_ROOT = '<your path here>'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
