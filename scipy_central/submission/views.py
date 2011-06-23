@@ -339,3 +339,6 @@ def tag_autocomplete(request):
     # followed by tags that only include ``contains_str``
     starts.extend(includes)
     return HttpResponse(simplejson.dumps(starts), mimetype='text/plain')
+
+def new_link_submission(request):
+    return HttpResponse('STILL TO DO')

@@ -32,7 +32,7 @@ class Submission_Form__Common_Parts(HiddenBaseForm, forms.Form):
 
     email = forms.EmailField(label=('Your email address'),
                  help_text=('Since you are not <a href="/user/sign-in/">signed'
-                            ' in</a> we will send you an email to confirm'
+                            ' in</a> we will send you an email to confirm '
                             'your submission.'),
                              required=True)
 

@@ -14,6 +14,11 @@ urlpatterns = patterns('scipy_central.submission.views',
     url(r'^new-snippet-submit$', 'submit_snippet_submission',
                                             name='spc-new-snippet-submit'),
 
+
+    # New link submission
+    url(r'^new-link[/]?$', 'new_link_submission',
+                                            name='spc-new-link-submission'),
+
     # Show an existing submission; some valid examples include:
     # Maximal information:   http://.../23/draw-an-ellipse/revision/4/
     # Typical link:          http://.../23/draw-an-ellipse/
