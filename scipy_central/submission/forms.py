@@ -30,11 +30,10 @@ class Submission_Form__Common_Parts(HiddenBaseForm, forms.Form):
     summary = forms.CharField(max_length=255, widget=forms.Textarea,
                 label=Revision._meta.get_field('summary').help_text)
 
-    email = forms.EmailField(label=("As you are not signed in; we will send "
-                                    "an email to validate your submission and "
-                                    "create an account."),
-                             help_text=('Please <a href="/user/sign-in/">sign'
-                                ' in </a> if you already have an account.'),
+    email = forms.EmailField(label=('Your email address'),
+                 help_text=('Since you are not <a href="/user/sign-in/">signed'
+                            ' in</a> we will send you an email to confirm'
+                            'your submission.'),
                              required=True)
 
 class SnippetForm(Submission_Form__Common_Parts, ScreenshotForm):
@@ -50,8 +49,8 @@ class SnippetForm(Submission_Form__Common_Parts, ScreenshotForm):
         #help_text=('This code will be licensed under the <a target="_blank" '
         #           'href="/licenses">CC0</a> license, which allows other '
         #           'users to freely use it.')
-        initial=('# License: Creative Commons Zero, almost public domain '
-                 '(http://scpyce.org/cc0)'),
+        initial=('# License: Creative Commons Zero - almost public domain - '
+                 'http://scpyce.org/cc0'),
         )
 
     sub_license = forms.ModelChoiceField(License.objects.filter(slug='CC0'),

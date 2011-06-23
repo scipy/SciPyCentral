@@ -9,7 +9,9 @@ def front_page(request):
     return render_to_response('pages/front-page.html', {},
                               context_instance=RequestContext(request))
 def about_page(request):
-    return render_to_response('pages/about-page.html')
+    return render_to_response('pages/about-page.html', {},
+                              context_instance=RequestContext(request))
 
 def licence_page(request):
-    return render_to_response('pages/about-licenses.html')
+    return render_to_response('pages/about-licenses.html', {},
+                              context_instance=RequestContext(request))
