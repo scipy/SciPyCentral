@@ -3,7 +3,7 @@ from django.conf.urls.defaults import url, patterns
 urlpatterns = patterns('scipy_central.submission.views',
 
     # New snippet submission
-    url(r'^new-snippet', 'new_snippet_submission',
+    url(r'^new-snippet[/]?$', 'new_snippet_submission',
                                             name='spc-new-snippet-submission'),
 
     # Preview snippet submission
