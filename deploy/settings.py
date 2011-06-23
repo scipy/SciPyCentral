@@ -7,8 +7,7 @@ parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, parent_dir)
 
 DEBUG = True
-#TEMPLATE_DEBUG = DEBUG
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
@@ -54,7 +53,7 @@ if DEBUG:
     MEDIA_ROOT = os.path.dirname(__file__) + os.sep + 'media' + os.sep
 else:
     # For production: you'll want to copy the <base>/media/* files to your
-    # static location and modify them to your taste.
+    # static location and modify this path to match your server.
     MEDIA_ROOT = '<your path here>'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
@@ -177,7 +176,7 @@ COMMENT_COMPILE_DIR = tempdir + os.sep + 'compile'
 # Where should JQuery be served from?
 JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js'
 JQUERYUI_URL = 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js'
-JQUERYUI_CSS = 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/smoothness/jquery-ui.css'
+JQUERYUI_CSS = 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/smoothness/jquery-ui.css'
 
 try:
     # Import deployment-specific settings
