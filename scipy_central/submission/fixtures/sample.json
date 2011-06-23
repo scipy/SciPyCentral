@@ -1015,5 +1015,21 @@
       "name": "HDF5",
       "slug": "hdf5"
     }
+  },
+  {
+    "pk": 123,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "portfolio optimization",
+      "slug": "portfolio-optimization"
+    }
+  },
+  {
+    "pk": 124,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "SVM",
+      "slug": "svm"
+    }
   }
 ]

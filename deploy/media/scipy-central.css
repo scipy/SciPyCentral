@@ -9,6 +9,18 @@ div: spc-notice (general notices: e.g. submission requested is invalid)
 /* -------------------------------------------------------------------------*/
 /* Basic layout of the document: no styling - that is applied further down. */
 /* -------------------------------------------------------------------------*/
+body {
+	/* From: http://matthewjamestaylor.com/blog/perfect-3-column.htm */
+	margin:0;
+	padding:0;
+	border:0;			/* This removes the border around the viewport in old versions of IE */
+	width:100%;
+	background:#ffffff;
+	min-width:600px;	/* Minimum width of layout - remove line if not required */
+					/* The min-width property does not work in old versions of Internet Explorer */
+	font-size:90%;
+}
+
 #spc-document-container{
 	position: relative;
 	min-width: 50em;
@@ -64,7 +76,7 @@ div: spc-notice (general notices: e.g. submission requested is invalid)
 /* Header block */
 #spc-header{
 	text-align: center;
-	font: 18px/1.5 'Lucida Grande','Lucida Sans Unicode','Geneva','Verdana',sans-serif;
+	font: 18px/1.5 'Inconsolata','Lucida Grande','Lucida Sans Unicode','Geneva','Verdana',sans-serif;
 }
 #spc-header h1 a {
 	color: black;
@@ -73,11 +85,8 @@ div: spc-notice (general notices: e.g. submission requested is invalid)
 
 /* Navigation blocks: top and bottom */
 .spc-navigation{
-	color: #EE9816;
 	border-top: 1px solid #DDDDDD;
-	border-bottom: 1px solid #DDDDDD;
-	height: 1.8em;
-	background-image: url(/media/navigation.png); /* Styling from the Sphinx website!*/
+
 }
 .spc-navigation a{
     font: 13px/1.5 'Lucida Grande','Lucida Sans Unicode','Geneva','Verdana',sans-serif;
@@ -104,12 +113,12 @@ div: spc-notice (general notices: e.g. submission requested is invalid)
 
 /* The major chunk of content (left side); the sidebar comes later */
 #spc-content-main{
-	background: #20435C;
+	background: #FFFFFF;
 }
 
 /* spc-border: the 20px margin creates the click elements for the spcs */
 #spc-border {
-	margin-left: 20px;	  /* Only use "px": used in Javascript calculations */
+	margin-left: 0px;
 	background: white;
 	color: black;
     padding-top: 1em;     /* Don't remove top and bottom padding: leads to    */
@@ -132,7 +141,7 @@ div#spc-section-body h1, h2, h3, h4, h5, h6{
 	font-family: 'Trebuchet MS', sans-serif;
     font-weight: normal;
     border-bottom: 0px solid #ccc;}
-div#spc-section-body h1 {	margin-top: 0;	font-size: 200%; font-weight: bold;}
+div#spc-section-body h1 {	m	-top: 0;	font-size: 200%; font-weight: bold;}
 div#spc-section-body h2 { font-size: 160%; font-weight: bold; color: #101074;}
 div#spc-section-body h3 { font-size: 140%; color: #362A13;}
 div#spc-section-body h4 { font-size: 120%; }
@@ -163,8 +172,31 @@ div#spc-section-body tt, div#spc-content tt {
 	color:#333333;
 }
 
-/* Submission form */
+/* Main page */
+#spc-site-statement{
+	text-align: center;
+}
 
+#spc-search{
+	text-align: center;
+}
+#spc-search-form{
+	margin-top: 10pt;
+}
+
+#spc-search-box{
+	background: none repeat scroll 0% 0% rgb(255, 255, 255);
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgb(200,200,200) rgb(150, 150, 150) rgb(150, 150, 150) rgb(200,200,200);
+	color: rgb(0, 0, 0);
+	font: 18px arial,sans-serif bold;
+	margin: 0pt;
+	padding: 5px 8px 0pt 6px;
+	vertical-align: top;
+}
+
+/* Submission form */
 .spc-form {
 	width: 60%;
 }

@@ -5,6 +5,7 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <meta http-equiv="Content-Language" content="en-us" />
     <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inconsolata">
     <link rel="stylesheet" href="{{MEDIA_URL}}scipy-central.css" type="text/css" />
     <link rel="stylesheet" href="{{MEDIA_URL}}pygments.css" type="text/css" />
     <link rel="stylesheet" href="{{JQUERYUI_CSS}}" type="text/css" />
@@ -20,10 +21,11 @@
     <div id="spc-container">
 
       <div id="spc-notice">
+        <a href="{% url spc-login-signin %}">Sign In</a>
       </div><!--#spc-notice -->
 
       <div id="spc-header">
-        <h1><a href="{% url spc-main-page %}" title="Home page">SciPy Central</a></h1>
+        <h1><a href="{% url spc-main-page %}" title="Home page for SciPy Central">SciPy Central</a></h1>
       </div><!--#spc-header -->
 
 
@@ -31,10 +33,8 @@
         <div class="spc-nav-links">
           <div id="spc-menu">
             <div id="spc-menu-left">
-              <!--<a href="">Make a Submission</a>-->
             </div>
             <div id="spc-menu-right">
-              <a href="{% url spc-login-signin %}">Sign In</a>
             </div>
           </div><!--menu-->
         </div>
