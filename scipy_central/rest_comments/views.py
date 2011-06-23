@@ -84,29 +84,31 @@ def compile_rest_to_html(raw_rest):
             logger.error("Non-zero status code when compiling.")
 
     # Ensure the directory where Sphinx will compile the ReST actually exists
-    ensuredir(settings.COMMENT_COMPILE_DIR)
+    ensuredir(settings.SPC['comment_compile_dir'])
     modified_rest = sanitize_raw_rest(raw_rest)
-    with open(settings.COMMENT_COMPILE_DIR + os.sep + 'index.rst', 'w') as fh:
+    with open(settings.SPC['comment_compile_dir'] + os.sep + 'index.rst',
+                                                                   'w') as fh:
         fh.write(modified_rest)
 
     try:
         # Does a ``conf.py`` file exist there?
-        conf_file = settings.COMMENT_COMPILE_DIR + os.sep + 'conf.py'
+        conf_file = settings.SPC['comment_compile_dir'] + os.sep + 'conf.py'
         conf_file_hdl = file(conf_file, 'r')
     except IOError:
         # Use a fresh copy of the ``conf.py`` file, found in the current
         # directory, and copy it to comment destination.
         cf = os.path.abspath(__file__ + os.sep + os.path.pardir) + \
                                                       os.sep + 'sphinx-conf.py'
-        shutil.copyfile(cf, settings.COMMENT_COMPILE_DIR + os.sep + 'conf.py')
+        shutil.copyfile(cf, settings.SPC['comment_compile_dir'] + os.sep +\
+                                                                    'conf.py')
     else:
         conf_file_hdl.close()
 
     # Compile the comment
-    call_sphinx_to_compile(settings.COMMENT_COMPILE_DIR)
+    call_sphinx_to_compile(settings.SPC['comment_compile_dir'])
 
-    pickle_f = ''.join([settings.COMMENT_COMPILE_DIR, os.sep, '_build', os.sep,
-                        'pickle', os.sep, 'index.fpickle'])
+    pickle_f = ''.join([settings.SPC['comment_compile_dir'], os.sep,
+                        '_build', os.sep, 'pickle', os.sep, 'index.fpickle'])
     with open(pickle_f, 'r') as fhand:
         obj = pickle.load(fhand)
 

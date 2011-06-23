@@ -2,7 +2,7 @@
 import django.conf.global_settings as DEFAULT_SETTINGS
 
 # Add the parent to the path, to access files in ``../scipy_central/``
-import os, sys, tempfile
+import os, sys
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, parent_dir)
 
@@ -135,8 +135,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
 
-    # 3-rd part apps:
-
+    # 3rd party apps:
 
     #  Local apps
     'scipy_central.filestorage',
@@ -157,67 +156,83 @@ CUSTOM_USER_MODEL = 'person.UserProfile'
 # a function that only logged in users can do
 LOGIN_URL = '/user/sign-in/'
 
-# Override in ``local_settings`` if required
-tempdir = tempfile.mkdtemp()
 
-# Recommended settings to go into ``local_settings``
-# ===================================================
+if DEBUG:
+    import tempfile
+    tempdir = tempfile.mkdtemp()
+else:
+    tempdir = ''
 
-# See https://docs.djangoproject.com/en/1.3/ref/settings/ for EMAIL... settings
-EMAIL_HOST = ''
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-# Visitors will receive email from this address e.g. "admin@scipy-central.org"
-SERVER_EMAIL = ''
-# Logs are written to this location
-LOGFILE_LOCATION = tempdir + os.sep + 'logfile.log'
-# Comments (using Sphinx notation) are compiled in this location
-COMMENT_COMPILE_DIR = tempdir + os.sep + 'compile'
-# Where should JQuery be served from?
-JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js'
-JQUERYUI_URL = 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js'
-JQUERYUI_CSS = 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/smoothness/jquery-ui.css'
+# These settings define and modify the behaviour of the entire website.
+# SciPy Central = SPC.
+SPC = {
+    # Delete unconfirmed submission after this number of days
+    'unvalidated_subs_deleted_after': 7,
 
+    # We only support Mercurial at the moment. Code can support git and
+    # other version control systems in the future.
+    # Do not change this once files have been added.
+    'revisioning_backend': 'hg',
+
+    # Can be left as '', but then we will search for the executable everytime
+    # we need to access the repo. Rather specify the full path to the
+    # revision control system executable.
+    'revisioning_executable': '',
+
+    # Where should files from each submission be stored?
+    # Files are stored using revision control in directories as follows:
+    #
+    # <storage><submission_primary_key>/<submission_slug>.py
+    # <storage><submission_primary_key>/LICENSE.txt
+    # where <storage> is the variable defined next, as should always end
+    # with ``os.sep``
+    #
+    # Please ensure this directory is NOT somewhere under your web root,
+    # to prevent direct access to the files (note that the setting as written
+    # in here might be under the webroot).
+    'storage_dir': MEDIA_ROOT + 'code' + os.sep,
+
+    # Where should logfiles be written? If DEBUG != True, then you are
+    # responsible that this location is valid and exists. Overwrite the
+    # location in ``local_settings.py`` below.
+    'logfile_location': tempdir + os.sep + 'logfile.log',
+
+    # Comments are compiled (using Sphinx) in this location. Again, you are
+    # required to sure this location exists for production servers.
+    'comment_compile_dir': tempdir + os.sep + 'compile',
+
+    # Default name of license file (e.g. 'LICENSE.TXT')
+    'license_filename': 'LICENSE.TXT',
+
+    # Short link URL root (must end with a trailing slash)
+    'short_URL_root': 'http://scpyce.org/'
+}
+
+# All about ``local_settings.py``
+# ===============================
+
+# Use ``local_settings.py`` to store variables that you don't want visible to
+# revision control systems, or for settings that differ between production and
+# development servers.
+# The default variables that are expected are listed in the ``ImportError``
+# part of the exception below.
 try:
-    # Import deployment-specific settings
-    from local_settings import *
+    execfile('local_settings.py')
 except ImportError:
-    pass
+    # See https://docs.djangoproject.com/en/1.3/ref/settings for EMAIL settings
+    EMAIL_HOST = ''
+    EMAIL_HOST_USER = ''
+    EMAIL_HOST_PASSWORD = ''
+    # Visitors will receive email from this address e.g. "admin@example.org"
+    SERVER_EMAIL = ''
+    DEFAULT_FROM_EMAIL = SERVER_EMAIL
 
-try:
-    execfile('spc_settings.py')
-except IOError:
-    # Use default settings
-    SPC = {
-        # Delete unconfirmed submission after this number of days
-        'unvalidated_subs_deleted_after': 7,
+    # Where should JQuery be served from?
+    JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js'
+    JQUERYUI_URL = 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js'
+    JQUERYUI_CSS = 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/smoothness/jquery-ui.css'
 
-        # We only support Mercurial at the moment. Code can support git and
-        # other version control systems in the future.
-        # Do not change this once files have been added.
-        'revisioning_backend': 'hg',
-
-        # Can be left as '', but then we will search for the executable everytime
-        # we need to access the repo. Rather specify the full path to the
-        # revision control system executable.
-        'revisioning_executable': '',
-
-        # Where should files from each submission be stored?
-        # Files are stored using revision control in directories as follows:
-        #
-        # <storage><submission_primary_key>/<submission_slug>.py
-        # <storage><submission_primary_key>/LICENSE.txt
-        # where <storage> is the variable defined next, as should always end
-        # with ``os.sep``
-        'storage_dir': MEDIA_ROOT + 'code' + os.sep,
-
-        # Default name of license file (e.g. 'LICENSE.TXT')
-        'license_filename': 'LICENSE.TXT',
-
-        # Short link URL root (must end with a trailing slash)
-        'short_URL_root': 'http://scpyce.org/'
-    }
-
+    # Also overwrite keys from ``SPC`` in the ``local_settings.py`` file
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -261,7 +276,7 @@ LOGGING = {
             'class': 'logging.handlers.RotatingFileHandler',
             'formatter': 'verbose',
             # Inputs to the ``logging.handlers.RotatingFileHandler`` class
-            'filename': LOGFILE_LOCATION,
+            'filename': SPC['logfile_location'],
         },
     },
 

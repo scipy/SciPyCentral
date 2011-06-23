@@ -219,6 +219,9 @@ def submit_snippet_submission(request):
                                             snippet.cleaned_data['email'])
             request.user = user
             authenticated = False
+            username = '**Not validated**'
+        else:
+            username = user.username
 
         # 2. Create the submission and revision and email the user
         sub, rev, message = create_new_submission_and_revision(request,
@@ -235,9 +238,9 @@ def submit_snippet_submission(request):
         sub.save()
 
         fname = rev.slug.replace('-', '_') + '.py'
+
         commit_msg = ('SPC: auto add "%s" and license to the repo based '
-                      'on the web submission by user "%s"') % (fname,
-                                                    request.user.username)
+                      'on the web submission by user "%s"') % (fname, username)
         sub.fileset.add_file_from_string(fname, request.POST['snippet'])
 
         license_file = settings.SPC['license_filename']
@@ -259,8 +262,9 @@ def submit_snippet_submission(request):
                                 'valuable submissions in the future.') % \
                             settings.SPC['unvalidated_subs_deleted_after']
 
-        return render_to_response('submission/thank-user.html',
-                                  {'extra_message': extra_messages})
+        return render_to_response('submission/thank-user.html', {},
+                                  context_instance=RequestContext(request,
+                                        {'extra_message': extra_messages}))
     else:
         return render_to_response('submission/new-submission.html', {},
                               context_instance=RequestContext(request,
