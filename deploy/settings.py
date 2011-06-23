@@ -216,8 +216,9 @@ SPC = {
 # development servers.
 # The default variables that are expected are listed in the ``ImportError``
 # part of the exception below.
+this_dir = __file__[0:__file__.find('settings.py')]
 try:
-    execfile('local_settings.py')
+    execfile(this_dir + os.sep + 'local_settings.py')
 except ImportError:
     # See https://docs.djangoproject.com/en/1.3/ref/settings for EMAIL settings
     EMAIL_HOST = ''
