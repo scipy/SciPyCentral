@@ -72,14 +72,34 @@
 	});
 	</script>
 
-<h1>Create a new submission</h1>
+<h1>A new code snippet/recipe:</h1>
 
 <div class="spc-form">
 <form action="{% url spc-new-snippet-preview %}"
   method="POST" class="spc-ul-form" enctype="multipart/form-data">
   {% csrf_token %}
 
-  {{snippet.as_ul}}
+  {% for field in snippet%}
+    {% if field.is_hidden %}
+      {{field.as_widget|safe}}
+	{% else %}
+	<div class="colmask threecol">
+		<div class="colmid">
+			<div class="colleft">
+				<div class="col1 form-field">
+					{{field.as_widget|safe}}
+				</div>
+				<div class="col2 {% if field.errors %} spc-field-error {% endif %}">
+					<label for="{{field.id_for_label}}">{{field.label|safe}}</label>
+				</div>
+				<div class="col3">
+					<span class="spc-helptext">{{field.help_text|safe}}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	{%endif %}
+  {% endfor %}
 
   <div id="spc-tagging-step">
   </div>

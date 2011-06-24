@@ -27,6 +27,7 @@ import datetime
 logger = logging.getLogger('scipycentral')
 logger.debug('Initializing submission::views.py')
 
+
 def create_new_submission_and_revision(request, snippet, authenticated):
     """
     Creates a new ``Submission`` and ``Revision`` instance. Returns these in
@@ -43,10 +44,9 @@ def create_new_submission_and_revision(request, snippet, authenticated):
         is_displayed = True
 
     # A new submission has only 2 fields of interest
-    sub = models.Submission.objects.create(sub_type=\
-                                           snippet.cleaned_data['sub_type'],
-                                           created_by=user,
-                                           is_displayed=is_displayed)
+    sub = models.Submission.objects.create(created_by=user,
+                                    sub_type=snippet.cleaned_data['sub_type'],
+                                    is_displayed=is_displayed)
 
     # Process screenshot:
     if request.FILES.get('screenshot', ''):
@@ -65,19 +65,18 @@ def create_new_submission_and_revision(request, snippet, authenticated):
         tag_list.append(Tag.objects.get_or_create(name=tag)[0])
 
     # Create a ``Revision`` instance. Must always have a ``title``, ``author``,
-    # and ``summary`` fields; the rest are set automatically, or blank.
+    # and ``description`` fields; the rest are set automatically, or blank.
     hash_id = md5(post.get('snippet')).hexdigest()
     rev = models.Revision.objects.create(
-                            entry = sub,
-                            title = snippet.cleaned_data['title'],
-                            author = user,
-                            sub_license = snippet.cleaned_data['sub_license'],
-                            summary = snippet.cleaned_data['summary'],
-                            description = None, #post.get('description', ''),
-                            screenshot = sshot,
-                            hash_id = hash_id,
-                            item_url = None,
-                            item_code = snippet.cleaned_data['snippet'],
+                            entry=sub,
+                            title=snippet.cleaned_data['title'],
+                            author=user,
+                            sub_license=snippet.cleaned_data['sub_license'],
+                            description=snippet.cleaned_data['description'],
+                            screenshot=sshot,
+                            hash_id=hash_id,
+                            item_url=None,
+                            item_code=snippet.cleaned_data['snippet'],
                             )
 
     # Add the tags afterwards and save the revision
@@ -103,6 +102,7 @@ def create_new_submission_and_revision(request, snippet, authenticated):
 
     return sub, rev, message
 
+
 def get_snippet_form(request, unbound=True):
     if unbound:
         snippet = forms.SnippetForm()
@@ -110,7 +110,7 @@ def get_snippet_form(request, unbound=True):
         snippet = forms.SnippetForm(data=request.POST)
 
     # Rearrange the form order: screenshot and tags at the end
-    snippet.fields.keyOrder = ['title', 'summary', 'snippet',
+    snippet.fields.keyOrder = ['title', 'description', 'snippet',
                                'sub_license', 'screenshot', 'sub_tags',
                                'email', 'sub_type']
 
@@ -119,6 +119,7 @@ def get_snippet_form(request, unbound=True):
         snippet.fields.pop('email')
 
     return snippet
+
 
 def new_snippet_submission(request):
     """
@@ -129,6 +130,7 @@ def new_snippet_submission(request):
     return render_to_response('submission/new-submission.html', {},
                               context_instance=RequestContext(request,
                                                         {'snippet': snippet}))
+
 
 def preview_snippet_submission(request):
     """
@@ -164,9 +166,12 @@ def preview_snippet_submission(request):
         <form action="/item/new-snippet-preview"
   method="POST" class="spc-ul-form" enctype="multipart/form-data">
 
-          <input type="submit" name="spc-cancel" value="Cancel"       id="spc-item-cancel" />
-          <input type="submit" name="spc-edit"   value="Edit"         id="spc-item-edit" />
-          <input type="submit" name="spc-submit" value="Submit entry" id="spc-item-submit" />
+          <input type="submit" name="spc-cancel" value="Cancel"
+          id="spc-item-cancel" />
+          <input type="submit" name="spc-edit"   value="Edit"
+          id="spc-item-edit" />
+          <input type="submit" name="spc-submit" value="Submit entry"
+          id="spc-item-submit" />
         </div>
         """
         # Create the 3-button form via a template to account for hyperlinks
@@ -198,6 +203,7 @@ def preview_snippet_submission(request):
         return render_to_response('submission/new-submission.html', {},
                               context_instance=RequestContext(request,
                                             {'snippet': snippet}))
+
 
 def submit_snippet_submission(request):
     if request.method != 'POST':
@@ -253,7 +259,7 @@ def submit_snippet_submission(request):
         if authenticated:
             extra_messages = ('A confirmation email has been sent to you.')
         else:
-            extra_messages  = ('You have been sent an email to '
+            extra_messages = ('You have been sent an email to '
                                 'confirm your submission and to create '
                                 'an account (if you do not have one '
                                 'already). <p>Unconfirmed submissions '
@@ -275,6 +281,7 @@ def submit_snippet_submission(request):
                message=message)
 
     pass
+
 
 def view_snippet(request, snippet_id, slug=None, revision=None):
     """
@@ -303,6 +310,7 @@ def view_snippet(request, snippet_id, slug=None, revision=None):
                                                  'item': the_revision,
                                                  'extra_html': ''}))
 
+
 def get_license_text(rev):
     """
     Generates and returns the license text for the given revision. Uses these
@@ -312,6 +320,7 @@ def get_license_text(rev):
     return '****\nGENERATE LICENSE TEXT STILL\n****'
 
 #autocomplete = cache_page(autocomplete, 60 * 60)
+
 
 def tag_autocomplete(request):
     """
@@ -340,6 +349,7 @@ def tag_autocomplete(request):
     # followed by tags that only include ``contains_str``
     starts.extend(includes)
     return HttpResponse(simplejson.dumps(starts), mimetype='text/plain')
+
 
 def new_link_submission(request):
     return HttpResponse('STILL TO DO')

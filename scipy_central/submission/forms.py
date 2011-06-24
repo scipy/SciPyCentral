@@ -27,8 +27,12 @@ class Submission_Form__Common_Parts(HiddenBaseForm, forms.Form):
     title = forms.CharField(max_length=150, \
                             label=Revision._meta.get_field('title').help_text)
 
-    summary = forms.CharField(max_length=255, widget=forms.Textarea,
-                label=Revision._meta.get_field('summary').help_text)
+    description = forms.CharField(widget=forms.Textarea(attrs={
+                                      'class':'spc-code-description',
+                                      'cols': 40, 'rows': 5}),
+                label=Revision._meta.get_field('description').help_text,
+                help_text=('Let the community know what your submission does, '
+                           'how it solves the problem, and/or how it works.'))
 
     email = forms.EmailField(label=('Your email address'),
                  help_text=('Since you are not <a href="/user/sign-in/">signed'
@@ -43,25 +47,35 @@ class SnippetForm(Submission_Form__Common_Parts, ScreenshotForm):
     #NOTE: Any additions to this form will require adding the field name in
     # views.py under the ``new_snippet_submission(...)`` function.
 
-    snippet = forms.CharField(label="Copy and paste your code snippet/recipe",
+    snippet = forms.CharField(label='Copy and paste <b>your code</b> '
+                                     'snippet/recipe',
         widget=forms.Textarea(attrs={'class':'spc-code-snippet',
                                       'cols': 80, 'rows': 20}),
-        #help_text=('This code will be licensed under the <a target="_blank" '
-        #           'href="/licenses">CC0</a> license, which allows other '
-        #           'users to freely use it.')
-        initial=('# License: Creative Commons Zero - almost public domain - '
+        help_text=('Please follow <a target="_blank" href="http://www.python.'
+                   'org/dev/peps/pep-0008/">PEP 8 guidelines</a><br><ul>'
+                   '<li>No more than 80 characters per row</li>'
+                   '<li>Please use spaces and not tabs</li>'
+                   '<li>Use 4 spaces to indent, (use 2 if you must)</li>'
+                   '<li>Spaces around arithmetic operators</li>'
+                   '<li>Comments in the code should supplement your summary'
+                   '</li></ul>'
+                   ),
+        initial=('# License: Creative Commons Zero (almost public domain) '
                  'http://scpyce.org/cc0'),
         )
 
-    sub_license = forms.ModelChoiceField(License.objects.filter(slug='CC0'),
-        empty_label=None,
-        label="Select a license for your submission",
+    choices = License.objects.filter(slug='CC0')
+    sub_license = forms.ModelChoiceField(choices, empty_label=None,
+        widget=forms.Select(attrs={'class':'form-field-auto-width'},
+                choices=choices),
+        label="Please select a <b>license</b> for your submission",
         help_text='<a href="/licenses">More on licenses</a>')
 
     sub_type = forms.CharField(max_length=10, initial='snippet',
                                widget=forms.HiddenInput(), required=False)
 
-    sub_tags = forms.CharField(max_length=50, label='Tag your submission',
+    sub_tags = forms.CharField(max_length=50, label=('<b>Tag</b> your '
+                               'submission'),
                                help_text=('Please provide between 1 and 5 tags'
                                           ' that describe your code (use '
                                           'commas to separate tags)'))

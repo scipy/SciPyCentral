@@ -104,7 +104,7 @@ class Revision(models.Model):
 
     # user-provided submission title.
     title = models.CharField(max_length=150,
-                             help_text='Provide a title for your submission')
+                        help_text='Provide a <b>title</b> for your submission')
 
     # auto-created slug field [*unique field*]
     slug = models.SlugField(max_length=255, unique=True, editable=False)
@@ -126,18 +126,13 @@ class Revision(models.Model):
                 verbose_name="Choose a license for your submission")
 
     # A short summary [150 chars] describing the submission.
-    summary = models.CharField(max_length=255, help_text = ('Explain what '
-                    'the submission does in less than 250 characters. Users '
-                    'initially see this summary to '
-                    'decide if they want to view more information about your '
-                    'submission.'))
+    #summary = models.CharField(max_length=255, help_text = ('Explain what '
+     #               'your submission does in less than 250 characters.'))
 
     # User-provided description of the submission [10000 character limit].
     # Uses reStructuredText
-    description = models.TextField(help_text=('Please explain your '
-                    'submission in more depth. Let the community know what '
-                    'your code or link does, how it solves the problem, '
-                    'and/or how it works.'), blank=True, null=True)
+    description = models.TextField(help_text=('Please <b>explain your '
+                    'submission</b>.'))
 
     # HTML version of the ReST ``description`` field
     description_html = models.TextField(editable=False)
