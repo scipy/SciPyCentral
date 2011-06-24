@@ -18,7 +18,6 @@ body {
 	background:#ffffff;
 	min-width:600px;	/* Minimum width of layout - remove line if not required */
 					/* The min-width property does not work in old versions of Internet Explorer */
-	font-size:90%;
 }
 
 #spc-document-container{
