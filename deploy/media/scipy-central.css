@@ -189,12 +189,11 @@ div#spc-section-body tt, div#spc-content tt {
 }
 #spc-search-box{
 	background: none repeat scroll 0% 0% rgb(255, 255, 255);
-	border-width: 1px;
+	border-width: 2px;
 	border-style: solid;
 	border-color: rgb(200,200,200) rgb(150, 150, 150) rgb(150, 150, 150) rgb(200,200,200);
 	color: rgb(0, 0, 0);
 	font: 18px arial,sans-serif bold;
-
 	width:60%;
 	display: inline;
 	margin: 0pt;

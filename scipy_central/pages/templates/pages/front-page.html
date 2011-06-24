@@ -89,24 +89,33 @@
       background:#fff;	/* center column background colour */
     }
     .threecol .colleft {
-      right:50%;		/* width of the middle column */
+      right:60%;		/* width of the middle column */
       background:#fff;	/* left column background colour */
     }
     .threecol .col1 {
-      width:46%;		/* width of center column content (column width minus padding on either side) */
-      left:102%;		/* 100% plus left padding of center column */
+      width:58%;		/* width of center column content (column width minus padding on either side) */
+      left:101%;		/* 100% plus left padding of center column */
     }
     .threecol .col2 {
-      width:21%;		/* Width of left column content (column width minus padding on either side) */
-      left:31%;			/* width of (right column) plus (center column left and right padding) plus (left column left padding) */
+      width:13%;		/* Width of left column content (column width minus padding on either side) */
+      left:28%;			/* width of (right column) plus (center column left and right padding) plus (left column left padding) */
     }
     .threecol .col3 {
-      width:21%;		/* Width of right column content (column width minus padding on either side) */
-      left:85%;			/* Please make note of the brackets here:
-        (100% - left column width) plus (center column left and right padding) plus (left column left and right padding) plus (right column left padding) */
+      width:23%;		/* Width of right column content (column width minus padding on either side) */
+      left:90%;			/* Please make note of the brackets here:
+        (100% - left column width) plus (center column left and right padding) plus (left column left and right padding) plus (right column left padding)
+        (100-15)+(1+1)+(1+1)+(1)*/
     }
     .form-field{
       width: 98%;
+      max-width:1000px;
+      min-width:500px;
+    }
+    .form-auto-width{
+      width: auto;
+    }
+    #id_snippet{
+      font-family: "Inconsolata";
     }
   </style>
 
@@ -162,13 +171,13 @@
     <div class="colmid">
       <div class="colleft">
         <div class="col1">
-          <textarea class=" spc-code-snippet" id="id_snippet" rows="20" cols="80" name="snippet" ># License: Creative Commons Zero - almost public domain - http://scpyce.org/cc0</textarea>
+          <textarea class="form-field spc-code-snippet" id="id_snippet" rows="20" cols="80" name="snippet" ># License: Creative Commons Zero - almost public domain - http://scpyce.org/cc0</textarea>
         </div>
         <div class="col2">
           <label for="id_snippet">Copy and paste your code snippet/recipe:</label>
         </div>
         <div class="col3">
-          <span class="helptext"></span>
+          <span class="helptext">Please follow <a href="http://www.python.org/dev/peps/pep-0008/">PEP 8 guidelines</a></span>
         </div>
       </div>
     </div>
@@ -177,10 +186,10 @@
     <div class="colmid">
       <div class="colleft">
         <div class="col1">
-          <select name="sub_license" id="id_sub_license" class="form-field">
-        <option value="1">Creative Commons Zero (CC0)</option>
-        <option value="2">Other license</option>
-        </select>
+          <select name="sub_license" id="id_sub_license" class="form-auto-width">
+          <option value="1">Creative Commons Zero (CC0)</option>
+          <option value="2">Other license</option>
+          </select>
         </div>
         <div class="col2">
           <label for="id_sub_license">Select a license for your submission</label>
