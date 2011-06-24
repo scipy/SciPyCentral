@@ -174,14 +174,23 @@ div#spc-section-body tt, div#spc-content tt {
 
 /* Main page */
 #spc-site-statement{
+	width: 90%;
+    margin: auto;
 	text-align: center;
 }
 
 #spc-search{
+	width: 70%;
+    margin: auto;
 	text-align: center;
 }
 #spc-search-form{
 	margin-top: 10pt;
+}
+input#spc-search-box{
+	overflow:hidden;
+	width:60%;
+	padding:0;
 }
 
 #spc-search-box{
@@ -197,27 +206,6 @@ div#spc-section-body tt, div#spc-content tt {
 }
 
 /* Submission form */
-.spc-form {
-	width: 60%;
-}
-form.spc-ul-form input  {
-	width: 100%;
-}
-form.spc-ul-form label{
-	display: block;
-	padding-top: 15px;
-	width: 100%;
-}
-form.spc-ul-form li {
-	list-style: none none;
-}
-
-/* Next steps area: where user uploads snippet, code, or link */
-div#spc-next-steps{
-	border-top: 1px solid #cccccc;
-	border-bottom: 1px solid #cccccc;
-}
-
 
 
 /* The navigation elements appear at the top and bottom of the document, so

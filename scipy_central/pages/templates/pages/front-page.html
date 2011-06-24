@@ -3,66 +3,68 @@
 {% block title %}SciPy Central{% endblock %}
 
 {% block content %}
-<div id="spc-site-statement">
-A library of <span style="font-family:'Inconsolata';">code snippets</span>, modules and links for <i>solving scientific problems</i>
-with <a href="http://scipy.org">SciPy</a> and related Python tools.
-</div>
 
-<div id="spc-search">
-  <form method="post" action="/search/" id="spc-search-form">{% csrf_token %}
-  <input id="spc-search-box" name="search_terms" type="search" placeholder="Search over all submissions" value="" size="60"/>
-  <input id="spc-search-button" type="submit" value="Search"/>
-  </form>
-  <!--TODO: Advanced search link-->
-</div>
-
-<style>
-.colmask {
-	position:relative;	/* This fixes the IE7 overflow hidden bug */
-	clear:both;
-	float:center;
-	overflow:hidden;	/* This chops off any overhanging divs */
-	text-align: center;
-	margin-left: auto;
-	margin-right: auto;
-	width: 65%;
-}
-.col1, .col2, .col3 {
-	float:left;
-	position:relative;
-	padding:2em;
-	overflow:hidden;
-}
-</style>
-<div id="spc-submission-type" class="colmask">
-  <div class="col1">
-	<form method="get" action="/item/new-snippet/" class="spc-new-submission-form">
-	  {% csrf_token %}
-	  <button type="submit" class="spc-button" id="spc-submit-snippet-button">
-	  <img src="{{MEDIA_URL}}single-file-icon.png" height=40 width=40
-	  alt="Submit a snippet" align="absmiddle">Submit a code snippet</button>
-	</form>
+<div id="front-page-top">
+  <div id="spc-site-statement">
+  A collection of <span style="font-family:'Inconsolata';">code snippets</span>, modules and links for <i>solving scientific problems</i>
+  with <a href="http://scipy.org">SciPy</a> and related Python tools.
   </div>
-  <div class="col2">
-	<form method="post" action="/item/new-package/" class="spc-new-submission-form">
-	  {% csrf_token %}
-	  <button type="submit" class="spc-button" id="spc-submit-package-button">
-	  <img src="{{MEDIA_URL}}multiple-file-icon.png" height=40 width=40
-	  alt="Submit a package of files" align="absmiddle">Submit a package (library)</button>
+
+  <div id="spc-search">
+	<form method="post" action="/search/" id="spc-search-form">{% csrf_token %}
+	<input id="spc-search-box" name="search_terms" type="search" placeholder="Search all submissions" value=""/>
+	<input id="spc-search-button" type="submit" value="Search"/>
 	</form>
+	<!--TODO: Advanced search link-->
   </div>
-  <div class="col3">
-	<form method="post" action="/item/new-link/" class="spc-new-submission-form">
-	  {% csrf_token %}
-	  <button type="submit" class="spc-button" id="spc-submit-extlink-button">
-	  <img src="{{MEDIA_URL}}external-link-icon.png" height=40 width=40
-	  alt="Submit a link to an external site" align="absmiddle">Link to a
-	  scientific resource</button>
-	</form>
+
+  <style>
+  .colmask {
+	  position:relative;	/* This fixes the IE7 overflow hidden bug */
+	  clear:both;
+	  float:center;
+	  overflow:hidden;	/* This chops off any overhanging divs */
+	  text-align: center;
+	  margin-left: auto;
+	  margin-right: auto;
+	  width: 65%;
+	  padding:1em;
+  }
+  <!--.col1, .col2, .col3 {-->
+	  <!--float:left;-->
+	  <!--position:relative;-->
+	  <!--padding:1em;-->
+	  <!--overflow:hidden;-->
+  <!--}-->
+  </style>
+  <div id="spc-submission-type" class="colmask">
+	<span class="col1">
+	  <form method="get" action="/item/new-snippet/" class="spc-new-submission-form">
+		{% csrf_token %}
+		<button type="submit" class="spc-button" id="spc-submit-snippet-button">
+		<img src="{{MEDIA_URL}}single-file-icon.png" height=40 width=40
+		alt="Submit a snippet" align="absmiddle">Submit a code snippet</button>
+	  </form>
+	</span>
+	<span class="col2">
+	  <form method="post" action="/item/new-package/" class="spc-new-submission-form">
+		{% csrf_token %}
+		<button type="submit" class="spc-button" id="spc-submit-package-button">
+		<img src="{{MEDIA_URL}}multiple-file-icon.png" height=40 width=40
+		alt="Submit a package of files" align="absmiddle">Submit a package (library)</button>
+	  </form>
+	</span>
+	<span class="col3">
+	  <form method="post" action="/item/new-link/" class="spc-new-submission-form">
+		{% csrf_token %}
+		<button type="submit" class="spc-button" id="spc-submit-extlink-button">
+		<img src="{{MEDIA_URL}}external-link-icon.png" height=40 width=40
+		alt="Submit a link to an external site" align="absmiddle">Link to a
+		scientific resource</button>
+	  </form>
+	</span>
   </div>
 </div>
-
-
 <div class="spc-portal" id="portal-top-left">
 <h2>By subject</h2>
 <ul>
