@@ -181,16 +181,12 @@ div#spc-section-body tt, div#spc-content tt {
 	width: 70%;
     margin: auto;
 	text-align: center;
+	background: #000;
 }
 #spc-search-form{
 	margin-top: 10pt;
+	background: #fff;
 }
-input#spc-search-box{
-	overflow:hidden;
-	width:60%;
-	padding:0;
-}
-
 #spc-search-box{
 	background: none repeat scroll 0% 0% rgb(255, 255, 255);
 	border-width: 1px;
@@ -198,9 +194,15 @@ input#spc-search-box{
 	border-color: rgb(200,200,200) rgb(150, 150, 150) rgb(150, 150, 150) rgb(200,200,200);
 	color: rgb(0, 0, 0);
 	font: 18px arial,sans-serif bold;
+
+	width:60%;
+	display: inline;
 	margin: 0pt;
 	padding: 5px 8px 0pt 6px;
 	vertical-align: top;
+}
+#spc-search-button{
+	display: inline;
 }
 
 /* Submission buttons */
