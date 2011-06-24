@@ -115,13 +115,12 @@ body {
 	background: #FFFFFF;
 }
 
-/* spc-border: the 20px margin creates the click elements for the spcs */
+/* Border */
 #spc-border {
 	margin-left: 0px;
 	background: white;
-	color: black;
-    padding-top: 1em;     /* Don't remove top and bottom padding: leads to    */
-    padding-bottom: 2em;  /* unwanted horizontal borders around the document. */
+    padding-top: 1em;     /* Don't remove top and bottom padding: leads to   */
+    padding-bottom: 0em;  /* unwanted horizontal borders around the document.*/
 	padding-left: 2em;
 	padding-right: 2em;
 }
@@ -204,8 +203,35 @@ input#spc-search-box{
 	vertical-align: top;
 }
 
-/* Submission form */
+/* Submission buttons */
+.button-container {
+	width: 100%;
+	overflow: hidden;
+	clear: both;
+	float: left;
+}
+#buttonlist {
+	margin: 0 auto;
+	list-style-type: none;
+	padding: 2em 0;
+	float: left;
+	position: relative;
+	left: 50%;
+}
+#buttonlist li {
+	float: left;
+	position: relative;
+	right: 50%;
+	padding: 0em 1em;
+}
+#buttonlist a {
+	text-decoration: none;
+	width: 0 auto;
+	display: block;
+}
 
+
+/* Submission form */
 
 /* The navigation elements appear at the top and bottom of the document, so
    they use CSS classes, rather than ID's.  Adjust this bottom navigation ID

@@ -6,238 +6,219 @@
 
 <div id="front-page-top">
 
-  <!--<style>-->
-	<!--.outer{-->
-	  <!--left: 20%;-->
-	  <!--clear: both;  /* clear previous floats from the left and right*/-->
-	  <!--float: left;-->
-	  <!--overflow: hidden;-->
-	  <!--width: 100%;-->
-	  <!--background: #ff0000;-->
-	  <!--padding: 1em;-->
-	<!--}-->
-	<!--.inner{-->
-	  <!--background: #00ff00;-->
-	  <!--position: relative;-->
-	  <!--left: 20%;-->
-	  <!--padding: 1em;-->
-	<!--}-->
-
-  <!--</style>-->
-  <!--<div class="outer">-->
-	<!--<div class="inner">-->
-	  <!--<ul>-->
-		<!--<li style="display: inline;"> as-->
-		<!--<li style="display: inline;"> assd-->
-	  <!--</ul>-->
-	<!--</div>-->
-  <!--</div>-->
-
   <div id="spc-site-statement">
-	A collection of <span style="font-family:'Inconsolata';">code snippets</span>, modules and links for <i>solving scientific problems</i>
-	with <a href="http://scipy.org">SciPy</a> and related Python tools.
+    A collection of <span style="font-family:'Inconsolata';">code snippets</span>,
+    modules and links for <i>solving scientific problems</i>
+    with <a href="http://scipy.org">SciPy</a> and related Python tools.
   </div>
 
   <div id="spc-search">
-	<form method="post" action="/search/" id="spc-search-form">{% csrf_token %}
-	<input id="spc-search-box" name="search_terms" type="search" placeholder="Search all submissions" value=""/>
-	<input id="spc-search-button" type="submit" value="Search"/>
-	</form>
-	<!--TODO: Advanced search link-->
+    <form method="post" action="/search/" id="spc-search-form">{% csrf_token %}
+    <input id="spc-search-box" name="search_terms" type="search" placeholder="Search all submissions" value=""/>
+    <input id="spc-search-button" type="submit" value="Search"/>
+    </form>
+    <!--TODO: Advanced search link-->
   </div>
-  <style type="text/css">
-  .button-container {
-	width:100%;
-	overflow:hidden;
-	clear:both;
-	float:left; }
-  #buttonlist {
-	margin:0 auto;
-	list-style-type:none;
-	padding:0;
-	float:left;
-	position:relative;
-	left:50%;
-	}
-  #buttonlist li {
-	float:left;
-	position:relative;
-	right:50%;
-	padding: 2em 1em;
-	}
-  #buttonlist a {
-	text-decoration:none;
-	width: 0 auto;
-	display:block;
-	}
-  </style>
 
   <div class="button-container">
-	<ul id="buttonlist">
-	<li><form method="get" action="/item/new-snippet/" class="spc-new-submission-formlist">
-				{% csrf_token %}
-				<button type="submit"  id="spc-submit-snippet-button">
-				<img src="{{MEDIA_URL}}single-file-icon.png" height=40 width=40
-				alt="Submit a snippet" align="absmiddle">Submit a code snippet</button>
-			  </form>
-	</li>
-	<li><form method="post" action="/item/new-package/" class="spc-new-submission-formlist">
-				{% csrf_token %}
-				<button type="submit" id="spc-submit-package-button">
-				<img src="{{MEDIA_URL}}multiple-file-icon.png" height=40 width=40
-				alt="Submit a package of files" align="absmiddle">Submit a package (library)</button>
-			  </form>
-		  </li>
-	<li><form method="post" action="/item/new-link/" class="spc-new-submission-formlist">
-		  {% csrf_token %}
-		  <button type="submit" id="spc-submit-extlink-button">
-		  <img src="{{MEDIA_URL}}external-link-icon.png" height=40 width=40
-		  alt="Submit a link to an external site" align="absmiddle">Link to a
-		  scientific resource</button>
-		</form>
-	</li>
-	</ul>
+    <ul id="buttonlist">
+      <li><form method="post" action="/item/new-snippet/" class="spc-new-submission-formlist" >
+        {% csrf_token %}
+        <button type="submit"  id="spc-submit-snippet-button">
+        <img src="{{MEDIA_URL}}single-file-icon.png" height=40 width=40
+        alt="Submit a snippet" align="absmiddle">Submit a code snippet</button>
+      </form>
+      </li>
+      <li><form method="post" action="/item/new-package/" class="spc-new-submission-formlist">
+        {% csrf_token %}
+        <button type="submit" id="spc-submit-package-button">
+        <img src="{{MEDIA_URL}}multiple-file-icon.png" height=40 width=40
+        alt="Submit a package of files" align="absmiddle">Submit a package (library)</button>
+      </form>
+      </li>
+      <li><form method="post" action="/item/new-link/" class="spc-new-submission-formlist">
+        {% csrf_token %}
+        <button type="submit" id="spc-submit-extlink-button">
+        <img src="{{MEDIA_URL}}external-link-icon.png" height=40 width=40
+        alt="Submit a link to an external site" align="absmiddle">Link to a
+        scientific resource</button>
+      </form>
+      </li>
+    </ul>
   </div>
 
-  <!--<style>-->
-
-	<!--div.spc-submission-button-group{-->
-	  <!--border: 2px dashed #333;-->
-	  <!--margin: 0 auto;-->
-	  <!--background: #FFFF00;-->
-	  <!--overflow:hidden;      /* button group stands alone in a line */-->
-	  <!--padding: 0.5em;-->
-	  <!--float: center;        /* spans width of page */-->
-	<!--}-->
-	<!--.spc-submission-button{-->
-	  <!--float: left;-->
-	  <!--text-align: center;-->
-	  <!--padding-left: 1em;-->
-	  <!--padding-right: 1em;-->
-	<!--}-->
-	<!--#testing{-->
-	  <!--padding:0.5em;-->
-	  <!--background: #00FF00;-->
-	  <!--overflow:hidden; /* button group stands alone in a line and contains the sub-containers */-->
-	<!--}-->
-  <!--</style>-->
-  <!--<div id="spc-submission-type" class="spc-submission-button-group">-->
-	<!--<div id="testing">-->
-	  <!--<span class="spc-submission-button" style="background: #555555;">-->
-		<!--<form method="get" action="/item/new-snippet/" class="spc-new-submission-form">-->
-		  <!--{% csrf_token %}-->
-		  <!--<button type="submit" class="spc-button" id="spc-submit-snippet-button">-->
-		  <!--<img src="{{MEDIA_URL}}single-file-icon.png" height=40 width=40-->
-		  <!--alt="Submit a snippet" align="absmiddle">Submit a code snippet</button>-->
-		<!--</form>-->
-	  <!--</span>-->
-	  <!--<span class="spc-submission-button" style="background: #888888;">-->
-		<!--<form method="post" action="/item/new-package/" class="spc-new-submission-form">-->
-		  <!--{% csrf_token %}-->
-		  <!--<button type="submit" class="spc-button" id="spc-submit-package-button">-->
-		  <!--<img src="{{MEDIA_URL}}multiple-file-icon.png" height=40 width=40-->
-		  <!--alt="Submit a package of files" align="absmiddle">Submit a package (library)</button>-->
-		<!--</form>-->
-	  <!--</span>-->
-	  <!--<span class="spc-submission-button" style="background: #BBBBBB;">-->
-		<!--<form method="post" action="/item/new-link/" class="spc-new-submission-form">-->
-		  <!--{% csrf_token %}-->
-		  <!--<button type="submit" class="spc-button" id="spc-submit-extlink-button">-->
-		  <!--<img src="{{MEDIA_URL}}external-link-icon.png" height=40 width=40-->
-		  <!--alt="Submit a link to an external site" align="absmiddle">Link to a-->
-		  <!--scientific resource</button>-->
-		<!--</form>-->
-	  <!--</span>-->
-	<!--</div>-->
-  <!--</div>-->
-
-  <!--<style>-->
-	<!--ul#navlist {-->
-	  <!--float: left;-->
-	  <!--left: 50%;-->
-	  <!--list-style-type: none;-->
-	  <!--color: #fff;-->
-	  <!--background-color: #036;-->
-	  <!--padding: 0;-->
-	  <!--margin: 0 auto;-->
-	  <!--postion: relative;-->
-	<!--}-->
-	<!--ul#navlist li {-->
-	  <!--padding: 0.2em 0.5em;-->
-	  <!--text-decoration: none;-->
-	  <!--display: inline;-->
-	  <!--float: left;-->
-	  <!--position: relative;-->
-	  <!--left: 50%;-->
-	  <!--text-align: center;-->
-	<!--}-->
-	<!--#temptest{-->
-	  <!--clear: both;-->
-	  <!--float: left;-->
-	  <!--width: 100%-->
-	  <!--overflow: hidden;-->
-	<!--}-->
-  <!--</style>-->
-  <!--<div id="temptest">-->
-	<!--<ul id="navlist">-->
-	  <!--<li><form method="get" action="/item/new-snippet/" class="spc-new-submission-formlist">-->
-			<!--{% csrf_token %}-->
-			<!--<button type="submit"  id="spc-submit-snippet-button">-->
-			<!--<img src="{{MEDIA_URL}}single-file-icon.png" height=40 width=40-->
-			<!--alt="Submit a snippet" align="absmiddle">Submit a code snippet</button>-->
-		  <!--</form>-->
-	  <!--</li>-->
-	  <!--<li><form method="post" action="/item/new-package/" class="spc-new-submission-formlist">-->
-			<!--{% csrf_token %}-->
-			<!--<button type="submit" id="spc-submit-package-button">-->
-			<!--<img src="{{MEDIA_URL}}multiple-file-icon.png" height=40 width=40-->
-			<!--alt="Submit a package of files" align="absmiddle">Submit a package (library)</button>-->
-		  <!--</form>-->
-	  <!--</li>-->
-	  <!--<li><form method="post" action="/item/new-link/" class="spc-new-submission-formlist">-->
-			<!--{% csrf_token %}-->
-			<!--<button type="submit" id="spc-submit-extlink-button">-->
-			<!--<img src="{{MEDIA_URL}}external-link-icon.png" height=40 width=40-->
-			<!--alt="Submit a link to an external site" align="absmiddle">Link to a-->
-			<!--scientific resource</button>-->
-		  <!--</form>-->
-	  <!--</li>-->
-	<!--</ul>-->
-  <!--</div>-->
+  <style>
+    input, select, textarea{
+      border:solid 1px #aacfe4;
+      padding: 4px 2px;
+      display:block;
+      margin-bottom: 1em;
+    }
+    /* column container */
+    /* http://matthewjamestaylor.com/blog/perfect-3-column.htm */
+    .colmask {
+      position:relative;	/* This fixes the IE7 overflow hidden bug */
+      clear:both;
+      float:left;
+      width:100%;			/* width of whole page */
+      overflow:hidden;	    /* This chops off any overhanging divs */
+    }
+    /* common column settings */
+    .colright,
+    .colmid,
+    .colleft {
+      float:left;
+      width:100%;			/* width of page */
+      position:relative;
+    }
+    .col1,
+    .col2,
+    .col3 {
+      float:left;
+      position:relative;
+      padding:0 0 1em 0;	/* no left and right padding on columns, we just make them narrower instead
+                               only padding top and bottom is included here, make it whatever value you need */
+      overflow:hidden;
+    }
+    /* 3 Column settings */
+    .threecol {
+      background:#fff;	/* right column background colour */
+    }
+    .threecol .colmid {
+      right:25%;		/* width of the right column */
+      background:#fff;	/* center column background colour */
+    }
+    .threecol .colleft {
+      right:50%;		/* width of the middle column */
+      background:#fff;	/* left column background colour */
+    }
+    .threecol .col1 {
+      width:46%;		/* width of center column content (column width minus padding on either side) */
+      left:102%;		/* 100% plus left padding of center column */
+    }
+    .threecol .col2 {
+      width:21%;		/* Width of left column content (column width minus padding on either side) */
+      left:31%;			/* width of (right column) plus (center column left and right padding) plus (left column left padding) */
+    }
+    .threecol .col3 {
+      width:21%;		/* Width of right column content (column width minus padding on either side) */
+      left:85%;			/* Please make note of the brackets here:
+        (100% - left column width) plus (center column left and right padding) plus (left column left and right padding) plus (right column left padding) */
+    }
+    .form-field{
+      width: 98%;
+    }
+  </style>
 
 
+  <form id="form" name="form" >
 
-</div>
-<div class="spc-portal" id="portal-top-left">
-<h2>By subject</h2>
-<ul>
-{% for area in subject_area %}
-  <li> <a href="/subject/{{area}}"{{area}}</a>
-{% endfor %}
-</ul>
-</div>
+  <div class="colmask threecol">
+    <div class="colmid">
+      <div class="colleft">
+        <div class="col1">
+          <input class="form-field" id="id_title" type="text" name="title" maxlength="150" />
+        </div>
+        <div class="col2">
+          <label for="id_title">Provide a title for your submission:</label>
+        </div>
+        <div class="col3">
+          <span class="helptext">Please provide between 1 and 5 tags that describe your code (use commas to separate tags)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="colmask threecol">
+    <div class="colmid">
+      <div class="colleft">
+        <div class="col1">
+          <textarea class="form-field" id="id_summary" rows="10" cols="40" name="summary"></textarea>
+        </div>
+        <div class="col2">
+          <label for="id_title">Summary of what your submission does:</label>
+        </div>
+        <div class="col3">
+          <span class="helptext">Users initially see this summary to decide if they want to view more information about your submission.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="colmask threecol">
+    <div class="colmid">
+      <div class="colleft">
+        <div class="col1">
+          <input class="form-field" type="file" name="screenshot" id="id_screenshot" />
+        </div>
+        <div class="col2">
+          <label for="id_title">Upload a screenshot, if you have one available:</label>
+        </div>
+        <div class="col3">
+          <span class="helptext">JPEG or PNG (will be resized to 128x128)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="colmask threecol">
+    <div class="colmid">
+      <div class="colleft">
+        <div class="col1">
+          <textarea class=" spc-code-snippet" id="id_snippet" rows="20" cols="80" name="snippet" ># License: Creative Commons Zero - almost public domain - http://scpyce.org/cc0</textarea>
+        </div>
+        <div class="col2">
+          <label for="id_snippet">Copy and paste your code snippet/recipe:</label>
+        </div>
+        <div class="col3">
+          <span class="helptext"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="colmask threecol">
+    <div class="colmid">
+      <div class="colleft">
+        <div class="col1">
+          <select name="sub_license" id="id_sub_license" class="form-field">
+        <option value="1">Creative Commons Zero (CC0)</option>
+        <option value="2">Other license</option>
+        </select>
+        </div>
+        <div class="col2">
+          <label for="id_sub_license">Select a license for your submission</label>
+        </div>
+        <div class="col3">
+          <span class="helptext"><a href="/licenses">More on licenses</a></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
 
-<div class="spc-portal" id="portal-top-right">
-<h2>Top rated submissions</h2>
-<ul>
-{% for submission in top_rated %}
-  <li> <a href="/item/{{submission.slug}}"{{submission.short_name}}</a>
-{% endfor %}
-</ul>
-</div>
 
-<div class="spc-portal" id="portal-bottom-left">
-<h2>Tag cloud</h2>
-{{tag_cloud_html}}
-</div>
+  <div class="spc-portal" id="portal-top-left">
+    <h2>By subject</h2>
+    <ul>
+    {% for area in subject_area %}
+      <li> <a href="/subject/{{area}}"{{area}}</a>
+    {% endfor %}
+    </ul>
+  </div>
 
-<div class="spc-portal" id="portal-bottom-right">
-<h2>Still to come</h2>
-</div>
+  <div class="spc-portal" id="portal-top-right">
+    <h2>Top rated submissions</h2>
+    <ul>
+    {% for submission in top_rated %}
+      <li> <a href="/item/{{submission.slug}}"{{submission.short_name}}</a>
+    {% endfor %}
+    </ul>
+  </div>
 
+  <div class="spc-portal" id="portal-bottom-left">
+    <h2>Tag cloud</h2>
+    {{tag_cloud_html}}
+  </div>
 
-
-
-
+  <div class="spc-portal" id="portal-bottom-right">
+    <h2>Still to come</h2>
+  </div>
 
 {% endblock %}

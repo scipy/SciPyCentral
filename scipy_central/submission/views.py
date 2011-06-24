@@ -125,6 +125,7 @@ def new_snippet_submission(request):
     Users wants to submit a new item via the web.
     """
     snippet = get_snippet_form(request)
+    a = snippet.as_p()
     return render_to_response('submission/new-submission.html', {},
                               context_instance=RequestContext(request,
                                                         {'snippet': snippet}))
