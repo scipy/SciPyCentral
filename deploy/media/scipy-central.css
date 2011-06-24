@@ -232,6 +232,17 @@ div#spc-section-body tt, div#spc-content tt {
 }
 
 /* Submission form */
+#spc-form-error-message{
+	margin-bottom: 1em;
+	text-align: center;
+	border-bottom:solid 1px #000;
+}
+.errorlist{
+	list-style-type: none;
+	padding: 0 0;
+	float: left;
+	font-style: italic;
+}
 .spc-field-error{
     background: #ee8888;
 }
