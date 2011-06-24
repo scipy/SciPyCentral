@@ -6,9 +6,12 @@
     <meta http-equiv="Content-Language" content="en-us" />
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inconsolata">
-    <link rel="stylesheet" href="{{MEDIA_URL}}scipy-central.css" type="text/css" />
+    <link rel="stylesheet" href="{{MEDIA_URL}}scipy-central.css" type="text/css" media="Screen"/>
+    <link rel="stylesheet" href="{{MEDIA_URL}}mobile.css" type="text/css" media="handheld" />
     <link rel="stylesheet" href="{{MEDIA_URL}}pygments.css" type="text/css" />
     <link rel="stylesheet" href="{{JQUERYUI_CSS}}" type="text/css" />
+    <link rel="stylesheet" href="http://domain.tld/screen.css" type="text/css"  />
+
     <script type="text/javascript" src="{{JQUERY_URL}}"></script>
     <script type="text/javascript" src="{{JQUERYUI_URL}}"></script>
   </head>
