@@ -37,6 +37,7 @@ with <a href="http://scipy.org">SciPy</a> and related Python tools.
 <div id="spc-submission-type" class="colmask">
   <div class="col1">
 	<form method="get" action="/item/new-snippet/" class="spc-new-submission-form">
+	  {% csrf_token %}
 	  <button type="submit" class="spc-button" id="spc-submit-snippet-button">
 	  <img src="{{MEDIA_URL}}single-file-icon.png" height=40 width=40
 	  alt="Submit a snippet" align="absmiddle">Submit a code snippet</button>
@@ -44,6 +45,7 @@ with <a href="http://scipy.org">SciPy</a> and related Python tools.
   </div>
   <div class="col2">
 	<form method="post" action="/item/new-package/" class="spc-new-submission-form">
+	  {% csrf_token %}
 	  <button type="submit" class="spc-button" id="spc-submit-package-button">
 	  <img src="{{MEDIA_URL}}multiple-file-icon.png" height=40 width=40
 	  alt="Submit a package of files" align="absmiddle">Submit a package (library)</button>
@@ -51,8 +53,9 @@ with <a href="http://scipy.org">SciPy</a> and related Python tools.
   </div>
   <div class="col3">
 	<form method="post" action="/item/new-link/" class="spc-new-submission-form">
+	  {% csrf_token %}
 	  <button type="submit" class="spc-button" id="spc-submit-extlink-button">
-	  <img src="{{MEDIA_URL}}multiple-file-icon.png" height=40 width=40
+	  <img src="{{MEDIA_URL}}external-link-icon.png" height=40 width=40
 	  alt="Submit a link to an external site" align="absmiddle">Link to a
 	  scientific resource</button>
 	</form>
