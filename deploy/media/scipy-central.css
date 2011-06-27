@@ -92,8 +92,8 @@ body {
 }
 #spc-site-title{
 	border-bottom: 1px solid #aaa;
-	position: relative;
-	top: -2em;
+	margin-top: -2em;
+	margin-bottom: -1em;
 }
 #spc-top-menu{
 	padding-top: 0.25em;
@@ -326,7 +326,7 @@ input, select, textarea{
 /* spc-footer: http://www.alistapart.com/articles/practicalcss/   */
 #spc-footer {
 	clear: both;
-	font-size: 100%;
+	font-size: 90%;
 	padding: 1px;
 	float: left;
 	width: 100%;
