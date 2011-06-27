@@ -1,70 +1,71 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-  <head>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <meta http-equiv="Content-Language" content="en-us" />
-    <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inconsolata">
-    <link rel="stylesheet" href="{{MEDIA_URL}}scipy-central.css" type="text/css" media="Screen"/>
-    <link rel="stylesheet" href="{{MEDIA_URL}}mobile.css" type="text/css" media="handheld" />
-    <link rel="stylesheet" href="{{MEDIA_URL}}pygments.css" type="text/css" />
-    <link rel="stylesheet" href="{{JQUERYUI_CSS}}" type="text/css" />
-    <script type="text/javascript" src="{{JQUERY_URL}}"></script>
-    <script type="text/javascript" src="{{JQUERYUI_URL}}"></script>
-  </head>
-  <body>
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Language" content="en-us" />
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inconsolata">
+  <link rel="stylesheet" href="{{MEDIA_URL}}scipy-central.css" type="text/css" media="Screen"/>
+  <link rel="stylesheet" href="{{MEDIA_URL}}mobile.css" type="text/css" media="handheld" />
+  <link rel="stylesheet" href="{{MEDIA_URL}}pygments.css" type="text/css" />
+  <link rel="stylesheet" href="{{JQUERYUI_CSS}}" type="text/css" />
+  <script type="text/javascript" src="{{JQUERY_URL}}"></script>
+  <script type="text/javascript" src="{{JQUERYUI_URL}}"></script>
+</head>
+<body>
 
-    {% block extra_head %}{% endblock %}
+{% block extra_head %}{% endblock %}
 
-    {% block body %}
+{% block body %}
 
-    <div id="spc-container">
+  <div id="spc-container">
 
-      <div id="spc-notice">
-        <a href="{% url spc-login-signin %}">Sign In</a>
-      </div><!--#spc-notice -->
-
-      <div id="spc-header">
-        <h1><a href="{% url spc-main-page %}" title="Home page for SciPy Central">SciPy Central</a></h1>
-      </div><!--#spc-header -->
+	<style>
 
 
-      <div class="spc-navigation" id="spc-navigation-top">
-        <div class="spc-nav-links">
-          <div id="spc-menu">
-            <div id="spc-menu-left">
-            </div>
-            <div id="spc-menu-right">
-            </div>
-          </div><!--menu-->
-        </div>
-      </div><!--#spc-navigation-->
+    </style>
 
+	<div id="spc-header">
+	  <div class="spc-header-row" id="spc-site-notice">
+		This website is in alpha-mode and will change radically from day-to-day.
+	  </div>
+	  <div class="spc-header-row" id="spc-top-menu">
+		<div class="spc-header-right">
+		  <a href="{% url spc-login-signin %}">Sign In</a>
+		</div>
+	  </div>
+	  <div class="spc-header-row" id="spc-site-title">
+		<h1><a href="{% url spc-main-page %}" title="Home page for SciPy Central">SciPy Central</a></h1>
+	  </div>
+    </div> <!--#spc-header-->
+    <div style="clear:both;"></div>
 
-      <div id="spc-contentwrap">
-        <div id="spc-content-main">
-          <div id="spc-border">
-            <div id="spc-section-body">
-              {% block content %}{% endblock %}
-            </div><!--#spc-section-body-->
-          </div><!--#spc-border-->
-        </div><!--spc-content-main-->
-      </div><!--#spc-contentwrap-->
+    <div id="spc-contentwrap">
+      <div id="spc-content-main">
+        <div id="spc-border">
+          <div id="spc-section-body">
+            {% block content %}{% endblock %}
+          </div><!--#spc-section-body-->
+        </div><!--#spc-border-->
+      </div><!--spc-content-main-->
+    </div><!--#spc-contentwrap-->
 
-      <div id="spc-navigation-bottom" class="spc-navigation">
-        <div class="spc-nav-links">
-        <a href="{% url spc-about-page %}">About this site</a>
-        </div>
-      </div> <!--#spc-navigation-bottom-->
-      <div id="spc-footer">
-        Trademarks are property of their respective owners. Code and comments are owned by their respective posters. © {{the_year}} All Rights Reserved.
-        <hr />
-         | Sponsor: <a href="http://connectmv.com/">ConnectMV, Inc.</a>
-      </div><!--#spc-footer-->
+    <div id="spc-footer">
+      <div class="spc-footer-left">
+        <ul>
+          <li><a href="{% url spc-about-page %}">About this site</a></li>
+          <li>Site sponsor: <a href="http://connectmv.com/">ConnectMV, Inc.</a>
+        </ul>
+	  </div>
+      <div class="spc-footer-right">
+        Trademarks are property of their respective owners. Code and comments are
+        owned by their respective posters. © {{THE_YEAR}} All Rights Reserved.
+	  </div>
+    </div> <!--#spc-footer-->
 
-    </div><!--#spc-container-->
+  </div><!--#spc-container-->
 
-  {% endblock %}
+{% endblock %}
 </body>
 </html>
