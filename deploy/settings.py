@@ -233,7 +233,11 @@ except ImportError:
     JQUERYUI_URL = 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js'
     JQUERYUI_CSS = 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/smoothness/jquery-ui.css'
 
-    # Also overwrite keys from ``SPC`` in the ``local_settings.py`` file
+    # If you use Piwik, Google Analytics, etc: add the code snippet here that
+    # will be placed as the last entry in the closing </head> tag.
+    ANALYTICS_SNIPPET = ''
+
+    # You can also overwrite keys from ``SPC`` in the ``local_settings.py`` file
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

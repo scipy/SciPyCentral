@@ -84,10 +84,16 @@ body {
 	text-align: right;
 }
 #spc-site-notice{
-	display: none;
+	/*display: none;*/
+	color: #f00;
+	font-weight: bold;
+	padding: 6px 0px;
+	border-bottom: 1px solid #000;
 }
 #spc-site-title{
 	border-bottom: 1px solid #aaa;
+	position: relative;
+	top: -2em;
 }
 #spc-top-menu{
 	padding-top: 0.25em;
