@@ -2,6 +2,8 @@ from django.conf.urls.defaults import url, patterns
 
 urlpatterns = patterns('scipy_central.submission.views',
 
+    # SNIPPETS
+    # ========
     # New snippet submission
     url(r'^new-snippet[/]?$', 'new_snippet_submission',
                                             name='spc-new-snippet-submission'),
@@ -15,9 +17,15 @@ urlpatterns = patterns('scipy_central.submission.views',
                                             name='spc-new-snippet-submit'),
 
 
+    # LINKS
+    # ========
     # New link submission
     url(r'^new-link[/]?$', 'new_link_submission',
                                             name='spc-new-link-submission'),
+
+    # Preview link submission
+    url(r'^new-link-preview$', 'preview_link_submission',
+                                            name='spc-new-link-preview'),
 
     # Show an existing submission; some valid examples include:
     # Maximal information:   http://.../23/draw-an-ellipse/revision/4/

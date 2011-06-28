@@ -34,11 +34,15 @@ class Submission_Form__Common_Parts(HiddenBaseForm, forms.Form):
                 help_text=('Let the community know what your submission does, '
                            'how it solves the problem, and/or how it works.'))
 
+    # Non-HTML5 browsers will fallback to "text" input widgets; but this really
+    # helps for ipads and modern devices that support HTML5.
+    html5_email_widget = widget=forms.TextInput()
+    html5_email_widget.input_type = 'email'
     email = forms.EmailField(label=('Your email address'),
                  help_text=('Since you are not <a href="/user/sign-in/">signed'
                             ' in</a> we will send you an email to confirm '
                             'your submission.'),
-                             required=True)
+                 required=True, widget=html5_email_widget)
 
 class SnippetForm(Submission_Form__Common_Parts, ScreenshotForm):
     """
@@ -152,15 +156,4 @@ class LinkForm(Submission_Form__Common_Parts):
     #url = forms.CharField()
     #pypi_name = forms.CharField(max_length=256)
 
-    #change_comment = forms.CharField(required=True, widget=forms.Textarea())
-
-##
-## Snippets
-##
-
-#class SnippetForm(EditForm):
-    #description = forms.CharField(widget=forms.Textarea())
-    #snippet = forms.CharField(required=False, widget=forms.Textarea())
-
-    #upload_file = forms.FileField(required=False)
     #change_comment = forms.CharField(required=True, widget=forms.Textarea())

@@ -28,6 +28,29 @@ logger = logging.getLogger('scipycentral')
 logger.debug('Initializing submission::views.py')
 
 
+def get_form(request, form_class, field_order, unbound=True):
+    """
+    Generic function. Used for all submission types. Specify the ``form_class``
+    that's given in ``forms.py``. The ``field_order`` is a list of strings that
+    indicates the linear order of the fields in the form. An ``unbound`` form
+    is an empty form, while a bound form is a function of the information
+    provided in the POST field of ``request``.
+    """
+    if unbound:
+        form_output = form_class()
+    else:
+        form_output = form_class(data=request.POST)
+
+    # Rearrange the form order: screenshot and tags at the end
+    form_output.fields.keyOrder = field_order
+
+    if request.user.is_authenticated():
+        # Email field not required for signed-in users
+        form_output.fields.pop('email')
+
+    return form_output
+
+
 def create_new_submission_and_revision(request, snippet, authenticated):
     """
     Creates a new ``Submission`` and ``Revision`` instance. Returns these in
@@ -103,30 +126,14 @@ def create_new_submission_and_revision(request, snippet, authenticated):
     return sub, rev, message
 
 
-def get_snippet_form(request, unbound=True):
-    if unbound:
-        snippet = forms.SnippetForm()
-    else:
-        snippet = forms.SnippetForm(data=request.POST)
-
-    # Rearrange the form order: screenshot and tags at the end
-    snippet.fields.keyOrder = ['title', 'description', 'snippet',
-                               'sub_license', 'screenshot', 'sub_tags',
-                               'email', 'sub_type']
-
-    if request.user.is_authenticated():
-        # Email field not required for signed-in users
-        snippet.fields.pop('email')
-
-    return snippet
-
-
 def new_snippet_submission(request):
     """
     Users wants to submit a new item via the web.
     """
-    snippet = get_snippet_form(request)
-    a = snippet.as_p()
+    snippet = get_form(request, forms.SnippetForm,
+                       field_order=['title', 'description', 'snippet',
+                       'sub_license', 'screenshot', 'sub_tags',
+                       'email', 'sub_type'])
     return render_to_response('submission/new-submission.html', {},
                               context_instance=RequestContext(request,
                                                         {'snippet': snippet}))
@@ -139,11 +146,12 @@ def preview_snippet_submission(request):
     if request.method != 'POST':
         return redirect('spc-new-snippet-submission')
 
-    extra_messages = []
-
     # Use the built-in forms checking to validate the fields.
     valid_fields = []
-    snippet = get_snippet_form(request, unbound=False)
+    snippet = get_form(request, forms.SnippetForm, unbound=False,
+                       field_order=['title', 'description', 'snippet',
+                       'sub_license', 'screenshot', 'sub_tags',
+                       'email', 'sub_type'])
     sshot = ScreenshotForm(request.POST, request.FILES)
     valid_fields.append(snippet.is_valid())
     valid_fields.append(sshot.is_valid())
@@ -213,7 +221,10 @@ def submit_snippet_submission(request):
 
     # Use the built-in forms checking to validate the fields.
     valid_fields = []
-    snippet = get_snippet_form(request, unbound=False)
+    snippet = get_form(request, forms.SnippetForm, unbound=False,
+                       field_order=['title', 'description', 'snippet',
+                       'sub_license', 'screenshot', 'sub_tags',
+                       'email', 'sub_type'])
     sshot = ScreenshotForm(request.POST, request.FILES)
     valid_fields.append(snippet.is_valid())
     valid_fields.append(sshot.is_valid())
@@ -279,8 +290,6 @@ def submit_snippet_submission(request):
 
     send_email(user.email, "Thanks for your submission to SciPy Central",
                message=message)
-
-    pass
 
 
 def view_snippet(request, snippet_id, slug=None, revision=None):
@@ -352,4 +361,35 @@ def tag_autocomplete(request):
 
 
 def new_link_submission(request):
-    return HttpResponse('STILL TO DO')
+    """
+    Users wants to submit a new link item.
+    """
+    linkform = get_form(request, forms.LinkForm, field_order=['title',
+                            'description', 'link', 'screenshot', 'sub_tags',
+                            'email', 'sub_type'])
+    return render_to_response('submission/new-link.html', {},
+                              context_instance=RequestContext(request,
+                                                    {'linkform': linkform}))
+
+    #user = create_new_account_internal('mik2@smith.com')
+
+    #sub = models.Submission.objects.create(created_by=user,
+                                    #sub_type='link',
+                                    #is_displayed=False)
+
+    #rev = models.Revision.objects.create(
+                            #entry=sub,
+                            #title='Visvis library for data visualization',
+                            #author=user,
+                            #sub_license=None,
+                            #description='Visvis is a pure Python library for visualization of 1D to 4D data in an object oriented way combining the power of OpenGL with the usability of Python. A MATLAB-like interface in the form of a set of functions allows easy creation of objects.',
+                            #screenshot=None,
+                            #hash_id=None,
+                            #item_url='http://code.google.com/p/visvis/',
+                            #item_code=None,
+                            #)
+    #return HttpResponse('STILL TO DO')
+
+
+def preview_link_submission(request):
+    return HttpResponse('STILL COMING')

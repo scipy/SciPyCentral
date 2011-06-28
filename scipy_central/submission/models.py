@@ -107,7 +107,7 @@ class Revision(models.Model):
                         help_text='Provide a <b>title</b> for your submission')
 
     # auto-created slug field [*unique field*]
-    slug = models.SlugField(max_length=255, unique=True, editable=False)
+    slug = models.SlugField(max_length=155, unique=True, editable=False)
 
     # Created on
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
@@ -129,8 +129,8 @@ class Revision(models.Model):
     #summary = models.CharField(max_length=255, help_text = ('Explain what '
      #               'your submission does in less than 250 characters.'))
 
-    # User-provided description of the submission [10000 character limit].
-    # Uses reStructuredText
+    # User-provided description of the submission. Uses reStructuredText.
+    # Is blank for URL (link) submissions.
     description = models.TextField(help_text=('Please <b>explain your '
                     'submission</b>.'))
 
@@ -141,13 +141,14 @@ class Revision(models.Model):
     screenshot = models.ForeignKey('screenshot.Screenshot', null=True,
                                    blank=True)
 
-    # Code snippet hash
-    hash_id = models.CharField(max_length=40, null=True, blank=True,
+    # Code snippet hash (will use ssdeep later on: 57 characters)
+    hash_id = models.CharField(max_length=60, null=True, blank=True,
                                editable=False)
 
     # For snippet submissions
-    item_code = models.TextField()
-    item_highlighted_code = models.TextField(editable=False)
+    item_code = models.TextField(null=True, blank=True)
+    item_highlighted_code = models.TextField(editable=False, null=True,
+                                             blank=True)
 
     # For link-type submissions
     item_url = models.URLField(verbose_name="URL for link-type submssions",
@@ -176,7 +177,7 @@ class Revision(models.Model):
                                   #verbose_name='Number of page views')
 
     def __unicode__(self):
-        return self.title + '::' + str(self.author.username)
+        return self.title[0:50] + '::' + str(self.author.username)
 
 
     def save(self, *args, **kwargs):
@@ -198,10 +199,11 @@ class Revision(models.Model):
                 #Comment: 'italic #888',
                 #}
         #formatters.HtmlFormatter(style=ScipyStyle).get_style_defs('div#spc-section-body .highlight')
-
-        self.item_highlighted_code = highlight(self.item_code,
-                                               lexers.PythonLexer(),
+        if self.item_code:
+            self.item_highlighted_code = highlight(self.item_code,
+                                                   lexers.PythonLexer(),
                                        formatters.HtmlFormatter(linenos=True))
+
 
         # Call the "real" save() method.
         super(Revision, self).save(*args, **kwargs)
