@@ -25,21 +25,22 @@
       <li><form method="post" action="/item/new-snippet/" class="spc-new-submission-formlist" >
         {% csrf_token %}
 
-        <input type="image" title alt=" " border="7"
+        <input type="image" title=" " alt="Submit a code snippet" border="0"
         style="background: url('{{MEDIA_URL}}single-file-icon-shrunk.png') no-repeat;
           background-size: 183px 40px;
           background-position: 0px 0px;
+          background-color: silver;
           border: 1px outset #B6A792;
-
           width: 185px;
-          cursor: default;
+          cursor: auto;
+          display: inline-block;
           box-sizing: border-box;
           vertical-align: middle;
           height: 44px;
-          display: inline-block;
           overflow: hidden;
           padding: 0;
           margin: 0;
+          word-spacing: 0px;
 
           ">
         <button type="submit"  id="spc-submit-snippet-button">
