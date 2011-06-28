@@ -146,7 +146,7 @@ div#spc-section-body h1, h2, h3, h4, h5, h6{
 	font-family: 'Trebuchet MS', sans-serif;
     font-weight: normal;
     border-bottom: 0px solid #ccc;}
-div#spc-section-body h1 {	m	-top: 0;	font-size: 200%; font-weight: bold;}
+div#spc-section-body h1 { font-size: 200%; font-weight: bold;}
 div#spc-section-body h2 { font-size: 160%; font-weight: bold; color: #101074;}
 div#spc-section-body h3 { font-size: 140%; color: #362A13;}
 div#spc-section-body h4 { font-size: 120%; }
@@ -156,11 +156,10 @@ div#spc-section-body h6 { font-size: 100%; }
 
 /* Styling for hyperlinks */
 div#spc-section-body a{
-	text-decoration: underline;
-	color: #EE9816;
+	text-decoration: none;
 }
-div#spc-section-body a.spc-small-uri{
-	font-size: 70%;
+div#spc-section-body a:hover{
+	text-decoration: underline;
 }
 
 /* Styling for images and figures: images are inline, figures are centered */
@@ -234,7 +233,7 @@ div#spc-section-body tt, div#spc-content tt {
 }
 #buttonlist a {
 	text-decoration: none;
-	width: 0 auto;
+	margin: 0 auto;
 	display: block;
 }
 
@@ -376,8 +375,8 @@ div#spc-new-user {
 }
 
 div#spc-new-user .textbox .holding input {
-	font: 20px "Helvetica Neue",Helvetica,Arial,sans-serif
-	outline: 0;
+	font: 20px "Helvetica Neue",Helvetica,Arial,sans-serif;
+	/*outline: 0;*/
 	padding: 8px 6px;
 	width: 382px;
 	border: 1px solid #ccc;

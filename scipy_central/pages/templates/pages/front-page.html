@@ -47,31 +47,31 @@
     </ul>
   </div>
 
-  <div class="spc-portal" id="portal-top-left">
-    <h2>By subject</h2>
-    <ul>
-    {% for area in subject_area %}
-      <li> <a href="/subject/{{area}}"{{area}}</a>
-    {% endfor %}
-    </ul>
-  </div>
+  <!--<div class="spc-portal" id="portal-top-left">-->
+    <!--<h2>By subject</h2>-->
+    <!--<ul>-->
+    <!--{% for area in subject_area %}-->
+      <!--<li> <a href="/subject/{{area}}"{{area}}</a>-->
+    <!--{% endfor %}-->
+    <!--</ul>-->
+  <!--</div>-->
 
-  <div class="spc-portal" id="portal-top-right">
-    <h2>Top rated submissions</h2>
-    <ul>
-    {% for submission in top_rated %}
-      <li> <a href="/item/{{submission.slug}}"{{submission.short_name}}</a>
-    {% endfor %}
-    </ul>
-  </div>
+  <!--<div class="spc-portal" id="portal-top-right">-->
+    <!--<h2>Top rated submissions</h2>-->
+    <!--<ul>-->
+    <!--{% for submission in top_rated %}-->
+      <!--<li> <a href="/item/{{submission.slug}}"{{submission.short_name}}</a>-->
+    <!--{% endfor %}-->
+    <!--</ul>-->
+  <!--</div>-->
 
-  <div class="spc-portal" id="portal-bottom-left">
-    <h2>Tag cloud</h2>
-    {{tag_cloud_html}}
-  </div>
+  <!--<div class="spc-portal" id="portal-bottom-left">-->
+    <!--<h2>Tag cloud</h2>-->
+    <!--{{tag_cloud_html}}-->
+  <!--</div>-->
 
-  <div class="spc-portal" id="portal-bottom-right">
-    <h2>Still to come</h2>
-  </div>
+  <!--<div class="spc-portal" id="portal-bottom-right">-->
+    <!--<h2>Still to come</h2>-->
+  <!--</div>-->
 
 {% endblock %}
