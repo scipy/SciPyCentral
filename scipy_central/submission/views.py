@@ -170,18 +170,6 @@ def preview_snippet_submission(request):
                                                          snippet,
                                                          authenticated)
 
-        extra_html = """
-        <form action="/item/new-snippet-preview"
-  method="POST" class="spc-ul-form" enctype="multipart/form-data">
-
-          <input type="submit" name="spc-cancel" value="Cancel"
-          id="spc-item-cancel" />
-          <input type="submit" name="spc-edit"   value="Edit"
-          id="spc-item-edit" />
-          <input type="submit" name="spc-submit" value="Submit entry"
-          id="spc-item-submit" />
-        </div>
-        """
         # Create the 3-button form via a template to account for hyperlinks
         # and CSRF
         context = RequestContext(request)
@@ -365,11 +353,12 @@ def new_link_submission(request):
     Users wants to submit a new link item.
     """
     linkform = get_form(request, forms.LinkForm, field_order=['title',
-                            'description', 'link', 'screenshot', 'sub_tags',
-                            'email', 'sub_type'])
+                            'description', 'item_url', 'screenshot',
+                            'sub_tags', 'email', 'sub_type'])
+    a = linkform.as_p()
     return render_to_response('submission/new-link.html', {},
                               context_instance=RequestContext(request,
-                                                    {'linkform': linkform}))
+                                                    {'item': linkform}))
 
     #user = create_new_account_internal('mik2@smith.com')
 
@@ -392,4 +381,59 @@ def new_link_submission(request):
 
 
 def preview_link_submission(request):
-    return HttpResponse('STILL COMING')
+    if request.method != 'POST':
+        return redirect('spc-new-link-submission')
+
+    # Use the built-in forms checking to validate the fields.
+    valid_fields = []
+    new_submission = get_form(request, forms.LinkForm, unbound=False,
+                              field_order=['title', 'description', 'item_url',
+                                           'screenshot', 'sub_tags', 'email',
+                                           'sub_type'])
+    sshot = ScreenshotForm(request.POST, request.FILES)
+    valid_fields.append(new_submission.is_valid())
+    valid_fields.append(sshot.is_valid())
+
+    if all(valid_fields):
+        # 1. Create user account, if required
+        authenticated = True
+        if not(request.user.is_authenticated()):
+            user = create_new_account_internal(\
+                                         new_submission.cleaned_data['email'])
+            request.user = user
+            authenticated = False
+
+        # 2. Create the submission and revision and email the user
+        sub, rev, _ = create_new_submission_and_revision(request,
+                                                         new_submission,
+                                                         authenticated)
+
+        # Create the 3-button form via a template to account for hyperlinks
+        # and CSRF
+        context = RequestContext(request)
+        context['snippet'] = snippet
+        html = ('<div id="spc-preview-edit-submit" class="spc-form">'
+                '<form action="{% url spc-new-link-submit %}" '
+                'method="POST" enctype="multipart/form-data">\n'
+                '{% csrf_token %}\n'
+                '{{snippet.as_hidden}}'
+                '<input type="submit" name="spc-cancel" value="Cancel"'
+                'id="spc-item-cancel" />\n'
+                '<input type="submit" name="spc-edit"   value="Edit"'
+                'id="spc-item-edit" />\n'
+                '<input type="submit" name="spc-submit" value="Finish submission"'
+                'id="spc-item-submit" />\n'
+                '</form></div>')
+        resp = template.Template(html)
+        extra_html = resp.render(template.Context(context))
+        return render_to_response('submission/link.html', {},
+                                  context_instance=RequestContext(request,
+                                                  {'submission': sub,
+                                                   'item': rev,
+                                                   'extra_html': extra_html,
+                                                   'wrapper_id': 'preview',
+                                          'unvalidated_user': authenticated}))
+    else:
+        return render_to_response('submission/new-link.html', {},
+                              context_instance=RequestContext(request,
+                                            {'item': new_submission}))

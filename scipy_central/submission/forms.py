@@ -44,6 +44,13 @@ class Submission_Form__Common_Parts(HiddenBaseForm, forms.Form):
                             'your submission.'),
                  required=True, widget=html5_email_widget)
 
+    sub_tags = forms.CharField(max_length=50, label=('<b>Tag</b> your '
+                               'submission'),
+                               help_text=('Please provide between 1 and 5 tags'
+                                          ' that describe your submission (use'
+                                          ' commas to separate tags)'))
+
+
 class SnippetForm(Submission_Form__Common_Parts, ScreenshotForm):
     """
     Code snippet: requires a box to paste the code in.
@@ -78,12 +85,6 @@ class SnippetForm(Submission_Form__Common_Parts, ScreenshotForm):
     sub_type = forms.CharField(max_length=10, initial='snippet',
                                widget=forms.HiddenInput(), required=False)
 
-    sub_tags = forms.CharField(max_length=50, label=('<b>Tag</b> your '
-                               'submission'),
-                               help_text=('Please provide between 1 and 5 tags'
-                                          ' that describe your code (use '
-                                          'commas to separate tags)'))
-
 class PackageForm(Submission_Form__Common_Parts, ScreenshotForm):
     """
     Code package submission: upload a ZIP file
@@ -98,14 +99,17 @@ class PackageForm(Submission_Form__Common_Parts, ScreenshotForm):
             label="Select a license for your submission",
             help_text='<a href="/licenses">More on licenses</a>')
 
-class LinkForm(Submission_Form__Common_Parts):
+class LinkForm(Submission_Form__Common_Parts, ScreenshotForm):
     """
     Link submission: only requires a URL
     """
     parent = Revision._meta.get_field('item_url')
-    item_url = forms.URLField(label='Link',
+    item_url = forms.URLField(label='<b>Link</b> to resource',
                               max_length=parent.max_length,
                               help_text=parent.help_text)
+
+    sub_type = forms.CharField(max_length=10, initial='link',
+                               widget=forms.HiddenInput(), required=False)
 
 #class LicenseForm(forms.Form):
     #"""
