@@ -367,9 +367,21 @@ input, select, textarea{
 	background-color: #3E6D8E;
 	color: #E0EAF1;
 }
-
+#spc-item-display{
+}
+#spc-item-description p{
+	margin-top: 0;
+}
 #spc-preview-edit-submit{
 	clear: both;
+}
+#spc-preview-edit-submit form input{
+	display: inline;
+	padding: 5px;
+}
+#spc-item-submit{
+	margin-left:8em;
+	font-weight: bold;
 }
 #spc-item-preview{
 	width:auto;
@@ -377,7 +389,25 @@ input, select, textarea{
 	padding: 0.5em;
 	text-align:center;
 }
+div.spc-item-row {
+	clear: both;
+	padding-top: 10px;
+}
 
+div.spc-item-row span.spc-item-label {
+	float: left;
+	width: 10em;
+	text-align: left;
+	padding-right: 1em;
+	font-weight: bold;
+}
+
+div.spc-item-row span.spc-item-entry {
+	float: left;
+	min-width: 500px;
+	max-width: 1000px;
+	text-align: left;
+}
 
 
 /* spc-footer: http://www.alistapart.com/articles/practicalcss/   */

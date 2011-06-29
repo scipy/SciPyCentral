@@ -27,7 +27,7 @@ urlpatterns = patterns('scipy_central.submission.views',
     # LINKS
     # ========
     # New link submission
-    url(r'^new-link[/]?$', 'new_link_submission',
+    url(r'^new-link[/]?$', 'new_or_edit_link_submission',
                                             name='spc-new-link-submission'),
 
     # Preview link submission

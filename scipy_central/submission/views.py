@@ -16,6 +16,7 @@ from scipy_central.person.views import create_new_account_internal
 from scipy_central.filestorage.models import FileSet
 from scipy_central.tagging.models import Tag, parse_tags
 from scipy_central.utils import send_email
+from scipy_central.rest_comments.views import compile_rest_to_html
 import models
 import forms
 
@@ -104,8 +105,9 @@ def create_new_submission_and_revision(request, item, authenticated,
         item_url = None
         item_code = item.cleaned_data['snippet_code']
 
-
-    description_html = 'TO DO'
+    # Convert the raw ReST description to HTML using Sphinx: could include
+    # math, paragraphs, <tt>, bold, italics, bullets, hyperlinks, etc.
+    description_html = compile_rest_to_html(item.cleaned_data['description'])
 
     rev = models.Revision.objects.create_without_commit(
                             entry=sub,
@@ -202,12 +204,12 @@ def preview_snippet_submission(request):
                 'method="POST" enctype="multipart/form-data">\n'
                 '{% csrf_token %}\n'
                 '{{snippet.as_hidden}}'
-                '<input type="submit" name="spc-cancel" value="Cancel"'
-                'id="spc-item-cancel" />\n'
-                '<input type="submit" name="spc-edit"   value="Edit"'
-                'id="spc-item-edit" />\n'
+                '<input type="submit" name="spc-cancel" value="Cancel submission"'
+                'id="spc-item-cancel"/>\n'
+                '<input type="submit" name="spc-edit"   value="Continue editing"'
+                'id="spc-item-edit" "/>\n'
                 '<input type="submit" name="spc-submit" value="Submit entry"'
-                'id="spc-item-submit" />\n'
+                'id="spc-item-submit" style="margin-left:3em;"/>\n'
                 '</form></div>')
         resp = template.Template(html)
         extra_html = resp.render(template.Context(context))
@@ -339,8 +341,6 @@ def get_license_text(rev):
     """
     return '****\nGENERATE LICENSE TEXT STILL\n****'
 
-#autocomplete = cache_page(autocomplete, 60 * 60)
-
 
 def tag_autocomplete(request):
     """
@@ -371,13 +371,16 @@ def tag_autocomplete(request):
     return HttpResponse(simplejson.dumps(starts), mimetype='text/plain')
 
 
-def new_link_submission(request):
+def new_or_edit_link_submission(request, user_edit=False):
     """
-    Users wants to submit a new link item.
+    Users wants to submit a new link item, or continue editing a submission.
+    When editing a submission we have ``unbound=False``, because the form is
+    bound to the ``request``.
     """
     linkform = get_form(request, forms.LinkForm, field_order=['title',
                             'description', 'item_url', 'screenshot',
-                            'sub_tags', 'email', 'sub_type'])
+                            'sub_tags', 'email', 'sub_type'],
+                        unbound=not(user_edit))
     return render_to_response('submission/new-link.html', {},
                               context_instance=RequestContext(request,
                                                     {'item': linkform}))
@@ -420,13 +423,14 @@ def preview_link_submission(request):
                 'method="POST" enctype="multipart/form-data">\n'
                 '{% csrf_token %}\n'
                 '{{item.as_hidden}}'
+                '<div id="spc-preview-edit-submit-button-group">'
                 '<input type="submit" name="spc-cancel" value="Cancel"'
                 'id="spc-item-cancel" />\n'
-                '<input type="submit" name="spc-edit"   value="Edit"'
+                '<input type="submit" name="spc-edit"   value="Resume editing"'
                 'id="spc-item-edit" />\n'
                 '<input type="submit" name="spc-submit" value="Finish submission"'
-                'id="spc-item-submit" />\n'
-                '</form></div>')
+                'id="spc-item-submit"/>\n'
+                '</div></form></div>')
         resp = template.Template(html)
         extra_html = resp.render(template.Context(context))
         return render_to_response('submission/link.html', {},
@@ -445,7 +449,60 @@ def submit_link_submission(request):
     if request.method != 'POST':
         return redirect('spc-new-link-submission')
 
+    if request.POST.has_key('spc-cancel'):
+        return redirect('spc-main-page')
+
+    if request.POST.has_key('spc-edit'):
+        return new_or_edit_link_submission(request, user_edit=True)
+
+    # Use the built-in forms checking to validate the fields.
+    valid_fields = []
+    new_submission = get_form(request, forms.LinkForm, unbound=False,
+                              field_order=['title', 'description', 'item_url',
+                                           'screenshot', 'sub_tags', 'email',
+                                           'sub_type'])
+    sshot = ScreenshotForm(request.POST, request.FILES)
+    valid_fields.append(new_submission.is_valid())
+    valid_fields.append(sshot.is_valid())
+
+    if all(valid_fields):
+        # 1. Create user account, if required
+        authenticated = True
+        if not(request.user.is_authenticated()):
+            user = create_new_account_internal(\
+                                         new_submission.cleaned_data['email'])
+            request.user = user
+            authenticated = False
+
+        # 2. Create the submission and revision and email the user
+        sub, rev, tag_list, msg = create_new_submission_and_revision(request,
+                                                         new_submission,
+                                                         authenticated,
+                                                         commit=True)
 
 
+        # 4. Thank user and return with any extra messages
+        if authenticated:
+            extra_messages = ('A confirmation email has been sent to you.')
+        else:
+            extra_messages = ('You have been sent an email to '
+                              '<i>confirm your submission</i> and to create '
+                              'an account (if you do not have one '
+                              'already). <p>Unconfirmed submissions '
+                              'cannot be accepted, and <b>will be '
+                              'deleted</b> after %d days. Please sign-in '
+                              'to avoid having to confirm your '
+                              'valuable submissions in the future.') % \
+                            settings.SPC['unvalidated_subs_deleted_after']
 
-    return HttpResponse('STILL TO DO')
+        send_email(user.email, "Thanks for your submission to SciPy Central",
+                   message=msg)
+
+        return render_to_response('submission/thank-user.html', {},
+                                  context_instance=RequestContext(request,
+                                        {'extra_message': extra_messages}))
+    else:
+        return render_to_response('submission/new-submission.html', {},
+                              context_instance=RequestContext(request,
+                                            {'snippet': snippet}))
+

@@ -2,6 +2,9 @@ from django.conf.urls.defaults import url, include, patterns
 
 urlpatterns = patterns('scipy_central',
 
+    # NOTE: internal name for front page (defined in scipy_central.pages.urls)
+    #       is:  spc-main-page
+
     # Major pages in the site: front page, about page, etc
     url(r'', include('scipy_central.pages.urls')),
 
