@@ -350,6 +350,24 @@ input, select, textarea{
 * html .ui-autocomplete {
 	height: 100px;
 }
+.spc-tag{
+    background-color: #E0EAF1;
+    color: #3E6D8E;
+    border-bottom: 1px solid #37607D;
+    border-right: 1px solid #37607D;
+    text-decoration: none;
+    padding: 4px 4px 3px 4px;
+    margin: 2px 5px 2px 0px;
+    font-size: 90%;
+    line-height: 2.4;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.spc-tag:hover{
+	background-color: #3E6D8E;
+	color: #E0EAF1;
+}
+
 #spc-preview-edit-submit{
 	clear: both;
 }
@@ -359,6 +377,9 @@ input, select, textarea{
 	padding: 0.5em;
 	text-align:center;
 }
+
+
+
 /* spc-footer: http://www.alistapart.com/articles/practicalcss/   */
 #spc-footer {
 	clear: both;

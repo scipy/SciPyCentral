@@ -51,7 +51,8 @@ def get_form(request, form_class, field_order, unbound=True):
     return form_output
 
 
-def create_new_submission_and_revision(request, item, authenticated):
+def create_new_submission_and_revision(request, item, authenticated,
+                                       commit=False):
     """
     Creates a new ``Submission`` and ``Revision`` instance. Returns these in
     a tuple.
@@ -103,28 +104,36 @@ def create_new_submission_and_revision(request, item, authenticated):
         item_url = None
         item_code = item.cleaned_data['snippet_code']
 
+
+    description_html = 'TO DO'
+
     rev = models.Revision.objects.create_without_commit(
                             entry=sub,
                             title=item.cleaned_data['title'],
                             author=user,
                             sub_license=sub_license,
                             description=item.cleaned_data['description'],
+                            description_html=description_html,
                             screenshot=sshot,
                             hash_id=hash_id,
                             item_url=item_url,
                             item_code=item_code,
                             )
 
-    # Add the tags afterwards and save the revision
-    #for tag in tag_list:
-    #    rev.tags.add(tag)
+    if commit:
+        sub.save()
+        rev.entry_id = sub.id
+        rev.save()
+        # Add the tags afterwards and save the revision
+        for tag in tag_list:
+            rev.tags.add(tag)
 
-    #rev.save()
-    #logger.info('New %s: %s [id=%d] and revision id=%d' % (
-    #                                        sub.sub_type,
-    #                                        item.cleaned_data['title'],
-    #                                        sub.id,
-    #                                        rev.id))
+        #??? required??? rev.save()
+        logger.info('New %s: %s [id=%d] and revision id=%d' % (
+                                                sub.sub_type,
+                                                item.cleaned_data['title'],
+                                                sub.id,
+                                                rev.id))
 
     # Email the user:
     if authenticated:
@@ -137,7 +146,7 @@ def create_new_submission_and_revision(request, item, authenticated):
         # order for their submission to start being displayed on the website.
         message = ''
 
-    return sub, rev, message
+    return sub, rev, tag_list, message
 
 
 def new_snippet_submission(request):
@@ -180,9 +189,9 @@ def preview_snippet_submission(request):
             authenticated = False
 
         # 2. Create the submission and revision and email the user
-        sub, rev, _ = create_new_submission_and_revision(request,
-                                                         snippet,
-                                                         authenticated)
+        sub, rev, tag_list, _ = create_new_submission_and_revision(request,
+                                                                snippet,
+                                                                authenticated)
 
         # Create the 3-button form via a template to account for hyperlinks
         # and CSRF
@@ -206,6 +215,7 @@ def preview_snippet_submission(request):
                                   context_instance=RequestContext(request,
                                                   {'submission': sub,
                                                    'item': rev,
+                                                   'tag_list': tag_list,
                                                    'extra_html': extra_html,
                                                    'wrapper_id': 'preview',
                                           'unvalidated_user': authenticated}))
@@ -243,7 +253,7 @@ def submit_snippet_submission(request):
             username = user.username
 
         # 2. Create the submission and revision and email the user
-        sub, rev, message = create_new_submission_and_revision(request,
+        sub, rev, _, msg = create_new_submission_and_revision(request,
                                                                snippet,
                                                                authenticated)
 
@@ -290,7 +300,7 @@ def submit_snippet_submission(request):
                                             {'snippet': snippet}))
 
     send_email(user.email, "Thanks for your submission to SciPy Central",
-               message=message)
+               message=msg)
 
 
 def view_snippet(request, snippet_id, slug=None, revision=None):
@@ -368,7 +378,6 @@ def new_link_submission(request):
     linkform = get_form(request, forms.LinkForm, field_order=['title',
                             'description', 'item_url', 'screenshot',
                             'sub_tags', 'email', 'sub_type'])
-    a = linkform.as_p()
     return render_to_response('submission/new-link.html', {},
                               context_instance=RequestContext(request,
                                                     {'item': linkform}))
@@ -398,7 +407,7 @@ def preview_link_submission(request):
             authenticated = False
 
         # 2. Create the submission and revision and email the user
-        sub, rev, _ = create_new_submission_and_revision(request,
+        sub, rev, tag_list, _ = create_new_submission_and_revision(request,
                                                          new_submission,
                                                          authenticated)
 
@@ -423,9 +432,9 @@ def preview_link_submission(request):
         return render_to_response('submission/link.html', {},
                                   context_instance=RequestContext(request,
                                                   {'item': rev,
+                                                   'tag_list': tag_list,
                                                    'extra_html': extra_html,
-                                                   'wrapper_id': 'preview',
-                                            'validated_user': authenticated}))
+                                                   'wrapper_id': 'preview'}))
     else:
         return render_to_response('submission/new-link.html', {},
                               context_instance=RequestContext(request,
@@ -436,18 +445,6 @@ def submit_link_submission(request):
     if request.method != 'POST':
         return redirect('spc-new-link-submission')
 
-    sub.save()
-    rev.entry_id = sub.id
-    rev.save()
-    for tag in tag_list:
-        rev.tags.add(tag)
-
-    rev.save()
-    logger.info('New %s: %s [id=%d] and revision id=%d' % (
-                                            sub.sub_type,
-                                            item.cleaned_data['title'],
-                                            sub.id,
-                                            rev.id))
 
 
 

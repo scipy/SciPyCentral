@@ -182,7 +182,7 @@ class Revision(models.Model):
                     'submission'))
 
     # HTML version of the ReST ``description`` field
-    description_html = models.TextField(editable=False)
+    description_html = models.TextField()
 
     # User uploaded image
     screenshot = models.ForeignKey('screenshot.Screenshot', null=True,
@@ -232,9 +232,6 @@ class Revision(models.Model):
         # http://docs.djangoproject.com/en/dev/topics/db/models/
                                           #overriding-predefined-model-methods
         unique_slugify(self, self.title, 'slug')
-
-        # TODO(KGD):
-        self.description_html = 'DESCRIPTION HTML TO BE CREATED STILL'
 
         #from pygments.style import Style
         #from pygments.token import Comment

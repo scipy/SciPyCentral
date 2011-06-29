@@ -10,28 +10,51 @@
 
   <h2>{{item.title}}</h2>
 
-  <dl>
+  <style>
+    div.item-row {
+      clear: both;
+      padding-top: 10px;
+      }
 
-  <dt>Original author: </dt>
-  <dd>{% if validated_user %}<a href="{% url spc-user-profile item.author.username_slug %}">{{item.author.username}}</a>{% else %}Unvalidated user{% endif %}
-  </dd>
+    div.item-row span.label {
+      float: left;
+      width: 10em;
+      text-align: left;
+      padding-right: 1em;
+      }
 
-  <dt>Revisions for this {{item.entry.sub_type}}:</dt>
-  <dd>{{item.entry.num_revisions}}</dd>
+    div.item-row span.entry {
+      float: left;
+      width: 335px;
+      text-align: left;
+      }
+  </style>
 
-  <dt>Created:</dt>
-  <dd>{% if item.date_created %}{{item.date_created|date}}{% else %}{{DATETIME_NOW|date}}{% endif %}
-
-  {% ifnotequal item.entry.num_revisions 1 %}
-  <dt>Last modified:</dt>
-  <dd>{{item.date_created|date}}</dd>
-  {% endifnotequal %}
-
-  <dt>Code</dt>
-  <dd>{{item.item_highlighted_code|safe}}</dd>
-
-  <p>Links to add: update this {{item.entry.sub_type}}
-  <p>Links to add: add tags
+  <div style="border: 1px dotted #333; padding: 5px; margin: 0px auto";>
+    <div class="item-row">
+      <span class="label">Link:</span>
+      <span class="entry"><a href="{{item.item_url}}">{{item.item_url}}</a></span>
+    </div>
+    <div class="item-row">
+      <span class="label">Submitted by:</span>
+      <span class="entry">{% if item.entry.created_by.is_validated %}<a href="{% url spc-user-profile item.entry.created_by.username_slug %}">{{item.entry.created_by.username}}</a>{% else %}Unvalidated user{% endif %} on {% if item.date_created %}{{item.date_created|date}}{% else %}{{DATETIME_NOW|date}}{% endif %}</span>
+    </div>
+    {% ifnotequal item.entry.num_revisions 0 %}
+     <div class="item-row">
+      <span class="label">Updated by:</span>
+      <span class="entry">{% if item.author.is_validated %}<a href="{% url spc-user-profile item.author.username_slug %}">{{item.author.username}}</a>{% else %}Unvalidated user{% endif %} on {% if item.date_created %}{{item.date_created|date}}{% else %}{{DATETIME_NOW|date}}{% endif %}</span>
+    </div>
+    {% endifnotequal %}
+    <div class="item-row">
+      <span class="label">More information:</span>
+      <span class="entry">{{item.description_html|safe}}</span>
+    </div>
+    <div class="item-row">
+      <span class="label">Tags:</span>
+      <span class="entry">{% for tag in tag_list %}<span><a href="/tag/{{tag}}" class="spc-tag">{{tag.name}}</a></span>{% endfor %}</span>
+    </div>
+    <div style="clear:both;">&nbsp;</div>
+  </div>
 
   <div id="spc-extra-message">{{extra_html|safe}}</div>
 
