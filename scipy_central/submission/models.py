@@ -21,6 +21,7 @@ class License(models.Model):
     class Meta:
         permissions = (("can_edit", "Can edit this license"),)
 
+
 class SubmissionManager(models.Manager):
     def create_without_commit(self, **kwargs):
         """
@@ -171,10 +172,6 @@ class Revision(models.Model):
     # The only choices right now are CC0 and simplified-BSD.
     sub_license = models.ForeignKey(License, null=True, blank=True,
                 verbose_name="Choose a license for your submission")
-
-    # A short summary [150 chars] describing the submission.
-    #summary = models.CharField(max_length=255, help_text = ('Explain what '
-     #               'your submission does in less than 250 characters.'))
 
     # User-provided description of the submission. Uses reStructuredText.
     # Is blank for URL (link) submissions.

@@ -31,11 +31,11 @@ urlpatterns = patterns('scipy_central.submission.views',
                                             name='spc-new-link-submission'),
 
     # Preview link submission
-    url(r'^new-link-preview$', 'preview_link_submission',
+    url(r'^new-link-preview$', 'preview_or_submit_link_submission',
                                             name='spc-new-link-preview'),
 
     # Preview link submission
-    url(r'^new-link-submit$', 'submit_link_submission',
+    url(r'^new-link-submit$', 'preview_or_submit_link_submission',
                                             name='spc-new-link-submit'),
 
 

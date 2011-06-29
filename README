@@ -13,9 +13,13 @@ Please ensure these Python packages are available on your server:
 
 *   Sphinx, http://sphinx.pocoo.org: ``easy_install -U sphinx``
 
-    We used version 1.0.7 during development. Note that this requirement might
-    seem to be a bit of an overkill for comment compiling. We use it though
-    because it handles math nicely (a requirement for scientific commenting).
+    We used version 1.1 during development because it handles MathJax.
+
+    Note that the Sphinx requirement might seem to be a bit of an overkill
+    for comment compiling. We use it though because it handles math nicely
+    (a requirement for scientific commenting), and formats all manner of
+    bullets, paragraphs, tt-text, etc. ``rst2html`` from ``docutils`` might
+    be a better, lightweight substitute in the future.
 
 
 Not required yet (might be as we add more functionality to the site):

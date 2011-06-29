@@ -150,7 +150,8 @@ def create_new_submission_and_revision(request, item, authenticated,
 
     return sub, rev, tag_list, message
 
-
+#------------------------------------------------------------------------------
+# Snippets
 def new_snippet_submission(request):
     """
     Users wants to submit a new item via the web.
@@ -332,7 +333,8 @@ def view_snippet(request, snippet_id, slug=None, revision=None):
                                                  'item': the_revision,
                                                  'extra_html': ''}))
 
-
+#------------------------------------------------------------------------------
+# Licensing and tagging
 def get_license_text(rev):
     """
     Generates and returns the license text for the given revision. Uses these
@@ -371,6 +373,7 @@ def tag_autocomplete(request):
     return HttpResponse(simplejson.dumps(starts), mimetype='text/plain')
 
 #------------------------------------------------------------------------------
+# Link submissions
 def new_or_edit_link_submission(request, user_edit=False):
     """
     Users wants to submit a new link item, or continue editing a submission.
@@ -386,9 +389,21 @@ def new_or_edit_link_submission(request, user_edit=False):
                                                     {'item': linkform}))
 
 
-def preview_link_submission(request):
+def preview_or_submit_link_submission(request):
     if request.method != 'POST':
         return redirect('spc-new-link-submission')
+
+    if request.POST.has_key('spc-cancel'):
+        return redirect('spc-main-page')
+
+    if request.POST.has_key('spc-edit'):
+        return new_or_edit_link_submission(request, user_edit=True)
+
+    if request.POST.has_key('spc-submit'):
+        commit = True
+
+    if request.POST.has_key('spc-preview'):
+        commit = False
 
     # Use the built-in forms checking to validate the fields.
     valid_fields = []
@@ -400,22 +415,30 @@ def preview_link_submission(request):
     valid_fields.append(new_submission.is_valid())
     valid_fields.append(sshot.is_valid())
 
-    if all(valid_fields):
-        # 1. Create user account, if required
-        authenticated = True
-        if not(request.user.is_authenticated()):
-            user = create_new_account_internal(\
-                                         new_submission.cleaned_data['email'])
-            request.user = user
-            authenticated = False
+    if not(all(valid_fields)):
+        return render_to_response('submission/new-link.html', {},
+                              context_instance=RequestContext(request,
+                                            {'snippet': new_submission}))
 
-        # 2. Create the submission and revision and email the user
-        sub, rev, tag_list, _ = create_new_submission_and_revision(request,
-                                                         new_submission,
-                                                         authenticated)
 
-        # Create the 3-button form via a template to account for hyperlinks
-        # and CSRF
+    # 1. Create user account, if required
+    authenticated = True
+    if not(request.user.is_authenticated()):
+        user = create_new_account_internal(\
+                                     new_submission.cleaned_data['email'])
+        request.user = user
+        authenticated = False
+
+    # 2. Create the submission and revision and email the user
+    sub, rev, tag_list, msg = create_new_submission_and_revision(request,
+                                                     new_submission,
+                                                     authenticated,
+                                                     commit=commit)
+
+    # i.e. just previewing ...
+    if not(commit):
+        # 3. Create a Cancel/Edit/Submit form via a template to account for
+        # hyperlinks and CSRF
         context = RequestContext(request)
         context['item'] = new_submission
         html = ('<div id="spc-preview-edit-submit" class="spc-form">'
@@ -439,48 +462,8 @@ def preview_link_submission(request):
                                                    'tag_list': tag_list,
                                                    'extra_html': extra_html,
                                                    'wrapper_id': 'preview'}))
+
     else:
-        return render_to_response('submission/new-link.html', {},
-                              context_instance=RequestContext(request,
-                                            {'item': new_submission}))
-
-
-def submit_link_submission(request):
-    if request.method != 'POST':
-        return redirect('spc-new-link-submission')
-
-    if request.POST.has_key('spc-cancel'):
-        return redirect('spc-main-page')
-
-    if request.POST.has_key('spc-edit'):
-        return new_or_edit_link_submission(request, user_edit=True)
-
-    # Use the built-in forms checking to validate the fields.
-    valid_fields = []
-    new_submission = get_form(request, forms.LinkForm, unbound=False,
-                              field_order=['title', 'description', 'item_url',
-                                           'screenshot', 'sub_tags', 'email',
-                                           'sub_type'])
-    sshot = ScreenshotForm(request.POST, request.FILES)
-    valid_fields.append(new_submission.is_valid())
-    valid_fields.append(sshot.is_valid())
-
-    if all(valid_fields):
-        # 1. Create user account, if required
-        authenticated = True
-        if not(request.user.is_authenticated()):
-            user = create_new_account_internal(\
-                                         new_submission.cleaned_data['email'])
-            request.user = user
-            authenticated = False
-
-        # 2. Create the submission and revision and email the user
-        sub, rev, tag_list, msg = create_new_submission_and_revision(request,
-                                                         new_submission,
-                                                         authenticated,
-                                                         commit=True)
-
-
         # 4. Thank user and return with any extra messages
         if authenticated:
             extra_messages = ('A confirmation email has been sent to you.')
@@ -499,10 +482,9 @@ def submit_link_submission(request):
                    message=msg)
 
         return render_to_response('submission/thank-user.html', {},
-                                  context_instance=RequestContext(request,
-                                        {'extra_message': extra_messages}))
-    else:
-        return render_to_response('submission/new-submission.html', {},
                               context_instance=RequestContext(request,
-                                            {'snippet': snippet}))
+                                    {'extra_message': extra_messages}))
+
+
+
 
