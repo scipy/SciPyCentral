@@ -24,24 +24,10 @@
     <ul id="buttonlist">
       <li><form method="post" action="/item/new-snippet/" class="spc-new-submission-formlist" >
         {% csrf_token %}
-
         <input type="image" title alt="Submit a code snippet"  border="0"
-        src="{{MEDIA_URL}}transparent-pixel.gif"
-        style="background: url('{{MEDIA_URL}}single-file-icon-shrunk.png') no-repeat;
-          background-size: 183px 40px;
-          background-position: 0px 0px;
-          background-color: silver;
-          border: 1px outset #B6A792;
-          width: 185px;
-          cursor: auto;
-          display: inline-block;
-          box-sizing: border-box;
-          vertical-align: middle;
-          height: 44px;
-          overflow: hidden;
-          padding: 0;
-          margin: 0;
-          ">
+        src="{{MEDIA_URL}}transparent-pixel.gif" class="spc-button"
+        style="background: url('{{MEDIA_URL}}single-file-icon-shrunk.png') no-repeat #DDD;
+          background-size: 183px 40px; width: 185px; height: 40px;">
       </form>
       </li>
       <li><form method="post" action="/item/new-package/" class="spc-new-submission-formlist">

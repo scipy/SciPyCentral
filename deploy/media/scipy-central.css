@@ -236,6 +236,17 @@ div#spc-section-body tt, div#spc-content tt {
 	margin: 0 auto;
 	display: block;
 }
+.spc-button{
+	background-position: 0px 0px;
+	background-color: #DDDDDD;
+	border: 1px outset #B6A792;
+	cursor: auto;
+	display: inline-block;
+	vertical-align: middle;
+	overflow: hidden;
+	padding: 0;
+	margin: 0;
+}
 
 /* Submission form */
 #spc-form-error-message{
