@@ -51,7 +51,7 @@ def get_form(request, form_class, field_order, unbound=True):
     return form_output
 
 
-def create_new_submission_and_revision(request, snippet, authenticated):
+def create_new_submission_and_revision(request, item, authenticated):
     """
     Creates a new ``Submission`` and ``Revision`` instance. Returns these in
     a tuple.
@@ -68,7 +68,7 @@ def create_new_submission_and_revision(request, snippet, authenticated):
 
     # A new submission has only 2 fields of interest
     sub = models.Submission.objects.create(created_by=user,
-                                    sub_type=snippet.cleaned_data['sub_type'],
+                                    sub_type=item.cleaned_data['sub_type'],
                                     is_displayed=is_displayed)
 
     # Process screenshot:
@@ -84,22 +84,32 @@ def create_new_submission_and_revision(request, snippet, authenticated):
 
     # Process any tags
     tag_list = []
-    for tag in parse_tags(snippet.cleaned_data['sub_tags']):
+    for tag in parse_tags(item.cleaned_data['sub_tags']):
         tag_list.append(Tag.objects.get_or_create(name=tag)[0])
 
     # Create a ``Revision`` instance. Must always have a ``title``, ``author``,
-    # and ``description`` fields; the rest are set automatically, or blank.
-    hash_id = md5(post.get('snippet')).hexdigest()
+    # and ``description`` fields; the rest are set according to the submission
+    # type, ``sub.sub_type``
+    hash_id = md5(post.get('snippet_code', '')).hexdigest()
+    if sub.sub_type == 'link':
+        sub_license = None
+        item_url = item.cleaned_data['item_url']
+        item_code = None
+    else:
+        sub_license = item.cleaned_data['sub_license']
+        item_url = None
+        item_code = item.cleaned_data['snippet_code']
+
     rev = models.Revision.objects.create(
                             entry=sub,
-                            title=snippet.cleaned_data['title'],
+                            title=item.cleaned_data['title'],
                             author=user,
-                            sub_license=snippet.cleaned_data['sub_license'],
-                            description=snippet.cleaned_data['description'],
+                            sub_license=sub_license,
+                            description=item.cleaned_data['description'],
                             screenshot=sshot,
                             hash_id=hash_id,
-                            item_url=None,
-                            item_code=snippet.cleaned_data['snippet'],
+                            item_url=item_url,
+                            item_code=item_code,
                             )
 
     # Add the tags afterwards and save the revision
@@ -107,8 +117,9 @@ def create_new_submission_and_revision(request, snippet, authenticated):
         rev.tags.add(tag)
 
     rev.save()
-    logger.info('New snippet: %s [id=%d] and revision id=%d' % (
-                                            snippet.cleaned_data['title'],
+    logger.info('New %s: %s [id=%d] and revision id=%d' % (
+                                            sub.sub_type,
+                                            item.cleaned_data['title'],
                                             sub.id,
                                             rev.id))
 
@@ -131,7 +142,7 @@ def new_snippet_submission(request):
     Users wants to submit a new item via the web.
     """
     snippet = get_form(request, forms.SnippetForm,
-                       field_order=['title', 'description', 'snippet',
+                       field_order=['title', 'description', 'snippet_code',
                        'sub_license', 'screenshot', 'sub_tags',
                        'email', 'sub_type'])
     return render_to_response('submission/new-submission.html', {},
@@ -149,7 +160,7 @@ def preview_snippet_submission(request):
     # Use the built-in forms checking to validate the fields.
     valid_fields = []
     snippet = get_form(request, forms.SnippetForm, unbound=False,
-                       field_order=['title', 'description', 'snippet',
+                       field_order=['title', 'description', 'snippet_code',
                        'sub_license', 'screenshot', 'sub_tags',
                        'email', 'sub_type'])
     sshot = ScreenshotForm(request.POST, request.FILES)
@@ -210,7 +221,7 @@ def submit_snippet_submission(request):
     # Use the built-in forms checking to validate the fields.
     valid_fields = []
     snippet = get_form(request, forms.SnippetForm, unbound=False,
-                       field_order=['title', 'description', 'snippet',
+                       field_order=['title', 'description', 'snippet_code',
                        'sub_license', 'screenshot', 'sub_tags',
                        'email', 'sub_type'])
     sshot = ScreenshotForm(request.POST, request.FILES)
@@ -221,8 +232,7 @@ def submit_snippet_submission(request):
         # 1. Create user account, if required
         authenticated = True
         if not(request.user.is_authenticated()):
-            user = create_new_account_internal(\
-                                            snippet.cleaned_data['email'])
+            user = create_new_account_internal(snippet.cleaned_data['email'])
             request.user = user
             authenticated = False
             username = '**Not validated**'
@@ -247,7 +257,7 @@ def submit_snippet_submission(request):
 
         commit_msg = ('SPC: auto add "%s" and license to the repo based '
                       'on the web submission by user "%s"') % (fname, username)
-        sub.fileset.add_file_from_string(fname, request.POST['snippet'])
+        sub.fileset.add_file_from_string(fname, request.POST['snippet_code'])
 
         license_file = settings.SPC['license_filename']
         license_text = get_license_text(rev)
@@ -411,12 +421,12 @@ def preview_link_submission(request):
         # Create the 3-button form via a template to account for hyperlinks
         # and CSRF
         context = RequestContext(request)
-        context['snippet'] = snippet
+        context['item'] = new_submission
         html = ('<div id="spc-preview-edit-submit" class="spc-form">'
                 '<form action="{% url spc-new-link-submit %}" '
                 'method="POST" enctype="multipart/form-data">\n'
                 '{% csrf_token %}\n'
-                '{{snippet.as_hidden}}'
+                '{{item.as_hidden}}'
                 '<input type="submit" name="spc-cancel" value="Cancel"'
                 'id="spc-item-cancel" />\n'
                 '<input type="submit" name="spc-edit"   value="Edit"'
@@ -428,12 +438,17 @@ def preview_link_submission(request):
         extra_html = resp.render(template.Context(context))
         return render_to_response('submission/link.html', {},
                                   context_instance=RequestContext(request,
-                                                  {'submission': sub,
-                                                   'item': rev,
+                                                  {'item': rev,
                                                    'extra_html': extra_html,
                                                    'wrapper_id': 'preview',
-                                          'unvalidated_user': authenticated}))
+                                            'validated_user': authenticated}))
     else:
         return render_to_response('submission/new-link.html', {},
                               context_instance=RequestContext(request,
                                             {'item': new_submission}))
+
+def submit_link_submission(request):
+    if request.method != 'POST':
+        return redirect('spc-new-link-submission')
+
+    return HttpResponse('STILL TO DO')

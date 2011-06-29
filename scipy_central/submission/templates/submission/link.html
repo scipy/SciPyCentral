@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{item.title}}
+{% endblock %}
+
+{% block content %}
+
+<div id="{{wrapper_id}}">
+
+  <h2>{{item.title}}</h2>
+
+  <dl>
+
+  <dt>Original author: </dt>
+  <dd>{% if validated_user %}<a href="{% url spc-user-profile item.author.username_slug %}">{{item.author.username}}</a>{% else %}Unvalidated user{% endif %}
+  </dd>
+
+  <dt>Revisions for this {{item.entry.sub_type}}:</dt>
+  <dd>{{item.entry.num_revisions}}</dd>
+
+  <dt>Created:</dt>
+  <dd>{{item.date_created|date}}</dd>
+
+  {% ifnotequal item.entry.num_revisions 1 %}
+  <dt>Last modified:</dt>
+  <dd>{{item.date_created|date}}</dd>
+  {% endifnotequal %}
+
+  <dt>Code</dt>
+  <dd>{{item.item_highlighted_code|safe}}</dd>
+
+  <p>Links to add: update this {{item.entry.sub_type}}
+  <p>Links to add: add tags
+
+  <div id="spc-extra-message">{{extra_html|safe}}</div>
+
+</div>
+
+{% endblock %}

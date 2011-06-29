@@ -58,7 +58,7 @@ class SnippetForm(Submission_Form__Common_Parts, ScreenshotForm):
     #NOTE: Any additions to this form will require adding the field name in
     # views.py under the ``new_snippet_submission(...)`` function.
 
-    snippet = forms.CharField(label='Copy and paste <b>your code</b> '
+    snippet_code = forms.CharField(label='Copy and paste <b>your code</b> '
                                      'snippet/recipe',
         widget=forms.Textarea(attrs={'class':'spc-code-snippet',
                                       'cols': 80, 'rows': 20}),
@@ -104,9 +104,13 @@ class LinkForm(Submission_Form__Common_Parts, ScreenshotForm):
     Link submission: only requires a URL
     """
     parent = Revision._meta.get_field('item_url')
+    # Here's wishing that Django would support this natively ...
+    html5_url_widget = widget=forms.TextInput()
+    html5_url_widget.input_type = 'url'
     item_url = forms.URLField(label='<b>Link</b> to resource',
                               max_length=parent.max_length,
-                              help_text=parent.help_text)
+                              help_text=parent.help_text,
+                              widget=html5_url_widget)
 
     sub_type = forms.CharField(max_length=10, initial='link',
                                widget=forms.HiddenInput(), required=False)

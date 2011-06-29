@@ -16,6 +16,13 @@ urlpatterns = patterns('scipy_central.submission.views',
     url(r'^new-snippet-submit$', 'submit_snippet_submission',
                                             name='spc-new-snippet-submit'),
 
+    # Show an existing submission; some valid examples include:
+    # Maximal information:   http://.../23/draw-an-ellipse/revision/4/
+    # Typical link:          http://.../23/draw-an-ellipse/
+    # Minimal working link:  http://.../23/
+    url(r'(?P<snippet_id>\d)$',
+        #/(?P<slug>[-\w]*?)/revision/(<?rev_num>[\d].?)$',
+        'view_snippet', name='spc-view-a-submission'),
 
     # LINKS
     # ========
@@ -27,13 +34,13 @@ urlpatterns = patterns('scipy_central.submission.views',
     url(r'^new-link-preview$', 'preview_link_submission',
                                             name='spc-new-link-preview'),
 
-    # Show an existing submission; some valid examples include:
-    # Maximal information:   http://.../23/draw-an-ellipse/revision/4/
-    # Typical link:          http://.../23/draw-an-ellipse/
-    # Minimal working link:  http://.../23/
-    url(r'(?P<snippet_id>\d)$',
-        #/(?P<slug>[-\w]*?)/revision/(<?rev_num>[\d].?)$',
-        'view_snippet', name='spc-view-a-submission'),
+    # Preview link submission
+    url(r'^new-link-submit$', 'submit_link_submission',
+                                            name='spc-new-link-submit'),
+
+
+    # TAGGING
+    # ========
 
     # AJAX: get suggestions to complete tagging based on a partial string
     # We will accept any input, but the views function will ignore any

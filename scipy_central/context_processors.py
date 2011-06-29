@@ -7,6 +7,8 @@ def global_template_variables(request):
              'JQUERYUI_CSS': settings.JQUERYUI_CSS,
              'ANALYTICS_SNIPPET': settings.ANALYTICS_SNIPPET,
              'THE_YEAR': str(datetime.now().year),
+             # Assume the submitting user is not validated, by default
+             'validated_user': False,
              'TAGGING_JAVSCRIPT': """
 <style>
 	.ui-autocomplete-loading {
