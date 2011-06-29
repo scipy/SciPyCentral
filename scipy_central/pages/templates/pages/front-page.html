@@ -25,7 +25,8 @@
       <li><form method="post" action="/item/new-snippet/" class="spc-new-submission-formlist" >
         {% csrf_token %}
 
-        <input type="image" title=" " alt="Submit a code snippet" border="0"
+        <input type="image" title alt="Submit a code snippet"  border="0"
+        src="{{MEDIA_URL}}transparent-pixel.gif"
         style="background: url('{{MEDIA_URL}}single-file-icon-shrunk.png') no-repeat;
           background-size: 183px 40px;
           background-position: 0px 0px;
@@ -40,12 +41,7 @@
           overflow: hidden;
           padding: 0;
           margin: 0;
-          word-spacing: 0px;
-
           ">
-        <button type="submit"  id="spc-submit-snippet-button">
-          <img src="{{MEDIA_URL}}single-file-icon.png" height=40 width=40
-        alt="Submit a snippet" align="absmiddle">Submit a code snippet</button>
       </form>
       </li>
       <li><form method="post" action="/item/new-package/" class="spc-new-submission-formlist">
