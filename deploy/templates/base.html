@@ -15,25 +15,24 @@
   {{ANALYTICS_SNIPPET|safe}}
 </head>
 <body>
+<style>
+  .ui-autocomplete-loading {
+	background: white url('{{MEDIA_URL}}ui-anim_basic_16x16.gif') right center no-repeat;
+  }
+</style>
 
 {% block extra_head %}{% endblock %}
 
 {% block body %}
 
   <div id="spc-container">
-
-	<style>
-
-
-    </style>
-
 	<div id="spc-header">
 	  <div class="spc-header-row" id="spc-site-notice">
 		This website is in alpha-mode and will change radically from day-to-day.
 	  </div>
 	  <div class="spc-header-row" id="spc-top-menu">
 		<div class="spc-header-left">
-		  <a href="{% url spc-main-page %}">Home</a>
+		  <a href="{% url spc-main-page %}">Search site</a>
 		</div>
 		<div class="spc-header-right">
 		  <a href="{% url spc-login-signin %}">Sign In</a>

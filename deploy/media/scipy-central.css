@@ -36,6 +36,11 @@ body {
 	width: 100%;
 	clear: both;
 }
+.spc-header-left{
+	float: left;
+	position: relative;
+	left: +1%
+}
 .spc-header-right{
 	float: right;
 	position: relative;
@@ -333,11 +338,24 @@ input, select, textarea{
 	font-family: "Inconsolata";
 }
 
+/* Tagging */
+.ui-autocomplete {
+	max-height: 150px;
+	overflow-y: auto;
+	overflow-x: hidden;  /* prevent horizontal scrollbar */
+	padding-right: 20px; /* add padding to account for vertical scrollbar */
+}
+/* IE 6 doesn't support max-height
+ * we use height instead, but this forces the menu to always be this tall */
+* html .ui-autocomplete {
+	height: 100px;
+}
+
 /* spc-footer: http://www.alistapart.com/articles/practicalcss/   */
 #spc-footer {
 	clear: both;
 	font-size: 90%;
-	padding: 1px;
+	padding: 0px;
 	float: left;
 	width: 100%;
 	position: relative;
