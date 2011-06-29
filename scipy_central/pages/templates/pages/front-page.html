@@ -26,23 +26,27 @@
         {% csrf_token %}
         <input type="image" title alt="Submit a code snippet"  border="0"
         src="{{MEDIA_URL}}transparent-pixel.gif" class="spc-button"
+        id="spc-submit-code-button"
         style="background: url('{{MEDIA_URL}}single-file-icon-shrunk.png') no-repeat #DDD;
-          background-size: 183px 40px; width: 185px; height: 40px;">
+          background-size: 183px 40px; width: 183px; height: 40px;">
       </form>
       </li>
       <li><form method="post" action="/item/new-package/" class="spc-new-submission-formlist">
         {% csrf_token %}
-        <button type="submit" id="spc-submit-package-button">
-        <img src="{{MEDIA_URL}}multiple-file-icon.png" height=40 width=40
-        alt="Submit a package of files" align="absmiddle">Submit a package (library)</button>
+        <input type="image" title alt="Submit a collection of files"  border="0"
+        src="{{MEDIA_URL}}transparent-pixel.gif" class="spc-button"
+        id="spc-submit-package-button"
+        style="background: url('{{MEDIA_URL}}multiple-file-icon-shrunk.png') no-repeat #DDD;
+          background-size: 183px 40px; width: 183px; height: 40px;">
       </form>
       </li>
       <li><form method="post" action="/item/new-link/" class="spc-new-submission-formlist">
         {% csrf_token %}
-        <button type="submit" id="spc-submit-extlink-button">
-        <img src="{{MEDIA_URL}}external-link-icon.png" height=40 width=40
-        alt="Submit a link to an external site" align="absmiddle">Link to a
-        scientific resource</button>
+        <input type="image" title alt="Submit a link to an external scientific resource"  border="0"
+        src="{{MEDIA_URL}}transparent-pixel.gif" class="spc-button"
+        id="spc-submit-extlink-button"
+        style="background: url('{{MEDIA_URL}}external-link-icon-shrunk.png') no-repeat #DDD;
+          background-size: 183px 40px; width: 183px; height: 40px;">
       </form>
       </li>
     </ul>
