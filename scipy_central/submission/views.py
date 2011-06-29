@@ -370,7 +370,7 @@ def tag_autocomplete(request):
     starts.extend(includes)
     return HttpResponse(simplejson.dumps(starts), mimetype='text/plain')
 
-
+#------------------------------------------------------------------------------
 def new_or_edit_link_submission(request, user_edit=False):
     """
     Users wants to submit a new link item, or continue editing a submission.
