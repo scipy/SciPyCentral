@@ -6,7 +6,7 @@ def global_template_variables(request):
              'JQUERYUI_URL': settings.JQUERYUI_URL,
              'JQUERYUI_CSS': settings.JQUERYUI_CSS,
              'ANALYTICS_SNIPPET': settings.ANALYTICS_SNIPPET,
-             'THE_YEAR': str(datetime.now().year),
+             'DATETIME_NOW': datetime.now(),
              # Assume the submitting user is not validated, by default
              'validated_user': False,
 

@@ -22,8 +22,30 @@ class License(models.Model):
         permissions = (("can_edit", "Can edit this license"),)
 
 class SubmissionManager(models.Manager):
+    def create_without_commit(self, **kwargs):
+        """
+        Uses code from django.db.models.create(...) to create a new instance
+        without writing to the database.
+
+        To save the object to the database (presumably after validating it, or
+        doing some other checks), you can call the ``obj.save()`` method. E.g.:
+
+            obj = models.Submission.objects.create_without_commit(....)
+            ...
+            ...
+            obj.save(force_insert=True, using=models.Submission.objects.db)
+            # or
+            obj.save(force_insert=True)
+        """
+        qs = self.get_query_set()
+        obj = qs.model(**kwargs)
+        self._for_write = True
+        #obj.save(force_insert=True, using=self.db)
+        return obj
+
     def all(self):
         return self.filter(is_displayed=True).filter(is_preview=False)
+
 
 class Submission(models.Model):
     """
@@ -97,7 +119,32 @@ class Submission(models.Model):
         return self.slug + '::rev-' + str(self.num_revisions)
 
 
+class RevisionManager(models.Manager):
+    def create_without_commit(self, **kwargs):
+        """
+        Uses code from django.db.models.create(...) to create a new instance
+        without writing to the database.
+
+        To save the object to the database (presumably after validating it, or
+        doing some other checks), you can call the ``obj.save()`` method. E.g.:
+
+            obj = models.Revision.objects.create_without_commit(....)
+            ...
+            ...
+            obj.save(force_insert=True, using=models.Revision.objects.db)
+            # or
+            obj.save(force_insert=True)
+        """
+        qs = self.get_query_set()
+        obj = qs.model(**kwargs)
+        self._for_write = True
+        #obj.save(force_insert=True, using=self.db)
+        return obj
+
+
 class Revision(models.Model):
+
+    objects = RevisionManager()
 
     # The submission: parent item for this revision
     entry = models.ForeignKey(Submission, related_name="revisions")
@@ -131,8 +178,8 @@ class Revision(models.Model):
 
     # User-provided description of the submission. Uses reStructuredText.
     # Is blank for URL (link) submissions.
-    description = models.TextField(help_text=('Please <b>explain your '
-                    'submission</b>.'))
+    description = models.TextField(help_text=('<b>Explain</b> your '
+                    'submission'))
 
     # HTML version of the ReST ``description`` field
     description_html = models.TextField(editable=False)

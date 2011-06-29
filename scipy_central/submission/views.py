@@ -66,8 +66,11 @@ def create_new_submission_and_revision(request, item, authenticated):
     if authenticated:
         is_displayed = True
 
-    # A new submission has only 2 fields of interest
-    sub = models.Submission.objects.create(created_by=user,
+    # A new submission
+    #sub = models.Submission.objects.create(created_by=user,
+    #                                sub_type=item.cleaned_data['sub_type'],
+    #                                is_displayed=is_displayed)
+    sub = models.Submission.objects.create_without_commit(created_by=user,
                                     sub_type=item.cleaned_data['sub_type'],
                                     is_displayed=is_displayed)
 
@@ -100,7 +103,7 @@ def create_new_submission_and_revision(request, item, authenticated):
         item_url = None
         item_code = item.cleaned_data['snippet_code']
 
-    rev = models.Revision.objects.create(
+    rev = models.Revision.objects.create_without_commit(
                             entry=sub,
                             title=item.cleaned_data['title'],
                             author=user,
@@ -113,15 +116,15 @@ def create_new_submission_and_revision(request, item, authenticated):
                             )
 
     # Add the tags afterwards and save the revision
-    for tag in tag_list:
-        rev.tags.add(tag)
+    #for tag in tag_list:
+    #    rev.tags.add(tag)
 
-    rev.save()
-    logger.info('New %s: %s [id=%d] and revision id=%d' % (
-                                            sub.sub_type,
-                                            item.cleaned_data['title'],
-                                            sub.id,
-                                            rev.id))
+    #rev.save()
+    #logger.info('New %s: %s [id=%d] and revision id=%d' % (
+    #                                        sub.sub_type,
+    #                                        item.cleaned_data['title'],
+    #                                        sub.id,
+    #                                        rev.id))
 
     # Email the user:
     if authenticated:
@@ -370,25 +373,6 @@ def new_link_submission(request):
                               context_instance=RequestContext(request,
                                                     {'item': linkform}))
 
-    #user = create_new_account_internal('mik2@smith.com')
-
-    #sub = models.Submission.objects.create(created_by=user,
-                                    #sub_type='link',
-                                    #is_displayed=False)
-
-    #rev = models.Revision.objects.create(
-                            #entry=sub,
-                            #title='Visvis library for data visualization',
-                            #author=user,
-                            #sub_license=None,
-                            #description='Visvis is a pure Python library for visualization of 1D to 4D data in an object oriented way combining the power of OpenGL with the usability of Python. A MATLAB-like interface in the form of a set of functions allows easy creation of objects.',
-                            #screenshot=None,
-                            #hash_id=None,
-                            #item_url='http://code.google.com/p/visvis/',
-                            #item_code=None,
-                            #)
-    #return HttpResponse('STILL TO DO')
-
 
 def preview_link_submission(request):
     if request.method != 'POST':
@@ -447,8 +431,24 @@ def preview_link_submission(request):
                               context_instance=RequestContext(request,
                                             {'item': new_submission}))
 
+
 def submit_link_submission(request):
     if request.method != 'POST':
         return redirect('spc-new-link-submission')
+
+    sub.save()
+    rev.entry_id = sub.id
+    rev.save()
+    for tag in tag_list:
+        rev.tags.add(tag)
+
+    rev.save()
+    logger.info('New %s: %s [id=%d] and revision id=%d' % (
+                                            sub.sub_type,
+                                            item.cleaned_data['title'],
+                                            sub.id,
+                                            rev.id))
+
+
 
     return HttpResponse('STILL TO DO')

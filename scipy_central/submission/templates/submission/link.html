@@ -20,7 +20,7 @@
   <dd>{{item.entry.num_revisions}}</dd>
 
   <dt>Created:</dt>
-  <dd>{{item.date_created|date}}</dd>
+  <dd>{% if item.date_created %}{{item.date_created|date}}{% else %}{{DATETIME_NOW|date}}{% endif %}
 
   {% ifnotequal item.entry.num_revisions 1 %}
   <dt>Last modified:</dt>

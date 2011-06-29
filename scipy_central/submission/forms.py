@@ -38,14 +38,14 @@ class Submission_Form__Common_Parts(HiddenBaseForm, forms.Form):
     # helps for ipads and modern devices that support HTML5.
     html5_email_widget = widget=forms.TextInput()
     html5_email_widget.input_type = 'email'
-    email = forms.EmailField(label=('Your email address'),
+    email = forms.EmailField(label=('Your <b>email address</b>'),
                  help_text=('Since you are not <a href="/user/sign-in/">signed'
                             ' in</a> we will send you an email to confirm '
                             'your submission.'),
                  required=True, widget=html5_email_widget)
 
-    sub_tags = forms.CharField(max_length=50, label=('<b>Tag</b> your '
-                               'submission'),
+    sub_tags = forms.CharField(max_length=50, label=('Provide some '
+                                                     '<b>tags</b>'),
                                help_text=('Please provide between 1 and 5 tags'
                                           ' that describe your submission (use'
                                           ' commas to separate tags)'))
