@@ -78,13 +78,15 @@ def compile_rest_to_html(raw_rest):
 
             msg = (('Sphinx error occurred when compiling comment '
                     '(error type = %s): %s'  % (error.category, str(error))))
-            raise(msg)
+            logger.error(msg)
+            raise SphinxError(msg)
 
         if app.statuscode != 0:
             logger.error("Non-zero status code when compiling.")
 
     # Ensure the directory where Sphinx will compile the ReST actually exists
     ensuredir(settings.SPC['comment_compile_dir'])
+    logger.debug('SPHINX: ' + raw_rest)
     modified_rest = sanitize_raw_rest(raw_rest)
     with open(settings.SPC['comment_compile_dir'] + os.sep + 'index.rst',
                                                                    'w') as fh:
