@@ -41,12 +41,23 @@
 	{%endif %}
   {% endfor %}
 
-  <div id="spc-tagging-step">
-  </div>
+  	<div id="spc-preview-edit-submit">
+		<div class="colmask threecol">
+			<div class="colmid">
+				<div class="colleft">
+					<div class="col1 form-field">
+						<input type="submit" name="spc-preview"
+						value="Preview your submission" id="spc-item-preview"/>
+					</div>
+					<div class="col2">&nbsp;</div>
+					<div class="col3">
+						&nbsp;
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-  <div id="spc-preview-edit-submit">
-    <input type="submit" name="spc-preview" value="Preview entry" id="spc-item-preview" />
-  </div>
 </form>
 </div>
 {% endblock %}
