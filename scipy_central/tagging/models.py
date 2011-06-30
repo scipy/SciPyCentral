@@ -133,7 +133,8 @@ class Tag(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        """ Slug is a primary key: don't save a new tag if one already exists.
+        """ Slug is a primary key: don't save a new tag if one already exists
+        with the identical slug.
         """
         slug = slugify(self.name)
         if Tag.objects.filter(slug=slug):

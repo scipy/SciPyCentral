@@ -20,7 +20,7 @@
     {% ifnotequal item.entry.num_revisions 0 %}
      <div class="spc-item-row">
       <span class="spc-item-label">Updated by:</span>
-      <span class="spc-item-entry">{% if item.author.is_validated %}<a href="{% url spc-user-profile item.author.username_slug %}">{{item.author.username}}</a>{% else %}Unvalidated user{% endif %} on {% if item.date_created %}{{item.date_created|date}}{% else %}{{DATETIME_NOW|date}}{% endif %}</span>
+      <span class="spc-item-entry">{% if item.created_by.is_validated %}<a href="{% url spc-user-profile item.created_by.username_slug %}">{{item.created_by.username}}</a>{% else %}Unvalidated user{% endif %} on {% if item.date_created %}{{item.date_created|date}}{% else %}{{DATETIME_NOW|date}}{% endif %}</span>
     </div>
     {% endifnotequal %}
     <div class="spc-item-row">

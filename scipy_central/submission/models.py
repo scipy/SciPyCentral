@@ -166,9 +166,8 @@ class Revision(models.Model):
     # Created on
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
 
-    # List of authors for this submission (usually one), but we are
-    # provisioning for collaborative authorship as well
-    author = models.ForeignKey('person.UserProfile', null=True, blank=True)
+    # Users that created this submission
+    created_by = models.ForeignKey('person.UserProfile', null=True, blank=True)
 
     # Submission license. Only used for code packages. Code snippets are
     # always CC0 licensed, and external links must list their own license.
@@ -209,25 +208,17 @@ class Revision(models.Model):
                            'DOI preferred</a>)'), max_length=255)
 
     # Tags for this revision
-    tags = models.ManyToManyField('tagging.Tag')#, null=True, blank=True)
+    tags = models.ManyToManyField('tagging.Tag', through='TagCreation')
 
-    # inspired_by: a comma-separated list of previous submissions
 
-    # vote_for_inclusion_in_scipy [ForeignKey]
-
-    # modules (list of modules required to run the code)
-
-    # These should be in another app
-    ## Number of downloads
-    #n_downloads_clicks = models.IntegerField(default=0,
-                            #verbose_name='Number of downloads or page clicks')
-
-    ## number of full-page views of this submission
-    #n_views = models.IntegerField(default=0,
-                                  #verbose_name='Number of page views')
+    # FUTURE: inspired_by: a comma-separated list of previous submissions
+    # FUTURE: list of modules required to run the code
+    # These model field should be in another app:
+    # * n_downloads_clicks = models.IntegerField(default=0,)
+    # * n_views = models.IntegerField(default=0)
 
     def __unicode__(self):
-        return self.title[0:50] + '::' + str(self.author.username)
+        return self.title[0:50] + '::' + str(self.created_by.username)
 
 
     def save(self, *args, **kwargs):
@@ -258,3 +249,12 @@ class Revision(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return('view_snippet', (self.pk,))
+
+class TagCreation(models.Model):
+    """
+    Tracks by whom and when tags were created
+    """
+    created_by = models.ForeignKey('person.UserProfile')
+    revision = models.ForeignKey(Revision)
+    tag = models.ForeignKey('tagging.Tag')
+    date_created = models.DateTimeField(auto_now_add=True, editable=False)

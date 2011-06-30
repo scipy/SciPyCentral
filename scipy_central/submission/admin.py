@@ -8,7 +8,7 @@ class SubmissionAdmin(admin.ModelAdmin):
     list_display = ('sub_type', 'slug', 'created_by', 'num_revisions')
 
 class RevisionAdmin(admin.ModelAdmin):
-    list_display = ('entry', 'author', 'sub_license', 'item_url')
+    list_display = ('entry', 'created_by', 'sub_license', 'item_url')
 
 admin.site.register(License, LicenseAdmin)
 admin.site.register(Submission, SubmissionAdmin)

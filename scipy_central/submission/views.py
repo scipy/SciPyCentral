@@ -4,7 +4,7 @@ from django.template import RequestContext
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.core.exceptions import ObjectDoesNotExist
-#from django.core.context_processors import csrf
+from django.template.defaultfilters import slugify
 from django.utils import simplejson
 from django.template.loader import get_template
 from django import template
@@ -107,9 +107,16 @@ def create_new_submission_and_revision(request, item, authenticated,
     # Process any tags
     tag_list = []
     for tag in parse_tags(item.cleaned_data['sub_tags']):
-        tag_list.append(Tag.objects.get_or_create(name=tag)[0])
+        tag_obj = Tag.objects.get_or_create(name=tag)[0]
 
-    # Create a ``Revision`` instance. Must always have a ``title``, ``author``,
+        # Does the tag really exist or was it found because of the lack of
+        # case sensitivity (e.g. "2D" vs "2d"
+        if tag_obj.id is None:
+            tag_obj = Tag.objects.get(slug=slugify(tag))
+
+        tag_list.append(tag_obj)
+
+    # Create a ``Revision`` instance. Must always have a ``title``, ``created_by``,
     # and ``description`` fields; the rest are set according to the submission
     # type, ``sub.sub_type``
     hash_id = md5(post.get('snippet_code', '')).hexdigest()
@@ -129,7 +136,7 @@ def create_new_submission_and_revision(request, item, authenticated,
     rev = models.Revision.objects.create_without_commit(
                             entry=sub,
                             title=item.cleaned_data['title'],
-                            author=user,
+                            created_by=user,
                             sub_license=sub_license,
                             description=item.cleaned_data['description'],
                             description_html=description_html,
@@ -140,14 +147,25 @@ def create_new_submission_and_revision(request, item, authenticated,
                             )
 
     if commit:
+
+        # Save the submission, then the revision.
         sub.save()
         rev.entry_id = sub.id
         rev.save()
-        # Add the tags afterwards and save the revision
-        for tag in tag_list:
-            rev.tags.add(tag)
 
-        #??? required??? rev.save()
+        # Once you have the revision you can add tags through the intermediate
+        # model instance (which tracks the user that added the tag and when).
+        for tag in tag_list:
+            tag_intermediate = models.TagCreation(created_by=user,
+                                                  revision=rev,
+                                                  tag=tag)
+            tag_intermediate.save()
+            logger.debug('User=%s added tag "%s" to rev.id=%d' % (
+                                                user.username_slug,
+                                                str(tag), rev.id))
+
+
+        #
         logger.info('New %s: %s [id=%d] and revision id=%d' % (
                                                 sub.sub_type,
                                                 item.cleaned_data['title'],
@@ -504,7 +522,7 @@ def preview_or_submit_link_submission(request):
 def edit_submission(request, item_id, slug=None, rev_num=None):
 
     # TODO: Check that user is signed in
-    # TODO: Check that user can edit the submission (e.g. link.author == user)
+    # TODO: Check that user can edit the submission (e.g. link.created_by==user)
 
     try:
         the_item = models.Submission.objects.get(id=item_id)
