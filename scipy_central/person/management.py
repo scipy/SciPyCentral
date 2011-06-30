@@ -16,7 +16,6 @@ def user_report(app, created_models, verbosity, **kwargs):
     app_models = [m for m in created_models if m._meta.app_label == app_label]
 
     if app_label == 'auth':
-        print('Recreating superuser in the subclassed database table')
 
         user_class = get_model(*settings.CUSTOM_USER_MODEL.split('.', 2))
         if not user_class:
@@ -24,6 +23,7 @@ def user_report(app, created_models, verbosity, **kwargs):
 
         users = User.objects.all()
         if len(users)==1 and users[0].is_superuser:
+            print('Creating superuser in the subclassed database table')
             username = users[0].username
             email = users[0].email
             password = users[0].password
@@ -37,5 +37,21 @@ def user_report(app, created_models, verbosity, **kwargs):
             user.is_validated = True
 
             user.save()
+
+            # Also add a ``SciPyCentral`` user that will be the owner of some
+            # links and snippets that are preloaded. That user's password will
+            # be the same as the site's superuser (user.id == 1).
+            print('Creating "SciPyCentral" superuser also')
+            username = 'SciPyCentral'
+            email = settings.DEFAULT_FROM_EMAIL  # admin@scipy-central.org
+            password = users[0].password
+
+            # Recreate them in the subclassed user class
+            user = user_class.objects.create_superuser(username, email, None)
+            user.password = password
+            user.is_validated = True
+
+            user.save()
+
 
 signals.post_syncdb.connect(user_report)

@@ -24,8 +24,8 @@ Please ensure these Python packages are available on your server:
 *   Haystack search, http://haystacksearch.org at version 1.2.0
 
     *   git clone https://github.com/toastdriven/django-haystack.git
-    *   git checkout 00a23e0cd6ac533073c2  # version 1.2.0; not 2.0.0-alpha
     *   cd django-haystack
+    *   git checkout 00a23e0cd6ac533073c2  # version 1.2.0; not 2.0.0-alpha
     *   python setup.py install
     *   Edit the ``search_settings.py`` file under ``deploy`` to customize
         the search options.
