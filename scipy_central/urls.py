@@ -21,6 +21,7 @@ urlpatterns = patterns('scipy_central',
     # reST comment converted to HTML
     url(r'rest/', include('scipy_central.rest_comments.urls')),
 
-    #url(r'^comments/', include('django.contrib.comments.urls')),
+    # Searching
+    (r'^search/', include('haystack.urls')),
 
 )

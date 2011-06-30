@@ -136,6 +136,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
 
     # 3rd party apps:
+    'haystack',
 
     #  Local apps
     'scipy_central.filestorage',
@@ -155,7 +156,6 @@ CUSTOM_USER_MODEL = 'person.UserProfile'
 # Link the user is redirected to if not logged in and they try to perform
 # a function that only logged in users can do
 LOGIN_URL = '/user/sign-in/'
-
 
 if DEBUG:
     import tempfile
@@ -238,6 +238,10 @@ except ImportError:
     ANALYTICS_SNIPPET = ''
 
     # You can also overwrite keys from ``SPC`` in the ``local_settings.py`` file
+
+# Put all the search settings in a single file
+execfile(this_dir + os.sep + 'search_settings.py')
+
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

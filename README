@@ -21,6 +21,30 @@ Please ensure these Python packages are available on your server:
     bullets, paragraphs, tt-text, etc. ``rst2html`` from ``docutils`` might
     be a better, lightweight substitute in the future.
 
+*   Haystack search, http://haystacksearch.org at version 1.2.0
+
+    *   git clone https://github.com/toastdriven/django-haystack.git
+    *   git checkout 00a23e0cd6ac533073c2  # version 1.2.0; not 2.0.0-alpha
+    *   cd django-haystack
+    *   python setup.py install
+    *   Edit the ``search_settings.py`` file under ``deploy`` to customize
+        the search options.
+
+    We use the Xapian backend with Haystack:
+
+    *   See the installation instructions at
+        http://docs.haystacksearch.org/dev/installing_search_engines.html
+
+        although installation in a hosted environment will require more work.
+
+        (We use Xapian version 1.2.6 on our dev and production servers)
+
+    *   After installing Xapian, also install:
+
+        *   ``git clone git://github.com/notanumber/xapian-haystack.git``
+        *   Symlink the ``xapian_backend.py`` file in the above repo to
+            ``haystack/backends/xapian_backend.py`` location.
+
 
 Not required yet (might be as we add more functionality to the site):
 
@@ -33,7 +57,8 @@ Installation
 After Django installation and cloning this git repository on your server:
 
 #.	``./manage.py syncdb``
-#.	``./manage.py loaddata sample``
+#.	``./manage.py loaddata sample``  # to load licenses, tags and other data
+#.  ``./manage.py rebuild_index``    # to rebuild the search index
 
 
 Attribution

@@ -142,6 +142,12 @@ class RevisionManager(models.Manager):
         #obj.save(force_insert=True, using=self.db)
         return obj
 
+    def objects_for_search():
+        """
+        Returns only the objects used for searching.
+        """
+        return [sub.last_revision for sub in Submission.objects.all()]
+
 
 class Revision(models.Model):
 
