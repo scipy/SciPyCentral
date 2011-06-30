@@ -29,18 +29,35 @@ logger = logging.getLogger('scipycentral')
 logger.debug('Initializing submission::views.py')
 
 
-def get_form(request, form_class, field_order, unbound=True):
+def get_form(request, form_class, field_order, bound=False):
     """
     Generic function. Used for all submission types. Specify the ``form_class``
     that's given in ``forms.py``. The ``field_order`` is a list of strings that
-    indicates the linear order of the fields in the form. An ``unbound`` form
-    is an empty form, while a bound form is a function of the information
-    provided in the POST field of ``request``.
+    indicates the linear order of the fields in the form. A ``bound`` form
+    is a function of the object assigned to ``bound`` (see below). An unbound
+    form is simply an empty form.
     """
-    if unbound:
-        form_output = form_class()
+    if bound:
+        if isinstance(bound, models.Revision):
+            tags = ','.join([str(tag) for tag in bound.tags.all()])
+            fields =  {'item_url': bound.item_url,
+                       'title': bound.title,
+                       'description': bound.description,
+                       'sub_tags': tags,
+                       'snippet_code': bound.item_code,
+                       'sub_type': 'snippet',
+                       'sub_license': bound.sub_license_id,
+                       }
+            if bound.entry.sub_type == 'link':
+                fields['sub_type'] = 'link'
+            elif  bound.entry.sub_type == 'code':
+                fields['sub_type'] = 'snippet'
+
+            form_output = form_class(fields)
+        else:
+            form_output = form_class(data=request.POST)
     else:
-        form_output = form_class(data=request.POST)
+        form_output = form_class()
 
     # Rearrange the form order: screenshot and tags at the end
     form_output.fields.keyOrder = field_order
@@ -156,7 +173,7 @@ def new_snippet_submission(request):
     """
     Users wants to submit a new item via the web.
     """
-    snippet = get_form(request, forms.SnippetForm,
+    snippet = get_form(request, forms.SnippetForm, bound=False,
                        field_order=['title', 'description', 'snippet_code',
                        'sub_license', 'screenshot', 'sub_tags',
                        'email', 'sub_type'])
@@ -174,7 +191,7 @@ def preview_snippet_submission(request):
 
     # Use the built-in forms checking to validate the fields.
     valid_fields = []
-    snippet = get_form(request, forms.SnippetForm, unbound=False,
+    snippet = get_form(request, forms.SnippetForm, bound=True,
                        field_order=['title', 'description', 'snippet_code',
                        'sub_license', 'screenshot', 'sub_tags',
                        'email', 'sub_type'])
@@ -236,7 +253,7 @@ def submit_snippet_submission(request):
 
     # Use the built-in forms checking to validate the fields.
     valid_fields = []
-    snippet = get_form(request, forms.SnippetForm, unbound=False,
+    snippet = get_form(request, forms.SnippetForm, bound=True,
                        field_order=['title', 'description', 'snippet_code',
                        'sub_license', 'screenshot', 'sub_tags',
                        'email', 'sub_type'])
@@ -377,17 +394,16 @@ def tag_autocomplete(request):
 def new_or_edit_link_submission(request, user_edit=False):
     """
     Users wants to submit a new link item, or continue editing a submission.
-    When editing a submission we have ``unbound=False``, because the form is
-    bound to the ``request``.
+    When editing a submission we have ``bound=True``, because the form is
+    bound to the ``request``, or is given by a model instance.
     """
     linkform = get_form(request, forms.LinkForm, field_order=['title',
                             'description', 'item_url', 'screenshot',
                             'sub_tags', 'email', 'sub_type'],
-                        unbound=not(user_edit))
+                        bound=user_edit)
     return render_to_response('submission/new-link.html', {},
                               context_instance=RequestContext(request,
                                                     {'item': linkform}))
-
 
 def preview_or_submit_link_submission(request):
     if request.method != 'POST':
@@ -407,7 +423,7 @@ def preview_or_submit_link_submission(request):
 
     # Use the built-in forms checking to validate the fields.
     valid_fields = []
-    new_submission = get_form(request, forms.LinkForm, unbound=False,
+    new_submission = get_form(request, forms.LinkForm, bound=True,
                               field_order=['title', 'description', 'item_url',
                                            'screenshot', 'sub_tags', 'email',
                                            'sub_type'])
@@ -418,8 +434,7 @@ def preview_or_submit_link_submission(request):
     if not(all(valid_fields)):
         return render_to_response('submission/new-link.html', {},
                               context_instance=RequestContext(request,
-                                            {'snippet': new_submission}))
-
+                                            {'item': new_submission}))
 
     # 1. Create user account, if required
     authenticated = True
@@ -460,8 +475,7 @@ def preview_or_submit_link_submission(request):
                                   context_instance=RequestContext(request,
                                                   {'item': rev,
                                                    'tag_list': tag_list,
-                                                   'extra_html': extra_html,
-                                                   'wrapper_id': 'preview'}))
+                                                   'extra_html': extra_html}))
 
     else:
         # 4. Thank user and return with any extra messages
@@ -485,6 +499,21 @@ def preview_or_submit_link_submission(request):
                               context_instance=RequestContext(request,
                                     {'extra_message': extra_messages}))
 
+#------------------------------------------------------------------------------
+# Editing submissions
+def edit_submission(request, item_id, slug=None, rev_num=None):
 
+    # TODO: Check that user is signed in
+    # TODO: Check that user can edit the submission (e.g. link.author == user)
 
+    try:
+        the_item = models.Submission.objects.get(id=item_id)
+    except ObjectDoesNotExist:
+        # Since ``render_to_response`` doesn't yet support status codes, do
+        # this manually
+        t = get_template('404.html')
+        html = t.render(RequestContext(request))
+        return HttpResponse(html, status=404)
 
+    the_revision = the_item.last_revision
+    return new_or_edit_link_submission(request, user_edit=the_revision)

@@ -337,6 +337,9 @@ input, select, textarea{
 #id_snippet{
 	font-family: "Inconsolata";
 }
+.spc-code-description{
+	height: 15em;
+}
 
 /* Tagging */
 .ui-autocomplete {
