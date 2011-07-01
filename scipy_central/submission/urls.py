@@ -2,6 +2,10 @@ from django.conf.urls.defaults import url, patterns
 
 urlpatterns = patterns('scipy_central.submission.views',
 
+    # SHOW ALL
+    # ========
+    url(r'^show-all[/]?$', 'show_all_items', name='spc-show-all'),
+
     # SNIPPETS
     # ========
     # New snippet submission
@@ -27,7 +31,7 @@ urlpatterns = patterns('scipy_central.submission.views',
     url(r'^new-link-preview$', 'preview_or_submit_link_submission',
                                             name='spc-new-link-preview'),
 
-    # Preview link submission
+    # Submit submission
     url(r'^new-link-submit$', 'preview_or_submit_link_submission',
                                             name='spc-new-link-submit'),
 

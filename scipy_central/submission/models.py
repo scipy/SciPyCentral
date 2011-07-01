@@ -2,7 +2,6 @@ from django.db import models
 from django.db.models import signals
 from django.core.urlresolvers import reverse
 
-
 from scipy_central.utils import unique_slugify
 from pygments import formatters, highlight, lexers
 
@@ -48,11 +47,12 @@ class SubmissionManager(models.Manager):
         return obj
 
     def all(self):
-        return self.filter(is_displayed=True).filter(is_preview=False)
+        return self.filter(is_displayed=True) #.filter(is_preview=False)
 
     def all__for_backup(self):
         """ Sometimes we really do need all the submission objects."""
-        return super(SubmissionManager, self).all
+        return super(SubmissionManager, self).all()
+
 
 class Submission(models.Model):
     """
@@ -256,12 +256,6 @@ class Revision(models.Model):
 
         # Call the "real" save() method.
         super(Revision, self).save(*args, **kwargs)
-
-    #def get_absolute_url(self):
-        #if self.rev_id > 0:
-            #return reverse('spc-items') + self.entry.id + '/' + self.rev_id
-        #else:
-            #return reverse('spc-items') + self.entry.id
 
 
 class TagCreation(models.Model):

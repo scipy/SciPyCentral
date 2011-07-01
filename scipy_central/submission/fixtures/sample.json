@@ -681,7 +681,7 @@
     "pk": 76,
     "model": "tagging.tag",
     "fields": {
-      "name": "numpy",
+      "name": "NumPy",
       "slug": "numpy"
     }
   },
@@ -689,7 +689,7 @@
     "pk": 77,
     "model": "tagging.tag",
     "fields": {
-      "name": "scipy",
+      "name": "SciPy",
       "slug": "scipy"
     }
   },
@@ -697,7 +697,7 @@
     "pk": 78,
     "model": "tagging.tag",
     "fields": {
-      "name": "pytables",
+      "name": "PyTables",
       "slug": "pytables"
     }
   },
@@ -721,7 +721,7 @@
     "pk": 81,
     "model": "tagging.tag",
     "fields": {
-      "name": "chaco",
+      "name": "Chaco",
       "slug": "chaco"
     }
   },
@@ -729,7 +729,7 @@
     "pk": 82,
     "model": "tagging.tag",
     "fields": {
-      "name": "sympy",
+      "name": "SymPy",
       "slug": "sympy"
     }
   },
@@ -753,7 +753,7 @@
     "pk": 85,
     "model": "tagging.tag",
     "fields": {
-      "name": "ipython",
+      "name": "IPython",
       "slug": "ipython"
     }
   },
@@ -1102,7 +1102,7 @@
       "frozen": false,
       "fileset": null,
       "created_by": 3,
-      "is_displayed": false,
+      "is_displayed": true,
       "date_created": "2011-07-01 17:00:26",
       "sub_type": "link"
     }
@@ -1128,7 +1128,7 @@
       "frozen": false,
       "fileset": null,
       "created_by": 3,
-      "is_displayed": false,
+      "is_displayed": true,
       "date_created": "2011-07-01 17:15:54",
       "sub_type": "link"
     }

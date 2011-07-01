@@ -8,6 +8,7 @@ from django.template.defaultfilters import slugify
 from django.utils import simplejson
 from django import template
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 # Imports from this app and other SPC apps
 from scipy_central.screenshot.forms import ScreenshotForm as ScreenshotForm
@@ -461,6 +462,7 @@ def new_or_edit_link_submission(request, user_edit=False):
     return render_to_response('submission/new-link.html', {},
                               context_instance=RequestContext(request,
                                                     {'item': linkform}))
+
 @get_items_or_404
 def view_link(request, submission, revision):
     """
@@ -585,3 +587,24 @@ def edit_submission(request, submission, revision):
     # (e.g. link.created_by==user)
 
     return new_or_edit_link_submission(request, user_edit=revision)
+
+
+#------------------------------------------------------------------------------
+# Show all items in a paginated table
+def show_all_items(request):
+    entries = paginated_queryset(request, models.Submission.objects.all())
+    return render_to_response('submission/entries_list.html', {},
+                              context_instance=RequestContext(request,
+                                                {'entries': entries}))
+
+def paginated_queryset(request, queryset):
+    paginator = Paginator(queryset, 2)
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+    try:
+        return paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        return paginator.page(paginator.num_pages)
+

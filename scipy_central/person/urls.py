@@ -10,7 +10,7 @@ urlpatterns = patterns('scipy_central.person.views',
     url(r'^sign-out/$', 'logout_page', name='spc-logout'),
 
     # The user's profile page
-    url(r'^(\w+)/$', 'profile_page', name='spc-user-profile'),
+    url(r'^profile/(?P<username_slug>[-\w]+)(/)?$', 'profile_page', name='spc-user-profile'),
 
     # There is one place where this URL is hard-coded. See the ``person`` app
     # in the forms.py file.

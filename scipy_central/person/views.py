@@ -9,6 +9,8 @@ from django.template import RequestContext
 from scipy_central.person.forms import LoginForm, NewUserForm
 from django.conf import settings
 from django.db.utils import IntegrityError
+from django.core.exceptions import ObjectDoesNotExist
+
 
 import models
 import re
@@ -61,12 +63,17 @@ def profile_page(request, username_slug):
     """
     Shows the user's profile.
     """
-    # If ``username_slug`` does not exist, then simply redirect them to list of users.
+    try:
+        user = models.UserProfile.objects.get(username_slug=username_slug)
+    except ObjectDoesNotExist:
+         # TODO: If ``username_slug`` does not exist, then simply redirect them to list of users.
+        assert(False)
     return render_to_response('person/profile.html',
-                              dict(user=request.user),
-                              context_instance=RequestContext(request)
-                              )
+                              dict(user=user),
+                              context_instance=RequestContext(request,
+                                                              {'user': user}))
 
+@login_required
 def logout_page(request):
     if request.method == "POST":
         if request.user.is_authenticated:
@@ -74,10 +81,10 @@ def logout_page(request):
     next = request.POST.get('next', login_page)
     return redirect(next)
 
-@login_required
+
 def reset_password(request):
     # TODO(KGD)
-    pass
+    return HttpResponse('STILL TO DO: reset password page')
 
 def precheck_new_user(request):
 
