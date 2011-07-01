@@ -36,12 +36,12 @@ urlpatterns = patterns('scipy_central.submission.views',
     # Maximum information:   http://..../23/4/draw-an-ellipse/
     # Typical link:          http://..../23/4/  <-- revision 4
     # Minimal working link:  http://..../23/    <-- shows latest revision
-    url(r'^(?P<item_id>(\d+)?)(/(?P<rev_num>(\d+)?))?(/(?P<slug>(.+)?))?',
+    url(r'^(?P<item_id>\d+)+(/(?P<rev_num>(\d+)?))?(/(?P<slug>(.+)?))?',
                                            'view_link', name='spc-view-link'),
 
     # EDITING
     # =======
-    url(r'^(?P<item_id>(\d+)?)(/(?P<rev_num>(\d+)?))?(/(?P<slug>(.+)?))?',
+    url(r'^(?P<item_id>\d+)+(/(?P<rev_num>(\d+)?))?(/(?P<slug>(.+)?))?',
         'edit_submission', name='spc-edit-submission'),
 
 

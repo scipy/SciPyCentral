@@ -383,6 +383,9 @@ def tag_autocomplete(request):
     # TODO(KGD): cache this lookup for 30 minutes
     # Also, randomize the tag order to prevent only the those with lower
     # primary keys from being shown more frequently
+
+    # TODO(KGD): put the typed text in bold, e.g. typed="bi" then return
+    # proba<b>bi</b>lity
     all_tags = [tag.name for tag in Tag.objects.all()]
 
     contains_str = request.REQUEST.get('term', '').lower()
@@ -399,7 +402,7 @@ def tag_autocomplete(request):
     # Return tags starting with ``contains_str`` at the top of the list,
     # followed by tags that only include ``contains_str``
     starts.extend(includes)
-    return HttpResponse(simplejson.dumps(starts), mimetype='text/plain')
+    return HttpResponse(simplejson.dumps(starts), mimetype='text/text')
 
 #------------------------------------------------------------------------------
 # Link submissions
