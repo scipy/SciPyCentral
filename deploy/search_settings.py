@@ -29,8 +29,6 @@
 HAYSTACK_SEARCH_ENGINE = 'xapian'
 HAYSTACK_XAPIAN_PATH = os.path.join(os.path.dirname(__file__), 'xapian_index')
 HAYSTACK_SITECONF = 'search_sites'
-
-
 HAYSTACK_DEFAULT_OPERATOR = 'AND'
 HAYSTACK_SEARCH_RESULTS_PER_PAGE = 30
 HAYSTACK_BATCH_SIZE = 100

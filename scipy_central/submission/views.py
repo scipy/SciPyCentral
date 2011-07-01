@@ -423,6 +423,42 @@ def new_or_edit_link_submission(request, user_edit=False):
                               context_instance=RequestContext(request,
                                                     {'item': linkform}))
 
+def view_link(request, item_id, slug=None, rev_num=None):
+    """
+    Shows a snippet to web users. The ``slug`` is always ignored, but appears
+    in the URLs mainly for the sake of search engines.
+    The revision, if specified >= 0 will show the particular revision of the
+    snippet, rather than than the latest revision (default).
+    """
+    show_error = False
+    try:
+        the_submission = models.Submission.objects.get(id=item_id)
+    except ObjectDoesNotExist:
+        show_error = True
+
+    the_revision = the_submission.last_revision
+    if rev_num is not None:
+        all_revisions = the_submission.revisions.all()
+        try:
+            the_revision = all_revisions[int(rev_num)]
+        except (ValueError, IndexError):
+            show_error = True
+
+    if not isinstance(the_revision, models.Revision):
+        show_error = True
+
+    if show_error: #or not(the_snippet.is_displayed):
+        # Since ``render_to_response`` doesn't yet support status codes, do
+        # this manually
+        t = get_template('404.html')
+        html = t.render(RequestContext(request))
+        return HttpResponse(html, status=404)
+
+    return render_to_response('submission/link.html', {},
+                              context_instance=RequestContext(request,
+                                       {'item': the_revision,
+                                        'tag_list': the_revision.tags.all()}))
+
 def preview_or_submit_link_submission(request):
     if request.method != 'POST':
         return redirect('spc-new-link-submission')

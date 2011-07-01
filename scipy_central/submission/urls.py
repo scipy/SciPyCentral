@@ -20,9 +20,9 @@ urlpatterns = patterns('scipy_central.submission.views',
     # Maximal information:   http://.../23/draw-an-ellipse/revision/4/
     # Typical link:          http://.../23/draw-an-ellipse/
     # Minimal working link:  http://.../23/
-    url(r'^(?P<snippet_id>\d*?)$',
-        #/(?P<slug>[-\w]*?)/revision/(<?rev_num>[\d].?)$',
-        'view_snippet', name='spc-view-a-submission'),
+    #url(r'^(?P<snippet_id>\d*?)$',
+        ##/(?P<slug>[-\w]*?)/revision/(<?rev_num>[\d].?)$',
+        #'view_snippet', name='spc-view-a-submission'),
 
     # LINKS
     # ========
@@ -37,6 +37,15 @@ urlpatterns = patterns('scipy_central.submission.views',
     # Preview link submission
     url(r'^new-link-submit$', 'preview_or_submit_link_submission',
                                             name='spc-new-link-submit'),
+
+    # View an existing item: all 3 versions of accessing the item are valid
+    #
+    # Maximum information:   http://..../23/draw-an-ellipse/revision/4/
+    # Typical link:          http://..../23/draw-an-ellipse/
+    # Minimal working link:  http://..../23/
+    url(r'^(?P<item_id>\d+?)(/(?P<slug>[-\w]*?)(/revision/(?P<rev_num>\d+?))?)?$',
+                                           'view_link', name='spc-view-link'),
+    #url(r'^(?P<item_id>\d.?)$', 'view_link', name='spc-view-link'),
 
     # EDITING
     # =======
