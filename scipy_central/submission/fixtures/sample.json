@@ -1139,7 +1139,7 @@
       "is_preview": true,
       "frozen": false,
       "fileset": null,
-      "created_by": 2,
+      "created_by": 3,
       "is_displayed": false,
       "date_created": "2011-07-01 17:00:26",
       "sub_type": "link"
@@ -1181,7 +1181,7 @@
       "description_html": "<p>Visvis is a pure Python library for visualization of 1D to 4D data in an object oriented way combining the power of OpenGL with the usability of Python.</p>\n<p>A MATLAB-like interface in the form of a set of functions allows easy creation of objects, e.g. <tt class=\"docutils literal\"><span class=\"pre\">plot()</span></tt>, <tt class=\"docutils literal\"><span class=\"pre\">imshow()</span></tt>, <tt class=\"docutils literal\"><span class=\"pre\">volshow()</span></tt>, and <tt class=\"docutils literal\"><span class=\"pre\">surf()</span></tt>.</p>\n",
       "title": "Visvis: an object oriented approach to visualization",
       "screenshot": null,
-      "3": 2,
+      "created_by": 3,
       "item_code": null,
       "date_created": "2011-07-01 17:00:26",
       "item_highlighted_code": null,
@@ -1293,7 +1293,7 @@
     "fields": {
       "date_created": "2011-07-01 17:01:37",
       "tag": 125,
-      "created_by": 2,
+      "created_by": 3,
       "revision": 2
     }
   },
