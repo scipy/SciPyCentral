@@ -47,6 +47,9 @@ class SubmissionManager(models.Manager):
     def all(self):
         return self.filter(is_displayed=True).filter(is_preview=False)
 
+    def all__for_backup(self):
+        """ Sometimes we really do need all the submission objects."""
+        return super(SubmissionManager, self).all
 
 class Submission(models.Model):
     """
@@ -93,6 +96,7 @@ class Submission(models.Model):
 
     # For submissions created only for previewing. Is set to False once the
     # submission is actually submitted.
+    # TODO(KGD): remove this eventually
     is_preview = models.BooleanField(default=True)
 
     # FUTURE

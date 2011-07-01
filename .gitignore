@@ -6,3 +6,4 @@ deploy/scipy-central.sqlite
 scipy-central.wpr
 compile
 xapian_index
+site_backup

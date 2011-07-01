@@ -546,8 +546,8 @@ def preview_or_submit_link_submission(request):
                               'valuable submissions in the future.') % \
                             settings.SPC['unvalidated_subs_deleted_after']
 
-        send_email(user.email, "Thanks for your submission to SciPy Central",
-                   message=msg)
+        send_email(request.user.email, ("Thank you  for your submission to "
+                                        "SciPy Central"), message=msg)
 
         return render_to_response('submission/thank-user.html', {},
                               context_instance=RequestContext(request,

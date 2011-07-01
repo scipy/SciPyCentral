@@ -186,6 +186,7 @@ div#spc-section-body tt, div#spc-content tt {
 	width: 90%;
     margin: auto;
 	text-align: center;
+	padding-top: 1em;
 }
 
 #spc-search{
