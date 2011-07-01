@@ -16,7 +16,7 @@ urlpatterns = patterns('scipy_central',
 
 
     # Submissions: new and existing, including previous revisions
-    url(r'item/', include('scipy_central.submission.urls')),
+    url(r'item/', include('scipy_central.submission.urls'), name='spc-items'),
 
     # reST comment converted to HTML
     url(r'rest/', include('scipy_central.rest_comments.urls')),

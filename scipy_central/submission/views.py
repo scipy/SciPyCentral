@@ -7,6 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.template.defaultfilters import slugify
 from django.utils import simplejson
 from django import template
+from django.contrib.auth.decorators import login_required
 
 # Imports from this app and other SPC apps
 from scipy_central.screenshot.forms import ScreenshotForm as ScreenshotForm
@@ -46,6 +47,7 @@ def get_form(request, form_class, field_order, bound=False):
                        'snippet_code': bound.item_code,
                        'sub_type': 'snippet',
                        'sub_license': bound.sub_license_id,
+                       'pk': bound.entry.id,
                        }
             if bound.entry.sub_type == 'link':
                 fields['sub_type'] = 'link'
@@ -68,8 +70,8 @@ def get_form(request, form_class, field_order, bound=False):
     return form_output
 
 
-def create_new_submission_and_revision(request, item, authenticated,
-                                       commit=False):
+def create_or_edit_submission_revision(request, item, authenticated,
+                                             commit=False):
     """
     Creates a new ``Submission`` and ``Revision`` instance. Returns these in
     a tuple.
@@ -146,9 +148,16 @@ def create_new_submission_and_revision(request, item, authenticated,
                             )
 
     if commit:
+        # Save the submission, then the revision. If we have a primary key
+        # (case happens when user is editing a previous submission), then
+        # do not save the submission (because the Submission object has fields
+        # that will never change once it has been first created). Only set
+        # the ``pk`` so that the new revision object is correct.
+        if item.cleaned_data['pk']:
+            sub.id = item.cleaned_data['pk']
+        else:
+            sub.save()
 
-        # Save the submission, then the revision.
-        sub.save()
         rev.entry_id = sub.id
         rev.save()
 
@@ -226,7 +235,7 @@ def preview_snippet_submission(request):
             authenticated = False
 
         # 2. Create the submission and revision and email the user
-        sub, rev, tag_list, _ = create_new_submission_and_revision(request,
+        sub, rev, tag_list, _ = create_or_edit_submission_revision(request,
                                                                 snippet,
                                                                 authenticated)
 
@@ -290,7 +299,7 @@ def submit_snippet_submission(request):
             username = user.username
 
         # 2. Create the submission and revision and email the user
-        sub, rev, _, msg = create_new_submission_and_revision(request,
+        sub, rev, _, msg = create_or_edit_submission_revision(request,
                                                                snippet,
                                                                authenticated)
 
@@ -406,53 +415,69 @@ def tag_autocomplete(request):
 
 #------------------------------------------------------------------------------
 # Link submissions
+def get_items_or_404(view_function):
+    """
+    Decorator for views that ensures the revision and submission requested
+    actually exist. If not, throws a 404, else, it calls the view function
+    with the required inputs.
+    """
+    def decorator(request, item_id, rev_num=None, slug=None):
+        """Retrieves the ``Submission`` and ``Revision`` objects when given,
+        at a minimum the submission's primary key (``item_id``). Since the
+        submission can have more than 1 revision, we can get a specific
+        revision, ``rev_num``, otherwise we will always get the latest
+        revision. ``slug`` is ignored for now - just used to create good SEO
+        URLs.
+        """
+        try:
+            the_submission = models.Submission.objects.get(id=item_id)
+        except ObjectDoesNotExist:
+            return page_404_error(request)
+
+        the_revision = the_submission.last_revision
+        if rev_num: # can be None or '':
+            all_revisions = the_submission.revisions.all()
+            try:
+                the_revision = all_revisions[int(rev_num)]
+            except (ValueError, IndexError):
+                return page_404_error(request)
+
+        if not isinstance(the_revision, models.Revision):
+            return page_404_error(request)
+
+        return view_function(request, the_submission, the_revision)
+
+    return decorator
+
+
 def new_or_edit_link_submission(request, user_edit=False):
     """
     Users wants to submit a new link item, or continue editing a submission.
-    When editing a submission we have ``bound=True``, because the form is
-    bound to the ``request``, or is given by a model instance.
     """
     linkform = get_form(request, forms.LinkForm, field_order=['title',
                             'description', 'item_url', 'screenshot',
-                            'sub_tags', 'email', 'sub_type'],
+                            'sub_tags', 'email', 'sub_type', 'pk'],
                         bound=user_edit)
     return render_to_response('submission/new-link.html', {},
                               context_instance=RequestContext(request,
                                                     {'item': linkform}))
-
-def view_link(request, item_id, rev_num=None, slug=None):
+@get_items_or_404
+def view_link(request, submission, revision):
     """
     Shows a snippet to web users. The ``slug`` is always ignored, but appears
     in the URLs mainly for the sake of search engines.
     The revision, if specified >= 0 will show the particular revision of the
     snippet, rather than than the latest revision (default).
     """
-    try:
-        the_submission = models.Submission.objects.get(id=item_id)
-    except ObjectDoesNotExist:
-        return page_404_error(request)
+    permalink = settings.SPC['short_URL_root'] + str(submission.id)
+    if revision.rev_id > 0:
+        permalink += '/' + str(revision.rev_id)
 
-    the_revision = the_submission.last_revision
-    if rev_num is not None:
-        all_revisions = the_submission.revisions.all()
-        try:
-            the_revision = all_revisions[int(rev_num)]
-        except (ValueError, IndexError):
-            return page_404_error(request)
-
-    if not isinstance(the_revision, models.Revision):
-        return page_404_error(request)
-
-    rev_id = the_submission.rev_id(the_revision)
-    if rev_id == 0:
-        rev_id = ''
     return render_to_response('submission/link.html', {},
                               context_instance=RequestContext(request,
-                                       {'item': the_revision,
-                                        'tag_list': the_revision.tags.all(),
-                                        'edit_link': 'as',
-                                        'show_short_link': True,
-                                        'rev_id': rev_id,
+                                       {'item': revision,
+                                        'tag_list': revision.tags.all(),
+                                        'permalink': permalink,
                                        }))
 
 def preview_or_submit_link_submission(request):
@@ -476,7 +501,7 @@ def preview_or_submit_link_submission(request):
     new_submission = get_form(request, forms.LinkForm, bound=True,
                               field_order=['title', 'description', 'item_url',
                                            'screenshot', 'sub_tags', 'email',
-                                           'sub_type'])
+                                           'sub_type', 'pk'])
     sshot = ScreenshotForm(request.POST, request.FILES)
     valid_fields.append(new_submission.is_valid())
     valid_fields.append(sshot.is_valid())
@@ -494,11 +519,12 @@ def preview_or_submit_link_submission(request):
         request.user = user
         authenticated = False
 
-    # 2. Create the submission and revision and email the user
-    sub, rev, tag_list, msg = create_new_submission_and_revision(request,
-                                                     new_submission,
-                                                     authenticated,
-                                                     commit=commit)
+    # 2. Create the submission and revision or update an existing submission
+    #    with a new revision
+    sub, rev, tag_list, msg = create_or_edit_submission_revision(request,
+                                                         new_submission,
+                                                         authenticated,
+                                                         commit=commit)
 
     # i.e. just previewing ...
     if not(commit):
@@ -542,7 +568,7 @@ def preview_or_submit_link_submission(request):
                               'valuable submissions in the future.') % \
                             settings.SPC['unvalidated_subs_deleted_after']
 
-        send_email(request.user.email, ("Thank you  for your submission to "
+        send_email(request.user.email, ("Thank you for your submission to "
                                         "SciPy Central"), message=msg)
 
         return render_to_response('submission/thank-user.html', {},
@@ -550,16 +576,12 @@ def preview_or_submit_link_submission(request):
                                     {'extra_message': extra_messages}))
 
 #------------------------------------------------------------------------------
-# Editing submissions
-def edit_submission(request, item_id, slug=None, rev_num=None):
+# Editing submissions: decorator order is important!
+@login_required
+@get_items_or_404
+def edit_submission(request, submission, revision):
 
-    # TODO: Check that user is signed in
-    # TODO: Check that user can edit the submission (e.g. link.created_by==user)
+    # TODO: Check that user is authorized to edit the submission
+    # (e.g. link.created_by==user)
 
-    try:
-        the_item = models.Submission.objects.get(id=item_id)
-    except ObjectDoesNotExist:
-        return page_404_error(request)
-
-    the_revision = the_item.last_revision
-    return new_or_edit_link_submission(request, user_edit=the_revision)
+    return new_or_edit_link_submission(request, user_edit=revision)

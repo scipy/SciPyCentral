@@ -1,5 +1,8 @@
 from django.db import models
 from django.db.models import signals
+from django.core.urlresolvers import reverse
+
+
 from scipy_central.utils import unique_slugify
 from pygments import formatters, highlight, lexers
 
@@ -118,12 +121,6 @@ class Submission(models.Model):
     def slug(self):
         return self.last_revision.slug
 
-    def rev_id(self, revision):
-        """ Determines which revision of the submission this is, given the
-        ``revision`` object.
-        """
-        return list(self.revisions.all()).index(revision)
-
     def __unicode__(self):
         return self.slug + '::rev-' + str(self.num_revisions)
 
@@ -228,6 +225,12 @@ class Revision(models.Model):
     def __unicode__(self):
         return self.title[0:50] + '::' + str(self.created_by.username)
 
+    @property
+    def rev_id(self):
+        """ Determines which revision of the submission this is, given the
+        ``revision`` object.
+        """
+        return list(self.entry.revisions.all()).index(self)
 
     def save(self, *args, **kwargs):
         """ Override the model's saving function to create the slug """
@@ -254,9 +257,12 @@ class Revision(models.Model):
         # Call the "real" save() method.
         super(Revision, self).save(*args, **kwargs)
 
-    @models.permalink
-    def get_absolute_url(self):
-        return('view_snippet', (self.pk,))
+    #def get_absolute_url(self):
+        #if self.rev_id > 0:
+            #return reverse('spc-items') + self.entry.id + '/' + self.rev_id
+        #else:
+            #return reverse('spc-items') + self.entry.id
+
 
 class TagCreation(models.Model):
     """

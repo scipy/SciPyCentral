@@ -19,11 +19,11 @@ class HiddenBaseForm(forms.BaseForm):
 
 class Submission_Form__Common_Parts(HiddenBaseForm, forms.Form):
     """
-    The common parts to all submissions:
-
-        * The submission's title
-        * A short summary
+    The common parts to all submissions.
     """
+    # The primary key (used when a form is being edited
+    pk = forms.IntegerField(widget=forms.HiddenInput(), required=False)
+
     title = forms.CharField(max_length=150, \
                             label=Revision._meta.get_field('title').help_text)
 

@@ -36,6 +36,12 @@
 
   <div id="spc-extra-message">{{extra_html|safe}}</div>
 
-  Permalink: <a href="{{short_URL}}{{item.pk}}/{{rev_id}}">{{short_URL}}{{item.pk}}/{{rev_id}}</a>
+  {% if permalink %}<p>Permalink to this revision: <a href="{{permalink}}">{{permalink}}</a>{% endif %}
+
+  {% ifequal user.id item.created_by.id %}
+  {% if item.id %}
+  <p><a href="{% url spc-edit-submission item.entry.id %}/{{item.rev_id}}">Edit this {{item.entry.sub_type}}</a>
+  {% endif %}
+  {% endifequal %}
 
 {% endblock %}
