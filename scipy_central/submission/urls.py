@@ -16,13 +16,6 @@ urlpatterns = patterns('scipy_central.submission.views',
     url(r'^new-snippet-submit$', 'submit_snippet_submission',
                                             name='spc-new-snippet-submit'),
 
-    # Show an existing submission; some valid examples include:
-    # Maximal information:   http://.../23/draw-an-ellipse/revision/4/
-    # Typical link:          http://.../23/draw-an-ellipse/
-    # Minimal working link:  http://.../23/
-    #url(r'^(?P<snippet_id>\d*?)$',
-        ##/(?P<slug>[-\w]*?)/revision/(<?rev_num>[\d].?)$',
-        #'view_snippet', name='spc-view-a-submission'),
 
     # LINKS
     # ========
@@ -40,16 +33,15 @@ urlpatterns = patterns('scipy_central.submission.views',
 
     # View an existing item: all 3 versions of accessing the item are valid
     #
-    # Maximum information:   http://..../23/draw-an-ellipse/revision/4/
-    # Typical link:          http://..../23/draw-an-ellipse/
-    # Minimal working link:  http://..../23/
-    url(r'^(?P<item_id>\d+?)(/(?P<slug>[-\w]*?)(/revision/(?P<rev_num>\d+?))?)?$',
+    # Maximum information:   http://..../23/4/draw-an-ellipse/
+    # Typical link:          http://..../23/4/  <-- revision 4
+    # Minimal working link:  http://..../23/    <-- shows latest revision
+    url(r'^(?P<item_id>(\d+)?)(/(?P<rev_num>(\d+)?))?(/(?P<slug>(.+)?))?',
                                            'view_link', name='spc-view-link'),
-    #url(r'^(?P<item_id>\d.?)$', 'view_link', name='spc-view-link'),
 
     # EDITING
     # =======
-    url(r'^edit/(?P<item_id>\d*?)(/(?P<slug>[-\w]*?)/revision/(?P<rev_num>\d*?))?$',
+    url(r'^(?P<item_id>(\d+)?)(/(?P<rev_num>(\d+)?))?(/(?P<slug>(.+)?))?',
         'edit_submission', name='spc-edit-submission'),
 
 

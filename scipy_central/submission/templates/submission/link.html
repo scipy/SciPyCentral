@@ -15,12 +15,12 @@
     </div>
     <div class="spc-item-row">
       <span class="spc-item-label">Submitted by:</span>
-      <span class="spc-item-entry">{% if item.entry.created_by.is_validated %}<a href="{% url spc-user-profile item.entry.created_by.username_slug %}">{{item.entry.created_by.username}}</a>{% else %}Unvalidated user{% endif %} on {% if item.date_created %}{{item.date_created|date}}{% else %}{{DATETIME_NOW|date}}{% endif %}</span>
+      <span class="spc-item-entry">{% if item.entry.created_by.is_validated %}<a href="{% url spc-user-profile item.entry.created_by.username_slug %}">{{item.entry.created_by.username}}</a>{% else %}Unvalidated user{% endif %} on {% if item.date_created %}{{item.date_created|date:"d F Y"}}{% else %}{% now "d F Y" %}{% endif %}</span>
     </div>
     {% if item.entry.num_revisions > 1 %}
      <div class="spc-item-row">
       <span class="spc-item-label">Updated by:</span>
-      <span class="spc-item-entry">{% if item.created_by.is_validated %}<a href="{% url spc-user-profile item.created_by.username_slug %}">{{item.created_by.username}}</a>{% else %}Unvalidated user{% endif %} on {% if item.date_created %}{{item.date_created|date}}{% else %}{{DATETIME_NOW|date}}{% endif %}</span>
+      <span class="spc-item-entry">{% if item.created_by.is_validated %}<a href="{% url spc-user-profile item.created_by.username_slug %}">{{item.created_by.username}}</a>{% else %}Unvalidated user{% endif %} on {% if item.date_created %}{{item.date_created|date:"d F Y"}}{% else %}{% now "d F Y" %}{% endif %}</span>
     </div>
     {% endif %}
     <div class="spc-item-row">
@@ -35,5 +35,7 @@
   </div>
 
   <div id="spc-extra-message">{{extra_html|safe}}</div>
+
+  Permalink: <a href="{{short_URL}}{{item.pk}}/{{rev_id}}">{{short_URL}}{{item.pk}}/{{rev_id}}</a>
 
 {% endblock %}

@@ -417,7 +417,7 @@ def new_or_edit_link_submission(request, user_edit=False):
                               context_instance=RequestContext(request,
                                                     {'item': linkform}))
 
-def view_link(request, item_id, slug=None, rev_num=None):
+def view_link(request, item_id, rev_num=None, slug=None):
     """
     Shows a snippet to web users. The ``slug`` is always ignored, but appears
     in the URLs mainly for the sake of search engines.
@@ -440,10 +440,17 @@ def view_link(request, item_id, slug=None, rev_num=None):
     if not isinstance(the_revision, models.Revision):
         return page_404_error(request)
 
+    rev_id = the_submission.rev_id(the_revision)
+    if rev_id == 0:
+        rev_id = ''
     return render_to_response('submission/link.html', {},
                               context_instance=RequestContext(request,
                                        {'item': the_revision,
-                                        'tag_list': the_revision.tags.all()}))
+                                        'tag_list': the_revision.tags.all(),
+                                        'edit_link': 'as',
+                                        'show_short_link': True,
+                                        'rev_id': rev_id,
+                                       }))
 
 def preview_or_submit_link_submission(request):
     if request.method != 'POST':

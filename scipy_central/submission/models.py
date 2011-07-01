@@ -81,8 +81,6 @@ class Submission(models.Model):
     ## Total pageviews: sum of all views
     #tot_pageviews = models.PositiveIntegerField(default=0)
 
-    # num_revisions: total number of revisions to this submission
-    #num_revisions = models.PositiveIntegerField(default=0)
 
     # frozen: no further revisions allowed
     frozen = models.BooleanField(default=False)
@@ -119,6 +117,12 @@ class Submission(models.Model):
     @property
     def slug(self):
         return self.last_revision.slug
+
+    def rev_id(self, revision):
+        """ Determines which revision of the submission this is, given the
+        ``revision`` object.
+        """
+        return list(self.revisions.all()).index(revision)
 
     def __unicode__(self):
         return self.slug + '::rev-' + str(self.num_revisions)
