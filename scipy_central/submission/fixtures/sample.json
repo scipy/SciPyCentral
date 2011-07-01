@@ -1,23 +1,5 @@
 [
   {
-    "pk": 2,
-    "model": "auth.user",
-    "fields": {
-      "username": "_null_user_",
-      "first_name": "",
-      "last_name": "",
-      "is_active": true,
-      "is_superuser": true,
-      "is_staff": true,
-      "last_login": "2011-07-01 17:17:22",
-      "groups": [],
-      "user_permissions": [],
-      "password": "sha1$notsupplied",
-      "email": "me@example.com",
-      "date_joined": "2011-07-01 17:17:22"
-    }
-  },
-  {
     "pk": 3,
     "model": "auth.user",
     "fields": {
@@ -33,26 +15,6 @@
       "password": "sha1$notsupplied",
       "email": "admin@scipy-central.org",
       "date_joined": "2011-07-01 17:17:22"
-    }
-  },
-  {
-    "pk": 1,
-    "model": "person.userprofile",
-    "fields": {
-      "profile": null,
-      "openid": null,
-      "username_slug": "_null_user_",
-      "country": null,
-      "uri": null,
-      "contactable_via_site": true,
-      "affiliation": null,
-      "is_validated": false,
-      "groups": [],
-      "allow_user_to_email": true,
-      "user_permissions": [],
-      "markup_pref": "",
-      "n_views": 0,
-      "reputation": 0
     }
   },
   {
