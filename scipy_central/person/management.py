@@ -38,20 +38,22 @@ def user_report(app, created_models, verbosity, **kwargs):
 
             user.save()
 
-            # Also add a ``SciPyCentral`` user that will be the owner of some
-            # links and snippets that are preloaded. That user's password will
-            # be the same as the site's superuser (user.id == 1).
-            print('Creating "SciPyCentral" superuser also')
-            username = 'SciPyCentral'
-            email = settings.DEFAULT_FROM_EMAIL  # admin@scipy-central.org
-            password = users[0].password
+            # Created now using a fixture instead
+            #
+            ## Also add a ``SciPyCentral`` user that will be the owner of some
+            ## links and snippets that are preloaded. That user's password will
+            ## be the same as the site's superuser (user.id == 1).
+            #print('Creating "SciPyCentral" superuser also')
+            #username = 'SciPyCentral'
+            #email = settings.DEFAULT_FROM_EMAIL  # admin@scipy-central.org
+            #password = users[0].password
 
-            # Recreate them in the subclassed user class
-            user = user_class.objects.create_superuser(username, email, None)
-            user.password = password
-            user.is_validated = True
+            ## Recreate them in the subclassed user class
+            #user = user_class.objects.create_superuser(username, email, None)
+            #user.password = password
+            #user.is_validated = True
 
-            user.save()
+            #user.save()
 
 
 signals.post_syncdb.connect(user_report)
