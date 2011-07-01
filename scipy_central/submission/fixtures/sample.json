@@ -265,8 +265,8 @@
     "pk": 29,
     "model": "tagging.tag",
     "fields": {
-      "name": "plots",
-      "slug": "plots"
+      "name": "plotting",
+      "slug": "plotting"
     }
   },
   {
@@ -474,7 +474,7 @@
     "pk": 55,
     "model": "tagging.tag",
     "fields": {
-      "name": "gpu",
+      "name": "GPU",
       "slug": "gpu"
     }
   },
@@ -1030,6 +1030,275 @@
     "fields": {
       "name": "SVM",
       "slug": "svm"
+    }
+  },
+  {
+    "pk": 125,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "OpenGL",
+      "slug": "opengl"
+    }
+  },
+  {
+    "pk": 126,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "object-oriented",
+      "slug": "object-oriented"
+    }
+  },
+  {
+    "pk": 127,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "Monte Carlo",
+      "slug": "monte-carlo"
+    }
+  },
+    {
+    "pk": 1,
+    "model": "submission.submission",
+    "fields": {
+      "is_preview": true,
+      "frozen": false,
+      "fileset": null,
+      "created_by": 2,
+      "is_displayed": false,
+      "date_created": "2011-07-01 17:00:26",
+      "sub_type": "link"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "submission.submission",
+    "fields": {
+      "is_preview": true,
+      "frozen": false,
+      "fileset": null,
+      "created_by": 2,
+      "is_displayed": true,
+      "date_created": "2011-07-01 17:03:45",
+      "sub_type": "link"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "submission.submission",
+    "fields": {
+      "is_preview": true,
+      "frozen": false,
+      "fileset": null,
+      "created_by": 2,
+      "is_displayed": false,
+      "date_created": "2011-07-01 17:15:54",
+      "sub_type": "link"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "submission.revision",
+    "fields": {
+      "sub_license": null,
+      "item_url": "http://code.google.com/p/visvis/",
+      "description": "Visvis is a pure Python library for visualization of 1D to 4D data in an object oriented way combining the power of OpenGL with the usability of Python. \r\n\r\nA MATLAB-like interface in the form of a set of functions allows easy creation of objects, e.g. ``plot()``, ``imshow()``, ``volshow()``, and ``surf()``.",
+      "description_html": "<p>Visvis is a pure Python library for visualization of 1D to 4D data in an object oriented way combining the power of OpenGL with the usability of Python.</p>\n<p>A MATLAB-like interface in the form of a set of functions allows easy creation of objects, e.g. <tt class=\"docutils literal\"><span class=\"pre\">plot()</span></tt>, <tt class=\"docutils literal\"><span class=\"pre\">imshow()</span></tt>, <tt class=\"docutils literal\"><span class=\"pre\">volshow()</span></tt>, and <tt class=\"docutils literal\"><span class=\"pre\">surf()</span></tt>.</p>\n",
+      "title": "Visvis: an object oriented approach to visualization",
+      "screenshot": null,
+      "created_by": 2,
+      "item_code": null,
+      "date_created": "2011-07-01 17:00:26",
+      "item_highlighted_code": null,
+      "entry": 1,
+      "slug": "visvis-an-object-oriented-approach-to-visualization",
+      "hash_id": "d41d8cd98f00b204e9800998ecf8427e"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "submission.revision",
+    "fields": {
+      "sub_license": null,
+      "item_url": "http://code.google.com/p/visvis/",
+      "description": "Visvis is a pure Python library for visualization of 1D to 4D data in an object oriented way combining the power of OpenGL with the usability of Python. \r\n\r\nA MATLAB-like interface in the form of a set of functions allows easy creation of objects, e.g. ``plot()``, ``imshow()``, ``volshow()``, and ``surf()``.",
+      "description_html": "<p>Visvis is a pure Python library for visualization of 1D to 4D data in an object oriented way combining the power of OpenGL with the usability of Python.</p>\n<p>A MATLAB-like interface in the form of a set of functions allows easy creation of objects, e.g. <tt class=\"docutils literal\"><span class=\"pre\">plot()</span></tt>, <tt class=\"docutils literal\"><span class=\"pre\">imshow()</span></tt>, <tt class=\"docutils literal\"><span class=\"pre\">volshow()</span></tt>, and <tt class=\"docutils literal\"><span class=\"pre\">surf()</span></tt>.</p>\n",
+      "title": "Visvis: an object oriented approach to visualization",
+      "screenshot": null,
+      "created_by": 2,
+      "item_code": null,
+      "date_created": "2011-07-01 17:01:37",
+      "item_highlighted_code": null,
+      "entry": 1,
+      "slug": "visvis-an-object-oriented-approach-to-visualization-2",
+      "hash_id": "d41d8cd98f00b204e9800998ecf8427e"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "submission.revision",
+    "fields": {
+      "sub_license": null,
+      "item_url": "http://code.google.com/p/playdoh/",
+      "description": "Playdoh is a pure Python library for distributing computations across the free computing units (CPUs and GPUs) available in a small network of multicore computers. \r\n\r\nPlaydoh supports independent (embarassingly) parallel problems as well as loosely coupled tasks such as global optimizations, Monte Carlo simulations and numerical integration of partial differential equations. \r\n\r\nIt is designed to be lightweight and easy to use and should be of interest to scientists wanting to turn their lab computers into a small cluster at no cost.",
+      "description_html": "<p>Playdoh is a pure Python library for distributing computations across the free computing units (CPUs and GPUs) available in a small network of multicore computers.</p>\n<p>Playdoh supports independent (embarassingly) parallel problems as well as loosely coupled tasks such as global optimizations, Monte Carlo simulations and numerical integration of partial differential equations.</p>\n<p>It is designed to be lightweight and easy to use and should be of interest to scientists wanting to turn their lab computers into a small cluster at no cost.</p>\n",
+      "title": "Playdoh: Parallel Distributed Optimization library for Python",
+      "screenshot": null,
+      "created_by": 2,
+      "item_code": null,
+      "date_created": "2011-07-01 17:03:45",
+      "item_highlighted_code": null,
+      "entry": 2,
+      "slug": "playdoh-parallel-distributed-optimization-library-for-python",
+      "hash_id": "d41d8cd98f00b204e9800998ecf8427e"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "submission.revision",
+    "fields": {
+      "sub_license": null,
+      "item_url": "http://matplotlib.sourceforge.net/",
+      "description": "``matplotlib`` is a 2D plotting library which produces publication quality figures in a variety of hardcopy formats and interactive environments across platforms.\r\n\r\n``matplotlib`` can be used in scripts, the Python and the `IPython shell <http://ipython.org/>`_, web application servers, and six graphical user interface toolkits.",
+      "description_html": "<p><tt class=\"docutils literal\"><span class=\"pre\">matplotlib</span></tt> is a 2D plotting library which produces publication quality figures in a variety of hardcopy formats and interactive environments across platforms.</p>\n<p><tt class=\"docutils literal\"><span class=\"pre\">matplotlib</span></tt> can be used in scripts, the Python and the <a class=\"reference external\" href=\"http://ipython.org/\">IPython shell</a>, web application servers, and six graphical user interface toolkits.</p>\n",
+      "title": "matplotlib: a plotting library",
+      "screenshot": null,
+      "created_by": 2,
+      "item_code": null,
+      "date_created": "2011-07-01 17:15:54",
+      "item_highlighted_code": null,
+      "entry": 3,
+      "slug": "matplotlib-a-plotting-library",
+      "hash_id": "d41d8cd98f00b204e9800998ecf8427e"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "submission.tagcreation",
+    "fields": {
+      "date_created": "2011-07-01 17:00:26",
+      "tag": 125,
+      "created_by": 2,
+      "revision": 1
+    }
+  },
+  {
+    "pk": 2,
+    "model": "submission.tagcreation",
+    "fields": {
+      "date_created": "2011-07-01 17:00:26",
+      "tag": 29,
+      "created_by": 2,
+      "revision": 1
+    }
+  },
+  {
+    "pk": 3,
+    "model": "submission.tagcreation",
+    "fields": {
+      "date_created": "2011-07-01 17:00:26",
+      "tag": 21,
+      "created_by": 2,
+      "revision": 1
+    }
+  },
+  {
+    "pk": 4,
+    "model": "submission.tagcreation",
+    "fields": {
+      "date_created": "2011-07-01 17:01:37",
+      "tag": 126,
+      "created_by": 2,
+      "revision": 2
+    }
+  },
+  {
+    "pk": 5,
+    "model": "submission.tagcreation",
+    "fields": {
+      "date_created": "2011-07-01 17:01:37",
+      "tag": 125,
+      "created_by": 2,
+      "revision": 2
+    }
+  },
+  {
+    "pk": 6,
+    "model": "submission.tagcreation",
+    "fields": {
+      "date_created": "2011-07-01 17:01:37",
+      "tag": 29,
+      "created_by": 2,
+      "revision": 2
+    }
+  },
+  {
+    "pk": 7,
+    "model": "submission.tagcreation",
+    "fields": {
+      "date_created": "2011-07-01 17:01:37",
+      "tag": 21,
+      "created_by": 2,
+      "revision": 2
+    }
+  },
+  {
+    "pk": 8,
+    "model": "submission.tagcreation",
+    "fields": {
+      "date_created": "2011-07-01 17:03:45",
+      "tag": 55,
+      "created_by": 2,
+      "revision": 3
+    }
+  },
+  {
+    "pk": 9,
+    "model": "submission.tagcreation",
+    "fields": {
+      "date_created": "2011-07-01 17:03:45",
+      "tag": 127,
+      "created_by": 2,
+      "revision": 3
+    }
+  },
+  {
+    "pk": 10,
+    "model": "submission.tagcreation",
+    "fields": {
+      "date_created": "2011-07-01 17:03:45",
+      "tag": 26,
+      "created_by": 2,
+      "revision": 3
+    }
+  },
+  {
+    "pk": 11,
+    "model": "submission.tagcreation",
+    "fields": {
+      "date_created": "2011-07-01 17:03:45",
+      "tag": 57,
+      "created_by": 2,
+      "revision": 3
+    }
+  },
+  {
+    "pk": 12,
+    "model": "submission.tagcreation",
+    "fields": {
+      "date_created": "2011-07-01 17:15:54",
+      "tag": 75,
+      "created_by": 2,
+      "revision": 4
+    }
+  },
+  {
+    "pk": 13,
+    "model": "submission.tagcreation",
+    "fields": {
+      "date_created": "2011-07-01 17:15:54",
+      "tag": 21,
+      "created_by": 2,
+      "revision": 4
     }
   }
 ]
