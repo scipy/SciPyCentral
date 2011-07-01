@@ -6,7 +6,6 @@ from django.core.files.base import ContentFile
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.defaultfilters import slugify
 from django.utils import simplejson
-from django.template.loader import get_template
 from django import template
 
 # Imports from this app and other SPC apps
@@ -17,6 +16,7 @@ from scipy_central.filestorage.models import FileSet
 from scipy_central.tagging.models import Tag, parse_tags
 from scipy_central.utils import send_email
 from scipy_central.rest_comments.views import compile_rest_to_html
+from scipy_central.pages.views import page_404_error
 import models
 import forms
 
@@ -27,7 +27,6 @@ import os
 import datetime
 logger = logging.getLogger('scipycentral')
 logger.debug('Initializing submission::views.py')
-
 
 def get_form(request, form_class, field_order, bound=False):
     """
@@ -348,18 +347,13 @@ def view_snippet(request, snippet_id, slug=None, revision=None):
     The revision, if specified >= 0 will show the particular revision of the
     snippet, rather than than the latest revision (default).
     """
-    show_error = False
     try:
         the_snippet = models.Submission.objects.get(id=snippet_id)
     except ObjectDoesNotExist:
-        show_error = True
+        return page_404_error(request)
 
-    if show_error or not(the_snippet.is_displayed):
-        # Since ``render_to_response`` doesn't yet support status codes, do
-        # this manually
-        t = get_template('404.html')
-        html = t.render(RequestContext(request))
-        return HttpResponse(html, status=404)
+    if not(the_snippet.is_displayed):
+        return page_404_error(request)
 
     the_revision = the_snippet.last_revision
     return render_to_response('submission/snippet.html', {},
@@ -430,11 +424,10 @@ def view_link(request, item_id, slug=None, rev_num=None):
     The revision, if specified >= 0 will show the particular revision of the
     snippet, rather than than the latest revision (default).
     """
-    show_error = False
     try:
         the_submission = models.Submission.objects.get(id=item_id)
     except ObjectDoesNotExist:
-        show_error = True
+        return page_404_error(request)
 
     the_revision = the_submission.last_revision
     if rev_num is not None:
@@ -442,17 +435,10 @@ def view_link(request, item_id, slug=None, rev_num=None):
         try:
             the_revision = all_revisions[int(rev_num)]
         except (ValueError, IndexError):
-            show_error = True
+            return page_404_error(request)
 
     if not isinstance(the_revision, models.Revision):
-        show_error = True
-
-    if show_error: #or not(the_snippet.is_displayed):
-        # Since ``render_to_response`` doesn't yet support status codes, do
-        # this manually
-        t = get_template('404.html')
-        html = t.render(RequestContext(request))
-        return HttpResponse(html, status=404)
+        return page_404_error(request)
 
     return render_to_response('submission/link.html', {},
                               context_instance=RequestContext(request,
@@ -563,11 +549,7 @@ def edit_submission(request, item_id, slug=None, rev_num=None):
     try:
         the_item = models.Submission.objects.get(id=item_id)
     except ObjectDoesNotExist:
-        # Since ``render_to_response`` doesn't yet support status codes, do
-        # this manually
-        t = get_template('404.html')
-        html = t.render(RequestContext(request))
-        return HttpResponse(html, status=404)
+        return page_404_error(request)
 
     the_revision = the_item.last_revision
     return new_or_edit_link_submission(request, user_edit=the_revision)

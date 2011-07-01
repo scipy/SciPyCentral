@@ -19,6 +19,8 @@ if __name__ == "__main__":
     # to make sure we are backing up all information.
     # Restoring from the backup has NOT BEEN TESTED yet.
 
+    # ./manage.py loaddata site_backup/backup-YYYY-mm-dd-HH-MM-SS.json
+
     # Equivalent of: ./manage.py dumpdata -v0 --format=json --indent=2
     command = ['python', 'manage.py', 'dumpdata', '-v0', '--format=json',
                '--indent=2']
@@ -34,7 +36,7 @@ if __name__ == "__main__":
 
         if out.returncode == 0 or out.returncode is None:
             now = datetime.now()
-            fname = datetime.strftime(now, 'backup-%Y-%m-%d-%H-%M-%S.txt')
+            fname = datetime.strftime(now, 'backup-%Y-%m-%d-%H-%M-%S.json')
             backup_file = os.path.join(backup_dir, fname)
             fh = open(backup_file, 'w')
             fh.write(out.communicate()[0])

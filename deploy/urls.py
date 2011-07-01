@@ -6,19 +6,14 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'deploy.views.home', name='home'),
-    # url(r'^deploy/', include('deploy.foo.urls')),
-
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
 
     # Include the URLs for the website
     url(r'', include('scipy_central.urls')),
 )
+handler404 = 'scipy_central.pages.views.page_404_error'
+handler500 = 'scipy_central.pages.views.page_500_error'
 
 if settings.DEBUG:
     # Small problem: cannot show 404 templates /media/....css file, because

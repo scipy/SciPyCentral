@@ -255,8 +255,8 @@ LOGGING = {
 
     'formatters': {
         'verbose': {
-            'format': ('%(asctime)s,%(levelname)s,%(filename)s[%(funcName)s'
-                       '(...)],:,%(message)s')
+            'format': ('%(asctime)s,%(levelname)s,%(filename)s,%(lineno)d,'
+                       '[%(funcName)s(...)] : %(message)s')
         },
         'simple': {
             'format': '%(levelname)s %(message)s'
