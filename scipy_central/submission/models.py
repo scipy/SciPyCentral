@@ -77,14 +77,6 @@ class Submission(models.Model):
     # fileset: for revisioning of the submission
     fileset = models.ForeignKey('filestorage.FileSet', null=True, blank=True)
 
-    ## Total dowloads: sum of all downloads (code snippets) and total
-    ## outgoing clicks (for links)
-    #tot_downloads_clicks = models.PositiveIntegerField(default=0)
-
-    ## Total pageviews: sum of all views
-    #tot_pageviews = models.PositiveIntegerField(default=0)
-
-
     # frozen: no further revisions allowed
     frozen = models.BooleanField(default=False)
 

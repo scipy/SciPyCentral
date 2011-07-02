@@ -145,6 +145,7 @@ INSTALLED_APPS = (
     'scipy_central.submission',
     'scipy_central.tagging',
     'scipy_central.screenshot',
+    'scipy_central.pagehit',
 )
 
 # Authentication related:
@@ -205,7 +206,11 @@ SPC = {
     'license_filename': 'LICENSE.TXT',
 
     # Short link URL root (must end with a trailing slash).
-    'short_URL_root': 'http://scpyce.org/'
+    'short_URL_root': 'http://scpyce.org/',
+
+    # Page hit horizon in days. Lists of views are sorted by the number of page
+    # views over the past NNN days (the horizon).
+    'hit_horizon': 30,
 }
 
 # All about ``local_settings.py``

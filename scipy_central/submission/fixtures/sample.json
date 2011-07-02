@@ -826,7 +826,7 @@
     "pk": 94,
     "model": "tagging.tag",
     "fields": {
-      "name": "xml",
+      "name": "XML",
       "slug": "xml"
     }
   },

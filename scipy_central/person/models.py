@@ -101,6 +101,8 @@ class UserProfile(User):
                                           #overriding-predefined-model-methods
         unique_slugify(self, self.username, 'username_slug')
 
+        # TODO(KGD): ensure a user's email address is unique
+
         # Call the "real" save() method.
         super(UserProfile, self).save(*args, **kwargs)
 

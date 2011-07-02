@@ -19,6 +19,7 @@ from scipy_central.tagging.models import Tag, parse_tags
 from scipy_central.utils import send_email
 from scipy_central.rest_comments.views import compile_rest_to_html
 from scipy_central.pages.views import page_404_error
+from scipy_central.pagehit.views import create_hit, submission_pagehits
 import models
 import forms
 
@@ -471,6 +472,7 @@ def view_link(request, submission, revision):
     The revision, if specified >= 0 will show the particular revision of the
     snippet, rather than than the latest revision (default).
     """
+    create_hit(request, submission)
     permalink = settings.SPC['short_URL_root'] + str(submission.id)
     if revision.rev_id > 0:
         permalink += '/' + str(revision.rev_id)
@@ -592,10 +594,26 @@ def edit_submission(request, submission, revision):
 #------------------------------------------------------------------------------
 # Show all items in a paginated table
 def show_all_items(request):
-    entries = paginated_queryset(request, models.Submission.objects.all())
+
+    today = datetime.datetime.now()
+    start_date = today - datetime.timedelta(days=settings.SPC['hit_horizon'])
+    page_order = submission_pagehits(start_date=start_date, end_date=today)
+    page_order.reverse()
+
+    # Sorted the submission display order from most hits to least hits
+    all_subs = models.Submission.objects.all()
+    subs_pk = [sub.pk for sub in all_subs]
+    entry_order = []
+    count_list = []
+    for count, pk in page_order:
+        entry_order.append(all_subs[subs_pk.index(pk)])
+        count_list.append(count)
+
+    entries = paginated_queryset(request, entry_order)
     return render_to_response('submission/entries_list.html', {},
                               context_instance=RequestContext(request,
-                                                {'entries': entries}))
+                                                {'entries': entries,
+                                                 'count_list': count_list}))
 
 def paginated_queryset(request, queryset):
     paginator = Paginator(queryset, 2)
