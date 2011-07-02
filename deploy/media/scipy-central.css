@@ -414,6 +414,14 @@ div.spc-item-row span.spc-item-entry {
 }
 
 
+/* Styling for certain static pages */
+#spc-about-site{
+	display: block;
+	margin: 0 auto;
+	min-width: 30em;
+	max-width: 50em;
+}
+
 /* spc-footer: http://www.alistapart.com/articles/practicalcss/   */
 #spc-footer {
 	clear: both;
