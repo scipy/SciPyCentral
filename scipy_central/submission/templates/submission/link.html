@@ -29,7 +29,7 @@
     </div>
     <div class="spc-item-row">
       <span class="spc-item-label">Tags:</span>
-      <span class="spc-item-entry">{% for tag in tag_list %}<span><a href="/tag/{{tag}}" class="spc-tag">{{tag.name}}</a></span>{% endfor %}</span>
+      <span class="spc-item-entry">{% for tag in tag_list %}<span><a href="{% url spc-show-items-by-tag tag%}" class="spc-tag">{{tag.name}}</a></span>{% endfor %}</span>
     </div>
     <div style="clear:both;">&nbsp;</div>
   </div>

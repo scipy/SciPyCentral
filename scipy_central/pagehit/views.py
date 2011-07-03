@@ -18,7 +18,7 @@ def create_hit(request, item):
     page_hit.save()
 
 # TODO(KGD): cache this result for NN hours
-def submission_pagehits(item, start_date=None, end_date=None):
+def get_pagehits(item, start_date=None, end_date=None):
     """
     Returns a list of tuples of the form:  [(n_hits, Submission.pk), ....]
     This allows one to use the builtin ``list.sort()`` function where Python

@@ -29,10 +29,15 @@ class UserProfile(User):
     # username: 30 characters, alphanumeric, underscores, spaces, @, . and -
     #           see ``VALID_USERNAME`` regular expression
     #           Also Django required this to be unique
-
+    #
     # email: an email address
-
+    #
     # password: a salted and hashed password
+    #
+    # is_active: Django field: set to False to disable user, rather than
+    # deleting all their info. This is to keep their previous contributions
+    # from disappearing. We can also completely delete user and all their
+    # contributions.
 
     username_slug = models.SlugField(editable=False)
 
@@ -40,10 +45,6 @@ class UserProfile(User):
     is_validated = models.BooleanField(default=False, help_text=('User has ',
                                         'validated their account by email'))
 
-    #``is_active``: Django field: set to False to disable user, rather than
-    # deleting all their info. This is to keep their previous contributions
-    # from disappearing. We can also completely delete user and all their
-    # contributions.
 
     # User's company, university, private. Default = ``None``
     affiliation = models.CharField(max_length=255, null=True, blank=True,
@@ -57,17 +58,10 @@ class UserProfile(User):
     profile = models.CharField(max_length=150, null=True, blank=True,
                                help_text="A one-line profile about yourself")
 
-    # avatar: user uploaded image, or obtained via Gravatar
-    # Upload to MEDIA_ROOT + 'avatars'
-    #avatar = models.ImageField(upload_to = ..., max_length=255,
-
     # A user-provided URL to their own site or affiliated company
     uri = models.URLField(null=True, blank=True, verbose_name="User's URL",
        help_text='A URL to your website, affiliated company, or personal page')
 
-    # Number of times the user's profile has been viewed
-    n_views = models.IntegerField(default=0,
-                                  verbose_name="Number of profile views")
 
     # List of tags/subject areas that describes the user's interests
     #interests = models.ManyToManyField('Tags')
@@ -91,6 +85,11 @@ class UserProfile(User):
 
     # Markup preference
     markup_pref = models.CharField(max_length=10, choices=MARKUP_PREFERENCE)
+
+
+    # avatar: user uploaded image, or obtained via Gravatar
+    # Upload to MEDIA_ROOT + 'avatars'
+    #avatar = models.ImageField(upload_to = ..., max_length=255,
 
     class Meta:
         verbose_name_plural = 'users'

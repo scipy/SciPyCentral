@@ -63,9 +63,9 @@ class Submission(models.Model):
     objects = SubmissionManager()
     # Submission type
     SUBMISSION_TYPE = (
-        ('snippet', 'Example code snippet, a cookbook entry, etc.'),
-        ('package', 'Code package hosted on this site'),
-        ('link',    'Reference to a package hosted elsewhere'),
+        ('snippet', 'Code snippet'),
+        ('package', 'Code library/package'),
+        ('link',    'Remote link'),
     )
     sub_type = models.CharField(max_length=10, choices=SUBMISSION_TYPE,
                 help_text = 'Your submission should be one of 3 types')
@@ -90,7 +90,7 @@ class Submission(models.Model):
     # For submissions created only for previewing. Is set to False once the
     # submission is actually submitted.
     # TODO(KGD): remove this eventually
-    is_preview = models.BooleanField(default=True)
+    #is_preview = models.BooleanField(default=True)
 
     # FUTURE
     # ------
@@ -210,9 +210,6 @@ class Revision(models.Model):
 
     # FUTURE: inspired_by: a comma-separated list of previous submissions
     # FUTURE: list of modules required to run the code
-    # These model field should be in another app:
-    # * n_downloads_clicks = models.IntegerField(default=0,)
-    # * n_views = models.IntegerField(default=0)
 
     def __unicode__(self):
         return self.title[0:50] + '::' + str(self.created_by.username)

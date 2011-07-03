@@ -5,7 +5,8 @@ class LicenseAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
 
 class SubmissionAdmin(admin.ModelAdmin):
-    list_display = ('sub_type', 'slug', 'created_by', 'num_revisions')
+    list_display = ('sub_type', 'slug', 'created_by', 'num_revisions',
+                    'is_displayed',)
 
 class RevisionAdmin(admin.ModelAdmin):
     list_display = ('entry', 'created_by', 'sub_license', 'item_url')

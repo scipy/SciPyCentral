@@ -1,40 +1,42 @@
 {% extends "base.html" %}
 
-{% block title %}
-All SciPy Central entries
-{% endblock %}
+{% block title %}{{page_title}}{% endblock %}
 
 {% block content %}
 
-<table>
-  <tr>
-    <th>Description</th>
-    <th>Last edit by</th>
-    <th>Tags</th>
-  </tr>
-{% for entry in entries.object_list %}
-  <tr>
-    <td><span class="spc-item-description" id="spc-item-{{entry.pk}}">{{ entry.last_revision.description_html|truncatewords_html:"30"|safe|removetags:"p"}}</span>
-        <span class="spc-item-link"><a href="{% url spc-view-link entry.pk %}">More detail</a></span></td>
-    <td><a href="{% url spc-user-profile entry.last_revision.created_by.username_slug %}">{{entry.last_revision.created_by.username}}</a> on {{ entry.last_revision.date_created|date:"d F Y"}}</td>
-    <td> {% for tag in entry.last_revision.tags.all %}<span><a href="/tag/{{tag}}" class="spc-tag">{{tag.name}}</a></span>{% endfor %}
-    </td>
-  </tr>
-{% endfor %}
-</table>
+<span id="spc-show-items-table-header">{{page_title}}<span>
+{% if entries.object_list%}
+  <table>
+    <tr>
+      <th>Description</th>
+      <th>Last edit by</th>
+      <th>Tags</th>
+    </tr>
+  {% for entry in entries.object_list %}
+    <tr>
+      <td><span class="spc-item-description" id="spc-item-{{entry.pk}}">{{ entry.last_revision.description_html|truncatewords_html:"30"|safe|removetags:"p"}}</span>
+          <span class="spc-item-link"><a href="{% url spc-view-link entry.pk %}">More detail</a></span></td>
+      <td><a href="{% url spc-user-profile entry.last_revision.created_by.username_slug %}">{{entry.last_revision.created_by.username}}</a> on {{ entry.last_revision.date_created|date:"d F Y"}}</td>
+      <td> {% for tag in entry.last_revision.tags.all %}<span><a href="{% url spc-show-items-by-tag tag%}" class="spc-tag">{{tag.name}}</a></span>{% endfor %}
+      </td>
+    </tr>
+  {% endfor %}
+  </table>
 
-<div class="pagination">
-  <span class="step-links">
-    {% if entries.has_previous %}
-      <a href="?page={{ entries.previous_page_number }}">previous</a>
-    {% endif %}
-    <span class="current">
-      Page {{ entries.number }} of {{ entries.paginator.num_pages }}
+  <div class="pagination">
+    <span class="step-links">
+      {% if entries.has_previous %}
+        <a href="?page={{ entries.previous_page_number }}">previous</a>
+      {% endif %}
+      <span class="current">
+        Page {{ entries.number }} of {{ entries.paginator.num_pages }}
+      </span>
+      {% if entries.has_next %}
+       <a href="?page={{ entries.next_page_number }}">next</a>
+      {% endif %}
     </span>
-    {% if entries.has_next %}
-     <a href="?page={{ entries.next_page_number }}">next</a>
-    {% endif %}
-  </span>
-</div>
-
+  </div>
+{% else %}
+  <p>There are no items matching your criteria.
+{% endif %}
 {% endblock %}

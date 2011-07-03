@@ -33,7 +33,6 @@
       "allow_user_to_email": true,
       "user_permissions": [],
       "markup_pref": "",
-      "n_views": 0,
       "reputation": 0
     }
   },
@@ -1098,7 +1097,6 @@
     "pk": 1,
     "model": "submission.submission",
     "fields": {
-      "is_preview": true,
       "frozen": false,
       "fileset": null,
       "created_by": 3,
@@ -1111,7 +1109,6 @@
     "pk": 2,
     "model": "submission.submission",
     "fields": {
-      "is_preview": true,
       "frozen": false,
       "fileset": null,
       "created_by": 3,
@@ -1124,7 +1121,6 @@
     "pk": 3,
     "model": "submission.submission",
     "fields": {
-      "is_preview": true,
       "frozen": false,
       "fileset": null,
       "created_by": 3,

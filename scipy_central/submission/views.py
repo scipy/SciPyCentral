@@ -19,7 +19,7 @@ from scipy_central.tagging.models import Tag, parse_tags
 from scipy_central.utils import send_email
 from scipy_central.rest_comments.views import compile_rest_to_html
 from scipy_central.pages.views import page_404_error
-from scipy_central.pagehit.views import create_hit, submission_pagehits
+from scipy_central.pagehit.views import create_hit, get_pagehits
 import models
 import forms
 
@@ -592,39 +592,7 @@ def edit_submission(request, submission, revision):
 
 
 #------------------------------------------------------------------------------
-# Show all items in a paginated table
-def show_all_items(request):
-
-    # Cache this reordering of ``Submission`` items for a period of time
-    today = datetime.datetime.now()
-    start_date = today - datetime.timedelta(days=settings.SPC['hit_horizon'])
-    page_order = submission_pagehits('submission',
-                                     start_date=start_date,
-                                     end_date=today)
-    page_order.reverse()
-
-    # Sorted the submission display order from most hits to least hits
-    all_subs = models.Submission.objects.all()
-    subs_pk = [sub.pk for sub in all_subs]
-    entry_order = []
-    count_list = []
-    for count, pk in page_order:
-        idx = subs_pk.index(pk)
-        subs_pk.pop(idx)
-        entry_order.append(all_subs[idx])
-        count_list.append(count)
-
-    # Submissions that have never been viewed get added to the bottom:
-    for idx in xrange(len(subs_pk)):
-        entry_order.append(all_subs[idx])
-        count_list.append(0)
-
-    entries = paginated_queryset(request, entry_order)
-    return render_to_response('submission/entries_list.html', {},
-                              context_instance=RequestContext(request,
-                                                {'entries': entries,
-                                                 'count_list': count_list}))
-
+# Show items in a paginated table
 def paginated_queryset(request, queryset):
     paginator = Paginator(queryset, 2)
     try:
@@ -636,3 +604,68 @@ def paginated_queryset(request, queryset):
     except (EmptyPage, InvalidPage):
         return paginator.page(paginator.num_pages)
 
+def sort_items_by_page_views(all_items, item_module_name):
+    # TODO(KGD): Cache this reordering of ``items`` for a period of time
+
+    today = datetime.datetime.now()
+    start_date = today - datetime.timedelta(days=settings.SPC['hit_horizon'])
+    page_order = get_pagehits(item_module_name, start_date=start_date,
+                                                               end_date=today)
+    page_order.reverse()
+
+    #``page_order`` is a list of tuples; the 2nd entry in each tuple is the
+    # primary key, that must exist in ``items_pk``.
+    all_items = list(all_items)
+    items_pk = [item.pk for item in all_items]
+    entry_order = []
+    count_list = []
+    for count, pk in page_order:
+        try:
+            idx = items_pk.index(pk)
+        except ValueError:
+            pass
+        else:
+            items_pk[idx] = None
+            entry_order.append(all_items[idx])
+            count_list.append(count)
+
+    # Items that have never been viewed get added to the bottom:
+    for idx, pk in enumerate(items_pk):
+        if pk is not None:
+            entry_order.append(all_items[idx])
+            count_list.append(0)
+
+    return entry_order, count_list
+
+
+
+def show_items(request, tag=None, user=None):
+    """ Shows all items in the database, sorted from most most page views to
+    least page views.
+    """
+    if tag is None:
+        all_subs = models.Submission.objects.all()
+        page_title = 'All submissions'
+    else:
+        all_revs = models.Revision.objects.filter(tags__slug=slugify(tag))
+        all_subs = set()
+        page_title = 'All entries tagged: "%s"' % tag
+        for rev in all_revs:
+            all_subs.add(rev.entry)
+
+    # This code isn't quite right: a user can create a revision: we should show
+    # the particular revision which that user created, not necessarily the
+    # latest revision of that submission.
+    #if user is not None:
+        #all_revisions = models.Revision.objects.filter(created_by__username_slug=user)
+        #all_subs = set()
+        #for rev in all_revisions:
+            #all_subs.add(rev.entry)
+
+    entry_order, count_list = sort_items_by_page_views(all_subs, 'submission')
+    entries = paginated_queryset(request, entry_order)
+    return render_to_response('submission/entries_list.html', {},
+                              context_instance=RequestContext(request,
+                                                {'entries': entries,
+                                                 'count_list': count_list,
+                                                 'page_title': page_title}))

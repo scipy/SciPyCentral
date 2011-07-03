@@ -2,9 +2,13 @@ from django.conf.urls.defaults import url, patterns
 
 urlpatterns = patterns('scipy_central.submission.views',
 
-    # SHOW ALL
-    # ========
-    url(r'^show-all[/]?$', 'show_all_items', name='spc-show-all'),
+    # SHOW ITEMS in different ways
+    # ============================
+    url(r'^show[/]?$', 'show_items', name='spc-show-all'),
+    url(r'^show/tag/(?P<tag>.+)[/]?', 'show_items',
+                                                 name='spc-show-items-by-tag'),
+    url(r'^show/user/(?P<user>[-\w]+)[/]?', 'show_items',
+                                                name='spc-show-items-by-user'),
 
     # SNIPPETS
     # ========
