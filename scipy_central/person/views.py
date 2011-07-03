@@ -11,6 +11,10 @@ from django.conf import settings
 from django.db.utils import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
 
+# Imports from other SciPy Central apps
+from scipy_central.pages.views import page_404_error
+from scipy_central.submission.models import Revision
+from scipy_central.utils import paginated_queryset
 
 import models
 import re
@@ -69,12 +73,20 @@ def profile_page(request, username_slug):
     try:
         user = models.UserProfile.objects.get(username_slug=username_slug)
     except ObjectDoesNotExist:
-         # TODO: If ``username_slug`` does not exist, then simply redirect them to list of users.
-        assert(False)
-    return render_to_response('person/profile.html',
-                              dict(user=user),
-                              context_instance=RequestContext(request,
-                                                              {'user': user}))
+        return page_404_error(request)
+
+    # Items created by this user
+    all_revs = Revision.objects.filter(created_by=user)
+    all_subs = set()
+    for rev in all_revs:
+        all_subs.add(rev.entry)
+
+    no_entries = 'This user has not submitted any entries to SciPy Central.'
+    return render_to_response('person/profile.html', {},
+                context_instance=RequestContext(request,
+                            {'user': user,
+                             'entries':paginated_queryset(request, all_subs),
+                             'no_entries_message': no_entries, }))
 
 @login_required
 def logout_page(request):
@@ -88,6 +100,7 @@ def logout_page(request):
 def reset_password(request):
     # TODO(KGD)
     return HttpResponse('STILL TO DO: reset password page')
+
 
 def precheck_new_user(request):
 
@@ -164,6 +177,7 @@ def create_new_account_internal(email):
     new_user.set_password(temp_password)
     new_user.save()
     return new_user
+
 
 def create_new_account(request):
     if request.method == 'POST':

@@ -8,7 +8,6 @@ from django.template.defaultfilters import slugify
 from django.utils import simplejson
 from django import template
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 # Imports from this app and other SPC apps
 from scipy_central.screenshot.forms import ScreenshotForm as ScreenshotForm
@@ -16,7 +15,7 @@ from scipy_central.screenshot.models import Screenshot as ScreenshotClass
 from scipy_central.person.views import create_new_account_internal
 from scipy_central.filestorage.models import FileSet
 from scipy_central.tagging.models import Tag, parse_tags
-from scipy_central.utils import send_email
+from scipy_central.utils import send_email, paginated_queryset
 from scipy_central.rest_comments.views import compile_rest_to_html
 from scipy_central.pages.views import page_404_error
 from scipy_central.pagehit.views import create_hit, get_pagehits
@@ -483,6 +482,7 @@ def view_link(request, submission, revision):
                                         'permalink': permalink,
                                        }))
 
+
 def preview_or_submit_link_submission(request):
     if request.method != 'POST':
         return redirect('spc-new-link-submission')
@@ -591,18 +591,6 @@ def edit_submission(request, submission, revision):
 
 
 #------------------------------------------------------------------------------
-# Show items in a paginated table
-def paginated_queryset(request, queryset):
-    paginator = Paginator(queryset, 2)
-    try:
-        page = int(request.GET.get('page', '1'))
-    except ValueError:
-        page = 1
-    try:
-        return paginator.page(page)
-    except (EmptyPage, InvalidPage):
-        return paginator.page(paginator.num_pages)
-
 def sort_items_by_page_views(all_items, item_module_name):
     # TODO(KGD): Cache this reordering of ``items`` for a period of time
 
@@ -637,7 +625,6 @@ def sort_items_by_page_views(all_items, item_module_name):
     return entry_order, count_list
 
 
-
 def show_items(request, tag=None, user=None):
     """ Shows all items in the database, sorted from most most page views to
     least page views.
@@ -663,7 +650,7 @@ def show_items(request, tag=None, user=None):
 
     entry_order, count_list = sort_items_by_page_views(all_subs, 'submission')
     entries = paginated_queryset(request, entry_order)
-    return render_to_response('submission/entries_list.html', {},
+    return render_to_response('submission/show-entries.html', {},
                               context_instance=RequestContext(request,
                                                 {'entries': entries,
                                                  'count_list': count_list,

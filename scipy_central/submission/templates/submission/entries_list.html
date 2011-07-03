@@ -1,9 +1,3 @@
-{% extends "base.html" %}
-
-{% block title %}{{page_title}}{% endblock %}
-
-{% block content %}
-
 <span id="spc-show-items-table-header">{{page_title}}<span>
 {% if entries.object_list%}
   <table>
@@ -37,6 +31,5 @@
     </span>
   </div>
 {% else %}
-  <p>There are no items matching your criteria.
+  <p>{% if no_entries_message %}{{no_entries_message}}{% else %}There are no items matching your criteria.{% endif %}
 {% endif %}
-{% endblock %}

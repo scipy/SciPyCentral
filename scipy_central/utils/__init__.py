@@ -1,6 +1,9 @@
 from django.template.defaultfilters import slugify
 from django.conf import settings
 from django.core.mail import send_mail, BadHeaderError
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
+
+
 import re, os, errno, logging
 logger = logging.getLogger('scipy_central')
 
@@ -121,5 +124,21 @@ def send_email(to_addresses, subject, message, from_address=None):
             logger.error(('An error occurred when sending email to %s, with'
                           'subject [%s]') % (str(to_addresses), subject))
 
+
+
+def paginated_queryset(request, queryset):
+    """
+    Show items in a paginated table.
+    """
+    queryset = list(queryset)
+    paginator = Paginator(queryset, 2)
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+    try:
+        return paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        return paginator.page(paginator.num_pages)
 
 

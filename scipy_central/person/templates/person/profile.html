@@ -4,20 +4,11 @@
 
 {% block content %}
 
-<!--<span class="spc-title-in-span">{{user.username}}</span>-->
-
-
-
   <div id="spc-item-display">
     <div class="spc-item-row">
       <span class="spc-item-label spc-title-in-span">{{user.username}}</span>
-      <span class="spc-item-entry"><form action="{% url spc-logout %}" method="POST">{% csrf_token %}<input type="submit" name="submit" value="Sign out"/></form></span>
+      <span class="spc-item-entry"><form action="{% url spc-logout %}" method="POST">{% csrf_token %}<input type="submit" name="submit" value="Sign out"  /></form></span>
     </div>
-
-    <!--<div class="spc-item-row">-->
-      <!--<span class="spc-item-label">User name:</span>-->
-      <!--<span class="spc-item-entry">{{user.username}}</span>-->
-    <!--</div>-->
     <div class="spc-item-row">
       <span class="spc-item-label">Affiliation:</span>
       <span class="spc-item-entry">{% if user.affiliation %}<span class="spc-item-entry">{{user.affiliation}}</span>{% else %}Not provided{% endif %}</span>
@@ -34,12 +25,12 @@
       <span class="spc-item-label">Web site:</span>
       {% if user.uri %}<span class="spc-item-entry"><a href="{{user.uri}}" rel="nofollow">{{user.uri}}</a></span>{% else %}Not provided{% endif %}
     </div>
-
-
     <div style="clear:both;">&nbsp;</div>
   </div>
-  * Show submissions from this user
-    * Show tags applied by this user
+
+  <h3>Items created/edited by {{user.username}}</h3>
+
+  {% include 'submission/entries_list.html' %}
 
   <div id="spc-extra-message">{{extra_html|safe}}</div>
 {% endblock %}
