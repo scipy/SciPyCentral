@@ -595,6 +595,7 @@ def edit_submission(request, submission, revision):
 # Show all items in a paginated table
 def show_all_items(request):
 
+    # Cache this reordering of ``Submission`` items for a period of time
     today = datetime.datetime.now()
     start_date = today - datetime.timedelta(days=settings.SPC['hit_horizon'])
     page_order = submission_pagehits(start_date=start_date, end_date=today)
@@ -606,8 +607,15 @@ def show_all_items(request):
     entry_order = []
     count_list = []
     for count, pk in page_order:
-        entry_order.append(all_subs[subs_pk.index(pk)])
+        idx = subs_pk.index(pk)
+        subs_pk.pop(idx)
+        entry_order.append(all_subs[idx])
         count_list.append(count)
+
+    # Submissions that have never been viewed get added to the bottom:
+    for idx in xrange(len(subs_pk)):
+        entry_order.append(all_subs[idx])
+        count_list.append(0)
 
     entries = paginated_queryset(request, entry_order)
     return render_to_response('submission/entries_list.html', {},
