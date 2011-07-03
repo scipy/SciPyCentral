@@ -114,8 +114,7 @@ class Submission(models.Model):
         return self.last_revision.slug
 
     def __unicode__(self):
-        return self.slug + '::rev-' + str(self.num_revisions)
-
+        return self.slug
 
 class RevisionManager(models.Manager):
     def create_without_commit(self, **kwargs):
@@ -206,7 +205,6 @@ class Revision(models.Model):
 
     # Tags for this revision
     tags = models.ManyToManyField('tagging.Tag', through='TagCreation')
-
 
     # FUTURE: inspired_by: a comma-separated list of previous submissions
     # FUTURE: list of modules required to run the code

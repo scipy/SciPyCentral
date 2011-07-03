@@ -1130,6 +1130,18 @@
     }
   },
   {
+    "pk": 4,
+    "model": "submission.submission",
+    "fields": {
+      "frozen": false,
+      "fileset": null,
+      "created_by": 3,
+      "is_displayed": true,
+      "date_created": "2011-07-03 12:15:54",
+      "sub_type": "link"
+    }
+  },
+  {
     "pk": 1,
     "model": "submission.revision",
     "fields": {
@@ -1202,6 +1214,25 @@
       "item_highlighted_code": null,
       "entry": 3,
       "slug": "matplotlib-a-plotting-library",
+      "hash_id": "d41d8cd98f00b204e9800998ecf8427e"
+    }
+  },
+  {
+    "pk": 5,
+    "model": "submission.revision",
+    "fields": {
+      "sub_license": null,
+      "item_url": "http://ipython.org/",
+      "description": "The goal of IPython is to create a comprehensive environment for interactive and exploratory computing. To support, this goal, IPython has two main components:\r\n\r\n*   an enhanced interactive Python shell\r\n*   an architecture for interactive parallel computing\r\n\r\nAll of IPython is open source (revised BSD license), and it is used by a range of other projects. \r\nIPython officially supports Python 2.5 to 2.7.",
+      "description_html": "<p>The goal of IPython is to create a comprehensive environment for interactive and exploratory computing. To support, this goal, IPython has two main components:</p>\n<ul class=\"simple\">\n<li>an enhanced interactive Python shell</li>\n<li>an architecture for interactive parallel computing</li>\n</ul>\n<p>All of IPython is open source (revised BSD license), and it is used by a range of other projects.\nIPython officially supports Python 2.5 to 2.7.</p>\n",
+      "title": "IPython: an Interactive computing environment",
+      "screenshot": null,
+      "created_by": 3,
+      "item_code": null,
+      "date_created": "2011-07-03 12:05:41",
+      "item_highlighted_code": null,
+      "entry": 4,
+      "slug": "ipython-an-interactive-computing-environment",
       "hash_id": "d41d8cd98f00b204e9800998ecf8427e"
     }
   },
@@ -1333,6 +1364,36 @@
       "tag": 21,
       "created_by": 3,
       "revision": 4
+    }
+  },
+  {
+    "pk": 14,
+    "model": "submission.tagcreation",
+    "fields": {
+      "date_created": "2011-07-03 12:15:54",
+      "tag": 85,
+      "created_by": 3,
+      "revision": 5
+    }
+  },
+  {
+    "pk": 15,
+    "model": "submission.tagcreation",
+    "fields": {
+      "date_created": "2011-07-03 12:15:54",
+      "tag": 70,
+      "created_by": 3,
+      "revision": 5
+    }
+  },
+  {
+    "pk": 16,
+    "model": "submission.tagcreation",
+    "fields": {
+      "date_created": "2011-07-03 12:15:54",
+      "tag": 57,
+      "created_by": 3,
+      "revision": 5
     }
   }
 ]

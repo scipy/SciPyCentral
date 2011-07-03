@@ -9,8 +9,14 @@ class SubmissionAdmin(admin.ModelAdmin):
                     'is_displayed',)
 
 class RevisionAdmin(admin.ModelAdmin):
-    list_display = ('entry', 'created_by', 'sub_license', 'item_url')
+    list_display = ('pk', 'title', 'created_by', 'sub_license', 'item_url',
+                    'rev_id')
+
+class TagCreationAdmin(admin.ModelAdmin):
+    list_display = ('date_created', 'tag', 'created_by', 'revision')
+
 
 admin.site.register(License, LicenseAdmin)
 admin.site.register(Submission, SubmissionAdmin)
 admin.site.register(Revision, RevisionAdmin)
+admin.site.register(TagCreation, TagCreationAdmin)
