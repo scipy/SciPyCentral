@@ -61,9 +61,6 @@ body {
 #spc-footer{
 	clear: both;
 }
-#spc-highlight-floater{
-	display: none;
-}
 
 /* -------------------------------------------- */
 /* Now we will begin styling the various blocks */
@@ -94,6 +91,7 @@ body {
 	font-weight: bold;
 	padding: 6px 0px;
 	border-bottom: 1px solid #000;
+	/*display: none; Uncomment to remove the site notice*/
 }
 #spc-site-title{
 	border-bottom: 1px solid #aaa;
@@ -158,6 +156,7 @@ div#spc-section-body h4 { font-size: 120%; }
 div#spc-section-body h5 { font-size: 110%; }
 div#spc-section-body h6 { font-size: 100%; }
 
+.spc-title-in-span{font-size: 160%; font-weight: bold; color: #101074; float: left;}
 
 /* Styling for hyperlinks */
 div#spc-section-body a{
@@ -272,7 +271,6 @@ div#spc-section-body tt, div#spc-content tt {
 input, select, textarea{
 	border:solid 1px #aacfe4;
 	padding: 4px 2px;
-	display:block;
 	margin-bottom: 1em;
 }
   /* column container */
@@ -400,9 +398,10 @@ div.spc-item-row {
 
 div.spc-item-row span.spc-item-label {
 	float: left;
-	width: 10em;
+	width: 200px;
 	text-align: left;
-	padding-right: 1em;
+	padding-right: 20px;
+	padding-bottom: 4px;
 	font-weight: bold;
 }
 
@@ -461,11 +460,27 @@ div.spc-item-row span.spc-item-entry {
 	border-right: 0px solid #aaa;
 }
 
-
-
 /* ---------------------- */
 /* User account pages     */
 /* ---------------------- */
+.spc-form-label{
+	display: block;
+	font-size: 14px;
+	color: #444;
+}
+.spc-centering-div-container{
+	clear: both;
+	margin: 0 auto;
+	border: 1px;
+	padding: 1em;
+
+}
+#spc-existing-user{
+	float: left;
+	margin: 0 auto;
+	padding: 1em;
+	text-align: left;
+}
 
 div#spc-new-user {
 	width: 500px;

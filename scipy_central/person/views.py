@@ -50,8 +50,11 @@ def login_page(request):
                 #else:
                 form.errors['__all__'] = 'Invalid login.'
     else:
-        form = LoginForm()
-        next = request.GET.get('next', '')
+        if request.user.is_authenticated():
+            return redirect(profile_page, request.user.username_slug)
+        else:
+            form = LoginForm()
+            next = request.GET.get('next', '')
 
     return render_to_response('person/sign-in.html',
                               dict(form=form, user=request.user, next=next),

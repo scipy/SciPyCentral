@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import License, Submission, Revision
+from models import License, Submission, Revision, TagCreation
 
 class LicenseAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
