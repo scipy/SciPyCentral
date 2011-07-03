@@ -598,7 +598,9 @@ def show_all_items(request):
     # Cache this reordering of ``Submission`` items for a period of time
     today = datetime.datetime.now()
     start_date = today - datetime.timedelta(days=settings.SPC['hit_horizon'])
-    page_order = submission_pagehits(start_date=start_date, end_date=today)
+    page_order = submission_pagehits('submission',
+                                     start_date=start_date,
+                                     end_date=today)
     page_order.reverse()
 
     # Sorted the submission display order from most hits to least hits

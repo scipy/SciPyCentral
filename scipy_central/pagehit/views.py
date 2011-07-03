@@ -14,11 +14,11 @@ def create_hit(request, item):
     """
     page_hit = models.PageHit(ip_address=get_IP_address(request),
                             ua_string=request.META.get('HTTP_USER_AGENT', ''),
-                           item=item)
+                           item=item._meta.module_name, item_pk=item.pk)
     page_hit.save()
 
 # TODO(KGD): cache this result for NN hours
-def submission_pagehits(start_date=None, end_date=None):
+def submission_pagehits(item, start_date=None, end_date=None):
     """
     Returns a list of tuples of the form:  [(n_hits, Submission.pk), ....]
     This allows one to use the builtin ``list.sort()`` function where Python
@@ -31,12 +31,13 @@ def submission_pagehits(start_date=None, end_date=None):
     if end_date is None:
         end_date = date.max
 
-    page_hits = models.PageHit.objects.filter(datetime__gte=start_date).\
+    page_hits = models.PageHit.objects.filter(item=item).\
+                                       filter(datetime__gte=start_date).\
                                        filter(datetime__lte=end_date)
 
     hits_by_pk = defaultdict(int)
     for hit in page_hits:
-        hits_by_pk[hit.item.pk] += 1
+        hits_by_pk[hit.item_pk] += 1
 
     hit_counts = []
     for key, val in hits_by_pk.iteritems():
