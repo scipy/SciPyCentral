@@ -97,8 +97,10 @@ def logout_page(request):
     return redirect(next)
 
 
-def reset_password(request):
-    # TODO(KGD)
+def forgot_account_details(request):
+    """
+    User has forgotten their username or password.
+    """
     return HttpResponse('STILL TO DO: reset password page')
 
 
@@ -135,19 +137,16 @@ def precheck_new_user(request):
         pass
 
     if request.POST['which'] == 'all':
-        openid_check(request.POST['new_openid'])
         email_check(request.POST['new_email'])
         username_check(request.POST['new_username'])
-        if len(request.POST['new_openid']) == 0:
-            password_check(request.POST['new_password'])
+        password_check(request.POST['new_password'])
 
         # Hand-off to another function to create the request
         if len(out) == 0:
-            return create_new_account(request)
+            create_new_account(request)
+            return HttpResponse('SHOW PROFILE EDITING PAGE')
         else:
-            assert(False) # Do validation in AJAX"
-
-            #return HttpResponse(simplejson.dumps(out))
+            return HttpResponse(simplejson.dumps(out))
 
     #else:
         #func_name = request.POST['which'].replace('new_', '') + '_check'
@@ -211,7 +210,7 @@ def create_new_account(request):
     else:
         form = LoginForm()
         next = request.GET.get('next', '')
-        return render_to_response('person/sign-in.html',
+        return render_to_response('person/create-user.html',
                                   dict(form=form, user=request.user, next=next),
                                   context_instance=RequestContext(request)
                                   )

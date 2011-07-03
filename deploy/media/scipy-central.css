@@ -87,10 +87,11 @@ body {
 }
 #spc-site-notice{
 	/*display: none;*/
-	color: #f00;
+	color: #aaf;
 	font-weight: bold;
 	padding: 6px 0px;
-	border-bottom: 1px solid #000;
+	border-bottom: 1px dashed #aaf;
+	background: #d;
 	/*display: none; Uncomment to remove the site notice*/
 }
 #spc-site-title{
@@ -141,6 +142,7 @@ body {
    the HTML should go here */
 /* ----------------------- */
 #spc-section-body {
+	margin-bottom: 1em;
 }
 
 /* Styling for the headers */
@@ -157,6 +159,13 @@ div#spc-section-body h5 { font-size: 110%; }
 div#spc-section-body h6 { font-size: 100%; }
 
 .spc-title-in-span{font-size: 160%; font-weight: bold; color: #101074; float: left;}
+
+/* Styling for forms */
+input, select, textarea{
+	border:solid 1px #aacfe4;
+	padding: 4px 2px;
+	margin-bottom: 1em;
+}
 
 /* Styling for hyperlinks */
 div#spc-section-body a{
@@ -268,11 +277,7 @@ div#spc-section-body tt, div#spc-content tt {
 .spc-field-error{
     background: #ee8888;
 }
-input, select, textarea{
-	border:solid 1px #aacfe4;
-	padding: 4px 2px;
-	margin-bottom: 1em;
-}
+
   /* column container */
   /* http://matthewjamestaylor.com/blog/perfect-3-column.htm */
 .colmask {
@@ -483,12 +488,11 @@ div.spc-item-row span.spc-item-entry {
 }
 
 div#spc-new-user {
-	width: 500px;
+	width: 400px;
 	position: relative;
 	left: 50%;
 	margin: 20px 0 0 -200px;
 }
-
 div#spc-new-user .textbox .holding input {
 	font: 20px "Helvetica Neue",Helvetica,Arial,sans-serif;
 	/*outline: 0;*/
@@ -501,12 +505,6 @@ div#spc-new-user .textbox .holding input {
 	-moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1),0 1px 0 rgba(255,255,255,0.2);
 	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1),0 1px 0 rgba(255,255,255,0.2);
 }
-
-div.sidetip {
-	position: absolute;
-	left: 406px;
-	width: 250px;
-}
 div#spc-new-user .textbox div.sidetip {
 	margin-top: 14px;
 }
@@ -518,6 +516,16 @@ div#spc-new-user .textbox div.sidetip {
 	background-position: center left;
 	color: gray;
 	display: none;
+}
+div.sidetip {
+	position: absolute;
+	left: 406px;
+	width: 250px;
+}
+#spc-user-submit{
+	padding: 0.5em;
+	margin: 0;
+	border: none;
 }
 /*#phx-signup-form div.sidetip p.active {*/
 /*display: block;*/
