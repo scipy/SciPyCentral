@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models import signals
 from django.core.urlresolvers import reverse
 
-from scipy_central.utils import unique_slugify
+from django.template.defaultfilters import slugify
 from pygments import formatters, highlight, lexers
 
 class License(models.Model):
@@ -157,8 +157,8 @@ class Revision(models.Model):
     title = models.CharField(max_length=150,
                         help_text='Provide a <b>title</b> for your submission')
 
-    # auto-created slug field [*unique field*]
-    slug = models.SlugField(max_length=155, unique=True, editable=False)
+    # auto-created slug field
+    slug = models.SlugField(max_length=155, editable=False)
 
     # Created on
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
@@ -225,7 +225,7 @@ class Revision(models.Model):
         """ Override the model's saving function to create the slug """
         # http://docs.djangoproject.com/en/dev/topics/db/models/
                                           #overriding-predefined-model-methods
-        unique_slugify(self, self.title, 'slug')
+        self.slug = slugify(self.title)
 
         #from pygments.style import Style
         #from pygments.token import Comment

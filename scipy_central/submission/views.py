@@ -311,7 +311,6 @@ def submit_snippet_submission(request):
         repo_path = settings.SPC['storage_dir'] + year + os.sep + month
         repo_path += os.sep + '%06d%s' % (rev.id, os.sep)
         sub.fileset = FileSet.objects.create(repo_path=repo_path)
-        sub.is_preview = False
         sub.save()
 
         fname = rev.slug.replace('-', '_') + '.py'
