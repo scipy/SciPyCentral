@@ -1,0 +1,18 @@
+<!--url: registration_complete -->
+{% extends "base.html" %}
+
+{% block title %}Sign-up completed!{% endblock %}
+
+{% block content %}
+
+<p>Thank you for signing up on <a href="{% url spc-main-page%}">SciPy Central</a>.
+
+<p>An email has been sent to the address you provided. Please click on the activation link to complete your account application.
+
+<p>Thank you,
+<p><a href="{% url spc-about-page %}">The SciPy Central team</a>
+
+{% endblock %}
+
+
+

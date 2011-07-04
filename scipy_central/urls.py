@@ -24,4 +24,7 @@ urlpatterns = patterns('scipy_central',
     # Searching
     (r'^search/', include('haystack.urls')),
 
+    # Django-registration user accounts
+    (r'^accounts/', include('registration.backends.default.urls')),
+
 )

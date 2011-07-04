@@ -137,6 +137,7 @@ INSTALLED_APPS = (
 
     # 3rd party apps:
     'haystack',
+    'registration',
 
     #  Local apps
     'scipy_central.filestorage',
@@ -153,6 +154,10 @@ AUTHENTICATION_BACKENDS = (
     'scipy_central.person.auth_backends.CustomUserModelBackend',
 )
 CUSTOM_USER_MODEL = 'person.UserProfile'
+
+# django-registration required setting
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_OPEN = True    # permit users to create new accounts
 
 # Link the user is redirected to if not logged in and they try to perform
 # a function that only logged in users can do

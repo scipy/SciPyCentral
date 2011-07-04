@@ -45,6 +45,12 @@ Please ensure these Python packages are available on your server:
         *   Symlink the ``xapian_backend.py`` file in the above repo to
             ``haystack/backends/xapian_backend.py`` location.
 
+*   User registration, https://bitbucket.org/ubernostrum/django-registration/
+
+    *   hg clone http://bitbucket.org/ubernostrum/django-registration/
+    *   cd django-registration
+    *   python setup.py install
+
 
 Not required yet (might be as we add more functionality to the site):
 

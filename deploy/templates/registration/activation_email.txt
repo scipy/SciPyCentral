@@ -1,0 +1,17 @@
+Thank you for creating an account at http://scipy-central.org with this email
+address.
+
+You must activate your account within {{expiration_days}} days, otherwise
+any submissions you have created on the site will be removed.
+
+Visit this link to activate your account:
+
+http://scipy-central.org/accounts/activate/{{activation_key}}
+
+Thank you,
+The SciPy Central team.
+-----
+
+If you did not create an account on our website, it's because someone used your
+email address. Simply ignore this email and you will never hear from us again.
+
