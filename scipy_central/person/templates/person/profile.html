@@ -30,7 +30,9 @@
 
   {% if user.username %}
       {% ifequal user.username_slug theuser.username_slug %}
-        * <a href="{% url auth_password_reset %}">Change your password</a>
+        * <a href="{% url auth_password_change %}">Change your password</a>
+
+        * <a href="{% url spc-user-profile-edit user.username_slug %}">Edit your profile</a>
 
       {% endifequal %}
   {% endif %}

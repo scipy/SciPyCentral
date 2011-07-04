@@ -57,6 +57,13 @@ from django.contrib.auth import views as auth_views
                               #dict(form=form, user=request.user, next=next),
                               #context_instance=RequestContext(request))
 
+@login_required
+def profile_page_edit(request, username_slug):
+    """
+    User wants to edit his/her profile page.
+    """
+    # First verify that request.user is the same as username_slug
+    return HttpResponse('Still to do.')
 
 def profile_page(request, username_slug):
     """

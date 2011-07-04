@@ -16,6 +16,10 @@ urlpatterns = patterns('scipy_central.person.views',
     url(r'^profile/(?P<username_slug>[-\w]+)?(/)?$', 'profile_page',
                                                      name='spc-user-profile'),
 
+    # Edit the user's profile
+    url(r'^profile/(?P<username_slug>[-\w]+)?/edit$', 'profile_page_edit',
+                                                name='spc-user-profile-edit'),
+
     # There is one place where this URL is hard-coded. See the ``person`` app
     # in the forms.py file.
     #url(r'^reset-password$', 'forgot_account_details',
