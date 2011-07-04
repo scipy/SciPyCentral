@@ -6,8 +6,10 @@
 
 <div class="spc-centering-div-container">
   <div id="spc-existing-user">
+	SHOW ERRORS HERE STILL
     <form action="{% url auth_login %}" method="POST">
       {% csrf_token %}
+
       {% for field in form%}
 	  <label for="{{field.id_for_label}}"><span class="spc-form-label">{{field.label|safe}}</span>{{field.as_widget|safe}}</label>
 	  {% endfor %}
@@ -21,7 +23,11 @@
   <div>
   <ul>
 	<li><a href="{% url registration_register %}">Create an account</a></li>
-	<li><a href="{% url auth_password_change %}">Forgot username or password?</a></li>
+	<li><a href="{% url auth_password_reset %}">Forgot your username or password?</a></li>
   </div>
 </div>
+
+
+{{form.as_p}}
+
 {% endblock %}

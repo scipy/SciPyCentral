@@ -36,7 +36,7 @@
 		  <a href="{% url spc-main-page %}" accesskey="h">Search site</a>
 		</div>
 		<div class="spc-header-right">
-		  {% if user.username %}<a href="{% url spc-user-profile user.username_slug%}">{{user.username}}</a>{% else %}<a href="{% url spc-login-signin %}">Sign In</a>{% endif %}
+		  {% if user.username %}<a href="{% url spc-user-profile user.username_slug%}">{{user.username}}</a>{% else %}<a href="{% url auth_login %}">Sign In</a>{% endif %}
 		</div>
 	  </div>
 	  <div class="spc-header-row" id="spc-site-title">

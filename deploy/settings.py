@@ -161,7 +161,7 @@ REGISTRATION_OPEN = True    # permit users to create new accounts
 
 # Link the user is redirected to if not logged in and they try to perform
 # a function that only logged in users can do
-LOGIN_URL = '/user/sign-in/'
+LOGIN_URL = '/accounts/login/'
 
 if DEBUG:
     import tempfile

@@ -6,7 +6,6 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
-#from scipy_central.person.forms import LoginForm, NewUserForm
 from django.conf import settings
 from django.db.utils import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
@@ -17,55 +16,62 @@ from scipy_central.submission.models import Revision
 from scipy_central.utils import paginated_queryset
 
 import models
+import forms
 import re
 import random
 
-def login_page(request):
-    """
-    Handles user authentication
-    """
-    if request.method == "POST":
-        form = LoginForm(request.POST)
-        next = request.POST.get('next', '')
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    if not next:
-                        next = user
-                    return redirect(next)
-                else:
-                    form.errors['__all__'] = 'This account is inactive.'
-            else:
 
-                form.errors['__all__'] = 'Invalid login.'
-    else:
-        if request.user.is_authenticated():
-            return redirect(profile_page, request.user.username_slug)
-        else:
-            form = LoginForm()
-            next = request.GET.get('next', '')
+from django.contrib.auth import views as auth_views
 
-    return render_to_response('person/sign-in.html',
-                              dict(form=form, user=request.user, next=next),
-                              context_instance=RequestContext(request)
-                              )
+
+#def login_page(request):
+    #"""
+    #Handles user authentication
+    #"""
+    #if request.method == "POST":
+        #form = forms.LoginForm(request.POST)
+        #next = request.POST.get('next', '')
+        #if form.is_valid():
+            #username = form.cleaned_data['username']
+            #password = form.cleaned_data['password']
+            #user = authenticate(username=username, password=password)
+            #if user is not None:
+                #if user.is_active:
+                    #login(request, user)
+                    #if not next:
+                        #next = user
+                    #return redirect(next)
+                #else:
+                    #form.errors['__all__'] = 'This account is inactive.'
+            #else:
+
+                #form.errors['__all__'] = 'Invalid login.'
+    #else:
+        #if request.user.is_authenticated():
+            #return redirect(profile_page, request.user.username_slug)
+        #else:
+            #form = forms.LoginForm()
+            #next = request.GET.get('next', '')
+
+    #return render_to_response('registration/login.html',
+                              #dict(form=form, user=request.user, next=next),
+                              #context_instance=RequestContext(request))
 
 
 def profile_page(request, username_slug):
     """
     Shows the user's profile.
     """
-    try:
-        user = models.UserProfile.objects.get(username_slug=username_slug)
-    except ObjectDoesNotExist:
-        return page_404_error(request)
+    if username_slug is None:
+        the_user = request.user
+    else:
+        try:
+            the_user = models.UserProfile.objects.get(username_slug=username_slug)
+        except ObjectDoesNotExist:
+            return page_404_error(request)
 
     # Items created by this user
-    all_revs = Revision.objects.filter(created_by=user)
+    all_revs = Revision.objects.filter(created_by=the_user)
     all_subs = set()
     for rev in all_revs:
         all_subs.add(rev.entry)
@@ -73,17 +79,17 @@ def profile_page(request, username_slug):
     no_entries = 'This user has not submitted any entries to SciPy Central.'
     return render_to_response('person/profile.html', {},
                 context_instance=RequestContext(request,
-                            {'user': user,
+                            {'theuser': the_user,
                              'entries':paginated_queryset(request, all_subs),
                              'no_entries_message': no_entries, }))
 
-@login_required
-def logout_page(request):
-    if request.method == "POST":
-        if request.user.is_authenticated:
-            logout(request)
-    next = request.POST.get('next', login_page)
-    return redirect(next)
+#@login_required
+#def logout_page(request):
+    #if request.method == "POST":
+        #if request.user.is_authenticated:
+            #logout(request)
+    #next = request.POST.get('next', login_page)
+    #return redirect(next)
 
 
 #def forgot_account_details(request):
@@ -172,6 +178,7 @@ def create_new_account(sender, **kwargs):
     #models.UserProfile.objects.create(username=email,
     #                                             email=email)
     pass
+
 
 def account_activation(sender, **kwargs):
     # ['signal', 'request', 'user']

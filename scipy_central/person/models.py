@@ -2,13 +2,6 @@ from django.contrib.auth.models import User, UserManager
 from django.db import models
 from scipy_central.utils import unique_slugify
 
-import views
-
-# 3rd-party ``registration`` app
-from registration.signals import user_registered, user_activated
-user_registered.connect(views.create_new_account)
-user_activated.connect(views.account_activation)
-
 import re
 # alphanumerics, underscores, spaces, @, . and -
 VALID_USERNAME = re.compile('^[\w @.-]*$', re.UNICODE)

@@ -12,7 +12,7 @@ urlpatterns = patterns('scipy_central',
     #(r'^tag/(?P<slug>[a-zA-Z0-9- ]+)/assign/$', 'community.views.assign_tags'),
 
     # User authentication
-    url(r'^user/', include('scipy_central.person.urls'), name='spc-user'),
+    url(r'^accounts/', include('scipy_central.person.urls'), ),
 
 
     # Submissions: new and existing, including previous revisions
