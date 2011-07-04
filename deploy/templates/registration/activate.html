@@ -1,3 +1,13 @@
-activate.html
+<!-- url: auth_password_reset_done -->
+{% extends "base.html" %}
 
-{{activation_key}}
+{% block title %}Invalid activation key supplied{% endblock %}
+
+{% block content %}
+<h3>Account activation failed</h3>
+
+<p>You supplied an invalid activation key: <tt>{{activation_key}}</tt>
+
+<p>Please request a new <a href="{% url auth_password_reset %}">password reset key</a>.
+
+{% endblock %}

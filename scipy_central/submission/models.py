@@ -114,6 +114,7 @@ class Submission(models.Model):
     def __unicode__(self):
         return self.slug
 
+
 class RevisionManager(models.Manager):
     def create_without_commit(self, **kwargs):
         """

@@ -430,8 +430,12 @@ def get_items_or_404(view_function):
         URLs.
         """
         try:
-            the_submission = models.Submission.objects.get(id=item_id)
+            # Use the Submissions manager's ``all()`` function
+            the_submission = models.Submission.objects.all().filter(id=item_id)
         except ObjectDoesNotExist:
+            return page_404_error(request)
+
+        if len(the_submission) == 0:
             return page_404_error(request)
 
         the_revision = the_submission.last_revision
