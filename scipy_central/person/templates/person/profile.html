@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}Sign-in page{% endblock %}
+{% block title %}User profile: {{theuser.username}}{% endblock %}
 
 {% block content %}
 
   <div id="spc-item-display">
     <div class="spc-item-row">
       <span class="spc-item-label spc-title-in-span">{{theuser.username}}</span>
-      <span class="spc-item-entry"><form action="{% url auth_logout %}" method="POST">{% csrf_token %}<input type="submit" name="submit" value="Sign out"  /></form></span>
+      {% if user.username %}<span class="spc-item-entry"><form action="{% url auth_logout %}" method="POST">{% csrf_token %}<input type="submit" name="submit" value="Sign out"/></form></span>{% endif %}
     </div>
     <div class="spc-item-row">
       <span class="spc-item-label">Affiliation:</span>
@@ -19,7 +19,7 @@
     </div>
     <div class="spc-item-row">
       <span class="spc-item-label">Profile:</span>
-      <span class="spc-item-entry">{% if theuser.profile %}<span class="spc-item-entry">{{theuser.profile}}</span>{% else %}Not provided{% endif %}</span>
+      <span class="spc-item-entry">{% if theuser.bio %}<span class="spc-item-entry">{{theuser.bio}}</span>{% else %}Not provided{% endif %}</span>
     </div>
     <div class="spc-item-row">
       <span class="spc-item-label">Web site:</span>
@@ -29,15 +29,19 @@
   </div>
 
   {% if user.username %}
-      {% ifequal user.username_slug theuser.username_slug %}
+      {% ifequal user.slug theuser.profile.slug %}
+
+        * Last login:  {{ user.last_login|date:"l d \d\e F \d\e Y \a \l\a\s H:i:s"}}
+
+
         * <a href="{% url auth_password_change %}">Change your password</a>
 
-        * <a href="{% url spc-user-profile-edit user.username_slug %}">Edit your profile</a>
+        * <a href="{% url spc-user-profile-edit user.profile.slug %}">Edit your profile</a>
 
       {% endifequal %}
   {% endif %}
 
-  <h3>Items created/edited by {{theuser.username}}</h3>
+  <h3>Items created/edited by: {{theuser.username}}</h3>
 
   {% include 'submission/entries_list.html' %}
 

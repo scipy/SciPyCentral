@@ -1,50 +1,19 @@
-from django.contrib.auth.models import User, UserManager
+from django.contrib.auth.models import User
 from django.db import models
 from scipy_central.utils import unique_slugify
 
-import re
-# alphanumerics, underscores, spaces, @, . and -
-VALID_USERNAME = re.compile('^[\w @.-]*$', re.UNICODE)
 
-class UserProfile(User):
-    """
-    We are extending Django's built-in authentication. See
-    http://scottbarnham.com/blog/2008/08/21/extending-the-django-user-model-
-                                                            with-inheritance/
-    for guidance.
-    """
-    MARKUP_PREFERENCE = (
-        ('rest', 'reStructuredText'),
-        ('markdown', 'Markdown'),
-        ('textile',  'Texttile'),
-        ('mediawiki',  'Mediawiki'),
-        ('creole',  'Creole'),
-    )
+class UserProfile(models.Model):
+    # See https://docs.djangoproject.com/en/1.3/topics/auth/
 
-    # Use UserManager to get the create_user method, etc.
-    objects = UserManager()
+    user = models.OneToOneField(User, unique=True, related_name="profile")
 
-    # Inherited field entries:
-
-    # username: 30 characters, alphanumeric, underscores, spaces, @, . and -
-    #           see ``VALID_USERNAME`` regular expression
-    #           Also Django required this to be unique
-    #
-    # email: an email address
-    #
-    # password: a salted and hashed password
-    #
-    # is_active: Django field: set to False to disable user, rather than
-    # deleting all their info. This is to keep their previous contributions
-    # from disappearing. We can also completely delete user and all their
-    # contributions.
-
-    username_slug = models.SlugField(editable=False)
+    # Slug field
+    slug = models.SlugField(editable=False)
 
     # i.e. the user's identity has been verified by a challenge/response email
     is_validated = models.BooleanField(default=False, help_text=('User has ',
                                         'validated their account by email'))
-
 
     # User's company, university, private. Default = ``None``
     affiliation = models.CharField(max_length=255, null=True, blank=True,
@@ -55,13 +24,12 @@ class UserProfile(User):
                                help_text="User's country")
 
     # profile: a one-line profile about yourself
-    profile = models.CharField(max_length=150, null=True, blank=True,
+    bio = models.CharField(max_length=150, null=True, blank=True,
                                help_text="A one-line profile about yourself")
 
     # A user-provided URL to their own site or affiliated company
     uri = models.URLField(null=True, blank=True, verbose_name="User's URL",
        help_text='A URL to your website, affiliated company, or personal page')
-
 
     # List of tags/subject areas that describes the user's interests
     #interests = models.ManyToManyField('Tags')
@@ -83,14 +51,6 @@ class UserProfile(User):
                             help_text=('Allow/disallow user to send emails '
                                        'via this site'))
 
-    # Markup preference
-    markup_pref = models.CharField(max_length=10, choices=MARKUP_PREFERENCE)
-
-
-    # avatar: user uploaded image, or obtained via Gravatar
-    # Upload to MEDIA_ROOT + 'avatars'
-    #avatar = models.ImageField(upload_to = ..., max_length=255,
-
     class Meta:
         verbose_name_plural = 'users'
 
@@ -98,7 +58,7 @@ class UserProfile(User):
         """ Override the model's saving function to create the slug """
         # http://docs.djangoproject.com/en/dev/topics/db/models/
                                           #overriding-predefined-model-methods
-        unique_slugify(self, self.username, 'username_slug')
+        unique_slugify(self, self.user.username, 'slug')
 
         # TODO(KGD): ensure a user's email address is unique
 
@@ -107,5 +67,4 @@ class UserProfile(User):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('spc-user-profile', (self.username_slug,))
-
+        return ('spc-user-profile', (self.user.profile.slug,))

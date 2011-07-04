@@ -12,70 +12,51 @@ from django.core.exceptions import ObjectDoesNotExist
 
 # Imports from other SciPy Central apps
 from scipy_central.pages.views import page_404_error
-from scipy_central.submission.models import Revision
+from scipy_central.submission.models import Revision, Submission
 from scipy_central.utils import paginated_queryset
 
 import models
 import forms
 import re
 import random
+import logging
 
+logger = logging.getLogger('scipycentral')
+logger.debug('Initializing person::views.py')
 
 from django.contrib.auth import views as auth_views
 
-
-#def login_page(request):
-    #"""
-    #Handles user authentication
-    #"""
-    #if request.method == "POST":
-        #form = forms.LoginForm(request.POST)
-        #next = request.POST.get('next', '')
-        #if form.is_valid():
-            #username = form.cleaned_data['username']
-            #password = form.cleaned_data['password']
-            #user = authenticate(username=username, password=password)
-            #if user is not None:
-                #if user.is_active:
-                    #login(request, user)
-                    #if not next:
-                        #next = user
-                    #return redirect(next)
-                #else:
-                    #form.errors['__all__'] = 'This account is inactive.'
-            #else:
-
-                #form.errors['__all__'] = 'Invalid login.'
-    #else:
-        #if request.user.is_authenticated():
-            #return redirect(profile_page, request.user.username_slug)
-        #else:
-            #form = forms.LoginForm()
-            #next = request.GET.get('next', '')
-
-    #return render_to_response('registration/login.html',
-                              #dict(form=form, user=request.user, next=next),
-                              #context_instance=RequestContext(request))
+def user_logged_in(sender, signal, request, user, **kwargs):
+    """
+    Work done when the user signs in.
+    """
+    logger.debug('User logged in: %s' % user.username)
 
 @login_required
-def profile_page_edit(request, username_slug):
+def profile_page_edit(request, slug):
     """
     User wants to edit his/her profile page.
     """
-    # First verify that request.user is the same as username_slug
+    # First verify that request.user is the same as slug
     return HttpResponse('Still to do.')
 
-def profile_page(request, username_slug):
+
+def profile_page(request, slug):
     """
     Shows the user's profile.
     """
-    if username_slug is None:
+    if slug is None:
         the_user = request.user
     else:
         try:
-            the_user = models.UserProfile.objects.get(username_slug=username_slug)
+            the_user = models.User.objects.get(profile__slug=slug)
         except ObjectDoesNotExist:
             return page_404_error(request)
+
+    # Don't show the profile for inactive (unvalidated) users
+    if not(the_user.is_active):
+        return page_404_error(request)
+
 
     # Items created by this user
     all_revs = Revision.objects.filter(created_by=the_user)
@@ -83,80 +64,18 @@ def profile_page(request, username_slug):
     for rev in all_revs:
         all_subs.add(rev.entry)
 
-    no_entries = 'This user has not submitted any entries to SciPy Central.'
+
+    if the_user == request.user:
+        no_entries = 'You have not submitted any entries to SciPy Central.'
+    else:
+        no_entries = 'This user has not submitted any entries to SciPy Central.'
+
     return render_to_response('person/profile.html', {},
                 context_instance=RequestContext(request,
                             {'theuser': the_user,
                              'entries':paginated_queryset(request, all_subs),
                              'no_entries_message': no_entries, }))
 
-#@login_required
-#def logout_page(request):
-    #if request.method == "POST":
-        #if request.user.is_authenticated:
-            #logout(request)
-    #next = request.POST.get('next', login_page)
-    #return redirect(next)
-
-
-#def forgot_account_details(request):
-    #"""
-    #User has forgotten their username or password.
-    #"""
-    #return HttpResponse('STILL TO DO: reset password page')
-
-
-#def precheck_new_user(request):
-
-    ## TODO(KGD): change this to POST later on
-    #if request.method != 'POST':
-        #return HttpResponse(status=400)
-
-    #out = defaultdict(dict)
-    #def username_check(username):
-    ## 30 characters, letters, digits and underscores only
-        #if len(username) > 30:
-            #out['new_username']['toolong'] = 1
-        #elif len(username.strip()) == 0:
-            #out['new_username']['blank'] = 1
-        #elif models.UserProfile.objects.filter(username__exact=username):
-            #out['new_username']['taken'] = 1
-        #elif not(models.VALID_USERNAME.match(username)):
-            #out['new_username']['invalidchar'] = 1
-
-    #def password_check(password):
-        ## Anything that is non-blank
-        #if len(password.strip()) == 0:
-            #out['new_password']['blank'] = 1
-
-    #def email_check(email):
-        ## Valid email
-        #pass
-
-    #def openid_check(openid):
-        ## Can we connect?; can we get an email? If so, populate the email field
-        ## Hide the password field
-        #pass
-
-    #if request.POST['which'] == 'all':
-        #email_check(request.POST['new_email'])
-        #username_check(request.POST['new_username'])
-        #password_check(request.POST['new_password'])
-
-        ## Hand-off to another function to create the request
-        #if len(out) == 0:
-            #create_new_account(request)
-            #return HttpResponse('SHOW PROFILE EDITING PAGE')
-        #else:
-            #return HttpResponse(simplejson.dumps(out))
-
-    ##else:
-        ##func_name = request.POST['which'].replace('new_', '') + '_check'
-        ##locals()[func_name](request.POST['value'])
-        ##return HttpResponse(simplejson.dumps(out))
-
-    ##return HttpResponse(simplejson.dumps(out),
-                                            ##mimetype='application/javascript')
 
 def create_new_account_internal(email):
     """
@@ -167,11 +86,11 @@ def create_new_account_internal(email):
     We assume the ``email`` has already been validated as an email address.
     """
     # First check if that email address have been used; return ``False``
-    previous = models.UserProfile.objects.filter(email=email)
+    previous = models.User.objects.filter(email=email)
     if len(previous) > 0:
         return previous[0]
 
-    new_user = models.UserProfile.objects.create(username=email,
+    new_user = models.User.objects.create(username=email,
                                                  email=email)
     temp_password = ''.join([random.choice('abcdefghjkmnpqrstuvwxyz2345689')\
                              for i in range(50)])
@@ -180,27 +99,31 @@ def create_new_account_internal(email):
     return new_user
 
 
-def create_new_account(sender, **kwargs):
+def create_new_account(sender, signal, request=None, user=None, **kwargs):
+    """
+    Complete creating the new user account: i.e. a new ``User`` object.
+    """
+    if 'instance' in kwargs and kwargs.get('created', False):
+        new_user = kwargs.get('instance', user)
 
-    #models.UserProfile.objects.create(username=email,
-    #                                             email=email)
-    pass
+        # Create a UserProfile object in the DB
+        new_user_profile = models.UserProfile.objects.create(user=new_user)
+        new_user_profile.save()
+
+def account_activation(sender, signal, request, user, **kwargs):
+    """ User's account has been successfully activated.
+
+    Make all their previous submissions visible.
+    """
+    user_profile = models.UserProfile.objects.get(user=user)
+    user_profile.is_validated = True
+    user_profile.save()
+
+    user_submissions = Submission.objects.filter(created_by = user)
+    for sub in user_submissions:
+        sub.is_displayed = True
+        sub.save()
 
 
-def account_activation(sender, **kwargs):
-    # ['signal', 'request', 'user']
-    # TODO
-    # * create a UserProfile object in the DB
-    # * activate any previous submissions by this user
-    # * sign the user in: security risk perhaps?
-    pass
 
-        #new_user = models.UserProfile.objects.create(
-                            #username = post['new_username'],
-                            #openid = post['new_openid'],
-                            #email = post['new_email'])
-        #new_user.set_password(post['new_password'])
-        #new_user.save()
-
-        ##authenticate(username=post['new_username'], password=post['new_password'])
-        ##login(request, new_user)
+    # TODO(KGD): activate any previous submissions by this user

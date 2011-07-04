@@ -14,7 +14,7 @@
 
   <dt>Submitted by: </dt>
   <dd>{% if unvalidated_user %}Unvalidated user{% else %}
-  <a href="{% url spc-user-profile item.created_by.username_slug %}">{{item.created_by.username}}</a>
+  <a href="{% url spc-user-profile item.created_by.user.profile.slug %}">{{item.created_by.username}}</a>
   {% endif %}
   </dd>
 

@@ -21,18 +21,16 @@
     "pk": 3,
     "model": "person.userprofile",
     "fields": {
-      "profile": null,
+      "user": 3,
+      "bio": null,
       "openid": null,
-      "username_slug": "scipycentral",
+      "slug": "scipy-central",
       "country": null,
       "uri": null,
       "contactable_via_site": true,
       "affiliation": null,
       "is_validated": true,
-      "groups": [],
       "allow_user_to_email": true,
-      "user_permissions": [],
-      "markup_pref": "",
       "reputation": 0
     }
   },

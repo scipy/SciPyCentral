@@ -134,6 +134,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
+    # Humanize some data entries
+    'django.contrib.humanize',
 
     # 3rd party apps:
     'haystack',
@@ -150,10 +152,11 @@ INSTALLED_APPS = (
 )
 
 # Authentication related:
-AUTHENTICATION_BACKENDS = (
-    'scipy_central.person.auth_backends.CustomUserModelBackend',
-)
-CUSTOM_USER_MODEL = 'person.UserProfile'
+#AUTHENTICATION_BACKENDS = (
+#    'scipy_central.person.auth_backends.CustomUserModelBackend',
+#)
+#CUSTOM_USER_MODEL = 'person.UserProfile'
+AUTH_PROFILE_MODULE = 'person.UserProfile'
 
 # django-registration required setting
 ACCOUNT_ACTIVATION_DAYS = 7
@@ -173,7 +176,7 @@ else:
 # SciPy Central = SPC.
 SPC = {
     # Delete unconfirmed submission after this number of days
-    'unvalidated_subs_deleted_after': 7,
+    'unvalidated_subs_deleted_after': ACCOUNT_ACTIVATION_DAYS,
 
     # We only support Mercurial at the moment. Code can support git and
     # other version control systems in the future.

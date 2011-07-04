@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load humanize %}
 
 {% block title %}
 {{item.title}}
@@ -15,12 +16,12 @@
     </div>
     <div class="spc-item-row">
       <span class="spc-item-label">Submitted by:</span>
-      <span class="spc-item-entry">{% if item.entry.created_by.is_validated %}<a href="{% url spc-user-profile item.entry.created_by.username_slug %}">{{item.entry.created_by.username}}</a>{% else %}Unvalidated user{% endif %} on {% if item.date_created %}{{item.date_created|date:"d F Y"}}{% else %}{% now "d F Y" %}{% endif %}</span>
+      <span class="spc-item-entry">{% if item.entry.created_by.is_validated %}<a href="{% url spc-user-profile item.entry.created_by.user.profile.slug %}">{{item.entry.created_by.username}}</a>{% else %}Unvalidated user{% endif %}, {% if item.date_created %}{{item.date_created|naturalday|date:"d F Y"}}{% else %}today{% endif %}</span>
     </div>
     {% if item.entry.num_revisions > 1 %}
      <div class="spc-item-row">
       <span class="spc-item-label">Updated by:</span>
-      <span class="spc-item-entry">{% if item.created_by.is_validated %}<a href="{% url spc-user-profile item.created_by.username_slug %}">{{item.created_by.username}}</a>{% else %}Unvalidated user{% endif %} on {% if item.date_created %}{{item.date_created|date:"d F Y"}}{% else %}{% now "d F Y" %}{% endif %}</span>
+      <span class="spc-item-entry">{% if item.created_by.is_validated %}<a href="{% url spc-user-profile item.created_by.user.profile.slug %}">{{item.created_by.username}}</a>{% else %}Unvalidated user{% endif %} on {% if item.date_created %}{{item.date_created|date:"d F Y"}}{% else %}today{% endif %}</span>
     </div>
     {% endif %}
     <div class="spc-item-row">

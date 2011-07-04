@@ -1,8 +1,11 @@
 from django.db import models
 from django.db.models import signals
 from django.core.urlresolvers import reverse
-
 from django.template.defaultfilters import slugify
+
+from scipy_central.person.models import User
+
+
 from pygments import formatters, highlight, lexers
 
 class License(models.Model):
@@ -47,7 +50,7 @@ class SubmissionManager(models.Manager):
         return obj
 
     def all(self):
-        return self.filter(is_displayed=True) #.filter(is_preview=False)
+        return self.filter(is_displayed=True)
 
     def all__for_backup(self):
         """ Sometimes we really do need all the submission objects."""
@@ -71,7 +74,7 @@ class Submission(models.Model):
                 help_text = 'Your submission should be one of 3 types')
 
     # Original submitter
-    created_by = models.ForeignKey('person.UserProfile', null=True, blank=True)
+    created_by = models.ForeignKey(User, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
 
     # fileset: for revisioning of the submission
@@ -86,11 +89,6 @@ class Submission(models.Model):
     # Also set False for submissions by users that submit when not
     # authenticated.
     is_displayed = models.BooleanField(default=False)
-
-    # For submissions created only for previewing. Is set to False once the
-    # submission is actually submitted.
-    # TODO(KGD): remove this eventually
-    #is_preview = models.BooleanField(default=True)
 
     # FUTURE
     # ------
@@ -163,7 +161,7 @@ class Revision(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
 
     # Users that created this submission
-    created_by = models.ForeignKey('person.UserProfile', null=True, blank=True)
+    created_by = models.ForeignKey(User, null=True, blank=True)
 
     # Submission license. Only used for code packages. Code snippets are
     # always CC0 licensed, and external links must list their own license.
@@ -249,7 +247,7 @@ class TagCreation(models.Model):
     """
     Tracks by whom and when tags were created
     """
-    created_by = models.ForeignKey('person.UserProfile')
+    created_by = models.ForeignKey(User)
     revision = models.ForeignKey(Revision)
     tag = models.ForeignKey('tagging.Tag')
     date_created = models.DateTimeField(auto_now_add=True, editable=False)

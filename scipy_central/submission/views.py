@@ -169,8 +169,8 @@ def create_or_edit_submission_revision(request, item, authenticated,
                                                   revision=rev,
                                                   tag=tag)
             tag_intermediate.save()
-            logger.debug('User=%s added tag "%s" to rev.id=%d' % (
-                                                user.username_slug,
+            logger.debug('User "%s" added tag "%s" to rev.id=%d' % (
+                                                user.profile.slug,
                                                 str(tag), rev.id))
 
 
