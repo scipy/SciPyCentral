@@ -10,19 +10,19 @@ urlpatterns = patterns('scipy_central.submission.views',
     url(r'^show/user/(?P<user>[-\w]+)[/]?', 'show_items',
                                                 name='spc-show-items-by-user'),
 
-    # SNIPPETS
-    # ========
-    # New snippet submission
-    url(r'^new-snippet[/]?$', 'new_snippet_submission',
-                                            name='spc-new-snippet-submission'),
+    ## SNIPPETS
+    ## ========
+    ## New snippet submission
+    #url(r'^new-snippet[/]?$', 'new_snippet_submission',
+                                            #name='spc-new-snippet-submission'),
 
-    # Preview snippet submission
-    url(r'^new-snippet-preview$', 'preview_snippet_submission',
-                                            name='spc-new-snippet-preview'),
+    ## Preview snippet submission
+    #url(r'^new-snippet-preview$', 'preview_snippet_submission',
+                                            #name='spc-new-snippet-preview'),
 
-    # Submit snippet submission
-    url(r'^new-snippet-submit$', 'submit_snippet_submission',
-                                            name='spc-new-snippet-submit'),
+    ## Submit snippet submission
+    #url(r'^new-snippet-submit$', 'submit_snippet_submission',
+                                            #name='spc-new-snippet-submit'),
 
 
     # LINKS

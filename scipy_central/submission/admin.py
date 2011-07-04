@@ -15,7 +15,6 @@ class RevisionAdmin(admin.ModelAdmin):
 class TagCreationAdmin(admin.ModelAdmin):
     list_display = ('date_created', 'tag', 'created_by', 'revision')
 
-
 admin.site.register(License, LicenseAdmin)
 admin.site.register(Submission, SubmissionAdmin)
 admin.site.register(Revision, RevisionAdmin)

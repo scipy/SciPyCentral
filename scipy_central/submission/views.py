@@ -5,9 +5,11 @@ from django.conf import settings
 from django.core.files.base import ContentFile
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.defaultfilters import slugify
+from django.template.loader import render_to_string
 from django.utils import simplejson
 from django import template
 from django.contrib.auth.decorators import login_required
+from django.contrib.sites.models import Site
 
 # Imports from this app and other SPC apps
 from scipy_central.screenshot.forms import ScreenshotForm as ScreenshotForm
@@ -181,18 +183,7 @@ def create_or_edit_submission_revision(request, item, authenticated,
                                                 sub.id,
                                                 rev.id))
 
-    # Email the user:
-    if authenticated:
-        # TODO: Get a link back to the submission and let user know that
-        # they have submitted that code
-        message = ''
-    else:
-        # TODO: Get a link to submission.
-        # Also send the user a link saying they must create an account in
-        # order for their submission to start being displayed on the website.
-        message = ''
-
-    return sub, rev, tag_list, message
+    return sub, rev, tag_list
 
 #------------------------------------------------------------------------------
 # Snippets
@@ -236,7 +227,7 @@ def preview_snippet_submission(request):
             authenticated = False
 
         # 2. Create the submission and revision and email the user
-        sub, rev, tag_list, _ = create_or_edit_submission_revision(request,
+        sub, rev, tag_list = create_or_edit_submission_revision(request,
                                                                 snippet,
                                                                 authenticated)
 
@@ -528,10 +519,10 @@ def preview_or_submit_link_submission(request):
 
     # 2. Create the submission and revision or update an existing submission
     #    with a new revision
-    sub, rev, tag_list, msg = create_or_edit_submission_revision(request,
-                                                         new_submission,
-                                                         authenticated,
-                                                         commit=commit)
+    sub, rev, tag_list = create_or_edit_submission_revision(request,
+                                                            new_submission,
+                                                            authenticated,
+                                                            commit=commit)
 
     # i.e. just previewing ...
     if not(commit):
@@ -575,8 +566,16 @@ def preview_or_submit_link_submission(request):
                               'valuable submissions in the future.') % \
                             settings.SPC['unvalidated_subs_deleted_after']
 
-        send_email(request.user.email, ("Thank you for your submission to "
-                                        "SciPy Central"), message=msg)
+
+
+        ctx_dict = {'user': user,
+                    'item': rev,
+                    'site': Site.objects.get_current()
+                    }
+        message = render_to_string('submission/email_user_thanks.txt',
+                                   ctx_dict)
+        send_email((request.user.email,), ("Thank you for your contribution "
+                                        "to SciPy Central"), message=message)
 
         return render_to_response('submission/thank-user.html', {},
                               context_instance=RequestContext(request,

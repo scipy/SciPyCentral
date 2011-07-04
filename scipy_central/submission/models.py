@@ -114,6 +114,10 @@ class Submission(models.Model):
     def __unicode__(self):
         return self.slug
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('spc-view-link', (self.pk,))
+
 
 class RevisionManager(models.Manager):
     def create_without_commit(self, **kwargs):
@@ -242,6 +246,10 @@ class Revision(models.Model):
 
         # Call the "real" save() method.
         super(Revision, self).save(*args, **kwargs)
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('spc-view-link', (self.entry.pk,))
 
 
 class TagCreation(models.Model):

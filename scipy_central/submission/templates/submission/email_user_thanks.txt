@@ -1,0 +1,6 @@
+{{user.username}}
+
+Thanks for contribution to SciPy Central with the title: "{{item.title}}"
+http://{{site.domain}}{{item.get_absolute_url}}
+
+The SciPy Central team.
