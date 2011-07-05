@@ -1,6 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.utils.encoding import force_unicode
+from django.core.exceptions import ValidationError
 
 import logging
 logger = logging.getLogger('scipycentral')
@@ -137,6 +138,11 @@ class Tag(models.Model):
         with the identical slug.
         """
         slug = slugify(self.name)
+
+        # happens if the slug is totally unicode characters
+        if len(slug) == 0:
+            raise ValidationError('Tag contains invalid characters')
+
         if Tag.objects.filter(slug=slug):
             return
         else:

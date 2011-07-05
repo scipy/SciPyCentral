@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.conf import settings
 from django.core.files.base import ContentFile
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.template.defaultfilters import slugify
 from django.template.loader import render_to_string
 from django.utils import simplejson
@@ -111,14 +111,17 @@ def create_or_edit_submission_revision(request, item, authenticated,
     # Process any tags
     tag_list = []
     for tag in parse_tags(item.cleaned_data['sub_tags']):
-        tag_obj = Tag.objects.get_or_create(name=tag)[0]
+        try:
+            tag_obj = Tag.objects.get_or_create(name=tag)[0]
+        except ValidationError:
+            pass
+        else:
+            # Does the tag really exist or was it found because of the lack of
+            # case sensitivity (e.g. "2D" vs "2d"
+            if tag_obj.id is None:
+                tag_obj = Tag.objects.get(slug=slugify(tag))
 
-        # Does the tag really exist or was it found because of the lack of
-        # case sensitivity (e.g. "2D" vs "2d"
-        if tag_obj.id is None:
-            tag_obj = Tag.objects.get(slug=slugify(tag))
-
-        tag_list.append(tag_obj)
+            tag_list.append(tag_obj)
 
     # Create a ``Revision`` instance. Must always have a ``title``, ``created_by``,
     # and ``description`` fields; the rest are set according to the submission
@@ -135,6 +138,7 @@ def create_or_edit_submission_revision(request, item, authenticated,
 
     # Convert the raw ReST description to HTML using Sphinx: could include
     # math, paragraphs, <tt>, bold, italics, bullets, hyperlinks, etc.
+    #raw_rest =
     description_html = compile_rest_to_html(item.cleaned_data['description'])
 
     rev = models.Revision.objects.create_without_commit(
@@ -552,9 +556,16 @@ def preview_or_submit_link_submission(request):
                                                    'extra_html': extra_html}))
 
     else:
-        # 4. Thank user and return with any extra messages
+        # 4. Thank user and return with any extra messages, and send an email
+        ctx_dict = {'user': user,
+                    'item': rev,
+                    'site': Site.objects.get_current()
+                    }
+
         if authenticated:
             extra_messages = ('A confirmation email has been sent to you.')
+            message = render_to_string('submission/email_user_thanks.txt',
+                                   ctx_dict)
         else:
             extra_messages = ('You have been sent an email to '
                               '<i>confirm your submission</i> and to create '
@@ -566,14 +577,9 @@ def preview_or_submit_link_submission(request):
                               'valuable submissions in the future.') % \
                             settings.SPC['unvalidated_subs_deleted_after']
 
+            # TODO(KGD): add authentication to the message also
+            message = 'STILL TO DO'
 
-
-        ctx_dict = {'user': user,
-                    'item': rev,
-                    'site': Site.objects.get_current()
-                    }
-        message = render_to_string('submission/email_user_thanks.txt',
-                                   ctx_dict)
         send_email((request.user.email,), ("Thank you for your contribution "
                                         "to SciPy Central"), message=message)
 

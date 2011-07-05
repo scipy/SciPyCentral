@@ -1,5 +1,6 @@
 from django.test import TestCase
 from models import Tag, parse_tags
+from django.core.exceptions import ValidationError
 
 class RepeatedTag(TestCase):
     def test_adding_repeated_tag(self):
@@ -12,6 +13,11 @@ class RepeatedTag(TestCase):
         t1, _ = Tag.objects.get_or_create(name='testing tag')
         t2, _ = Tag.objects.get_or_create(name='testing tag')
         self.assertEqual(t1.id, t2.id)
+
+    def unicode_tags(self):
+        self.assertRaises(ValidationError, Tag.objects.get_or_create,
+                          name='さようなら')
+
 
 class TagParsing(TestCase):
     def test_splitting_tag_list(self):

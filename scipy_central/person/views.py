@@ -1,13 +1,7 @@
-from collections import defaultdict
-
 from django.http import HttpResponse
-from django.utils import simplejson
-from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render_to_response, redirect
+from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.conf import settings
-from django.db.utils import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
 
 # Imports from other SciPy Central apps
@@ -16,17 +10,13 @@ from scipy_central.submission.models import Revision, Submission
 from scipy_central.utils import paginated_queryset
 
 import models
-import forms
-import re
 import random
 import logging
 
 logger = logging.getLogger('scipycentral')
 logger.debug('Initializing person::views.py')
 
-from django.contrib.auth import views as auth_views
-
-def user_logged_in(sender, signal, request, user, **kwargs):
+def user_logged_in(user, **kwargs):
     """
     Work done when the user signs in.
     """
@@ -90,8 +80,8 @@ def create_new_account_internal(email):
     if len(previous) > 0:
         return previous[0]
 
-    new_user = models.User.objects.create(username=email,
-                                                 email=email)
+    username = 'Unvalidated User ' + email.split('@')[0]
+    new_user = models.User.objects.create(username=username, email=email)
     temp_password = ''.join([random.choice('abcdefghjkmnpqrstuvwxyz2345689')\
                              for i in range(50)])
     new_user.set_password(temp_password)
@@ -99,7 +89,7 @@ def create_new_account_internal(email):
     return new_user
 
 
-def create_new_account(sender, signal, request=None, user=None, **kwargs):
+def create_new_account( user=None, **kwargs):
     """
     Complete creating the new user account: i.e. a new ``User`` object.
     """
@@ -110,7 +100,7 @@ def create_new_account(sender, signal, request=None, user=None, **kwargs):
         new_user_profile = models.UserProfile.objects.create(user=new_user)
         new_user_profile.save()
 
-def account_activation(sender, signal, request, user, **kwargs):
+def account_activation(user, **kwargs):
     """ User's account has been successfully activated.
 
     Make all their previous submissions visible.
@@ -119,11 +109,7 @@ def account_activation(sender, signal, request, user, **kwargs):
     user_profile.is_validated = True
     user_profile.save()
 
-    user_submissions = Submission.objects.filter(created_by = user)
+    user_submissions = Submission.objects.filter(created_by=user)
     for sub in user_submissions:
         sub.is_displayed = True
         sub.save()
-
-
-
-    # TODO(KGD): activate any previous submissions by this user

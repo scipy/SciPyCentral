@@ -31,9 +31,11 @@ def compile_rest_to_html(raw_rest):
         Performs any sanitizing of the user's input.
 
         Currently performs:
+        * Converts string to utf-8 encoding
+        * Converts '\\' to '\\\\': i.e. single slash converted to double-slash,
+                            because Sphinx converts is back to a single slash
         """
-        # Converts '\\' to '\\\\': i.e. single slash converted to double-slash,
-        #                    because Sphinx converts is back to a single slash
+        raw_rest = raw_rest.encode('utf-8')
 
         out = raw_rest.replace('\\', '\\\\')
 
