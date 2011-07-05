@@ -433,6 +433,7 @@ def get_items_or_404(view_function):
         if len(the_submission) == 0:
             return page_404_error(request)
 
+        the_submission = the_submission[0]
         the_revision = the_submission.last_revision
         if rev_num: # can be None or '':
             all_revisions = the_submission.revisions.all()
