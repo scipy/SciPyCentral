@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Please enable cookies{% endblock %}
+
+{% block content %}
+
+<div id="spc-important-icon" style="float: left; height:240px;">
+    <img src="{{MEDIA_URL}}important-icon.png" width="240" alt="Cookies are required">
+</div>
+<div id="spc-cookie-message" style="">
+<p>Sorry, you will need to enable cookies if you'd like to contribute to SciPy Central (e.g. sign in, add code, tags, comments).
+
+<p>Cookies <b>are not required</b> if you only want to browse our website.
+</div>
+
+
+{% endblock %}
+
