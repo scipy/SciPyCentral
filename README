@@ -60,7 +60,51 @@ Not required yet (might be as we add more functionality to the site):
 Installation
 --------------
 
-After Django installation and cloning this git repository on your server:
+#.  Cloning the SciPy Central code repository:
+
+    ``git clone https://github.com/kgdunn/SciPyCentral.git``
+
+#.  Ensure the following Django settings are in your ``settings.py`` file:
+
+    *   ``CSRF_FAILURE_VIEW = 'scipy_central.pages.views.csrf_failure'``
+    *   ``ROOT_URLCONF = 'deploy.urls'``
+    *   ``INSTALLED_APPS`` contains these apps:
+
+        *   ``'django.contrib.auth'``
+        *   ``'django.contrib.contenttypes'``
+        *   ``'django.contrib.sessions'``
+        *   ``'django.contrib.sites'``
+        *   ``'django.contrib.messages'``
+        *   ``'django.contrib.staticfiles'``
+        *   ``'django.contrib.admin'``
+        *   ``'django.contrib.admindocs'``
+        *   ``'django.contrib.humanize'``
+        *   ``'haystack'``
+        *   ``'registration'``
+        *   ``'scipy_central.filestorage'``
+        *   ``'scipy_central.pages'``
+        *   ``'scipy_central.person'``
+        *   ``'scipy_central.submission'``
+        *   ``'scipy_central.tagging'``
+        *   ``'scipy_central.screenshot'``
+        *   ``'scipy_central.pagehit'``
+
+    *   ``AUTH_PROFILE_MODULE = 'person.UserProfile'``
+    *   ``ACCOUNT_ACTIVATION_DAYS = 7``
+    *   ``REGISTRATION_OPEN = True``
+    *   ``LOGIN_URL = '/accounts/login/'``
+    *   ``SPC = { ... }``: see which key-value pairs are required by examing
+        the code in the ``settings.py`` file that is part of the SciPy
+        Central code repository.
+    *   ``JQUERY_URL = '...'``
+    *   ``JQUERYUI_URL = '...'``
+    *   ``JQUERYUI_CSS = '...'``
+    *   ``ANALYTICS_SNIPPET = '...'``
+    *   ``LOGGING = {...}``: you need a logger called ``scipycentral``, see
+        more information at http://docs.djangoproject.com/en/dev/topics/logging
+        and also see the ``settings.py`` file that is part of the SciPy
+        Central code repository.
+
 
 #.	``./manage.py syncdb``
 #.	``./manage.py loaddata sample``  # to load licenses, tags and other data

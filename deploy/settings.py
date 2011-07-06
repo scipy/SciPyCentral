@@ -152,19 +152,18 @@ INSTALLED_APPS = (
 )
 
 # Authentication related:
-#AUTHENTICATION_BACKENDS = (
-#    'scipy_central.person.auth_backends.CustomUserModelBackend',
-#)
-#CUSTOM_USER_MODEL = 'person.UserProfile'
 AUTH_PROFILE_MODULE = 'person.UserProfile'
+# Link the user is redirected to if not logged in and they try to perform
+# a function that only logged in users can do
+LOGIN_URL = '/accounts/login/'
 
 # django-registration required setting
 ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_OPEN = True    # permit users to create new accounts
 
-# Link the user is redirected to if not logged in and they try to perform
-# a function that only logged in users can do
-LOGIN_URL = '/accounts/login/'
+# For users that have cookies disabled: sorry, you can't use this site
+CSRF_FAILURE_VIEW = 'scipy_central.pages.views.csrf_failure'
+
 
 if DEBUG:
     import tempfile

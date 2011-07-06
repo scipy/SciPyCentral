@@ -21,6 +21,16 @@ def licence_page(request):
     return render_to_response('pages/about-licenses.html', {},
                               context_instance=RequestContext(request))
 
+def csrf_failure(request, reason=''):
+    """ Provides a better output to the user when they don't have cookies
+    enabled on their computer.
+    """
+    ip = get_IP_address(request)
+    logger.info('CSRF failure from %s for request "%s", coming from "%s"' %\
+                (ip, request.path, request.META['HTTP_REFERER']))
+    return render_to_response('pages/please-enable-cookies.html', {},
+                              context_instance=RequestContext(request))
+
 def page_404_error(request):
     """ Override Django's 404 handler, because we want to log this also.
     """
