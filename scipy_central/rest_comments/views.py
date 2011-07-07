@@ -62,7 +62,7 @@ def compile_rest_to_html(raw_rest):
             remote_re = re.compile(r'^(\s*)..(\s*)' + item + r'(\s*)::(\s*)http')
             for idx, line in enumerate(raw_rest):
                 if remote_re.match(line):
-                    raw_rest[idx] = '<REMOTE EMBEDDING NOT PERMITTED>'
+                    raw_rest[idx] = ''
         return '\r\n'.join(raw_rest)
 
     def call_sphinx_to_compile(working_dir):
