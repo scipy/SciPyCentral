@@ -29,10 +29,7 @@
   </div>
 
   {% if user.username %}
-      {% ifequal user.slug theuser.profile.slug %}
-
-        * Last login:  {{ user.last_login|date:"l d \d\e F \d\e Y \a \l\a\s H:i:s"}}
-
+      {% ifequal user.profile.slug theuser.profile.slug %}
 
         * <a href="{% url auth_password_change %}">Change your password</a>
 

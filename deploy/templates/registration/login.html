@@ -26,14 +26,13 @@
 	{% if next %}
 	  <input type="hidden" name="next" value="{{ next }}" />
 	{% endif %}
-	<input type="submit" name="submit" value="Sign in" />
-
+	<input class="spc-form-button" type="submit" name="submit" value="Sign in" />
   </form>
   <a href="{% url auth_password_reset %}">Forgot your username or password?</a>
   <div style="clear:both;">&nbsp;</div>
   <div style="clear:both;">&nbsp;</div>
 
-  <div id="spc-important-icon" style="float: left;  line-height:64px;">
+  <div style="float: left; line-height:64px;">
     <img src="{{MEDIA_URL}}create-new-account-icon.png" width="64" style="vertical-align:middle" alt="Create a new account">
 	<a href="{% url registration_register %}">Create a new account</a>
   </div>

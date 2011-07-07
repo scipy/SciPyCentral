@@ -262,7 +262,7 @@ div#spc-section-body tt, div#spc-content tt {
 	margin: 0;
 }
 
-/* Submission form */
+/* Submission forms */
 #spc-form-error-message{
 	margin-bottom: 1em;
 	text-align: center;
@@ -277,6 +277,9 @@ div#spc-section-body tt, div#spc-content tt {
     background: #ee8888;
 	font-style: italic;
 	padding: 4px;
+}
+.spc-form-button{
+	padding: 5px;
 }
 
   /* column container */
