@@ -91,7 +91,7 @@ body {
 	font-weight: bold;
 	padding: 6px 0px;
 	border-bottom: 1px dashed #aaf;
-	background: #d;
+	background: #eee;
 	/*display: none; Uncomment to remove the site notice*/
 }
 #spc-site-title{
@@ -187,7 +187,7 @@ tt {
 	font-family: 'Inconsolata', Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
 }
 #id_snippet_code{
-	font-family: 'Inconsolata', Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+	font: 14px/1.0 'Inconsolata', Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
 }
 
 /* Main page */
