@@ -2,7 +2,7 @@
 Converts user's reStructuredText input to HTML.
 """
 # Standard library imports
-import os, pickle, time, shutil
+import os, pickle, time, shutil, re
 from StringIO import StringIO
 import logging
 logger = logging.getLogger('scipycentral')
@@ -34,17 +34,36 @@ def compile_rest_to_html(raw_rest):
         * Converts string to utf-8 encoding
         * Converts '\\' to '\\\\': i.e. single slash converted to double-slash,
                             because Sphinx converts is back to a single slash
+        * Removes hyperlinks to remote images
+
+        TODO(KGD): prevent csv-table directive, raw directive, include directive
+        For more, see: http://docutils.sourceforge.net/docs/user/config.html#file-insertion-enabled
         """
+
         raw_rest = raw_rest.encode('utf-8')
 
-        out = raw_rest.replace('\\', '\\\\')
+        raw_rest = raw_rest.replace('\\', '\\\\')
 
         # Replace tabs with 4 spaces: so that source code listings don't get
         # the default 8 spaces that Sphinx/docutils use.
-        out = raw_rest.replace('\t', '    ')
+        raw_rest = raw_rest.replace('\t', '    ')
 
-        # Perform any other filtering here, if required.
-        return out
+        raw_rest = raw_rest.split('\r\n')
+
+        # Strip  '.. raw::'' directive
+        raw = re.compile(r'^(\s*)..(\s*)raw(\s*)::(\s*)')
+        for idx, line in enumerate(raw_rest):
+            if raw.match(line):
+                raw_rest[idx] = ''
+
+        # Remove hyperlinks to remote items: e.g. .. image:: http://badimage.com
+        NO_REMOTE = ['image', 'figure', 'literalinclude', 'include', 'csv-table']
+        for item in NO_REMOTE:
+            remote_re = re.compile(r'^(\s*)..(\s*)' + item + r'(\s*)::(\s*)http')
+            for idx, line in enumerate(raw_rest):
+                if remote_re.match(line):
+                    raw_rest[idx] = '<REMOTE EMBEDDING NOT PERMITTED>'
+        return '\r\n'.join(raw_rest)
 
     def call_sphinx_to_compile(working_dir):
         """

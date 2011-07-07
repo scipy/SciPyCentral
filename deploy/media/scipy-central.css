@@ -180,13 +180,11 @@ div#spc-section-body .align-center{
     text-align: center;
 }
 
-/* Styling for <tt></tt> elements (from Sphinx) */
+/* Styling for <tt></tt> elements */
 div#spc-section-body tt, div#spc-content tt {
-	background-color:#F2F2F2;
-	border-bottom-color:#DDDDDD;
-	border-bottom-style:solid;
-	border-bottom-width:1px;
-	color:#333333;
+	background-color:#EEE;
+	color:#000;
+	font-family: 'Inconsolata', Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
 }
 
 /* Main page */

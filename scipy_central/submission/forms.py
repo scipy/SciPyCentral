@@ -17,6 +17,18 @@ class HiddenBaseForm(forms.BaseForm):
                                     for name, field in self.fields.items()))
     as_hidden.needs_autoescape = True
 
+rest_help = ('Let the community know what your submission does, '
+             'how it solves the problem, and/or how it works. ')
+rest_help += """Use <a href="http://sphinx.pocoo.org/latest/rest.html">reStructuredText</a>.
+<div id="spc-markup-help">
+<p class="spc-odd">use linebreaks between paragraphs
+<p class="spc-even"><tt>*</tt><i>italics</i><tt>*</tt> and <tt>**</tt><b>bold</b><tt>**</tt>
+<p class="spc-odd">hyperlinks <tt>`are easy <http://example.com>`_</tt>
+<p class="spc-even"><tt>``monospaced text``</tt>
+<p class="spc-odd"><tt>:math:`e^{i \pi}+1=0`</tt> produces \(e^{i \pi}+1=0\)
+<p class="spc-even">help with bullet points, and other features
+</div>"""
+
 class Submission_Form__Common_Parts(HiddenBaseForm, forms.Form):
     """
     The common parts to all submissions.
@@ -31,8 +43,7 @@ class Submission_Form__Common_Parts(HiddenBaseForm, forms.Form):
                                       'class':'spc-code-description',
                                       'cols': 40, 'rows': 5}),
                 label=Revision._meta.get_field('description').help_text,
-                help_text=('Let the community know what your submission does, '
-                           'how it solves the problem, and/or how it works.'))
+                help_text=rest_help)
 
     # Non-HTML5 browsers will fallback to "text" input widgets; but this really
     # helps for ipads and modern devices that support HTML5.
