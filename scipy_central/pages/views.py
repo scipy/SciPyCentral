@@ -40,6 +40,17 @@ def csrf_failure(request, reason=''):
                               context_instance=RequestContext(request))
 
 
+def not_implemented_yet(request):
+    """ Track how often users uncover items that haven't been implemented, so
+    we can prioritize them
+    """
+    ip = get_IP_address(request)
+    logger.info('Not implemented yet [%s] for request "%s"' % (ip, request.path))
+    t = get_template('pages/not-implemented-yet.html')
+    html = t.render(RequestContext(request))
+    return HttpResponse(html, status=200)
+
+
 def page_404_error(request):
     """ Override Django's 404 handler, because we want to log this also.
     """

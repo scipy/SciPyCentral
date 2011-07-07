@@ -1,3 +1,4 @@
+# All of Django's wonderful imports
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
@@ -19,7 +20,7 @@ from scipy_central.filestorage.models import FileSet
 from scipy_central.tagging.models import Tag, parse_tags
 from scipy_central.utils import send_email, paginated_queryset
 from scipy_central.rest_comments.views import compile_rest_to_html
-from scipy_central.pages.views import page_404_error
+from scipy_central.pages.views import page_404_error, not_implemented_yet
 from scipy_central.pagehit.views import create_hit, get_pagehits
 import models
 import forms
@@ -293,9 +294,12 @@ Item = namedtuple('Item', 'form field_order')
 SUBS = {'snippet': Item(forms.SnippetForm, field_order=['title',
                         'description', 'snippet_code', 'sub_license',
                         'screenshot', 'sub_tags', 'email', 'sub_type', 'pk']),
+        'package': Item(forms.PackageForm, field_order=['title',
+                        'description', 'package_file', 'sub_license',
+                        'screenshot', 'sub_tags', 'email', 'sub_type', 'pk']),
         'link': Item(forms.LinkForm, field_order=['title', 'description',
                         'item_url', 'screenshot', 'sub_tags', 'email',
-                        'sub_type', 'pk'])
+                        'sub_type', 'pk']),
         }
 
 
@@ -313,6 +317,10 @@ def new_or_edit_submission(request, bound_form=False):
     if 'snippet' in buttons:
         itemtype = 'snippet'
         new_item_or_edit = True # we're coming from the front page
+    elif 'package' in buttons:
+        #itemtype = 'package'
+        #new_item_or_edit = True # we're coming from the front page
+        return not_implemented_yet(request)
     elif 'link' in buttons:
         itemtype = 'link'
         new_item_or_edit = True # we're coming from the front page

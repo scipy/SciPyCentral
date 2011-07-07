@@ -181,9 +181,12 @@ div#spc-section-body .align-center{
 }
 
 /* Styling for <tt></tt> elements */
-div#spc-section-body tt, div#spc-content tt {
+tt {
 	background-color:#EEE;
 	color:#000;
+	font-family: 'Inconsolata', Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+}
+#id_snippet_code{
 	font-family: 'Inconsolata', Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
 }
 
@@ -353,10 +356,10 @@ span.spc-helptext ul{
 .spc-even{
 	background: #CCF;
 }
-.spc-markup-help .spc-odd tt{
+li.spc-odd tt{
 	background-color: #DDF;
 }
-.spc-markup-help .spc-even tt {
+li.spc-even tt {
 	background-color: #CCF;
 }
 
