@@ -343,7 +343,7 @@ div#spc-section-body tt, div#spc-content tt {
 .spc-code-description{
 	height: 15em;
 }
-div#help-id_description p{
+div#help-id_description ul{
 	margin: 0;
 	padding-left: 20px;
 }
