@@ -340,12 +340,32 @@ div#spc-section-body tt, div#spc-content tt {
 .form-field-auto-width{
 	width: auto;
 }
-#id_snippet{
-	font-family: "Inconsolata";
-}
 .spc-code-description{
 	height: 15em;
 }
+div#help-id_description p{
+	margin: 0;
+	padding-left: 20px;
+}
+.spc-odd{
+	background: #DDF;
+}
+.spc-even{
+	background: #CCF;
+}
+div#help-id_description .spc-odd tt{
+	background-color: #DDF;
+}
+div#help-id_description .spc-even tt {
+	background-color: #CCF;
+}
+
+/*div#spc-section-body tt {*/
+	/*background-color:#EEE;*/
+	/*color:#000;*/
+	/*font-family: 'Inconsolata', Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;*/
+/*}*/
+
 
 /* Tagging */
 .ui-autocomplete {
@@ -421,7 +441,7 @@ div.spc-item-row span.spc-item-entry {
 
 
 /* Styling for certain static pages */
-#spc-about-site{
+#spc-static-centering{
 	display: block;
 	margin: 0 auto;
 	min-width: 30em;
@@ -467,9 +487,9 @@ div.spc-item-row span.spc-item-entry {
 	border-right: 0px solid #aaa;
 }
 
-/* ---------------------- */
-/* User account pages     */
-/* ---------------------- */
+/* ---------------- */
+/* Form styling     */
+/* ---------------- */
 .spc-form-label{
 	display: block;
 	font-size: 14px;
@@ -483,93 +503,6 @@ div.spc-item-row span.spc-item-entry {
 	float: left;
 }
 
-div#spc-new-user {
-	width: 400px;
-	position: relative;
-	left: 50%;
-	margin: 20px 0 0 -200px;
-}
-div#spc-new-user .textbox .holding input {
-	font: 20px "Helvetica Neue",Helvetica,Arial,sans-serif;
-	/*outline: 0;*/
-	padding: 8px 6px;
-	width: 382px;
-	border: 1px solid #ccc;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border-radius: 4px;
-	-moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1),0 1px 0 rgba(255,255,255,0.2);
-	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1),0 1px 0 rgba(255,255,255,0.2);
-}
-div#spc-new-user .textbox div.sidetip {
-	margin-top: 14px;
-}
-#spc-new-user div.sidetip p {
-	font-size: 13px;
-	line-height: 16px;
-	padding-left: 18px;
-	background-repeat: no-repeat;
-	background-position: center left;
-	color: gray;
-	display: none;
-}
-div.sidetip {
-	position: absolute;
-	left: 406px;
-	width: 250px;
-}
-#spc-user-submit{
-	padding: 0.5em;
-	margin: 0;
-	border: none;
-}
-/*#phx-signup-form div.sidetip p.active {*/
-/*display: block;*/
-/*}*/
-/*#phx-signup-form div.sidetip p.error {*/
-/*background-image: url(../img/error.png);*/
-/*color: #C33;*/
-/*}*/
-/*#phx-signup-form div.sidetip p.isaok {*/
-/*background-image: url(../img/accept.png);*/
-/*color: #390;*/
-/*}*/
-/*#phx-signup-form div.sidetip p.checking {*/
-/*background-image: url(../img/spinner-small.gif);*/
-/*}*/
-/*#phx-signup-form div.sidetip p.tip {*/
-/*padding-left: 0;*/
-/*}*/
-/*#phx-signup-form .tos div.sidetip p {*/
-/*color: #999;*/
-/*font-size: 11px;*/
-/*line-height: 14px;*/
-/*}*/
-/*#phx-signup-form .tos div.sidetip p a {*/
-/*color: #69A7D7;*/
-/*}*/
-/*#phx-signup-form .tos div.sidetip p a:hover {*/
-/*color: #2D76B9;*/
-/*}*/
-/*#phx-signup-form .tos .sidetip p.info,#phx-signup-form .password .sidetip p.invalid,#phx-signup-form .email .sidetip p.taken {*/
-/*line-height: 16px;*/
-/*position: relative;*/
-/*top: -8px;*/
-/*}*/
-
-
 /* ---------------------- */
 /* Miscellaneous elements */
 /* ---------------------- */
-
-/* Highlights the search terms within the search results page*/
-#spc-search-term{
-	color: red;
-	font-weight: bold;
-}
-#spc-search-results li{
-	padding-bottom: 1em;
-}
-#spc-search-count{
-	color: purple;
-}

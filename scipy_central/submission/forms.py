@@ -21,12 +21,12 @@ rest_help = ('Let the community know what your submission does, '
              'how it solves the problem, and/or how it works. ')
 rest_help += """Use <a href="http://sphinx.pocoo.org/latest/rest.html">reStructuredText</a>.
 <div id="spc-markup-help">
-<p class="spc-odd">use linebreaks between paragraphs
+<p class="spc-odd">Use linebreaks between paragraphs
 <p class="spc-even"><tt>*</tt><i>italics</i><tt>*</tt> and <tt>**</tt><b>bold</b><tt>**</tt>
-<p class="spc-odd">hyperlinks <tt>`are easy <http://example.com>`_</tt>
+<p class="spc-odd">Hyperlinks <tt>`are easy &lt;http://example.com&gt;`_</tt>
 <p class="spc-even"><tt>``monospaced text``</tt>
-<p class="spc-odd"><tt>:math:`e^{i \pi}+1=0`</tt> produces \(e^{i \pi}+1=0\)
-<p class="spc-even">help with bullet points, and other features
+<p class="spc-odd"><tt>:math:`e^{i \pi}+1=0`</tt> shows as \(e^{i \pi}+1=0\)
+<p class="spc-even"><a href="/markup-help" target="_blank">More help</a> with bullet points, and other features
 </div>"""
 
 class Submission_Form__Common_Parts(HiddenBaseForm, forms.Form):

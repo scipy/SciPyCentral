@@ -3,7 +3,6 @@ from django.template import RequestContext
 from django.template.loader import get_template
 from django.http import HttpResponse
 
-
 from scipy_central.utils import get_IP_address
 
 import logging
@@ -13,13 +12,22 @@ logger.debug('Initializing pages::views.py')
 def front_page(request):
     return render_to_response('pages/front-page.html', {},
                               context_instance=RequestContext(request))
+
+
 def about_page(request):
     return render_to_response('pages/about-page.html', {},
                               context_instance=RequestContext(request))
 
+
 def licence_page(request):
     return render_to_response('pages/about-licenses.html', {},
                               context_instance=RequestContext(request))
+
+
+def markup_help(request):
+    return render_to_response('pages/markup-help.html', {},
+                              context_instance=RequestContext(request))
+
 
 def csrf_failure(request, reason=''):
     """ Provides a better output to the user when they don't have cookies
@@ -31,6 +39,7 @@ def csrf_failure(request, reason=''):
     return render_to_response('pages/please-enable-cookies.html', {},
                               context_instance=RequestContext(request))
 
+
 def page_404_error(request):
     """ Override Django's 404 handler, because we want to log this also.
     """
@@ -39,6 +48,7 @@ def page_404_error(request):
     t = get_template('404.html')
     html = t.render(RequestContext(request))
     return HttpResponse(html, status=404)
+
 
 def page_500_error(request):
     """ Override Django's 500 handler, because we want to log this also.

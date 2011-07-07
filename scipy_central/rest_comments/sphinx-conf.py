@@ -12,9 +12,14 @@
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 # Ensure that what ever extensions you add here cannot be maliciously used
 # against your website if carefully crafted ReST is entered into the comments
-extensions = ['sphinx.ext.mathjax']
+extensions = ['sphinx.ext.mathjax', 'sphinx.ext.extlinks']
 mathjax_path = ("http://cdn.mathjax.org/mathjax/latest/MathJax.js?"
                 "config=TeX-AMS-MML_HTMLorMML")
+
+# Allows for inline markup as: :tag:`gui`.
+# TODO(KGD): modify the extlinks function so the <a..> link can have a class
+# set, for CSS styling
+extlinks = {'tag': ('http://scipy-central.org/tag/%s', '')}
 
 # The suffix of source filenames.
 source_suffix = '.rst'

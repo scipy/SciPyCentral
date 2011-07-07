@@ -28,11 +28,11 @@
 				<div class="col1 form-field">
 					{{field.as_widget|safe}}
 				</div>
-				<div class="col2 {% if field.errors %} spc-field-error{% endif %}">
+				<div class="col2 {% if field.errors %}spc-field-error{% endif %}">
 					<label for="{{field.id_for_label}}">{{field.label|safe}}</label>
 					<span>{{ field.errors }}</span>
 				</div>
-				<div class="col3">
+				<div class="col3" id="help-{{field.id_for_label}}">
 					<span class="spc-helptext">{{field.help_text|safe}}</span>
 				</div>
 			</div>
@@ -41,7 +41,7 @@
 	{%endif %}
   {% endfor %}
 
-  	<div id="spc-preview-edit-submit">
+  <div id="spc-preview-edit-submit">
 		<div class="colmask threecol">
 			<div class="colmid">
 				<div class="colleft">

@@ -10,4 +10,7 @@ urlpatterns = patterns('scipy_central.pages.views',
 
     # About licences
     url(r'licenses', 'licence_page', name='spc-about-licenses'),
+
+    # Help with markup
+    url(r'markup-help', 'markup_help', name='spc-markup-help'),
 )
