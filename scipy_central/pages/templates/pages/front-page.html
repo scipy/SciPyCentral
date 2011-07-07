@@ -13,7 +13,7 @@
   </div>
 
   <div id="spc-search">
-    <form method="post" action="/search/" id="spc-search-form">{% csrf_token %}
+    <form method="get" action="/search/" id="spc-search-form">
     <input id="spc-search-box" name="search_terms" type="search" placeholder="Search all submissions" value=""/>
     <input id="spc-search-button" type="submit" value="Search"/>
     </form>
@@ -21,35 +21,33 @@
   </div>
 
   <div class="button-container">
-    <ul id="buttonlist">
-      <li><form method="post" action="/item/new-snippet/" class="spc-new-submission-formlist" >
-        {% csrf_token %}
-        <input type="image" title alt="Submit a code snippet"  border="0"
-        src="{{MEDIA_URL}}transparent-pixel.gif" class="spc-button"
-        id="spc-submit-code-button"
-        style="background: url('{{MEDIA_URL}}single-file-icon-shrunk.png') no-repeat #DDD;
-          background-size: 183px 40px; width: 183px; height: 40px;">
-      </form>
-      </li>
-      <li><form method="post" action="/item/new-package/" class="spc-new-submission-formlist">
-        {% csrf_token %}
-        <input type="image" title alt="Submit a collection of files"  border="0"
-        src="{{MEDIA_URL}}transparent-pixel.gif" class="spc-button"
-        id="spc-submit-package-button"
-        style="background: url('{{MEDIA_URL}}multiple-file-icon-shrunk.png') no-repeat #DDD;
-          background-size: 183px 40px; width: 183px; height: 40px;">
-      </form>
-      </li>
-      <li><form method="post" action="/item/new-link/" class="spc-new-submission-formlist">
-        {% csrf_token %}
-        <input type="image" title alt="Submit a link to an external scientific resource"  border="0"
-        src="{{MEDIA_URL}}transparent-pixel.gif" class="spc-button"
-        id="spc-submit-extlink-button"
-        style="background: url('{{MEDIA_URL}}external-link-icon-shrunk.png') no-repeat #DDD;
-          background-size: 183px 40px; width: 183px; height: 40px;">
-      </form>
-      </li>
-    </ul>
+    <form method="post" action="{% url spc-new-submission %}" class="spc-new-submission-formlist">
+    {% csrf_token %}
+      <ul id="buttonlist">
+        <li>
+          <input type="image" title alt="Submit a code snippet"  border="0"
+          src="{{MEDIA_URL}}transparent-pixel.gif" class="spc-button"
+          name="snippet"
+          style="background: url('{{MEDIA_URL}}single-file-icon-shrunk.png') no-repeat #DDD;
+            background-size: 183px 40px; width: 183px; height: 40px;">
+        </li>
+        <li>
+          <input type="image" title alt="Submit a collection of files"  border="0"
+          src="{{MEDIA_URL}}transparent-pixel.gif" class="spc-button"
+          name="package"
+          style="background: url('{{MEDIA_URL}}multiple-file-icon-shrunk.png') no-repeat #DDD;
+            background-size: 183px 40px; width: 183px; height: 40px;">
+        </form>
+        </li>
+        <li>
+          <input type="image" title alt="Submit a link to an external scientific resource"  border="0"
+          src="{{MEDIA_URL}}transparent-pixel.gif" class="spc-button"
+          name="link"
+          style="background: url('{{MEDIA_URL}}external-link-icon-shrunk.png') no-repeat #DDD;
+            background-size: 183px 40px; width: 183px; height: 40px;">
+        </li>
+      </ul>
+    </form>
   </div>
 
   <!--<div class="spc-portal" id="portal-top-left">-->

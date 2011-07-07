@@ -56,5 +56,6 @@ class FileSet(models.Model):
         if commit_msg:
             repo.commit(commit_msg)
 
-
+    def __unicode__(self):
+        return self.repo_path
 

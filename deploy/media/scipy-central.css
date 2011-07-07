@@ -343,7 +343,7 @@ div#spc-section-body tt, div#spc-content tt {
 .spc-code-description{
 	height: 15em;
 }
-div#help-id_description ul{
+span.spc-helptext ul{
 	margin: 0;
 	padding-left: 20px;
 }
@@ -353,19 +353,12 @@ div#help-id_description ul{
 .spc-even{
 	background: #CCF;
 }
-div#help-id_description .spc-odd tt{
+.spc-markup-help .spc-odd tt{
 	background-color: #DDF;
 }
-div#help-id_description .spc-even tt {
+.spc-markup-help .spc-even tt {
 	background-color: #CCF;
 }
-
-/*div#spc-section-body tt {*/
-	/*background-color:#EEE;*/
-	/*color:#000;*/
-	/*font-family: 'Inconsolata', Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;*/
-/*}*/
-
 
 /* Tagging */
 .ui-autocomplete {

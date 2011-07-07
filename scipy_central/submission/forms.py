@@ -20,14 +20,24 @@ class HiddenBaseForm(forms.BaseForm):
 rest_help = ('Let the community know what your submission does, '
              'how it solves the problem, and/or how it works. ')
 rest_help += """Use <a href="http://sphinx.pocoo.org/latest/rest.html">reStructuredText</a>.
-<div id="spc-markup-help"><ul>
-<li class="spc-odd">Use linebreaks between paragraphs
-<li class="spc-even"><tt>*</tt><i>italics</i><tt>*</tt> and <tt>**</tt><b>bold</b><tt>**</tt>
-<li class="spc-odd">Hyperlinks <tt>`are easy &lt;http://example.com&gt;`_</tt>
-<li class="spc-even"><tt>``monospaced text``</tt>
-<li class="spc-odd"><tt>:math:`e^{i \pi}+1=0`</tt> shows as \(e^{i \pi}+1=0\)
-<li class="spc-even"><a href="/markup-help" target="_blank">More help</a> with bullet points, and other features
+<div class="spc-markup-help"><ul>
+<li class="spc-odd">Use linebreaks between paragraphs</li>
+<li class="spc-even"><tt>*</tt><i>italics</i><tt>*</tt> and <tt>**</tt><b>bold</b><tt>**</tt></li>
+<li class="spc-odd">Hyperlinks <tt>`are easy &lt;http://example.com&gt;`_</tt></li>
+<li class="spc-even"><tt>``monospaced text``</tt></li>
+<li class="spc-odd"><tt>:math:`e^{i \pi}+1=0`</tt> shows as \(e^{i \pi}+1=0\)</li>
+<li class="spc-even"><a href="/markup-help" target="_blank">More help</a> with bullet points, and other features</li>
 </div>"""
+
+pep8_help = """Please follow <a target="_blank"
+href="http://www.python.org/dev/peps/pep-0008/">PEP 8 guidelines</a>
+<div class="spc-markup-help"><ul>
+<li class="spc-odd">No more than 80 characters per row</li>
+<li class="spc-even">Please use spaces and not tabs</li>
+<li class="spc-odd">Use 4 spaces to indent, (use 2 if you must)</li>
+<li class="spc-even">Spaces around arithmetic operators</li>
+<li class="spc-odd">Comments in the code should supplement your summary</li>
+</li></ul></div>"""
 
 class Submission_Form__Common_Parts(HiddenBaseForm, forms.Form):
     """
@@ -73,20 +83,12 @@ class SnippetForm(Submission_Form__Common_Parts, ScreenshotForm):
                                      'snippet/recipe',
         widget=forms.Textarea(attrs={'class':'spc-code-snippet',
                                       'cols': 80, 'rows': 20}),
-        help_text=('Please follow <a target="_blank" href="http://www.python.'
-                   'org/dev/peps/pep-0008/">PEP 8 guidelines</a><br><ul>'
-                   '<li>No more than 80 characters per row</li>'
-                   '<li>Please use spaces and not tabs</li>'
-                   '<li>Use 4 spaces to indent, (use 2 if you must)</li>'
-                   '<li>Spaces around arithmetic operators</li>'
-                   '<li>Comments in the code should supplement your summary'
-                   '</li></ul>'
-                   ),
+        help_text=pep8_help,
         initial=('# License: Creative Commons Zero (almost public domain) '
                  'http://scpyce.org/cc0'),
         )
 
-    choices = License.objects.filter(slug='CC0')
+    choices = License.objects.filter(slug='cc0')
     sub_license = forms.ModelChoiceField(choices, empty_label=None,
         widget=forms.Select(attrs={'class':'form-field-auto-width'},
                 choices=choices),
