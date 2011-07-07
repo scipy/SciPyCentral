@@ -320,7 +320,7 @@ def create_or_edit_submission_revision(request, item, is_displayed,
                                 #'an account (if you do not have one '
                                 #'already). <p>Unconfirmed submissions '
                                 #'cannot be accepted, and will be '
-                                #'deleted after %d days. Please sign-in '
+                                #'deleted after %d days. Please sign in '
                                 #'to avoid having to confirm your '
                                 #'valuable submissions in the future.') % \
                             #settings.SPC['unvalidated_subs_deleted_after']
@@ -568,7 +568,7 @@ def preview_or_submit_link_submission(request):
                               'an account (if you do not have one '
                               'already). <p>Unconfirmed submissions '
                               'cannot be accepted, and <b>will be '
-                              'deleted</b> after %d days. Please sign-in '
+                              'deleted</b> after %d days. Please sign in '
                               'to avoid having to confirm your '
                               'valuable submissions in the future.') % \
                             settings.SPC['unvalidated_subs_deleted_after']

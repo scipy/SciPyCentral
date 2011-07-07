@@ -479,13 +479,7 @@ div.spc-item-row span.spc-item-entry {
 	margin: 0 auto;
 	border: 1px;
 	padding: 1em;
-
-}
-#spc-existing-user{
 	float: left;
-	margin: 0 auto;
-	padding: 1em;
-	text-align: left;
 }
 
 div#spc-new-user {

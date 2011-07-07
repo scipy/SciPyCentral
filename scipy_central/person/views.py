@@ -18,7 +18,7 @@ logger.debug('Initializing person::views.py')
 
 def user_logged_in(user, **kwargs):
     """
-    Work done when the user signs in.
+    Triggered when the user signs in.
     """
     logger.debug('User logged in: %s' % user.username)
 
@@ -53,7 +53,6 @@ def profile_page(request, slug):
     all_subs = set()
     for rev in all_revs:
         all_subs.add(rev.entry)
-
 
     if the_user == request.user:
         no_entries = 'You have not submitted any entries to SciPy Central.'
@@ -99,6 +98,7 @@ def create_new_account( user=None, **kwargs):
         # Create a UserProfile object in the DB
         new_user_profile = models.UserProfile.objects.create(user=new_user)
         new_user_profile.save()
+
 
 def account_activation(user, **kwargs):
     """ User's account has been successfully activated.

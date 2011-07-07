@@ -24,8 +24,8 @@ class UserProfile(models.Model):
                                help_text="User's country")
 
     # profile: a one-line profile about yourself
-    bio = models.CharField(max_length=150, null=True, blank=True,
-                               help_text="A one-line profile about yourself")
+    bio = models.CharField(max_length=1500, null=True, blank=True,
+                               help_text="A profile about yourself")
 
     # A user-provided URL to their own site or affiliated company
     uri = models.URLField(null=True, blank=True, verbose_name="User's URL",
