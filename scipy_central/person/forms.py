@@ -17,7 +17,7 @@ class SignUpForm(RegistrationFormUniqueEmail):
     username = forms.RegexField(regex=re.compile('^[\w @.-]+$', re.UNICODE),
                                 max_length=30,
                                 widget=forms.TextInput(attrs=attrs_dict),
-                                label="User name",
+                                label="Username",
                                 error_messages={'invalid': 'This value must '
                                    'contain only letters, numbers, underscores '
                                    'and spaces.'})

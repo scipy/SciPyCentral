@@ -8,12 +8,8 @@ urlpatterns = patterns('scipy_central',
     # Major pages in the site: front page, about page, etc
     url(r'', include('scipy_central.pages.urls')),
 
-    #(r'^tag/(?P<tag>[a-zA-Z0-9- ]+)/$', 'community.views.view_tag'),
-    #(r'^tag/(?P<slug>[a-zA-Z0-9- ]+)/assign/$', 'community.views.assign_tags'),
-
-    # User authentication
+    # User authentication and profile viewing.
     url(r'^accounts/', include('scipy_central.person.urls'), ),
-
 
     # Submissions: new and existing, including previous revisions
     url(r'item/', include('scipy_central.submission.urls'), name='spc-items'),
@@ -24,7 +20,9 @@ urlpatterns = patterns('scipy_central',
     # Searching
     (r'^search/', include('haystack.urls')),
 
-    # Django-registration user accounts
+    # Django-registration: new accounts, password resets, etc
+    # NOTE: the default backend is overriden ONLY for new account registration
+    # in scipy_central.person.urls
     (r'^accounts/', include('registration.backends.default.urls')),
 
 )
