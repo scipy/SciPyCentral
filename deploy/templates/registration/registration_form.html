@@ -5,10 +5,11 @@
 
 {% block content %}
 
-<div class="spc-centering-div-container">
-  <form action="" method="POST">
-	{% csrf_token %}
+<h3>Create a new account</h3>
 
+
+<div class="spc-centering-div-container">
+  <form action="" method="POST">{% csrf_token %}
 	{% if form.non_field_errors %}
 	  <div id="spc-form-error-message"><p><span class="spc-field-error">{% for error in form.non_field_errors%}{{error}}{% endfor %}</span></p></div>
 	{% else %}
@@ -32,34 +33,12 @@
   </form>
   <div style="clear:both;">&nbsp;</div>
 </div>
-
-
-
-<!--<div class="spc-centering-div-container">-->
-	<!--<form action="{% url registration_register %}" method="POST">{% csrf_token %}-->
-	<!--{% for field in form %}-->
-		<!--{% if field.is_hidden %}-->
-		  <!--{{field.as_widget|safe}}-->
-		<!--{% else %}-->
-		<!--<div class="colmask threecol">-->
-			<!--<div class="colmid">-->
-				<!--<div class="colleft">-->
-					<!--<div class="col1 form-field" style="width: none;">-->
-						<!--{{field.as_widget|safe}}-->
-					<!--</div>-->
-					<!--<div class="col2 {% if field.errors %} spc-field-error{% endif %}">-->
-						<!--<label for="{{field.id_for_label}}">{{field.label|safe}}</label>-->
-						<!--<span>{{ field.errors }}</span>-->
-					<!--</div>-->
-				<!--</div>-->
-			<!--</div>-->
-		<!--</div>-->
-
-		<!--{%endif %}-->
-	<!--{% endfor %}-->
-	<!--<input type="submit" name="submit" value="Send me an activation email" />-->
-	<!--</form>-->
-	<!--<div style="clear:both;">&nbsp;</div>-->
-<!--</div>-->
+<div style="clear:both;">&nbsp;</div>
+<div style="width: 500px; color: #666;">
+  <p>We know that creating yet another user acount is annoying. We hope to offer
+  <a href="http://openid.net/get-an-openid/">OpenID authentication</a> on
+  SciPy Central. What are the <a href="http://openid.net/get-an-openid/individuals/">benefits of OpenID</a>?
+  <p>Do you have experience with OpenID and Django? Please <a href="{% url spc-about-page %}">contact us</a> if you can volunteer some time.</p>
+</div>
 
 {% endblock %}

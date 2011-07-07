@@ -5,8 +5,10 @@ Tests to add:
 
 * User account: may not contain characters such as #!$&*() etc
 * Password must be at least 1 character long
-*
-
+* Reset the password; check that email is received;
+* Try reset with an incorrect email link
+* Reset with correct email link should work
+* Reset with correct email link, but enter two different passwords in the form
 
 """
 
