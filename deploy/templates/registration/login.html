@@ -6,12 +6,24 @@
 
 <div class="spc-centering-div-container">
   <div id="spc-existing-user">
-	SHOW ERRORS HERE STILL
+
     <form action="" method="POST">
       {% csrf_token %}
 
-      {% for field in form%}
-	  <label for="{{field.id_for_label}}"><span class="spc-form-label">{{field.label|safe}}</span>{{field.as_widget|safe}}</label>
+	  {% if form.non_field_errors %}
+		<div id="spc-form-error-message"><p><span class="spc-field-error">{% for error in form.non_field_errors%}{{error}}{% endfor %}</span></p></div>
+	  {% else %}
+		{% if form.errors %}
+		  <div id="spc-form-error-message"><p><b>Some errors were found</b>. Please see fields with
+		  <span class="spc-field-error">a coloured background</span>.</p></div>
+		{% endif %}
+	  {% endif %}
+
+      {% for field in form %}
+		<label for="{{field.id_for_label}}"><span class="spc-form-label">{{field.label|safe}}</span>
+		<span class="{% if field.errors %}spc-field-error{% endif %}">{% for error in field.errors %}{{ error|escape }}{% endfor %}</span>
+		{{field.as_widget|safe}}</label>
+
 	  {% endfor %}
     {% if next %}
       <input type="hidden" name="next" value="{{ next }}" />
@@ -26,8 +38,5 @@
 	<li><a href="{% url auth_password_reset %}">Forgot your username or password?</a></li>
   </div>
 </div>
-
-
-{{form.as_p}}
 
 {% endblock %}

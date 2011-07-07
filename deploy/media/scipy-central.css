@@ -270,12 +270,13 @@ div#spc-section-body tt, div#spc-content tt {
 }
 .errorlist{
 	list-style-type: none;
-	padding: 0 0;
+
 	float: left;
-	font-style: italic;
 }
 .spc-field-error{
     background: #ee8888;
+	font-style: italic;
+	padding: 4px;
 }
 
   /* column container */
