@@ -483,6 +483,10 @@ div.spc-item-row span.spc-item-entry {
 	border-right: 0px solid #aaa;
 }
 
+.spc-indent{
+	margin-left: 15px;
+}
+
 /* ---------------- */
 /* Form styling     */
 /* ---------------- */
