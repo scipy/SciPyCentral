@@ -1,4 +1,4 @@
 <div class="spc-search-revision">
     <a href="{{ result.object.get_absolute_url }}">{{ result.object.title }}</a>
-    <div>{{ result.object.description_html|truncatewords_html:"30"|safe|removetags:"p"}}</div>
+    <div>{{ result.object.description_html|truncatewords_html:"30"|removetags:"p li ul ol"|safe}}</div>
 </div>

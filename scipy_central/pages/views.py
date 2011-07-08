@@ -5,6 +5,8 @@ from django.http import HttpResponse
 
 from scipy_central.utils import get_IP_address
 
+from haystack.views import SearchView
+
 import logging
 logger = logging.getLogger('scipycentral')
 logger.debug('Initializing pages::views.py')
@@ -22,6 +24,17 @@ def about_page(request):
 def licence_page(request):
     return render_to_response('pages/about-licenses.html', {},
                               context_instance=RequestContext(request))
+
+
+def search(request):
+    """
+    Calls Haystack, but allows us to first log the search query
+    """
+    # Avoid duplicate logging if search request results in more than 1 page
+    if 'page' not in request.GET:
+        logger.info('SEARCH [%s]: %s' % (get_IP_address(request),
+                                         request.GET['q']))
+    return SearchView().__call__(request)
 
 
 def markup_help(request):

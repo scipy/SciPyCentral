@@ -5,7 +5,7 @@ urlpatterns = patterns('scipy_central',
     # NOTE: internal name for front page (defined in scipy_central.pages.urls)
     #       is:  spc-main-page
 
-    # Major pages in the site: front page, about page, etc
+    # Major pages in the site: front page, about page, search, etc
     url(r'', include('scipy_central.pages.urls')),
 
     # User authentication and profile viewing.
@@ -16,11 +16,6 @@ urlpatterns = patterns('scipy_central',
 
     # reST comment converted to HTML
     url(r'rest/', include('scipy_central.rest_comments.urls')),
-
-    # Searching
-    url(r'^search', include('haystack.urls')),
-    #(r'^search/advanced', TODO),
-
 
     # Django-registration: new accounts, password resets, etc
     # NOTE: the default backend is overriden ONLY for new account registration

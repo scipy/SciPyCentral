@@ -13,4 +13,8 @@ urlpatterns = patterns('scipy_central.pages.views',
 
     # Help with markup
     url(r'markup-help', 'markup_help', name='spc-markup-help'),
+
+    # Search views (go through our app to log search queries)
+    url(r'search', 'search', name='haystack_search'),
+
 )

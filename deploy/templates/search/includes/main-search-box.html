@@ -1,0 +1,7 @@
+<div id="spc-search">
+    <form method="get" action="{% url haystack_search %}" id="spc-search-form">
+        <input id="spc-search-box" name="q" type="search" placeholder="Search all submissions" value="{{form.data.q}}"/>
+        <input id="spc-search-button" type="submit" value="Search"/>
+    </form>
+    <!--TODO: Advanced search link-->
+</div>

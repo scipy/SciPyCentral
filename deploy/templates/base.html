@@ -33,10 +33,10 @@
 	  </div>
 	  <div class="spc-header-row" id="spc-top-menu">
 		<div class="spc-header-left">
-		  <a href="{% url spc-main-page %}" accesskey="h">Search site</a>
+		  <a href="{% url spc-main-page %}" accesskey="h">Home page</a>
 		</div>
 		<div class="spc-header-right">
-		  {% if user.username %}<a href="{% url spc-user-profile user.profile.slug%}">{{user.username}}</a>{% else %}<a href="{% url auth_login %}">Sign In</a>{% endif %}
+		  {% if user.username %}<a href="{% url spc-user-profile user.profile.slug%}">{{user.username}}</a>{% else %}<a href="{% url auth_login %}">Sign in</a>{% endif %}
 		</div>
 	  </div>
 	  <div class="spc-header-row" id="spc-site-title">

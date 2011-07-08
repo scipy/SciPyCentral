@@ -223,6 +223,18 @@ tt {
 }
 #spc-search-button{
 	display: inline;
+	padding: 0.4em 1em 0.4em 1em;
+	font: 15px sans-serif;
+	margin: 0;
+}
+#spc-search-results{
+	width: 75%;
+}
+#spc-search-results li{
+	margin: 0 auto;
+	list-style-type: none;
+	padding: 0.5em 0;
+	float: left;
 }
 
 /* Submission buttons */
