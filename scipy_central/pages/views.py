@@ -25,8 +25,9 @@ def licence_page(request):
 
 
 def markup_help(request):
-    return render_to_response('pages/markup-help.html', {},
-                              context_instance=RequestContext(request))
+    return not_implemented_yet(request)
+    #return render_to_response('pages/markup-help.html', {},
+    #                          context_instance=RequestContext(request))
 
 
 def csrf_failure(request, reason=''):
