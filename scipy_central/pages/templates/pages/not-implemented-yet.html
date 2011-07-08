@@ -4,14 +4,14 @@
 
 {% block content %}
 
-<div style="float: left; height:256px;">
-    <img src="{{MEDIA_URL}}important-icon.png" width="256" alt="Not implemented yet"
+<div style="float: left; height:128px;">
+    <img src="{{MEDIA_URL}}important-icon.png" width="128" alt="Not implemented yet"
     style="vertical-align: middle;">
 </div>
 <div id="spc-cookie-message">
 <p>Sorry, but this function is not implemented yet on our site.
 
-<p>Please bump this on <a href="https://github.com/kgdunn/SciPyCentral/issues">the
+<p>Please bump this on <a href="https://github.com/kgdunn/SciPyCentral/issues/{% if issue_number %}{{issue_number}}{%endif%}">the
 issue tracker</a> so we can prioritize its implementation.
 </div>
 

@@ -321,7 +321,7 @@ def new_or_edit_submission(request, bound_form=False):
     elif 'package' in buttons:
         #itemtype = 'package'
         #new_item_or_edit = True # we're coming from the front page
-        return not_implemented_yet(request)
+        return not_implemented_yet(request, 48)
     elif 'link' in buttons:
         itemtype = 'link'
         new_item_or_edit = True # we're coming from the front page

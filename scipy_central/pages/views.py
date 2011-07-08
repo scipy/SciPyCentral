@@ -38,7 +38,7 @@ def search(request):
 
 
 def markup_help(request):
-    return not_implemented_yet(request)
+    return not_implemented_yet(request, 39)
     #return render_to_response('pages/markup-help.html', {},
     #                          context_instance=RequestContext(request))
 
@@ -54,15 +54,17 @@ def csrf_failure(request, reason=''):
                               context_instance=RequestContext(request))
 
 
-def not_implemented_yet(request):
+def not_implemented_yet(request, issue_number=None):
     """ Track how often users uncover items that haven't been implemented, so
     we can prioritize them
     """
     ip = get_IP_address(request)
     logger.info('Not implemented yet [%s] for request "%s"' % (ip, request.path))
-    t = get_template('pages/not-implemented-yet.html')
-    html = t.render(RequestContext(request))
-    return HttpResponse(html, status=200)
+    return render_to_response('pages/not-implemented-yet.html',
+                              {'issue_number': issue_number},
+                              context_instance=RequestContext(request))
+
+
 
 
 def page_404_error(request):
