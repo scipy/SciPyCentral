@@ -1,0 +1,5 @@
+{{object.title}}
+{{object.description}}
+{{object.created_by.username}}
+{{object.item_code}}
+{{object.item_url}}

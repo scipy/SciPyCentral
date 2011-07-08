@@ -28,8 +28,9 @@
 # These 3 settings will go away when using haystack 2.0.0
 HAYSTACK_SEARCH_ENGINE = 'xapian'
 HAYSTACK_XAPIAN_PATH = os.path.join(os.path.dirname(__file__), 'xapian_index')
-HAYSTACK_SITECONF = 'search_sites'
+HAYSTACK_SITECONF = 'search_sites'  # refers to <project_root>/search_sites.py
 HAYSTACK_DEFAULT_OPERATOR = 'AND'
+HAYSTACK_INCLUDE_SPELLING = True
 HAYSTACK_SEARCH_RESULTS_PER_PAGE = 30
 HAYSTACK_BATCH_SIZE = 100
 HAYSTACK_ITERATOR_LOAD_PER_QUERY = 10

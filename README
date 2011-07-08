@@ -108,7 +108,8 @@ Installation
 
 #.	``./manage.py syncdb``
 #.	``./manage.py loaddata sample``  # to load licenses, tags and other data
-#.  ``./manage.py rebuild_index``    # to rebuild the search index
+#.  ``./manage.py rebuild_index``    # to rebuild the Haystack search index
+#.  or ``./manage.py update_index``
 
 
 Attribution

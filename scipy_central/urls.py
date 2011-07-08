@@ -19,6 +19,8 @@ urlpatterns = patterns('scipy_central',
 
     # Searching
     (r'^search/', include('haystack.urls')),
+    #(r'^search/advanced', TODO),
+
 
     # Django-registration: new accounts, password resets, etc
     # NOTE: the default backend is overriden ONLY for new account registration

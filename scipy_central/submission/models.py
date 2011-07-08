@@ -228,9 +228,12 @@ class Revision(models.Model):
         # Call the "real" save() method.
         super(Revision, self).save(*args, **kwargs)
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('spc-view-link', (self.entry.pk,))
+        """ I can't seem to find a way to use the "reverse" or "permalink"
+        functions to create this URL: do it manually, to match ``urls.py``
+        """
+        return reverse('spc-view-link', args=[0]).rstrip('0') + \
+                        '%d/%d/%s' % (self.entry.pk, self.rev_id, self.slug)
 
 
 class TagCreation(models.Model):
