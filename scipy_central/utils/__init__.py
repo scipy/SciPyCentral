@@ -111,24 +111,33 @@ def _slug_strip(value, separator='-'):
 
 def highlight_code(code):
     """ Uses Pygments to provide syntax highlighting.
-
-    from pygments.style import Style
-        from pygments.token import Comment
-        from pygments import formatters
-        get_style_by_name('default')
-        class ScipyStyle(Style):
-            default_style = "default"
-            styles = {
-                Comment: '#888',
-                }
-        formatters.HtmlFormatter(style=ScipyStyle)\
-                           .get_style_defs('div#spc-section-body .highlight')
     """
+#from pygments.styles.default import DefaultStyle
+#from pygments.style import Style
+#from pygments.styles import get_style_by_name
+#from pygments.token import Comment, Keyword, Name, String
+#from pygments import formatters
+#class SciPyStyle(Style):
+    #default_style = ""
+    #styles = {
+        #Comment:                '#888',
+        #Keyword:                'bold #080',
+        #Name:                   '#080',
+        #Name.Function:          '#00F',
+        #Name.Class:             'bold #00F',
+        #String:                 '#BA2121'
+    #}
+#SciPyStyle.styles[Comment] =  'noitalic #888'
+#SciPyStyle.styles[Comment.Preproc]  = "noitalic #888"
+#formatter = formatters.HtmlFormatter(style=SciPyStyle)
+#print(formatter.get_style_defs('.highlight'))
+
     if code is None:
         return None
     else:
         return highlight(code, lexers.PythonLexer(),
-                                      formatters.HtmlFormatter(linenos=True))
+                                      formatters.HtmlFormatter(linenos=True,
+                                                               linenostep=5,))
 
 
 
