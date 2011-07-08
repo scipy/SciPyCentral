@@ -5,9 +5,6 @@ from django.template.defaultfilters import slugify
 
 from scipy_central.person.models import User
 
-
-from pygments import formatters, highlight, lexers
-
 class License(models.Model):
     """
     License for the submission
@@ -227,22 +224,6 @@ class Revision(models.Model):
         # http://docs.djangoproject.com/en/dev/topics/db/models/
                                           #overriding-predefined-model-methods
         self.slug = slugify(self.title)
-
-        #from pygments.style import Style
-        #from pygments.token import Comment
-        #from pygments import formatters
-        #get_style_by_name('default')
-        #class ScipyStyle(Style):
-            #default_style = "default"
-            #styles = {
-                #Comment: 'italic #888',
-                #}
-        #formatters.HtmlFormatter(style=ScipyStyle).get_style_defs('div#spc-section-body .highlight')
-        if self.item_code:
-            self.item_highlighted_code = highlight(self.item_code,
-                                                   lexers.PythonLexer(),
-                                       formatters.HtmlFormatter(linenos=True))
-
 
         # Call the "real" save() method.
         super(Revision, self).save(*args, **kwargs)

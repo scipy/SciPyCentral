@@ -18,7 +18,7 @@ from scipy_central.screenshot.models import Screenshot as ScreenshotClass
 from scipy_central.person.views import create_new_account_internal
 from scipy_central.filestorage.models import FileSet
 from scipy_central.tagging.models import Tag, parse_tags
-from scipy_central.utils import send_email, paginated_queryset
+from scipy_central.utils import send_email, paginated_queryset, highlight_code
 from scipy_central.rest_comments.views import compile_rest_to_html
 from scipy_central.pages.views import page_404_error, not_implemented_yet
 from scipy_central.pagehit.views import create_hit, get_pagehits
@@ -176,7 +176,7 @@ def create_or_edit_submission_revision(request, item, is_displayed,
     # math, paragraphs, <tt>, bold, italics, bullets, hyperlinks, etc.
     #raw_rest =
     description_html = compile_rest_to_html(item.cleaned_data['description'])
-
+    item_highlighted_code = highlight_code(item.cleaned_data['snippet_code'])
     rev = models.Revision.objects.create_without_commit(
                             entry=sub,
                             title=item.cleaned_data['title'],
@@ -188,6 +188,7 @@ def create_or_edit_submission_revision(request, item, is_displayed,
                             hash_id=hash_id,
                             item_url=item_url,
                             item_code=item_code,
+                            item_highlighted_code=item_highlighted_code,
                             )
 
     if commit:
@@ -292,7 +293,7 @@ def tag_autocomplete(request):
 # fields that must appear in a certain order
 Item = namedtuple('Item', 'form field_order')
 SUBS = {'snippet': Item(forms.SnippetForm, field_order=['title',
-                        'description', 'snippet_code', 'sub_license',
+                        'snippet_code', 'description', 'sub_license',
                         'screenshot', 'sub_tags', 'email', 'sub_type', 'pk']),
         'package': Item(forms.PackageForm, field_order=['title',
                         'description', 'package_file', 'sub_license',

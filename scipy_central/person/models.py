@@ -68,3 +68,6 @@ class UserProfile(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('spc-user-profile', (self.user.profile.slug,))
+
+    def __unicode__(self):
+        return 'Profile for: ' + self.user.username

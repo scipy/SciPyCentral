@@ -3,6 +3,7 @@ from django.conf import settings
 from django.core.mail import send_mail, BadHeaderError
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
+from pygments import formatters, highlight, lexers
 
 import re, os, errno, logging
 logger = logging.getLogger('scipy_central')
@@ -107,6 +108,30 @@ def _slug_strip(value, separator='-'):
         value = re.sub(r'^%s+|%s+$' % (re_sep, re_sep), '', value)
     return value
 
+
+def highlight_code(code):
+    """ Uses Pygments to provide syntax highlighting.
+
+    from pygments.style import Style
+        from pygments.token import Comment
+        from pygments import formatters
+        get_style_by_name('default')
+        class ScipyStyle(Style):
+            default_style = "default"
+            styles = {
+                Comment: '#888',
+                }
+        formatters.HtmlFormatter(style=ScipyStyle)\
+                           .get_style_defs('div#spc-section-body .highlight')
+    """
+    if code is None:
+        return None
+    else:
+        return highlight(code, lexers.PythonLexer(),
+                                      formatters.HtmlFormatter(linenos=True))
+
+
+
 def send_email(to_addresses, subject, message, from_address=None):
     """
     Basic function to send email according to the four required string inputs.
@@ -123,7 +148,6 @@ def send_email(to_addresses, subject, message, from_address=None):
         except BadHeaderError:
             logger.error(('An error occurred when sending email to %s, with'
                           'subject [%s]') % (str(to_addresses), subject))
-
 
 
 def paginated_queryset(request, queryset):
