@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import url, include, patterns
-
+from haystack import urls
 urlpatterns = patterns('scipy_central',
 
     # NOTE: internal name for front page (defined in scipy_central.pages.urls)
@@ -18,7 +18,7 @@ urlpatterns = patterns('scipy_central',
     url(r'rest/', include('scipy_central.rest_comments.urls')),
 
     # Searching
-    (r'^search/', include('haystack.urls')),
+    url(r'^search', include('haystack.urls')),
     #(r'^search/advanced', TODO),
 
 

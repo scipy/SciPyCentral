@@ -14,8 +14,8 @@ class RevisionIndex(indexes.RealTimeSearchIndex):
     # For link-type submissions: perhaps the link contains the search term
     item_url = indexes.CharField(model_attr='item_url', default='')
 
-    # TODO: How to handle tags in search?
-    #??? tags = indexes.MultiValueField()
+    # Include the tags as a search fields
+    tags = indexes.CharField()
 
     def get_model(self):
         return Revision
@@ -29,12 +29,8 @@ class RevisionIndex(indexes.RealTimeSearchIndex):
         """ See http://docs.haystacksearch.org/dev/searchindex_api.html
         """
         self.prepared_data = super(RevisionIndex, self).prepare(object)
-        #self.prepared_data['tags'] = [tag.name for tag in object.tags.all()]
+        self.prepared_data['tags'] = ' '.join([tag.name for tag in object.tags.all()])
 
         return self.prepared_data
-
-    #def prepare_tags(self, obj):
-        ## Store a list of tag names for filtering
-        #return [tag.name for tag in obj.tags.all()]
 
 site.register(Revision, RevisionIndex)

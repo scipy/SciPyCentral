@@ -12,13 +12,7 @@
     with <a href="http://scipy.org">SciPy</a> and related Python tools.
   </div>
 
-  <div id="spc-search">
-    <form method="get" action="/search/" id="spc-search-form">
-    <input id="spc-search-box" name="q" type="search" placeholder="Search all submissions" value=""/>
-    <input id="spc-search-button" type="submit" value="Search"/>
-    </form>
-    <!--TODO: Advanced search link-->
-  </div>
+  {% include "search/includes/main-search-box.html" %}
 
   <div class="button-container">
     <form method="post" action="{% url spc-new-submission %}" class="spc-new-submission-formlist">
