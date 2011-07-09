@@ -208,15 +208,15 @@ tt {
 	margin-top: 10pt;
 }
 #spc-search-input {
-    padding: 0;
-	margin: 0;
 	cursor: auto;
 	display: inline;
 	height: 31px;
 	float: left;
 	width: 580px;
 	border: 2px solid #3e5d34;
+	padding: 0;
 	padding-left: 0.5em;
+	margin: 0;
 	margin-right: 20px;
 	color: #555;
 	font-family: 'Inconsolata', 'Lucida Grande';
@@ -261,7 +261,8 @@ tt {
 #spc-buttonlist {
 	margin: 0 auto;
 	list-style-type: none;
-	padding: 2em 0;
+	padding: 0;
+	padding-top: 2em;
 	float: left;
 	position: relative;
 	left: 50%;
@@ -326,23 +327,23 @@ tt {
 	width:46%;			/* right column content width (column width minus left and right padding) */
 	left:56%;			/* (right column width) plus (left column left and right padding) plus (right column left padding) */
 }
-.spc-portal h3{
+.spc-portal-container h3{
 	font: 14px/1.0 'Inconsolata', Monaco, Lucida Console, Sans Mono, Courier New, monospace, serif;
 	text-align: center;
-	margin-top: 5px;
+	border-bottom: 1px solid;
 }
-.spc-portal a{
+.spc-portal-container a{
 	text-decoration: none;
 	font-weight: bold;
 	font: 14px sans-serif;
 }
-.spc-portal a:hover{
+.spc-portal-container a:hover{
 	text-decoration: underline;
 }
-.spc-portal ul{
+.spc-portal-container ul{
 	list-style-type: square;
 }
-.spc-portal li{
+.spc-portal-container li{
 	margin-left: -1em;
 }
 
