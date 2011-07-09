@@ -11,6 +11,7 @@ from django.utils import simplejson
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.models import Site
+from django.views.generic.list_detail import object_list
 
 # Imports from this app and other SPC apps
 from scipy_central.screenshot.forms import ScreenshotForm as ScreenshotForm
@@ -514,6 +515,14 @@ def sort_items_by_page_views(all_items, item_module_name):
 
     return entry_order, count_list
 
+
+def top_authors(request):
+    """ Revisions sorted by most contributing author. """
+    return object_list(
+        request,
+        queryset=models.Revision.objects.top_authors(),
+        template_name='top_authors.html',
+        paginate_by=20)
 
 def show_items(request, tag=None, user=None):
     """ Shows all items in the database, sorted from most most page views to

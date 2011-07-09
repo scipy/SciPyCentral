@@ -14,10 +14,10 @@
 
   {% include "search/includes/main-search-box.html" %}
 
-  <div class="button-container">
+  <div class="spc-button-container">
     <form method="post" action="{% url spc-new-submission %}" class="spc-new-submission-formlist">
     {% csrf_token %}
-      <ul id="buttonlist">
+      <ul id="spc-buttonlist">
         <li>
           <input type="image" title alt="Submit a code snippet"  border="0"
           src="{{MEDIA_URL}}transparent-pixel.gif" class="spc-button"
@@ -44,31 +44,49 @@
     </form>
   </div>
 
-  <!--<div class="spc-portal" id="portal-top-left">-->
-    <!--<h2>By subject</h2>-->
-    <!--<ul>-->
-    <!--{% for area in subject_area %}-->
-      <!--<li> <a href="/subject/{{area}}"{{area}}</a>-->
-    <!--{% endfor %}-->
-    <!--</ul>-->
-  <!--</div>-->
+  {% load core_tags %}
+  <div class="spc-portal-container">
+	<div class="spc-portal-row-container">
+		<div class="spc-portal-row">
+			<div class="spc-portal-left">
+				<h3>Recently added/updated</h3>
+				<ul>
+				{% for item in "submission.revision"|latest:5 %}
+				  <li><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></li>
+				{% endfor %}
+				</ul>
+			</div>
+			<div class="spc-portal-right">
+				<h3>Most viewed</h3>
+				<ul>
+				  {% for item in "submission.revision"|latest:2 %}
+					<li><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></li>
+				  {% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div style="clear: both;"></div>
+	<div class="spc-portal spc-portal-left" id="portal-bottom-left">
+        <h3>Tag cloud</h3>
+        {{tag_cloud_html}}
+      </div>
 
-  <!--<div class="spc-portal" id="portal-top-right">-->
-    <!--<h2>Top rated submissions</h2>-->
-    <!--<ul>-->
-    <!--{% for submission in top_rated %}-->
-      <!--<li> <a href="/item/{{submission.slug}}"{{submission.short_name}}</a>-->
-    <!--{% endfor %}-->
-    <!--</ul>-->
-  <!--</div>-->
+      <div class="spc-portal spc-portal-right" id="portal-bottom-right">
+        <h3>Top contributors</h3>
+        <ul>
+          {% for item in "submission.revision"|latest:4 %}
+            <li><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></li>
+          {% endfor %}
+          </ul>
+      </div>
+  </div>
 
-  <!--<div class="spc-portal" id="portal-bottom-left">-->
-    <!--<h2>Tag cloud</h2>-->
-    <!--{{tag_cloud_html}}-->
-  <!--</div>-->
+    <!---->
+    <!--<div class="spc-portal-row">-->
 
-  <!--<div class="spc-portal" id="portal-bottom-right">-->
-    <!--<h2>Still to come</h2>-->
-  <!--</div>-->
+
+    </div>
+  </div>
 
 {% endblock %}

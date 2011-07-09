@@ -144,6 +144,10 @@ class RevisionManager(models.Manager):
         """
         return [sub.last_revision for sub in Submission.objects.all()]
 
+    def unique_submission_objects(self):
+        self.all().filter
+
+
 
 class Revision(models.Model):
 

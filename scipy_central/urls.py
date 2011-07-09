@@ -9,7 +9,7 @@ urlpatterns = patterns('scipy_central',
     url(r'', include('scipy_central.pages.urls')),
 
     # User authentication and profile viewing.
-    url(r'^accounts/', include('scipy_central.person.urls'), ),
+    url(r'^user/', include('scipy_central.person.urls'), ),
 
     # Submissions: new and existing, including previous revisions
     url(r'item/', include('scipy_central.submission.urls'), name='spc-items'),
@@ -20,6 +20,6 @@ urlpatterns = patterns('scipy_central',
     # Django-registration: new accounts, password resets, etc
     # NOTE: the default backend is overriden ONLY for new account registration
     # in scipy_central.person.urls
-    (r'^accounts/', include('registration.backends.default.urls')),
+    (r'^user/', include('registration.backends.default.urls')),
 
 )

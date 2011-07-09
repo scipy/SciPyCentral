@@ -29,14 +29,14 @@
   <div id="spc-container">
 	<div id="spc-header">
 	  <div class="spc-header-row" id="spc-site-notice">
-		This website is in alpha-mode. Any submission you add may disappear.
+		This website is in alpha-mode for testing and breaking. Any submission you add may disappear.
 	  </div>
 	  <div class="spc-header-row" id="spc-top-menu">
 		<div class="spc-header-left">
 		  <a href="{% url spc-main-page %}" accesskey="h">Home page</a>
 		</div>
 		<div class="spc-header-right">
-		  {% if user.username %}<a href="{% url spc-user-profile user.profile.slug%}">{{user.username}}</a>{% else %}<a href="{% url auth_login %}">Sign in</a>{% endif %}
+		  {% if user.username %}<a href="{% url spc-user-profile user.profile.slug%}">{{user.username}}</a>{% else %}<a href="{% url auth_login %}">Sign in/Join</a>{% endif %}
 		</div>
 	  </div>
 	  <div class="spc-header-row" id="spc-site-title">

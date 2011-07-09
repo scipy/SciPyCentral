@@ -197,35 +197,50 @@ tt {
 	text-align: center;
 	padding-top: 1em;
 }
-
 #spc-search{
-	width: 70%;
-    margin: auto;
-	text-align: center;
-	background: #000;
+	clear: both;
+	float: none;
+	display: block;
+	margin: 0 auto;
+	width: 700px;
 }
 #spc-search-form{
 	margin-top: 10pt;
-	background: #fff;
 }
-#spc-search-box{
-	background: none repeat scroll 0% 0% rgb(255, 255, 255);
-	border-width: 2px;
-	border-style: solid;
-	border-color: rgb(200,200,200) rgb(150, 150, 150) rgb(150, 150, 150) rgb(200,200,200);
-	color: rgb(0, 0, 0);
-	font: 18px arial,sans-serif bold;
-	width:60%;
+#spc-search-input {
+    padding: 0;
+	margin: 0;
+	cursor: auto;
 	display: inline;
-	margin: 0pt;
-	padding: 5px 8px 0pt 6px;
-	vertical-align: top;
+	height: 31px;
+	float: left;
+	width: 580px;
+	border: 2px solid #3e5d34;
+	padding-left: 0.5em;
+	margin-right: 20px;
+	color: #555;
+	font-family: 'Inconsolata', 'Lucida Grande';
+	font-size: 24px;
+	text-indent: 0px;
+	text-shadow: none;
+	text-transform: none;
+	word-spacing: 0px;
+	background: none;
 }
 #spc-search-button{
-	display: inline;
-	padding: 0.4em 1em 0.4em 1em;
-	font: 15px sans-serif;
+	border: 1px outset #B6A792;
+	vertical-align:middle;
+	border:none;
+	cursor:pointer;
+	padding: 0;
+	display: block;
+	float: left;
+	width: 80px;
+	height: 35px;
 	margin: 0;
+	background: #ddd;
+	display: inline-block;
+	overflow: hidden;
 }
 #spc-search-results{
 	width: 75%;
@@ -238,13 +253,12 @@ tt {
 }
 
 /* Submission buttons */
-.button-container {
-	width: 100%;
-	overflow: hidden;
-	clear: both;
+.spc-button-container {
 	float: left;
+	width: 100%;
+	clear: both;
 }
-#buttonlist {
+#spc-buttonlist {
 	margin: 0 auto;
 	list-style-type: none;
 	padding: 2em 0;
@@ -252,13 +266,13 @@ tt {
 	position: relative;
 	left: 50%;
 }
-#buttonlist li {
+#spc-buttonlist li {
 	float: left;
 	position: relative;
 	right: 50%;
 	padding: 0em 1em;
 }
-#buttonlist a {
+#spc-buttonlist a {
 	text-decoration: none;
 	margin: 0 auto;
 	display: block;
@@ -274,6 +288,75 @@ tt {
 	padding: 0;
 	margin: 0;
 }
+
+/* Portals */
+.spc-portal-container{
+	width: 65%;
+	clear: both;
+	padding: 0px;
+	position: relative;
+	display: block;
+	margin: 0 auto;
+}
+.spc-portal-row-container {
+	clear:both;
+	float:left;
+	width:100%;				/* width of whole page */
+	overflow:hidden;		/* This chops off any overhanging divs */
+}
+.spc-portal-row {
+	float:left;
+	width:100%;
+	position:relative;
+	right:50%;				/* right column width */
+	background:#fff;		/* left column background colour */
+	}
+.spc-portal-left,
+.spc-portal-right{
+	float:left;
+	position:relative;
+	padding:0 0 1em 0;
+	overflow:hidden;
+}
+.spc-portal-left {
+	width:46%;			/* left column content width (column width minus left and right padding) */
+	left:52%;			/* right column width plus left column left padding */
+}
+.spc-portal-right {
+	width:46%;			/* right column content width (column width minus left and right padding) */
+	left:56%;			/* (right column width) plus (left column left and right padding) plus (right column left padding) */
+}
+.spc-portal h3{
+	font: 14px/1.0 'Inconsolata', Monaco, Lucida Console, Sans Mono, Courier New, monospace, serif;
+	text-align: center;
+	margin-top: 5px;
+}
+.spc-portal a{
+	text-decoration: none;
+	font-weight: bold;
+	font: 14px sans-serif;
+}
+.spc-portal a:hover{
+	text-decoration: underline;
+}
+.spc-portal ul{
+	list-style-type: square;
+}
+.spc-portal li{
+	margin-left: -1em;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* Submission forms */
 #spc-form-error-message{
