@@ -93,7 +93,10 @@ class Submission(models.Model):
 
     @property
     def slug(self):
-        return self.last_revision.slug
+        try:
+            return self.last_revision.slug
+        except AttributeError:
+            return ''
 
     def __unicode__(self):
         return self.slug

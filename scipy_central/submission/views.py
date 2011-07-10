@@ -605,7 +605,7 @@ def show_items(request, tag=None, user=None):
         all_subs = models.Submission.objects.all()
         page_title = 'All submissions'
     else:
-        all_revs = models.Revision.objects.filter(tags__slug=slugify(tag))
+        all_revs = models.Revision.objects.all().filter(tags__slug=slugify(tag))
         all_subs = set()
         page_title = 'All entries tagged: "%s"' % tag
         for rev in all_revs:

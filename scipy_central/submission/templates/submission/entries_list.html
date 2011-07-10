@@ -1,21 +1,36 @@
-<span id="spc-show-items-table-header">{{page_title}}<span>
+<span id="spc-show-items-table-header">{{page_title}}</span>
 {% if entries.object_list%}
-  <table>
-    <tr>
-      <th>Description</th>
-      <th>Last edit by</th>
-      <th>Tags</th>
-    </tr>
+
+<div class="spc-itemdisp-container">
+
+  <div class="spc-itemdisp-row-container">
+	<div class="spc-itemdisp-row spc-itemdisp-header">
+	  <li>
+		<div class="spc-itemdisp-description spc-itemdisp-td">Description<span class="spc-itemdisp-link "></span></div>
+		<div class="spc-itemdisp-created spc-itemdisp-td">Created by</div>
+		<div class="spc-itemdisp-tags spc-itemdisp-td">Tags</div>
+	  </li>
+	</div>
+  </div>
+
+<ul>
   {% for entry in entries.object_list %}
-    <tr>
-      <td><span class="spc-item-description" id="spc-item-{{entry.pk}}">{{ entry.last_revision.description_html|truncatewords_html:"30"|safe|removetags:"p"}}</span>
-          <span class="spc-item-link"><a href="{% url spc-view-link entry.pk %}">More detail</a></span></td>
-      <td><a href="{% url spc-user-profile entry.last_revision.created_by.profile.slug %}">{{entry.last_revision.created_by.username}}</a> on {{ entry.last_revision.date_created|date:"d F Y"}}</td>
-      <td> {% for tag in entry.last_revision.tags.all %}<span><a href="{% url spc-show-items-by-tag tag%}" class="spc-tag">{{tag.name}}</a></span>{% endfor %}
-      </td>
-    </tr>
+  <div class="spc-itemdisp-row-container">
+	<div class="spc-itemdisp-row spc-itemdisp-{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
+	  <li>
+		<div class="spc-itemdisp-description spc-itemdisp-td" id="spc-item-{{entry.pk}}">
+		  {{ entry.last_revision.description_html|truncatewords_html:"30"|safe|removetags:"p li ul ol"}}
+		  <span class="spc-itemdisp-link "><a href="{% url spc-view-link entry.pk %}">More detail</a></span>
+		</div>
+		<div class="spc-itemdisp-created spc-itemdisp-td"><a href="{% url spc-user-profile slug=entry.last_revision.created_by.profile.slug %}">{{entry.last_revision.created_by.username}}</a> on {{ entry.last_revision.date_created|date:"d F Y"}}</div>
+		<div class="spc-itemdisp-tags spc-itemdisp-td">{% for tag in entry.last_revision.tags.all %}<span><a href="{% url spc-show-items-by-tag tag%}" class="spc-tag">{{tag.name}}</a></span>{% endfor %}</div>
+	  </li>
+	</div>
+  </div>
   {% endfor %}
-  </table>
+</ul>
+<div style="clear:both;"></div>
+</div>
 
   <div class="pagination">
     <span class="step-links">

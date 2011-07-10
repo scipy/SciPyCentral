@@ -23,7 +23,6 @@
       </div>
     </div>
 
-
     <div class="spc-item-row">
       <span class="spc-item-label">Submitted by:</span>
       <span class="spc-item-entry">{% if item.entry.created_by.profile.is_validated %}<a href="{% url spc-user-profile item.entry.created_by.profile.slug %}">{{item.entry.created_by.username}}</a>{% else %}Unvalidated user{% endif %}, {% if item.date_created %}{{item.date_created|naturalday:"d F Y"}}{% else %}today{% endif %}</span>
