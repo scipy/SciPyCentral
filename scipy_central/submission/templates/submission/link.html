@@ -21,17 +21,17 @@
     </div>
     {% endif %}
 
-    {% ifequal item.entry.sub_type link %}
+    {% if item.entry.sub_type == "link" %}
     <div class="spc-item-row">
       <span class="spc-item-label">Link:</span>
       <span class="spc-item-entry"><a href="{{item.item_url}}">{{item.item_url}}</a></span>
     </div>
-    {% endifequal %}
-    {% ifequal item.entry.sub_type "snippet" %}
+    {% endif %}
+    {% if item.entry.sub_type == "snippet" %}
     <div class="spc-item-row">
       <span class="spc-item-entry">{{item.item_highlighted_code|safe}}</span>
     </div>
-    {% endifequal %}
+    {% endif %}
 
 
     <div class="spc-item-row">
@@ -47,12 +47,14 @@
 
   <div id="spc-extra-message">{{extra_html|safe}}</div>
 
-  {% if permalink %}<p>Permalink to this revision: <a href="{{permalink}}">{{permalink}}</a>{% endif %}
+  {% if permalink %}<div class="spc-permalink">Permalink to this revision: <a href="{{permalink}}">{{permalink}}</a></div>{% endif %}
 
-  {% ifequal user.id item.created_by.id %}
+  {% if user.id == item.created_by.id %}
   {% if item.id %}
   <p><a href="{% url spc-edit-submission item.entry.id %}/{{item.rev_id}}">Edit this {{item.entry.sub_type}}</a>
   {% endif %}
-  {% endifequal %}
+  {% endif %}
+
+  <div style="clear: both;"><p>&nbsp;</div>
 
 {% endblock %}

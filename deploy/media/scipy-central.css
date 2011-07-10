@@ -521,7 +521,36 @@ div.spc-item-row span.spc-item-entry {
 	text-align: left;
 }
 
+/* Permalinks */
+.spc-permalink {
+	font-size: 80%;
+	float: left;
+}
+.spc-permalink a{
+	text-decoration: none;
+}
+.spc-permalink a:hover{
+	text-decoration: underline;
+}
 
+/* User profile pages */
+#spc-profile-user-options ul{
+	margin: 0 auto;
+	padding: 0 0;
+}
+#spc-profile-user-options li{
+	margin: 0 auto;
+	list-style-type: none;
+	padding: 0 5px 0 5px;
+	float: left;
+	border-right: 1px solid;
+}
+#spc-profile-user-options li:first-child{
+	padding-left: 0px;
+}
+#spc-profile-user-options li:last-child{
+	border-right: none;
+}
 /* Styling for certain static pages */
 #spc-static-centering{
 	display: block;

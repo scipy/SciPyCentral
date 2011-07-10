@@ -60,7 +60,7 @@
 		  <h3>Most viewed</h3>
 			<ul>
 		  	{% for item in "submission"|most_viewed:5 %}
-			  <li><a href="{{ item.get_absolute_url }}">{{ item.last_revision.title }}</a> [{{item.score}}]</li>
+			  <li><a href="{{ item.get_absolute_url }}">{{ item.last_revision.title }}</a><!--{{item.score}}--></li>
 			{% endfor %}
 			</ul>
 		</div>
