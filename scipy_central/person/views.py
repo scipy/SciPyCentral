@@ -5,7 +5,7 @@ from django.template import RequestContext
 from django.core.exceptions import ObjectDoesNotExist
 
 # Imports from other SciPy Central apps
-from scipy_central.pages.views import page_404_error
+from scipy_central.pages.views import page_404_error, not_implemented_yet
 from scipy_central.submission.models import Revision, Submission
 from scipy_central.utils import paginated_queryset
 
@@ -28,7 +28,7 @@ def profile_page_edit(request, slug):
     User wants to edit his/her profile page.
     """
     # First verify that request.user is the same as slug
-    return HttpResponse('Still to do.')
+    return not_implemented_yet(request, 43)
 
 
 def profile_page(request, slug):

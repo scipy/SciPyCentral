@@ -60,7 +60,7 @@ class Submission_Form__Common_Parts(HiddenBaseForm, forms.Form):
     html5_email_widget = widget=forms.TextInput()
     html5_email_widget.input_type = 'email'
     email = forms.EmailField(label=('Your <b>email address</b>'),
-                 help_text=('Since you are not <a href="/accounts/login/">signed'
+                 help_text=('Since you are not <a href="/user/login/">signed'
                             ' in</a> we will send you an email to confirm '
                             'your submission.'),
                  required=True, widget=html5_email_widget)

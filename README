@@ -92,7 +92,7 @@ Installation
     *   ``AUTH_PROFILE_MODULE = 'person.UserProfile'``
     *   ``ACCOUNT_ACTIVATION_DAYS = 7``
     *   ``REGISTRATION_OPEN = True``
-    *   ``LOGIN_URL = '/accounts/login/'``
+    *   ``LOGIN_URL = '/user/login/'``
     *   ``SPC = { ... }``: see which key-value pairs are required by examing
         the code in the ``settings.py`` file that is part of the SciPy
         Central code repository.

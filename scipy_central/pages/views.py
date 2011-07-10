@@ -65,8 +65,6 @@ def not_implemented_yet(request, issue_number=None):
                               context_instance=RequestContext(request))
 
 
-
-
 def page_404_error(request):
     """ Override Django's 404 handler, because we want to log this also.
     """

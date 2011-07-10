@@ -11,9 +11,8 @@ urlpatterns = patterns('scipy_central.person.views',
                      'form_class': SignUpForm},
                     name='registration_register'),
 
-
     # The user's profile page
-    url(r'^profile/(?P<slug>[-\w]+)$', 'profile_page',
+    url(r'^profile/(?P<slug>[-\w]+)?$', 'profile_page',
                                                      name='spc-user-profile'),
 
     # Edit the user's profile

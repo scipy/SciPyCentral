@@ -1,5 +1,4 @@
 from django.conf.urls.defaults import url, include, patterns
-from haystack import urls
 urlpatterns = patterns('scipy_central',
 
     # NOTE: internal name for front page (defined in scipy_central.pages.urls)
@@ -23,3 +22,5 @@ urlpatterns = patterns('scipy_central',
     (r'^user/', include('registration.backends.default.urls')),
 
 )
+from django.conf import settings
+settings.LOGIN_REDIRECT_URL = '/user/profile/'

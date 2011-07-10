@@ -4,15 +4,10 @@ address.
 You must activate your account within {{expiration_days}} days, otherwise
 any submissions you have created on the site will be removed.
 
-
-
 TERMS OF SERVICE STATED HERE
 
-
-
 Visit this link to activate your account:
-
-http://scipy-central.org/accounts/activate/{{activation_key}}
+http://scipy-central.org/user/activate/{{activation_key}}
 
 Thank you,
 The SciPy Central team.

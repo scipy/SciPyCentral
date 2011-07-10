@@ -155,7 +155,7 @@ INSTALLED_APPS = (
 AUTH_PROFILE_MODULE = 'person.UserProfile'
 # Link the user is redirected to if not logged in and they try to perform
 # a function that only logged in users can do
-LOGIN_URL = '/accounts/login/'
+LOGIN_URL = '/user/login/'
 
 # django-registration required setting
 ACCOUNT_ACTIVATION_DAYS = 7
