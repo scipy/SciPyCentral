@@ -526,14 +526,15 @@ div.spc-item-row span.spc-item-entry {
 .spc-itemdisp-container{
     clear: both;
 	padding: 0;
-	padding-left:2em;
 	margin: 0 auto;
 	width: 85%;
-	float: left;
 }
 .spc-itemdisp-container ul{
   padding: 0;
   margin: 0;
+}
+.spc-itemdisp-container ul{
+  list-style-type: none;
 }
 .spc-itemdisp-row-container {
 	clear:both;
@@ -573,6 +574,21 @@ div.spc-item-row span.spc-item-entry {
   background: #bbb;
   height: 2em;
   font-weight: bold;
+  text-align: center;
+}
+.spc-itemdisp-header{
+  background: #bbb;
+  height: 2em;
+  font-weight: bold;
+  text-align: center;
+}
+#spc-itemdisp-pageheader{
+  text-align: center;
+  font: 24px/1.0 'Inconsolata','Lucida Grande','Lucida Sans Unicode','Geneva','Verdana',sans-serif;
+  font-weight: bold;
+}
+.spc-itemdisp-pagination{
+	float: left;
 }
 
 

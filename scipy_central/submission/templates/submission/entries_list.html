@@ -1,15 +1,28 @@
-<span id="spc-show-items-table-header">{{page_title}}</span>
+<div id="spc-itemdisp-pageheader">{{page_title}}</div>
 {% if entries.object_list%}
 
+<div style="clear:both;"></div>
 <div class="spc-itemdisp-container">
+
+  <div class="spc-itemdisp-pagination">
+	<span class="step-links">
+	  {% if entries.has_previous %}
+		<a href="?page={{ entries.previous_page_number }}">&laquo; Previous</a> |
+	  {% endif %}
+	  <span class="current">
+		Page {{ entries.number }} of {{ entries.paginator.num_pages }}
+	  </span>
+	  {% if entries.has_next %}
+	   | <a href="?page={{ entries.next_page_number }}">Next &raquo;</a>
+	  {% endif %}
+	</span>
+  </div>
 
   <div class="spc-itemdisp-row-container">
 	<div class="spc-itemdisp-row spc-itemdisp-header">
-	  <li>
 		<div class="spc-itemdisp-description spc-itemdisp-td">Description<span class="spc-itemdisp-link "></span></div>
 		<div class="spc-itemdisp-created spc-itemdisp-td">Created by</div>
 		<div class="spc-itemdisp-tags spc-itemdisp-td">Tags</div>
-	  </li>
 	</div>
   </div>
 
@@ -31,20 +44,6 @@
 </ul>
 <div style="clear:both;"></div>
 </div>
-
-  <div class="pagination">
-    <span class="step-links">
-      {% if entries.has_previous %}
-        <a href="?page={{ entries.previous_page_number }}">previous</a>
-      {% endif %}
-      <span class="current">
-        Page {{ entries.number }} of {{ entries.paginator.num_pages }}
-      </span>
-      {% if entries.has_next %}
-       <a href="?page={{ entries.next_page_number }}">next</a>
-      {% endif %}
-    </span>
-  </div>
 {% else %}
   <p>{% if no_entries_message %}{{no_entries_message}}{% else %}There are no items matching your criteria.{% endif %}
 {% endif %}
