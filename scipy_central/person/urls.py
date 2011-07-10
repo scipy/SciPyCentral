@@ -11,6 +11,9 @@ urlpatterns = patterns('scipy_central.person.views',
                      'form_class': SignUpForm},
                     name='registration_register'),
 
+    # The page where the user is redirected to on sign in
+    url(r'^profile/$', 'sign_in_landing', name='spc-after-sign-in'),
+
     # The user's profile page
     url(r'^profile/(?P<slug>[-\w]+)/$', 'profile_page',
                                                      name='spc-user-profile'),

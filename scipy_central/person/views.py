@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -29,6 +29,12 @@ def profile_page_edit(request, slug):
     """
     # First verify that request.user is the same as slug
     return not_implemented_yet(request, 43)
+
+
+@login_required
+def sign_in_landing(request):
+    """ Redirect the user to their actual profile page """
+    return redirect(profile_page, request.user.profile.slug)
 
 
 def profile_page(request, slug):
