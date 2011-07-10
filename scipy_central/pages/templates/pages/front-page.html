@@ -59,8 +59,8 @@
 		<div class="spc-portal-right">
 		  <h3>Most viewed</h3>
 			<ul>
-			{% for item in "submission.revision"|latest:2 %}
-			  <li><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></li>
+		  	{% for item in "submission"|most_viewed:5 %}
+			  <li><a href="{{ item.get_absolute_url }}">{{ item.last_revision.title }}</a> [{{item.score}}]</li>
 			{% endfor %}
 			</ul>
 		</div>
@@ -76,8 +76,8 @@
 		<div class="spc-portal-right">
 		  <h3>Top contributors</h3>
 		  <ul>
-			{% for item in "submission.revision"|latest:4 %}
-			  <li><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></li>
+			{% for item in "authors"|top_authors:5 %}
+			  <li><a href="{{ item.get_profile.get_absolute_url }}">{{ item.username }}</a> [{{item.score}}]</li>
 			{% endfor %}
 			</ul>
 		</div>

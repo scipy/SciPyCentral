@@ -68,7 +68,9 @@ def get_items_or_404(view_function):
             except (ValueError, IndexError):
                 return page_404_error(request)
 
-        if not isinstance(the_revision, models.Revision):
+        # Don't return revisions that are not approved for display yet
+        if not isinstance(the_revision, models.Revision) or\
+                                              not(the_revision.is_displayed):
             return page_404_error(request)
 
         return view_function(request, the_submission, the_revision)
@@ -131,8 +133,7 @@ def create_or_edit_submission_revision(request, item, is_displayed,
 
     # A new submission
     sub = models.Submission.objects.create_without_commit(created_by=user,
-                                    sub_type=item.cleaned_data['sub_type'],
-                                    is_displayed=is_displayed)
+                                    sub_type=item.cleaned_data['sub_type'])
 
     # Process screenshot:
     if request.FILES.get('screenshot', ''):
@@ -189,7 +190,7 @@ def create_or_edit_submission_revision(request, item, is_displayed,
                             hash_id=hash_id,
                             item_url=item_url,
                             item_code=item_code,
-                            item_highlighted_code=item_highlighted_code,
+                            item_highlighted_code=item_highlighted_code,is_displayed=is_displayed
                             )
 
     if commit:

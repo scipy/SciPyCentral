@@ -109,7 +109,7 @@ def account_activation(user, **kwargs):
     user_profile.is_validated = True
     user_profile.save()
 
-    user_submissions = Submission.objects.filter(created_by=user)
-    for sub in user_submissions:
-        sub.is_displayed = True
-        sub.save()
+    user_revisions = Revision.objects.filter(created_by=user)
+    for rev in user_revisions:
+        rev.is_displayed = True
+        rev.save()

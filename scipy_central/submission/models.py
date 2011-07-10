@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 
 from scipy_central.person.models import User
+from scipy_central.pagehit.models import PageHit
 
 class License(models.Model):
     """
@@ -46,13 +47,6 @@ class SubmissionManager(models.Manager):
         #obj.save(force_insert=True, using=self.db)
         return obj
 
-    def all(self):
-        return self.filter(is_displayed=True)
-
-    def all__for_backup(self):
-        """ Sometimes we really do need all the submission objects."""
-        return super(SubmissionManager, self).all()
-
 
 class Submission(models.Model):
     """
@@ -80,13 +74,6 @@ class Submission(models.Model):
     # frozen: no further revisions allowed
     frozen = models.BooleanField(default=False)
 
-    # Should this submission be displayed? One might decide to remove
-    # submissions from display if they violate licenses, or are improper in
-    # some way.
-    # Also set False for submissions by users that submit when not
-    # authenticated.
-    is_displayed = models.BooleanField(default=False)
-
     # FUTURE
     # ------
     # cloned_from = models.ForeignKey('self', null=True, blank=True)
@@ -111,9 +98,12 @@ class Submission(models.Model):
     def __unicode__(self):
         return self.slug
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('spc-view-link', (self.pk,))
+        """ I can't seem to find a way to use the "reverse" or "permalink"
+        functions to create this URL: do it manually, to match ``urls.py``
+        """
+        return reverse('spc-view-link', args=[0]).rstrip('0') + \
+                        '%d/%d/%s' % (self.pk, self.last_revision.rev_id, self.slug)
 
 
 class RevisionManager(models.Manager):
@@ -138,16 +128,18 @@ class RevisionManager(models.Manager):
         #obj.save(force_insert=True, using=self.db)
         return obj
 
-    def objects_for_search():
+    def all(self):
+        return self.filter(is_displayed=True)
+
+    def absolutely_all(self):
+        return super(RevisionManager, self).all()
+
+    def top_authors(self):
+        """ From BSD licensed code:
+        http://github.com/coleifer/djangosnippets.org/blob/master/cab/models.py
         """
-        Returns only the objects used for searching.
-        """
-        return [sub.last_revision for sub in Submission.objects.all()]
-
-    def unique_submission_objects(self):
-        self.all().filter
-
-
+        return User.objects.annotate(score=models.Count('revision'))\
+                                               .order_by('-score', 'username')
 
 class Revision(models.Model):
 
@@ -210,6 +202,13 @@ class Revision(models.Model):
     # Tags for this revision
     tags = models.ManyToManyField('tagging.Tag', through='TagCreation')
 
+    # Should this revision be displayed? One might decide to remove
+    # revision from display if they violate licenses, or are improper in
+    # some way.
+    # Also set False for revision by users that submit when not yet
+    # authenticated.
+    is_displayed = models.BooleanField(default=False)
+
     # FUTURE: inspired_by: a comma-separated list of previous submissions
     # FUTURE: list of modules required to run the code
 
@@ -221,7 +220,7 @@ class Revision(models.Model):
         """ Determines which revision of the submission this is, given the
         ``revision`` object.
         """
-        return list(self.entry.revisions.all()).index(self)
+        return list(self.entry.revisions.absolutely_all()).index(self)
 
     def save(self, *args, **kwargs):
         """ Override the model's saving function to create the slug """

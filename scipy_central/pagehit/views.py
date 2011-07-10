@@ -24,7 +24,9 @@ def get_pagehits(item, start_date=None, end_date=None):
     This allows one to use the builtin ``list.sort()`` function where Python
     orders the list based on the first entry in the tuple.
 
-    The list will be returned in the order of the ``Submission.pk``.
+    The list will be returned in the order of the ``Submission.pk``, but the
+    first tuple entry is the number of hits, allowing for easy sorting
+    using Python's ``sort`` method.
     """
     if start_date is None:
         start_date = date.min

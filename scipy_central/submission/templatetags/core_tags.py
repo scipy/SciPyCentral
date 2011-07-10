@@ -1,12 +1,33 @@
 # BSD-licensed code used here:
 # https://github.com/coleifer/djangosnippets.org/blob/master/cab/templatetags/core_tags.py
-
 from django.db.models.loading import get_model
 from django.db.models.query import QuerySet
 from django.db.models.fields import DateTimeField, DateField
 from django import template
 
+from scipy_central.pagehit.views import get_pagehits
+from scipy_central.submission.models import Revision, Submission
+
 register = template.Library()
+
+@register.filter
+def top_authors(field, num=5):
+    """ Get the top authors from the Revision model """
+    manager = Revision._default_manager
+
+    # Only return query set instances where the score exceeds 0
+    return manager.top_authors().filter(score__gt=0)[:num]
+
+@register.filter
+def most_viewed(field, num=5):
+    """ Get the most viewed items from the Submission model """
+    top_items = get_pagehits(field)
+    top_items.sort()
+    out = []
+    for score, pk in reversed(top_items):
+        out.append(Submission.objects.get(id=pk))
+        out[-1].score = score
+    return out
 
 @register.filter
 def latest(model_or_obj, num=5):

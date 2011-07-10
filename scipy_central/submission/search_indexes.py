@@ -23,7 +23,7 @@ class RevisionIndex(indexes.RealTimeSearchIndex):
     def index_queryset(self):
         # The ``Revision`` model has its own managers that does the right
         # thing in calling ``all()``.
-        return self.get_model().objects.objects_for_search()
+        return self.get_model().objects.all()
 
     def prepare(self, object):
         """ See http://docs.haystacksearch.org/dev/searchindex_api.html

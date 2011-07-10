@@ -257,6 +257,7 @@ tt {
 	float: left;
 	width: 100%;
 	clear: both;
+	margin-bottom:1em;
 }
 #spc-buttonlist {
 	margin: 0 auto;
