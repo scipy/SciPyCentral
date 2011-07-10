@@ -601,15 +601,16 @@ def show_items(request, tag=None, user=None):
     """ Shows all items in the database, sorted from most most page views to
     least page views.
     """
+    all_revs = models.Revision.objects.all()
     if tag is None:
-        all_subs = models.Submission.objects.all()
         page_title = 'All submissions'
     else:
-        all_revs = models.Revision.objects.all().filter(tags__slug=slugify(tag))
-        all_subs = set()
+        all_revs = all_revs.filter(tags__slug=slugify(tag))
         page_title = 'All entries tagged: "%s"' % tag
-        for rev in all_revs:
-            all_subs.add(rev.entry)
+
+    all_subs = set()
+    for rev in all_revs:
+        all_subs.add(rev.entry)
 
     # This code isn't quite right: a user can create a revision: we should show
     # the particular revision which that user created, not necessarily the
