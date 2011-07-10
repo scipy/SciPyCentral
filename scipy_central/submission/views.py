@@ -73,6 +73,13 @@ def get_items_or_404(view_function):
                                               not(the_revision.is_displayed):
             return page_404_error(request)
 
+        if slug is None or rev_num is None:
+            return redirect('/'.join(['/item',
+                                      item_id,
+                                      str(the_revision.rev_id),
+                                      the_submission.slug]),
+                            permanent=True)
+
         return view_function(request, the_submission, the_revision)
 
     return decorator
@@ -470,9 +477,8 @@ def view_link(request, submission, revision):
     the latest revision (default).
     """
     create_hit(request, submission)
-    permalink = settings.SPC['short_URL_root'] + str(submission.id)
-    if revision.rev_id > 0:
-        permalink += '/' + str(revision.rev_id)
+    permalink = settings.SPC['short_URL_root'] + str(submission.id) + '/' + \
+                                                          str(revision.rev_id)
 
     return render_to_response('submission/link.html', {},
                               context_instance=RequestContext(request,
