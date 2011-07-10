@@ -119,4 +119,5 @@ def account_activation(user, **kwargs):
     user_revisions = Revision.objects.filter(created_by=user)
     for rev in user_revisions:
         rev.is_displayed = True
+        rev.validation_hash = None
         rev.save()

@@ -76,7 +76,7 @@ def get_items_or_404(view_function):
                                               not(the_revision.is_displayed):
             return page_404_error(request)
 
-        if slug is None or rev_num is None:
+        if slug is None or rev_num is None or the_revision.slug != slug:
             return redirect('/'.join(['/item',
                                       item_id,
                                       str(the_revision.rev_id),
@@ -451,11 +451,14 @@ def new_or_edit_submission(request, bound_form=False):
                     'site': Site.objects.get_current()
                     }
 
+        # User is signed in
         if authenticated:
-            extra_messages = ('A confirmation email has been sent to you.')
+            show_url = True
+            extra_messages = 'A confirmation email has been sent to you.'
             message = render_to_string('submission/email_user_thanks.txt',
                                    ctx_dict)
         else:
+            show_url = False
             extra_messages = ('You have been sent an email to '
                               '<i>confirm your submission</i> and to create '
                               'an account (if you do not have one '
@@ -466,13 +469,14 @@ def new_or_edit_submission(request, bound_form=False):
                               'valuable submissions in the future.') % \
                             settings.SPC['unvalidated_subs_deleted_after']
 
-            if rev.validation_hash:
+            # User is not signed in, but they have validated their email address
+            if user.profile.is_validated:
                 message = render_to_string(\
                   'submission/email_validated_user_unvalidated_submission.txt',
                    ctx_dict)
             else:
-                # TODO: register user, get validation link
-                # TODO(KGD): add authentication to the message also
+                # User is told they first need to create account before their
+                # submission shows in the website
                 message = render_to_string(\
                 'submission/email_unvalidated_user_unvalidated_submission.txt',
                    ctx_dict)
@@ -480,9 +484,10 @@ def new_or_edit_submission(request, bound_form=False):
         send_email((user.email,), ("Thank you for your contribution "
                                         "to SciPy Central"), message=message)
 
-        return render_to_response('submission/thank-user.html', {},
+        return render_to_response('submission/thank-user.html', ctx_dict,
                               context_instance=RequestContext(request,
-                                    {'extra_message': extra_messages}))
+                                    {'extra_message': extra_messages,
+                                     'show_url': show_url}))
 
 
 def create_validation_code(revision):
@@ -495,6 +500,7 @@ def create_validation_code(revision):
     if isinstance(slug, unicode):
         slug = slug.encode('utf-8')
     return sha_constructor(salt+slug).hexdigest()
+
 
 def validate_submission(request, code):
     """

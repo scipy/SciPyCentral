@@ -1,0 +1,13 @@
+Thanks for contribution to SciPy Central with the title: "{{item.title}}"
+
+Unfortunately you do not have an account on our site yet. You can keep adding
+submissions, but they will not be displayed until you create an account.
+
+http://{{site.domain}}/user/register/
+
+Once you create your account and validate your email address, then all your
+previous submissions will be available to others.
+
+The SciPy Central team.
+---
+Note: If you did not create this submission, then someone else used your email address. Please just ignore this message and that submission will never be shown on the website.

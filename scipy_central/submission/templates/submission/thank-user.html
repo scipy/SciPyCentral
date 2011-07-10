@@ -6,7 +6,7 @@
 
 <div id="spc-thank-user">
 
-<p>Thank you for your submission to Scipy Central.
+<p>Thank you for your submission to Scipy Central. {% if show_url%}You can <a href="{{ item.get_absolute_url}}">see your contribution here</a>.{% endif %}
 
 <p>{{extra_message|safe}}
 
