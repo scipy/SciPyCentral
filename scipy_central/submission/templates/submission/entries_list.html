@@ -10,7 +10,7 @@
     <tr>
       <td><span class="spc-item-description" id="spc-item-{{entry.pk}}">{{ entry.last_revision.description_html|truncatewords_html:"30"|safe|removetags:"p"}}</span>
           <span class="spc-item-link"><a href="{% url spc-view-link entry.pk %}">More detail</a></span></td>
-      <td><a href="{% url spc-user-profile entry.last_revision.created_by.get_profile.slug %}">{{entry.last_revision.created_by.username}}</a> on {{ entry.last_revision.date_created|date:"d F Y"}}</td>
+      <td><a href="{% url spc-user-profile entry.last_revision.created_by.profile.slug %}">{{entry.last_revision.created_by.username}}</a> on {{ entry.last_revision.date_created|date:"d F Y"}}</td>
       <td> {% for tag in entry.last_revision.tags.all %}<span><a href="{% url spc-show-items-by-tag tag%}" class="spc-tag">{{tag.name}}</a></span>{% endfor %}
       </td>
     </tr>

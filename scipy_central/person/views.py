@@ -91,6 +91,7 @@ def create_new_account_internal(email):
     temp_password = ''.join([random.choice('abcdefghjkmnpqrstuvwxyz2345689')\
                              for i in range(50)])
     new_user.set_password(temp_password)
+    new_user.is_active = False
     new_user.save()
     return new_user
 

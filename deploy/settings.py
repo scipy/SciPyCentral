@@ -218,6 +218,9 @@ SPC = {
     # Page hit horizon in days. Lists of views are sorted by the number of page
     # views over the past NNN days (the horizon).
     'hit_horizon': 30,
+
+    # Number of entries per page is search output and table outputs
+    'entries_per_page': 30,
 }
 
 # All about ``local_settings.py``

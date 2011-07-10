@@ -137,7 +137,7 @@ def highlight_code(code):
     else:
         return highlight(code, lexers.PythonLexer(),
                                       formatters.HtmlFormatter(linenos=True,
-                                                               linenostep=5,))
+                                                               linenostep=2,))
 
 
 
@@ -164,7 +164,7 @@ def paginated_queryset(request, queryset):
     Show items in a paginated table.
     """
     queryset = list(queryset)
-    paginator = Paginator(queryset, 2)
+    paginator = Paginator(queryset, settings.SPC['entries_per_page'])
     try:
         page = int(request.GET.get('page', '1'))
     except ValueError:

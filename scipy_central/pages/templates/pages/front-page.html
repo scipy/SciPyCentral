@@ -55,6 +55,7 @@
 			  <li><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></li>
 			{% endfor %}
 			</ul>
+			<a href="{% url spc-show-all %}">Show all</a>
 		</div>
 		<div class="spc-portal-right">
 		  <h3>Most viewed</h3>
@@ -63,6 +64,7 @@
 			  <li><a href="{{ item.get_absolute_url }}">{{ item.last_revision.title }}</a><!--{{item.score}}--></li>
 			{% endfor %}
 			</ul>
+			<p><a href=" ">Show all</a>
 		</div>
 	  </div>
 	</div>
@@ -71,7 +73,8 @@
 	  <div class="spc-portal-row">
 		<div class="spc-portal-left">
 		  <h3>Tag cloud</h3>
-			<i>Coming soon!</i>
+			<a href="https://github.com/kgdunn/SciPyCentral/issues/50"><i>Coming soon!</i></a>
+			<p><a href=" ">Show all</a>
 		    <!--{{tag_cloud_html}}-->
 		</div>
 		<div class="spc-portal-right">
@@ -81,6 +84,7 @@
 			  <li><a href="{{ item.get_profile.get_absolute_url }}">{{ item.username }}</a> [{{item.score}}]</li>
 			{% endfor %}
 			</ul>
+			<p><a href=" ">Show all</a>
 		</div>
 	  </div>
 	</div>

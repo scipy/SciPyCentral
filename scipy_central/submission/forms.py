@@ -123,6 +123,7 @@ class LinkForm(Submission_Form__Common_Parts, ScreenshotForm):
     item_url = forms.URLField(label='<b>Link</b> to resource',
                               max_length=parent.max_length,
                               help_text=parent.help_text,
+                              initial='http://',
                               widget=html5_url_widget)
 
     sub_type = forms.CharField(max_length=10, initial='link',

@@ -16,7 +16,9 @@ def top_authors(field, num=5):
     manager = Revision._default_manager
 
     # Only return query set instances where the score exceeds 0
-    return manager.top_authors().filter(score__gt=0)[:num]
+    # and the user is validated
+    candidates = manager.top_authors().filter(score__gt=0)[:num*2]
+    return [user for user in candidates if user.profile.is_validated][:num]
 
 @register.filter
 def most_viewed(field, num=5):
