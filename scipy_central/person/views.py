@@ -54,8 +54,9 @@ def profile_page(request, slug):
         return page_404_error(request)
 
 
-    # Items created by this user
-    all_revs = Revision.objects.filter(created_by=the_user)
+    # Items created by this user. Use the ``all()`` function first, to prevent
+    # unvalidated submissions from showing
+    all_revs = Revision.objects.all().filter(created_by=the_user)
     all_subs = set()
     for rev in all_revs:
         all_subs.add(rev.entry)

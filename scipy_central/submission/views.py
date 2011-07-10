@@ -395,10 +395,10 @@ def new_or_edit_submission(request, bound_form=False):
     # 2. Create the submission and revision or update an existing submission
     #    with a new revision
     _, rev, tag_list = create_or_edit_submission_revision(request,
-                                                          theform,
-                                                          authenticated,
-                                                          user=user,
-                                                          commit=commit)
+                                                    item=theform,
+                                                    is_displayed=authenticated,
+                                                    user=user,
+                                                    commit=commit)
 
     # i.e. just previewing ...
     if not(commit):
@@ -532,14 +532,6 @@ def sort_items_by_page_views(all_items, item_module_name):
 
     return entry_order, count_list
 
-
-def top_authors(request):
-    """ Revisions sorted by most contributing author. """
-    return object_list(
-        request,
-        queryset=models.Revision.objects.top_authors(),
-        template_name='top_authors.html',
-        paginate_by=20)
 
 def show_items(request, tag=None, user=None):
     """ Shows all items in the database, sorted from most most page views to

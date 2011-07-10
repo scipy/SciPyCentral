@@ -10,6 +10,20 @@
   <h2>{{item.title}}</h2>
 
   <div id="spc-item-display">
+
+    <div class="spc-item-row">
+      <div id="spc-profile-user-options">
+      {% if user.id == item.created_by.id %}
+        {% if item.id %}
+        <ul>
+          <li><a href="{% url spc-edit-submission item.entry.id %}/{{item.rev_id}}">Edit this {{item.entry.sub_type}}</a></li>
+        </ul>
+        {% endif %}
+      {% endif %}
+      </div>
+    </div>
+
+
     <div class="spc-item-row">
       <span class="spc-item-label">Submitted by:</span>
       <span class="spc-item-entry">{% if item.entry.created_by.profile.is_validated %}<a href="{% url spc-user-profile item.entry.created_by.profile.slug %}">{{item.entry.created_by.username}}</a>{% else %}Unvalidated user{% endif %}, {% if item.date_created %}{{item.date_created|naturalday:"d F Y"}}{% else %}today{% endif %}</span>
@@ -49,11 +63,7 @@
 
   {% if permalink %}<div class="spc-permalink">Permalink to this revision: <a href="{{permalink}}">{{permalink}}</a></div>{% endif %}
 
-  {% if user.id == item.created_by.id %}
-  {% if item.id %}
-  <p><a href="{% url spc-edit-submission item.entry.id %}/{{item.rev_id}}">Edit this {{item.entry.sub_type}}</a>
-  {% endif %}
-  {% endif %}
+
 
   <div style="clear: both;"><p>&nbsp;</div>
 

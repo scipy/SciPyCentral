@@ -40,8 +40,7 @@
     <div style="clear:both;">&nbsp;</div>
   </div>
 
-  <h3>Items created/edited by{% if user.profile.slug == theuser.profile.slug %} you{% else %}: {{theuser.username}}{% endif %}</h3>
-
+  <h3>Items created/edited by{% if user.profile.slug == theuser.profile.slug %} you</h3><span style="font-size:80%;">Note: only entries approved by you are shown</span>{% else %}: {{theuser.username}}</h3>{% endif %}
   {% include 'submission/entries_list.html' %}
 
   <div id="spc-extra-message">{{extra_html|safe}}</div>
