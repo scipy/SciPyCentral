@@ -22,13 +22,13 @@
     "model": "person.userprofile",
     "fields": {
       "user": 3,
-      "bio": null,
+      "bio": "SciPy Central site administrator",
       "openid": null,
       "slug": "scipy-central",
-      "country": null,
-      "uri": null,
+      "country": "Canada",
+      "uri": "http://scipy-central.org",
       "contactable_via_site": true,
-      "affiliation": null,
+      "affiliation": "N/A",
       "is_validated": true,
       "allow_user_to_email": true,
       "reputation": 0

@@ -7,23 +7,23 @@
   <div id="spc-item-display">
     <div class="spc-item-row">
       <span class="spc-item-label spc-title-in-span">{{theuser.username}}</span>
-      {% if user.username %}<span class="spc-item-entry"><form action="{% url auth_logout %}" method="POST">{% csrf_token %}<input type="submit" name="submit" value="Sign out"/></form></span>{% endif %}
-    </div>
-    <div class="spc-item-row">
-      <span class="spc-item-label">Affiliation:</span>
-      <span class="spc-item-entry">{% if theuser.affiliation %}<span class="spc-item-entry">{{theuser.affiliation}}</span>{% else %}Not provided{% endif %}</span>
-    </div>
-    <div class="spc-item-row">
-      <span class="spc-item-label">Country:</span>
-      <span class="spc-item-entry">{% if theuser.country %}<span class="spc-item-entry">{{theuser.country}}</span>{% else %}Not provided{% endif %}</span>
+      {% if user.username %}<span class="spc-item-entry"><form action="{% url auth_logout %}" method="POST">{% csrf_token %}<input class="spc-form-button" type="submit" name="submit" value="Sign out"/></form></span>{% endif %}
     </div>
     <div class="spc-item-row">
       <span class="spc-item-label">Profile:</span>
-      <span class="spc-item-entry">{% if theuser.bio %}<span class="spc-item-entry">{{theuser.bio}}</span>{% else %}Not provided{% endif %}</span>
+      <span class="spc-item-entry">{% if theuser.profile.bio %}<span class="spc-item-entry">{{theuser.profile.bio}}</span>{% else %}Not provided{% endif %}</span>
+    </div>
+    <div class="spc-item-row">
+      <span class="spc-item-label">Affiliation:</span>
+      <span class="spc-item-entry">{% if theuser.profile.affiliation %}<span class="spc-item-entry">{{theuser.profile.affiliation}}</span>{% else %}Not provided{% endif %}</span>
+    </div>
+    <div class="spc-item-row">
+      <span class="spc-item-label">Country:</span>
+      <span class="spc-item-entry">{% if theuser.profile.country %}<span class="spc-item-entry">{{theuser.profile.country}}</span>{% else %}Not provided{% endif %}</span>
     </div>
     <div class="spc-item-row">
       <span class="spc-item-label">Web site:</span>
-      {% if user.uri %}<span class="spc-item-entry"><a href="{{theuser.uri}}" rel="nofollow">{{theuser.uri}}</a></span>{% else %}Not provided{% endif %}
+      {% if theuser.profile.uri %}<span class="spc-item-entry"><a href="{{theuser.profile.uri}}" rel="nofollow">{{theuser.profile.uri}}</a></span>{% else %}Not provided{% endif %}
     </div>
     <div style="clear:both;">&nbsp;</div>
   </div>
@@ -38,7 +38,7 @@
       {% endifequal %}
   {% endif %}
 
-  <h3>Items created/edited by: {{theuser.username}}</h3>
+  <h3>Items created/edited by{% if user.profile.slug == theuser.profile.slug %} you{% else %}: {{theuser.username}}{% endif %}</h3>
 
   {% include 'submission/entries_list.html' %}
 
