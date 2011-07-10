@@ -438,7 +438,7 @@ def new_or_edit_submission(request, bound_form=False):
                 '</div></form></div>')
         resp = template.Template(html)
         extra_html = resp.render(template.Context(context))
-        return render_to_response('submission/link.html', {},
+        return render_to_response('submission/item.html', {},
                                   context_instance=RequestContext(request,
                                                   {'item': rev,
                                                    'tag_list': tag_list,
@@ -532,7 +532,7 @@ def view_link(request, submission, revision):
     permalink = settings.SPC['short_URL_root'] + str(submission.id) + '/' + \
                                                           str(revision.rev_id)
 
-    return render_to_response('submission/link.html', {},
+    return render_to_response('submission/item.html', {},
                               context_instance=RequestContext(request,
                                        {'item': revision,
                                         'tag_list': revision.tags.all(),
