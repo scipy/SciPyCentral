@@ -65,13 +65,15 @@ def not_implemented_yet(request, issue_number=None):
                               context_instance=RequestContext(request))
 
 
-def page_404_error(request):
+def page_404_error(request, extra_info=''):
     """ Override Django's 404 handler, because we want to log this also.
     """
     ip = get_IP_address(request)
     logger.info('404 from %s for request "%s"' % (ip, request.path))
     t = get_template('404.html')
-    html = t.render(RequestContext(request))
+    c = RequestContext(request)
+    c.update({'extra_info': extra_info})
+    html = t.render(c)
     return HttpResponse(html, status=404)
 
 

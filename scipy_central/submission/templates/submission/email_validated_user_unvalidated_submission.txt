@@ -1,0 +1,14 @@
+{{user.username}}
+
+Thanks for contribution to SciPy Central with the title: "{{item.title}}"
+
+Unfortunately you were not signed in when creating the submission. To ensure
+that it was actually you, please click on the link below to confirm your
+submission.
+http://{{site.domain}}/item/validate/{{item.validation_hash}}/
+
+The SciPy Central team.
+---
+Note: If you did not create submission, then someone else used your email
+address. Please just ignore this message and that submission will never be
+shown on the website.

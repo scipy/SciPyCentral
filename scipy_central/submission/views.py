@@ -12,6 +12,7 @@ from django import template
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.models import Site
 from django.views.generic.list_detail import object_list
+from django.utils.hashcompat import sha_constructor
 
 # Imports from this app and other SPC apps
 from scipy_central.screenshot.forms import ScreenshotForm as ScreenshotForm
@@ -29,8 +30,10 @@ import forms
 # Python imports
 from hashlib import md5
 from collections import namedtuple
+import random
 import logging
 import os
+import re
 import datetime
 logger = logging.getLogger('scipycentral')
 logger.debug('Initializing submission::views.py')
@@ -118,6 +121,10 @@ def get_form(request, form_class, field_order, bound=False):
 
     # Rearrange the form order: screenshot and tags at the end
     form_output.fields.keyOrder = field_order
+    index = 1
+    for field_name, field in form_output.fields.iteritems():
+        field.widget.attrs['tabindex'] = str(index)
+        index += 1
 
     if request.user.is_authenticated():
         # Email field not required for signed-in users
@@ -214,6 +221,9 @@ def create_or_edit_submission_revision(request, item, is_displayed,
             sub.save()
 
         rev.entry_id = sub.id
+        if not is_displayed:
+            rev.validation_hash = create_validation_code(rev)
+
         rev.save()
 
         if sub.sub_type == 'snippet':
@@ -305,12 +315,12 @@ def tag_autocomplete(request):
 Item = namedtuple('Item', 'form field_order')
 SUBS = {'snippet': Item(forms.SnippetForm, field_order=['title',
                         'snippet_code', 'description', 'sub_license',
-                        'screenshot', 'sub_tags', 'email', 'sub_type', 'pk']),
+                        'sub_tags', 'email', 'sub_type', 'pk']),
         'package': Item(forms.PackageForm, field_order=['title',
                         'description', 'package_file', 'sub_license',
-                        'screenshot', 'sub_tags', 'email', 'sub_type', 'pk']),
+                        'sub_tags', 'email', 'sub_type', 'pk']),
         'link': Item(forms.LinkForm, field_order=['title', 'description',
-                        'item_url', 'screenshot', 'sub_tags', 'email',
+                        'item_url', 'sub_tags', 'email',
                         'sub_type', 'pk']),
         }
 
@@ -456,8 +466,16 @@ def new_or_edit_submission(request, bound_form=False):
                               'valuable submissions in the future.') % \
                             settings.SPC['unvalidated_subs_deleted_after']
 
-            # TODO(KGD): add authentication to the message also
-            message = 'STILL TO DO'
+            if rev.validation_hash:
+                message = render_to_string(\
+                  'submission/email_validated_user_unvalidated_submission.txt',
+                   ctx_dict)
+            else:
+                # TODO: register user, get validation link
+                # TODO(KGD): add authentication to the message also
+                message = render_to_string(\
+                'submission/email_unvalidated_user_unvalidated_submission.txt',
+                   ctx_dict)
 
         send_email((user.email,), ("Thank you for your contribution "
                                         "to SciPy Central"), message=message)
@@ -465,6 +483,40 @@ def new_or_edit_submission(request, bound_form=False):
         return render_to_response('submission/thank-user.html', {},
                               context_instance=RequestContext(request,
                                     {'extra_message': extra_messages}))
+
+
+def create_validation_code(revision):
+    """
+    From BSD licensed code, James Bennett
+    https://bitbucket.org/ubernostrum/django-registration/src/58eef8330b0f/registration/models.py
+    """
+    salt = sha_constructor(str(random.random())).hexdigest()[:5]
+    slug = revision.slug
+    if isinstance(slug, unicode):
+        slug = slug.encode('utf-8')
+    return sha_constructor(salt+slug).hexdigest()
+
+def validate_submission(request, code):
+    """
+    Validate a submission (via an emailed link to the user).
+
+    From BSD licensed code, James Bennett
+    https://bitbucket.org/ubernostrum/django-registration/src/58eef8330b0f/registration/models.py
+    """
+    SHA1_RE = re.compile('^[a-f0-9]{40}$')
+    if SHA1_RE.search(code):
+        try:
+            rev = models.Revision.objects.get(validation_hash=code)
+        except ObjectDoesNotExist:
+            return page_404_error(request, ('That validation code was invalid'
+                                            ' or used already.'))
+
+        rev.is_displayed = True
+        rev.validation_hash = None
+        rev.save()
+        return redirect(rev.get_absolute_url())
+    else:
+        return page_404_error(request, ('That validation code is invalid.'))
 
 #------------------------------------------------------------------------------
 # Viewing existing submissions:

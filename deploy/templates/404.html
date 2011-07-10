@@ -6,6 +6,9 @@
 
 <div id="spc-notice">
 <p><b>The dreaded 404</b>... you requested an invalid item, or an item that's not yet approved for display.
+
+{% if extra_info %}<div style="border: 1px dashed;padding: 10px;"><p>Additional information: {{extra_info}}</div>{% endif %}
+
 <p>Try <a href="{% url spc-main-page %}">searching for it</a> on the main page.
 </div>
 

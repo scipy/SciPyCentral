@@ -120,5 +120,5 @@ attributed at the point of use. In summary though, we have used code from:
 
 * `django-taggit <https://github.com/alex/django-taggit>`_
 * `djangosnippets.org <https://github.com/coleifer/djangosnippets.org>`_
-
+* `django-registration <https://bitbucket.org/ubernostrum/django-registration/>`_
 

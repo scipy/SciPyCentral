@@ -1140,6 +1140,7 @@
     "model": "submission.revision",
     "fields": {
       "sub_license": null,
+      "validation_hash": null,
       "is_displayed": true,
       "item_url": "http://code.google.com/p/visvis/",
       "description": "Visvis is a pure Python library for visualization of 1D to 4D data in an object oriented way combining the power of OpenGL with the usability of Python. \r\n\r\nA MATLAB-like interface in the form of a set of functions allows easy creation of objects, e.g. ``plot()``, ``imshow()``, ``volshow()``, and ``surf()``.",
@@ -1160,6 +1161,7 @@
     "model": "submission.revision",
     "fields": {
       "sub_license": null,
+      "validation_hash": null,
       "is_displayed": true,
       "item_url": "http://code.google.com/p/visvis/",
       "description": "Visvis is a pure Python library for visualization of 1D to 4D data in an object oriented way combining the power of OpenGL with the usability of Python. \r\n\r\nA MATLAB-like interface in the form of a set of functions allows easy creation of objects, e.g. ``plot()``, ``imshow()``, ``volshow()``, and ``surf()``.",
@@ -1180,6 +1182,7 @@
     "model": "submission.revision",
     "fields": {
       "sub_license": null,
+      "validation_hash": null,
       "is_displayed": true,
       "item_url": "http://code.google.com/p/playdoh/",
       "description": "Playdoh is a pure Python library for distributing computations across the free computing units (CPUs and GPUs) available in a small network of multicore computers. \r\n\r\nPlaydoh supports independent (embarassingly) parallel problems as well as loosely coupled tasks such as global optimizations, Monte Carlo simulations and numerical integration of partial differential equations. \r\n\r\nIt is designed to be lightweight and easy to use and should be of interest to scientists wanting to turn their lab computers into a small cluster at no cost.",
@@ -1200,6 +1203,7 @@
     "model": "submission.revision",
     "fields": {
       "sub_license": null,
+      "validation_hash": null,
       "is_displayed": true,
       "item_url": "http://matplotlib.sourceforge.net/",
       "description": "``matplotlib`` is a 2D plotting library which produces publication quality figures in a variety of hardcopy formats and interactive environments across platforms.\r\n\r\n``matplotlib`` can be used in scripts, the Python and the `IPython shell <http://ipython.org/>`_, web application servers, and six graphical user interface toolkits.",
@@ -1220,6 +1224,7 @@
     "model": "submission.revision",
     "fields": {
       "sub_license": null,
+      "validation_hash": null,
       "is_displayed": true,
       "item_url": "http://ipython.org/",
       "description": "The goal of IPython is to create a comprehensive environment for interactive and exploratory computing. To support, this goal, IPython has two main components:\r\n\r\n*   an enhanced interactive Python shell\r\n*   an architecture for interactive parallel computing\r\n\r\nAll of IPython is open source (revised BSD license), and it is used by a range of other projects. \r\nIPython officially supports Python 2.5 to 2.7.",

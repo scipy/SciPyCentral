@@ -49,7 +49,7 @@
 	<div class="spc-portal-row-container">
 	  <div class="spc-portal-row">
 		<div class="spc-portal-left">
-		  <h3>Recently added/updated</h3>
+		  <h3>Recently changed</h3>
 			<ul>
 			{% for item in "submission.revision"|latest:5 %}
 			  <li><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></li>
@@ -71,7 +71,8 @@
 	  <div class="spc-portal-row">
 		<div class="spc-portal-left">
 		  <h3>Tag cloud</h3>
-		    {{tag_cloud_html}}
+			<i>Coming soon!</i>
+		    <!--{{tag_cloud_html}}-->
 		</div>
 		<div class="spc-portal-right">
 		  <h3>Top contributors</h3>

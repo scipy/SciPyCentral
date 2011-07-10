@@ -209,6 +209,10 @@ class Revision(models.Model):
     # authenticated.
     is_displayed = models.BooleanField(default=False)
 
+    # Validation hash
+    validation_hash = models.CharField(max_length=40, null=True, blank=True)
+
+
     # FUTURE: inspired_by: a comma-separated list of previous submissions
     # FUTURE: list of modules required to run the code
 
