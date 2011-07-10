@@ -178,7 +178,8 @@ def create_or_edit_submission_revision(request, item, is_displayed,
     # math, paragraphs, <tt>, bold, italics, bullets, hyperlinks, etc.
     #raw_rest =
     description_html = compile_rest_to_html(item.cleaned_data['description'])
-    item_highlighted_code = highlight_code(item.cleaned_data['snippet_code'])
+    item_highlighted_code = highlight_code(item.cleaned_data.get(\
+                                                           'snippet_code',''))
     rev = models.Revision.objects.create_without_commit(
                             entry=sub,
                             title=item.cleaned_data['title'],
@@ -190,7 +191,8 @@ def create_or_edit_submission_revision(request, item, is_displayed,
                             hash_id=hash_id,
                             item_url=item_url,
                             item_code=item_code,
-                            item_highlighted_code=item_highlighted_code,is_displayed=is_displayed
+                            item_highlighted_code=item_highlighted_code,
+                            is_displayed=is_displayed,
                             )
 
     if commit:
