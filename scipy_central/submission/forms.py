@@ -65,7 +65,7 @@ class Submission_Form__Common_Parts(HiddenBaseForm, forms.Form):
                             'your submission.'),
                  required=True, widget=html5_email_widget)
 
-    sub_tags = forms.CharField(max_length=50, label=('Provide some '
+    sub_tags = forms.CharField(max_length=150, label=('Provide some '
                                                      '<b>tags</b>'),
                                help_text=('Please provide between 1 and 5 tags'
                                           ' that describe your submission (use'

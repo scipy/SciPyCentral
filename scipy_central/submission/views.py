@@ -312,12 +312,22 @@ def new_or_edit_submission(request, bound_form=False):
     """
     Users wants to submit a new link item, or continue editing a submission.
     """
-    if request.method != 'POST' or request.POST.has_key('spc-cancel'):
+    # User is going to edit their submission
+    sub_type = None
+    if isinstance(bound_form, models.Revision):
+        new_item_or_edit = True
+        sub_type = bound_form.entry.sub_type # for later on...
+
+    # Cancel button, or a GET request
+    elif request.method != 'POST' or request.POST.has_key('spc-cancel'):
         return redirect('spc-main-page')
+
+    else:
+        new_item_or_edit = False
+
 
     # Find which button was pressed on the front page submission form
     buttons = [key.rstrip('.x') for key in request.POST.keys()]
-    new_item_or_edit = False
 
     if 'snippet' in buttons:
         itemtype = 'snippet'
@@ -330,7 +340,7 @@ def new_or_edit_submission(request, bound_form=False):
         itemtype = 'link'
         new_item_or_edit = True # we're coming from the front page
     else:
-        itemtype = request.POST.get('sub_type', None)
+        itemtype = request.POST.get('sub_type', sub_type)
 
 
     if request.POST.has_key('spc-edit'):
@@ -481,7 +491,11 @@ def edit_submission(request, submission, revision):
     # TODO: Check that user is authorized to edit the submission
     # (e.g. link.created_by==user)
 
-    return new_or_edit_submission(request, user_edit=revision)
+    # if by POST, we are in the process of editing, so don't send the revision
+    if request.POST:
+        return new_or_edit_submission(request, bound_form=False)
+    else:
+        return new_or_edit_submission(request, bound_form=revision)
 
 
 #------------------------------------------------------------------------------
