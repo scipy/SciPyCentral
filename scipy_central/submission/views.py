@@ -76,12 +76,13 @@ def get_items_or_404(view_function):
                                               not(the_revision.is_displayed):
             return page_404_error(request)
 
-        if slug is None or rev_num is None or the_revision.slug != slug:
-            return redirect('/'.join(['/item',
-                                      item_id,
-                                      str(the_revision.rev_id),
-                                      the_submission.slug]),
-                            permanent=True)
+        if request.path.split('/')[2] != 'edit':
+            if slug is None or rev_num is None or the_revision.slug != slug:
+                return redirect('/'.join(['/item',
+                                          item_id,
+                                          str(the_revision.rev_id),
+                                          the_submission.slug]),
+                                permanent=True)
 
         return view_function(request, the_submission, the_revision)
 

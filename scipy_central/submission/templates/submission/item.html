@@ -16,7 +16,7 @@
       {% if user.id == item.created_by.id %}
         {% if item.id %}
         <ul>
-          <li><a href="{% url spc-edit-submission item.entry.id %}/{{item.rev_id}}">Edit this {{item.entry.sub_type}}</a></li>
+          <li><a href="{% url spc-edit-submission item.entry.id %}">Edit this {{item.entry.sub_type}}</a></li>
         </ul>
         {% endif %}
       {% endif %}
