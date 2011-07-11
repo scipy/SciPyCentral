@@ -591,6 +591,18 @@ div.spc-item-row span.spc-item-entry {
 	float: left;
 }
 
+div#spc-item-display h1, h2, h3, h4, h5, h6{
+    font-weight: normal;
+    border-bottom: 1px solid #ccc;}
+div#spc-item-display h1 { font-size: 130%; font-weight: bold;}
+div#spc-item-display h2 { font-size: 120%; font-weight: bold;}
+div#spc-item-display h3 { font-size: 110%;}
+div#spc-item-display h4 { font-size: 100%; }
+div#spc-item-display h5 { font-size: 100%; }
+div#spc-item-display h6 { font-size: 100%; }
+
+
+
 
 /* Permalinks */
 .spc-permalink {
