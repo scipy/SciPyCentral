@@ -29,7 +29,7 @@ def most_viewed(field, num=5):
     for score, pk in reversed(top_items):
         out.append(Submission.objects.get(id=pk))
         out[-1].score = score
-    return out
+    return out[:num]
 
 @register.filter
 def latest(model_or_obj, num=5):
