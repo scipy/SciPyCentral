@@ -478,8 +478,6 @@ li.spc-even tt {
 	background-color: #3E6D8E;
 	color: #E0EAF1;
 }
-#spc-item-display{
-}
 #spc-item-description p{
 	margin-top: 0;
 }
@@ -523,17 +521,17 @@ div.spc-item-row span.spc-item-entry {
 
 
 /* Item display*/
-.spc-itemdisp-container{
+#spc-itemdisp-container{
     clear: both;
 	padding: 0;
 	margin: 0 auto;
 	width: 85%;
 }
-.spc-itemdisp-container ul{
+#spc-itemdisp-container ul{
   padding: 0;
   margin: 0;
 }
-.spc-itemdisp-container ul{
+#spc-itemdisp-container ul{
   list-style-type: none;
 }
 .spc-itemdisp-row-container {
@@ -591,18 +589,15 @@ div.spc-item-row span.spc-item-entry {
 	float: left;
 }
 
-div#spc-item-display h1, h2, h3, h4, h5, h6{
+div#spc-itemdisp-container h1, h2, h3, h4, h5, h6{
     font-weight: normal;
     border-bottom: 1px solid #ccc;}
-div#spc-item-display h1 { font-size: 130%; font-weight: bold;}
-div#spc-item-display h2 { font-size: 120%; font-weight: bold;}
-div#spc-item-display h3 { font-size: 110%;}
-div#spc-item-display h4 { font-size: 100%; }
-div#spc-item-display h5 { font-size: 100%; }
-div#spc-item-display h6 { font-size: 100%; }
-
-
-
+div#spc-itemdisp-container h1 { font-size: 130%; font-weight: bold;}
+div#spc-itemdisp-container h2 { font-size: 120%; font-weight: bold;}
+div#spc-itemdisp-container h3 { font-size: 110%;}
+div#spc-itemdisp-container h4 { font-size: 100%; }
+div#spc-itemdisp-container h5 { font-size: 100%; }
+div#spc-itemdisp-container h6 { font-size: 100%; }
 
 /* Permalinks */
 .spc-permalink {

@@ -4,7 +4,7 @@
 
 {% block content %}
 
-  <div id="spc-item-display">
+  <div id="spc-itemdisp-container">
     <div class="spc-item-row">
       <span class="spc-item-label spc-title-in-span">{{theuser.username}}</span>
       {% if user.username %}{% if user.profile.slug == theuser.profile.slug %}<span class="spc-item-entry"><form action="{% url auth_logout %}" method="POST">{% csrf_token %}<input class="spc-form-button" type="submit" name="submit" value="Sign out"/></form></span>{% endif %}{% endif %}
