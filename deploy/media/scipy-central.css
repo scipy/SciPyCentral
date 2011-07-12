@@ -150,7 +150,9 @@ div#spc-section-body h1, h2, h3, h4, h5, h6{
 	color: #20435C;
 	font-family: 'Trebuchet MS', sans-serif;
     font-weight: normal;
-    border-bottom: 0px solid #ccc;}
+    border-bottom: 0px solid #ccc;
+	margin-bottom: 0.5em;
+}
 div#spc-section-body h1 { font-size: 200%; font-weight: bold;}
 div#spc-section-body h2 { font-size: 160%; font-weight: bold; color: #101074;}
 div#spc-section-body h3 { font-size: 140%; color: #362A13;}

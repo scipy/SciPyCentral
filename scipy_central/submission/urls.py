@@ -21,11 +21,11 @@ urlpatterns = patterns('scipy_central.submission.views',
     # Minimal working link:  http://..../23/    <-- shows latest revision
     #
     # See unit tests in "tests.py" before making changes here
-    url(r'^(?P<item_id>\d+)+(/)?(?P<rev_num>\d+)?(/)?(?P<slug>[-\w]+)?(/)?',
+    url(r'^(?P<item_id>\d+)+(/)?(?P<rev_id>\d+)?(/)?(?P<slug>[-\w]+)?(/)?',
                                            'view_link', name='spc-view-link'),
 
     # Editing an item
-    url(r'^edit/(?P<item_id>\d+)/$', #(?P<rev_num>\d+)/$',
+    url(r'^edit/(?P<item_id>\d+)/$',
                                'edit_submission', name='spc-edit-submission'),
 
     # Validating an item

@@ -9,10 +9,7 @@
 
   <h2>{{item.title}}</h2>
 
-  <div id="spc-itemdisp-container">
-
-    <div class="spc-item-row">
-      <div id="spc-profile-user-options">
+  <div id="spc-profile-user-options">
       {% if user.id == item.created_by.id %}
         {% if item.id %}
         <ul>
@@ -20,13 +17,25 @@
         </ul>
         {% endif %}
       {% endif %}
-      </div>
+  </div>
+  <div id="spc-itemdisp-container">
+
+    <div class="spc-item-row">
     </div>
 
     <div class="spc-item-row">
       <span class="spc-item-label">Submitted by:</span>
-      <span class="spc-item-entry">{% if item.entry.created_by.profile.is_validated %}<a href="{% url spc-user-profile item.entry.created_by.profile.slug %}">{{item.entry.created_by.username}}</a>{% else %}Unvalidated user{% endif %}, {% if item.date_created %}{{item.date_created|naturalday:"d F Y"}}{% else %}today{% endif %}</span>
+      <span class="spc-item-entry">{% if item.entry.created_by.profile.is_validated %}<a href="{% url spc-user-profile item.entry.created_by.profile.slug %}">{{item.entry.created_by.username}}</a>{% else %}Unvalidated user{% endif %}, {% if item.entry.date_created %}{{item.entry.date_created|naturalday:"d F Y"}}{% else %}today{% endif %}</span>
     </div>
+
+    {% if item.entry.num_revisions > 1 %}
+     <div class="spc-item-row">
+      <span class="spc-item-label">Update history:</span>
+      <span class="spc-item-entry">{{ item.human_revision }}  <!-- TODO: display previous and next links-->
+      </span>
+    </div>
+    {% endif %}
+
     {% if item.entry.num_revisions > 1 %}
      <div class="spc-item-row">
       <span class="spc-item-label">Updated by:</span>
@@ -60,9 +69,12 @@
 
   <div id="spc-extra-message">{{extra_html|safe}}</div>
 
-  {% if permalink %}<div class="spc-permalink">Permalink to this revision: <a href="{{permalink}}">{{permalink}}</a></div>{% endif %}
-
-
+  {% if permalink %}
+  <div class="spc-permalink">
+  <p>Permalink to this revision: <a href="{{permalink}}">{{permalink}}</a>
+  <p>Permalink to latest revision: <a href="{{latest_link}}">{{latest_link}}</a>
+  </div>
+  {% endif %}
 
   <div style="clear: both;"><p>&nbsp;</div>
 

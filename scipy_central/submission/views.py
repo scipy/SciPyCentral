@@ -45,11 +45,11 @@ def get_items_or_404(view_function):
     actually exist. If not, throws a 404, else, it calls the view function
     with the required inputs.
     """
-    def decorator(request, item_id, rev_num=None, slug=None):
+    def decorator(request, item_id, rev_id=None, slug=None):
         """Retrieves the ``Submission`` and ``Revision`` objects when given,
         at a minimum the submission's primary key (``item_id``). Since the
         submission can have more than 1 revision, we can get a specific
-        revision, ``rev_num``, otherwise we will always get the latest
+        revision, ``rev_id``, otherwise we will always get the latest
         revision. ``slug`` is ignored for now - just used to create good SEO
         URLs.
         """
@@ -64,10 +64,14 @@ def get_items_or_404(view_function):
 
         the_submission = the_submission[0]
         the_revision = the_submission.last_revision
-        if rev_num: # can be None or '':
+        if rev_id: # can be None or '':
             all_revisions = the_submission.revisions.all()
+            rev_index = int(rev_id)-1
+            if rev_index < 0:
+                rev_index = len(all_revisions)-1
+
             try:
-                the_revision = all_revisions[int(rev_num)]
+                the_revision = all_revisions[rev_index]
             except (ValueError, IndexError):
                 return page_404_error(request)
 
@@ -77,12 +81,20 @@ def get_items_or_404(view_function):
             return page_404_error(request)
 
         if request.path.split('/')[2] != 'edit':
-            if slug is None or rev_num is None or the_revision.slug != slug:
+            if rev_id is None:
+                rev_id_str = '0'
+                do_redirect = True
+            else:
+                rev_id_str = str(the_revision.rev_id+1)
+                do_redirect = False
+
+            if slug is None or the_revision.slug != slug or do_redirect:
                 return redirect('/'.join(['/item',
                                           item_id,
-                                          str(the_revision.rev_id),
-                                          the_submission.slug]),
+                                          rev_id_str,
+                                          the_revision.slug]),
                                 permanent=True)
+
 
         return view_function(request, the_submission, the_revision)
 
@@ -537,13 +549,15 @@ def view_link(request, submission, revision):
     """
     create_hit(request, submission)
     permalink = settings.SPC['short_URL_root'] + str(submission.id) + '/' + \
-                                                          str(revision.rev_id)
+                                                  str(revision.rev_id+1) + '/'
+    latest_link = settings.SPC['short_URL_root'] + str(submission.id) + '/'
 
     return render_to_response('submission/item.html', {},
                               context_instance=RequestContext(request,
                                        {'item': revision,
                                         'tag_list': revision.tags.all(),
                                         'permalink': permalink,
+                                        'latest_link': latest_link,
                                        }))
 
 

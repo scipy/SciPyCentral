@@ -106,7 +106,7 @@ class Submission(models.Model):
         functions to create this URL: do it manually, to match ``urls.py``
         """
         return reverse('spc-view-link', args=[0]).rstrip('0') + \
-                        '%d/%d/%s' % (self.pk, self.last_revision.rev_id, self.slug)
+                '%d/%d/%s' % (self.pk, self.last_revision.rev_id+1, self.slug)
 
 
 class RevisionManager(models.Manager):
@@ -229,6 +229,13 @@ class Revision(models.Model):
         """
         return list(self.entry.revisions.absolutely_all()).index(self)
 
+    @property
+    def human_revision(self):
+        """ Returns the revision information in a helpful way
+        """
+        return 'Revision %d of %d' % (self.rev_id+1, self.entry.num_revisions)
+
+
     def save(self, *args, **kwargs):
         """ Override the model's saving function to create the slug """
         # http://docs.djangoproject.com/en/dev/topics/db/models/
@@ -243,7 +250,7 @@ class Revision(models.Model):
         functions to create this URL: do it manually, to match ``urls.py``
         """
         return reverse('spc-view-link', args=[0]).rstrip('0') + \
-                        '%d/%d/%s' % (self.entry.pk, self.rev_id, self.slug)
+                        '%d/%d/%s' % (self.entry.pk, self.rev_id+1, self.slug)
 
 
 class TagCreation(models.Model):
