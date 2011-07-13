@@ -641,6 +641,9 @@ def show_items(request, tag=None, user=None):
     for rev in all_revs:
         all_subs.add(rev.entry)
 
+    entry_order = list(all_subs)
+    entry_order.sort(key=lambda r: r.date_created, reverse=True)
+
     # This code isn't quite right: a user can create a revision: we should show
     # the particular revision which that user created, not necessarily the
     # latest revision of that submission.
@@ -651,10 +654,6 @@ def show_items(request, tag=None, user=None):
             #all_subs.add(rev.entry)
 
     #entry_order, count_list = sort_items_by_page_views(all_subs, 'submission')
-
-    # The set is ordered in ``pk``: list it and reverse it
-    entry_order = list(all_subs)
-    entry_order.reverse()
     entries = paginated_queryset(request, entry_order)
     return render_to_response('submission/show-entries.html', {},
                               context_instance=RequestContext(request,
