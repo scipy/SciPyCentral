@@ -162,7 +162,7 @@ class DVCSRepo(object):
         output = self.run_dvcs_command(command, repo_dir=repo_dir)
 
         # Used to signal that a repo does not exist yet:
-        if output[0][0:5] == 'abort':
+        if output[0] and output[0][0:5] == 'abort':
             raise(DVCSError(output[0]))
         source = output.split('\n')[0].split(':')
         return source[2].split()[0]

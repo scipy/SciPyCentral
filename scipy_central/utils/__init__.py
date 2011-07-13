@@ -137,7 +137,7 @@ def highlight_code(code):
     else:
         return highlight(code, lexers.PythonLexer(),
                                       formatters.HtmlFormatter(linenos=True,
-                                                               linenostep=2,))
+                                                               linenostep=1,))
 
 
 

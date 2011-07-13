@@ -83,7 +83,7 @@ class Submission(models.Model):
     @property
     def last_revision(self):
         try:
-            return self.revisions.order_by('-id')[0]
+            return self.revisions.order_by('-date_created')[0]
         except (KeyError, IndexError):
             return None
 
@@ -246,7 +246,6 @@ class Revision(models.Model):
         return out
 
 
-
     def save(self, *args, **kwargs):
         """ Override the model's saving function to create the slug """
         # http://docs.djangoproject.com/en/dev/topics/db/models/
@@ -255,6 +254,7 @@ class Revision(models.Model):
 
         # Call the "real" save() method.
         super(Revision, self).save(*args, **kwargs)
+
 
     def get_absolute_url(self):
         """ I can't seem to find a way to use the "reverse" or "permalink"
