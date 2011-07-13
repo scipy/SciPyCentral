@@ -3,3 +3,4 @@
 {{object.created_by.username}}
 {{object.item_code}}
 {{object.item_url}}
+{% for tag in object.tags.all %}{{tag}}, {% endfor %}

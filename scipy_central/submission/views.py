@@ -281,9 +281,7 @@ def create_or_edit_submission_revision(request, item, is_displayed,
                                                 str(tag), rev.id))
 
         # Update the search index so that the tags are included in the search
-        # index
-        #scipy_central.submission.search_indexes.RevisionIndex object at 0x32a8b10
-
+        rev.save()
 
         # log the new submission and revision
         logger.info('New %s: %s [id=%d] and revision id=%d' % (
