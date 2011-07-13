@@ -219,6 +219,9 @@ class Revision(models.Model):
     # FUTURE: inspired_by: a comma-separated list of previous submissions
     # FUTURE: list of modules required to run the code
 
+    class Meta:
+        ordering = ['date_created']
+
     def __unicode__(self):
         return self.title[0:50] + '::' + str(self.created_by.username)
 
