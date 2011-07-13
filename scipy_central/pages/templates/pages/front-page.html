@@ -52,7 +52,7 @@
 		  <h3>Recently changed</h3>
 			<ul>
 			{% for item in "submission.revision"|latest:5 %}
-			  <li><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></li>
+			  <li><a href="{{ item.get_absolute_url }}">{{ item.title }}</a>{% if item.short_human_revision_string %} ({{item.short_human_revision_string|safe}}){% endif %}</li>
 			{% endfor %}
 			</ul>
 			<a href="{% url spc-show-all %}">Show all</a>
@@ -61,7 +61,7 @@
 		  <h3>Most viewed</h3>
 			<ul>
 		  	{% for item in "submission"|most_viewed:5 %}
-			  <li><a href="{{ item.get_absolute_url }}">{{ item.last_revision.title }}</a><!--{{item.score}}--></li>
+			  <li><a href="{{ item.get_absolute_url }}">{{ item.last_revision.title }}</a></li>
 			{% endfor %}
 			</ul>
 			<p><a href=" ">Show all</a>

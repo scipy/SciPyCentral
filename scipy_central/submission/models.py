@@ -257,13 +257,20 @@ class Revision(models.Model):
         """ Returns the revision information in a helpful way
         """
         try:
-            out = 'Revision %d of %d' % (self.rev_id+1,
+            return 'Revision %d of %d' % (self.rev_id+1,
                                          self.entry.num_revisions)
         except ValueError:
-            out = 'Revision information not available yet'
+            # self.rev_id is not available when entering a new submission
+            return 'Revision information not available yet'
 
-        return out
-
+    @property
+    def short_human_revision_string(self):
+        """ Returns the revision information in a helpful way
+        """
+        if self.rev_id == 0:
+            return ''
+        else:
+            return 'revision&nbsp;%d' % (self.rev_id+1)
 
     def save(self, *args, **kwargs):
         """ Override the model's saving function to create the slug """
