@@ -13,7 +13,7 @@
       {% if user.id == item.created_by.id %}
         {% if item.id %}
         <ul>
-          <li><a href="{% url spc-edit-submission item.entry.id %}">Edit this {{item.entry.sub_type}}</a></li>
+          <li><a href="{% url spc-edit-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Edit this {{item.entry.sub_type}}</a></li>
         </ul>
         {% endif %}
       {% endif %}
@@ -31,7 +31,7 @@
     {% if item.entry.num_revisions > 1 %}
      <div class="spc-item-row">
       <span class="spc-item-label">Update history:</span>
-      <span class="spc-item-entry">{{ item.human_revision }}  <!-- TODO: display previous and next links-->
+      <span class="spc-item-entry">{{ item.human_revision_string }}  <!-- TODO: display previous and next links-->
       </span>
     </div>
     {% endif %}

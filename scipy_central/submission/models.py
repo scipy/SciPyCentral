@@ -230,7 +230,11 @@ class Revision(models.Model):
         return list(self.entry.revisions.absolutely_all()).index(self)
 
     @property
-    def human_revision(self):
+    def rev_id_human(self):
+        return self.rev_id + 1
+
+    @property
+    def human_revision_string(self):
         """ Returns the revision information in a helpful way
         """
         try:

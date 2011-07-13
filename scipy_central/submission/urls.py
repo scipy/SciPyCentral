@@ -25,7 +25,7 @@ urlpatterns = patterns('scipy_central.submission.views',
                                            'view_link', name='spc-view-link'),
 
     # Editing an item
-    url(r'^edit/(?P<item_id>\d+)/$',
+    url(r'^edit/(?P<item_id>\d+)/(?P<rev_id>\d+)/$',
                                'edit_submission', name='spc-edit-submission'),
 
     # Validating an item
