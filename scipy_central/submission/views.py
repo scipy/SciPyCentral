@@ -625,33 +625,6 @@ def sort_items_by_page_views(all_items, item_module_name):
 
     return entry_order, count_list
 
-def sort_items_by_last_edit(all_items, item_module_name):
-    # TODO(KGD): Cache this reordering of ``items`` for a period of time
-
-    #``page_order`` is a list of tuples; the 2nd entry in each tuple is the
-    # primary key, that must exist in ``items_pk``.
-    all_items = list(all_items)
-    items_pk = [item.pk for item in all_items]
-    entry_order = []
-    count_list = []
-    for count, pk in page_order:
-        try:
-            idx = items_pk.index(pk)
-        except ValueError:
-            pass
-        else:
-            items_pk[idx] = None
-            entry_order.append(all_items[idx])
-            count_list.append(count)
-
-    # Items that have never been viewed get added to the bottom:
-    for idx, pk in enumerate(items_pk):
-        if pk is not None:
-            entry_order.append(all_items[idx])
-            count_list.append(0)
-
-    return entry_order, count_list
-
 
 def show_items(request, tag=None, user=None):
     """ Shows all items in the database, sorted from most most page views to
@@ -681,7 +654,7 @@ def show_items(request, tag=None, user=None):
 
     # The set is ordered in ``pk``: list it and reverse it
     entry_order = list(all_subs)
-    count_list.reverse()
+    entry_order.reverse()
     entries = paginated_queryset(request, entry_order)
     return render_to_response('submission/show-entries.html', {},
                               context_instance=RequestContext(request,
