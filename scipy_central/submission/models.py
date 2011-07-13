@@ -233,7 +233,14 @@ class Revision(models.Model):
     def human_revision(self):
         """ Returns the revision information in a helpful way
         """
-        return 'Revision %d of %d' % (self.rev_id+1, self.entry.num_revisions)
+        try:
+            out = 'Revision %d of %d' % (self.rev_id+1,
+                                         self.entry.num_revisions)
+        except ValueError:
+            out = 'Revision information not available yet'
+
+        return out
+
 
 
     def save(self, *args, **kwargs):

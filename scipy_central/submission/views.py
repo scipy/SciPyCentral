@@ -159,7 +159,16 @@ def create_or_edit_submission_revision(request, item, is_displayed,
     # until they do so.
 
     # A new submission
-    sub = models.Submission.objects.create_without_commit(created_by=user,
+    if item.cleaned_data['pk']:
+        try:
+            sub = models.Submission.objects.get(id=item.cleaned_data['pk'])
+        except ObjectDoesNotExist:
+            logger.error('Submission was not found when requesting "%s"' %\
+                         request.path)
+            page_404_error(request, ('You requested an invalid submission to '
+                                     'edit'))
+    else:
+        sub = models.Submission.objects.create_without_commit(created_by=user,
                                     sub_type=item.cleaned_data['sub_type'])
 
     # Process screenshot:
@@ -229,7 +238,8 @@ def create_or_edit_submission_revision(request, item, is_displayed,
         # that will never change once it has been first created). Only set
         # the ``pk`` so that the new revision object is correct.
         if item.cleaned_data['pk']:
-            sub.id = item.cleaned_data['pk']
+            # We are updating an existing ``sub`` item (see code above)
+            pass
         else:
             sub.save()
 
@@ -269,6 +279,10 @@ def create_or_edit_submission_revision(request, item, is_displayed,
             logger.debug('User "%s" added tag "%s" to rev.id=%d' % (
                                                 user.profile.slug,
                                                 str(tag), rev.id))
+
+        # Update the search index so that the tags are included in the search
+        # index
+        #scipy_central.submission.search_indexes.RevisionIndex object at 0x32a8b10
 
 
         # log the new submission and revision
