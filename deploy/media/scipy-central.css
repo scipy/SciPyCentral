@@ -472,9 +472,10 @@ li.spc-even tt {
     padding: 4px 4px 3px 4px;
     margin: 2px 5px 2px 0px;
     font-size: 90%;
-    line-height: 2.4;
+    line-height: 1.4;
     white-space: nowrap;
     cursor: pointer;
+	float:left;
 }
 .spc-tag:hover{
 	background-color: #3E6D8E;
@@ -489,7 +490,6 @@ li.spc-even tt {
     padding: 0px 4px 0px 4px;
     margin: 2px 5px 2px 0px;
     font-size: 90%;
-    line-height: 2.4;
     white-space: nowrap;
     cursor: pointer;
 }
@@ -559,7 +559,6 @@ div.spc-item-row span.spc-item-entry {
 	clear:both;
 	float:left;
 	width:100%;
-	overflow:hidden;
 	margin: 0 0 1em 0;
 }
 .spc-itemdisp-row {
@@ -571,17 +570,21 @@ div.spc-item-row span.spc-item-entry {
   padding-right: 1%;
 }
 .spc-itemdisp-description{
-  width: 40%;
+  width: 50%;
 }
 .spc-itemdisp-link{
   float: right;
   font-size: 80%;
 }
+.spc-itemdisp-revinfo{
+  float: right;
+  font-size: 80%;
+}
 .spc-itemdisp-created{
-  width: 28%;
+  width: 23%;
 }
 .spc-itemdisp-tags{
-  width: 28%;
+  width: 23%;
 }
 .spc-itemdisp-odd{
   background: #ddd;

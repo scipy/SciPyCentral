@@ -7,7 +7,7 @@
 		<span class="spc-itemdisp-link "><a href="{{entry.get_absolute_url}}">More detail</a></span>
 	  </div>
 	  <div class="spc-itemdisp-created spc-itemdisp-td"><a href="{% url spc-user-profile slug=entry.created_by.profile.slug %}">{{entry.created_by.username}}</a> on {{ entry.date_created|date:"d F Y"}}
-	  {% if entry.entry.num_revisions > 1 %}<p>{{ entry.human_revision_string }}{% endif %}</div>
+	  {% if entry.short_human_revision_string %}<span class="spc-itemdisp-revinfo">({{entry.short_human_revision_string|safe}})</span>{% endif %}</div>
 	  <div class="spc-itemdisp-tags spc-itemdisp-td">{% for tag in entry.tags.all %}<span><a href="{% url spc-show-items-by-tag tag%}" class="spc-tag">{{tag.name}}</a></span>{% endfor %}</div>
 	</li>
   </div>
