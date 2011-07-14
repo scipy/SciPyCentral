@@ -544,6 +544,7 @@ div.spc-item-row span.spc-item-entry {
 #spc-itemdisp-container{
     clear: both;
 	padding: 0;
+	padding-top: 1em;
 	margin: 0 auto;
 	width: 85%;
 }

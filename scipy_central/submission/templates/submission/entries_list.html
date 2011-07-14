@@ -1,6 +1,4 @@
-<div id="spc-itemdisp-pageheader">{{page_title}}</div>
 {% if entries.object_list%}
-
 <div style="clear:both;"></div>
 <div id="spc-itemdisp-container">
 
@@ -9,9 +7,11 @@
 	  {% if entries.has_previous %}
 		<a href="?page={{ entries.previous_page_number }}">&laquo; Previous</a> |
 	  {% endif %}
-	  <span class="current">
-		Page {{ entries.number }} of {{ entries.paginator.num_pages }}
-	  </span>
+	  {% if entries.has_previous or entries.has_next %}
+		<span class="current">
+		  Page {{ entries.number }} of {{ entries.paginator.num_pages }}
+		</span>
+	  {% endif %}
 	  {% if entries.has_next %}
 	   | <a href="?page={{ entries.next_page_number }}">Next &raquo;</a>
 	  {% endif %}
@@ -27,19 +27,15 @@
   </div>
 
 <ul>
+  {% comment %}The ``entry`` objects must be from the ``submission.Revision`` class {% endcomment %}
   {% for entry in entries.object_list %}
-  <div class="spc-itemdisp-row-container">
-	<div class="spc-itemdisp-row spc-itemdisp-{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
-	  <li>
-		<div class="spc-itemdisp-description spc-itemdisp-td" id="spc-item-{{entry.pk}}">
-		  {{ entry.last_revision.description_html|truncatewords_html:"30"|safe|removetags:"p li ul ol"}}
-		  <span class="spc-itemdisp-link "><a href="{% url spc-view-link entry.pk %}">More detail</a></span>
-		</div>
-		<div class="spc-itemdisp-created spc-itemdisp-td"><a href="{% url spc-user-profile slug=entry.last_revision.created_by.profile.slug %}">{{entry.last_revision.created_by.username}}</a> on {{ entry.last_revision.date_created|date:"d F Y"}}</div>
-		<div class="spc-itemdisp-tags spc-itemdisp-td">{% for tag in entry.last_revision.tags.all %}<span><a href="{% url spc-show-items-by-tag tag%}" class="spc-tag">{{tag.name}}</a></span>{% endfor %}</div>
-	  </li>
-	</div>
-  </div>
+	{% if entry.django_CT %}
+	  {% with entry.object as entry %}
+		{% include 'search/includes/one-search-result.html' %}
+	  {% endwith %}
+	{% else %}
+	  {% include 'search/includes/one-search-result.html' %}
+	{% endif %}
   {% endfor %}
 </ul>
 <div style="clear:both;"></div>

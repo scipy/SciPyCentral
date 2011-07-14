@@ -4,6 +4,7 @@
 
 {% block content %}
 
+<div id="spc-itemdisp-pageheader">{{page_title}}{% if extra_info %}: {{extra_info}}{% endif %}</div>
 {% include 'submission/entries_list.html' %}
 
 {% endblock %}

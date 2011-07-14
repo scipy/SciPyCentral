@@ -43,13 +43,13 @@ def cloud(model_or_obj, num=5):
     slope = (max_font-min_font)/(max_uses[0] - min_uses[0] + 0.0)
     intercept = min_font - slope * min_uses[0]
 
-    #tag_uses.sort(reverse=True)
     out = []
     for score, pk in tag_uses:
         out.append(Tag.objects.get(id=pk))
         out[-1].score = int(slope*score + intercept)
 
     # TODO: sort by the most used tags and only return the top ``num`` tags
+    # the returned order should be alphabetical
     return out
 
 @register.filter

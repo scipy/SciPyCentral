@@ -56,10 +56,8 @@ def profile_page(request, slug):
 
     # Items created by this user. Use the ``all()`` function first, to prevent
     # unvalidated submissions from showing
-    all_revs = Revision.objects.all().filter(created_by=the_user)
-    all_subs = set()
-    for rev in all_revs:
-        all_subs.add(rev.entry)
+    all_revs = Revision.objects.all().filter(created_by=the_user)\
+                                                    .order_by('-date_created')
 
     if the_user == request.user:
         no_entries = 'You have not submitted any entries to SciPy Central.'
@@ -69,7 +67,7 @@ def profile_page(request, slug):
     return render_to_response('person/profile.html', {},
                 context_instance=RequestContext(request,
                             {'theuser': the_user,
-                             'entries':paginated_queryset(request, all_subs),
+                             'entries':paginated_queryset(request, all_revs),
                              'no_entries_message': no_entries, }))
 
 

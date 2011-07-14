@@ -631,16 +631,18 @@ def show_items(request, tag=None, user=None):
     all_revs = models.Revision.objects.all().order_by('-date_created')
     if tag is None:
         page_title = 'All submissions'
+        extra_info = ''
     else:
         all_revs = all_revs.filter(tags__slug=slugify(tag))
-        page_title = 'All entries tagged: "%s"' % tag
+        page_title = 'All entries tagged'
+        extra_info = '"%s"' % tag
 
-    all_subs = set()
-    for rev in all_revs:
-        all_subs.add(rev.entry)
+    #all_subs = set()
+    #for rev in all_revs:
+        #all_subs.add(rev.entry)
 
-    entry_order = list(all_subs)
-    entry_order.sort(key=lambda r: r.date_created, reverse=True)
+    entry_order = list(all_revs)
+    #entry_order.sort(key=lambda r: r.date_created, reverse=True)
 
     # This code isn't quite right: a user can create a revision: we should show
     # the particular revision which that user created, not necessarily the
@@ -656,7 +658,8 @@ def show_items(request, tag=None, user=None):
     return render_to_response('submission/show-entries.html', {},
                               context_instance=RequestContext(request,
                                                 {'entries': entries,
-                                                 'page_title': page_title}))
+                                                 'page_title': page_title,
+                                                 'extra_info': extra_info}))
 
 #------------------------------------------------------------------------------
 def get_tag_uses(start_date=None, end_date=None):
