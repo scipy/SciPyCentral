@@ -45,7 +45,9 @@
 	  <div class="spc-portal-row">
 		<div class="spc-portal-left">
 		  <h3>Tag cloud</h3>
-			<a href="https://github.com/kgdunn/SciPyCentral/issues/50"><i>Coming soon!</i></a>
+		    {% for item in "submission.TagCreation"|cloud:25 %}
+			  <span><a href="{% url spc-show-items-by-tag item%}" class="spc-tag-cloud" style="font-size: {{item.score}}%">{{item}}</a></span>
+			{% endfor %}
 			<p><a href=" ">Show all</a>
 		    <!--{{tag_cloud_html}}-->
 		</div>

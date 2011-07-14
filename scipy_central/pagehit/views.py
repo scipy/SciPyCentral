@@ -46,7 +46,3 @@ def get_pagehits(item, start_date=None, end_date=None):
         hit_counts.append((val, key))
 
     return hit_counts
-
-
-
-

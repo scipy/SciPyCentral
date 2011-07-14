@@ -298,3 +298,7 @@ class TagCreation(models.Model):
     revision = models.ForeignKey(Revision)
     tag = models.ForeignKey('tagging.Tag')
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
+
+    def __unicode__(self):
+        return self.tag.name
+

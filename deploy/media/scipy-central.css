@@ -480,6 +480,24 @@ li.spc-even tt {
 	background-color: #3E6D8E;
 	color: #E0EAF1;
 }
+.spc-tag-cloud{
+    background-color: #FFF;
+    color: #3E6D8E;
+    border-bottom: 0px solid #37607D;
+    border-right: 0px solid #37607D;
+    text-decoration: none;
+    padding: 4px 4px 3px 4px;
+    margin: 2px 5px 2px 0px;
+    font-size: 90%;
+    line-height: 2.4;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.spc-tag-cloud:hover{
+	background-color: #FFF;
+	color: #1E4D6E;
+}
+
 #spc-item-description p{
 	margin-top: 0;
 }
