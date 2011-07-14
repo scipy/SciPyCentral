@@ -10,6 +10,9 @@ from scipy_central.submission.models import Revision, Submission
 from scipy_central.tagging.models import Tag
 from scipy_central.submission.views import get_tag_uses
 
+from collections import namedtuple
+from math import log
+
 register = template.Library()
 
 @register.filter
@@ -38,18 +41,23 @@ def most_viewed(field, num=5):
 def cloud(model_or_obj, num=5):
     """ Get a tag cloud """
     tag_uses = get_tag_uses()
-    max_uses, min_uses = max(tag_uses), min(tag_uses)
-    min_font, max_font = 90, 160
-    slope = (max_font-min_font)/(max_uses[0] - min_uses[0] + 0.0)
-    intercept = min_font - slope * min_uses[0]
+    tag_uses.sort(reverse=True)
+    tag_uses = tag_uses[:num]
+    max_uses = tag_uses[0][0]
+    min_uses = tag_uses[-1][0]
+    # Use a logarithmic scaling between 1.0 to 170% of baseline font size
+    # We could consider a logarithmic scale
+    min_font, max_font = 3, 6
+    slope = (max_font-min_font)/(max_uses - min_uses + 0.0)
+    intercept = min_font - slope * min_uses
 
     out = []
+    Item = namedtuple('Item', 'slug tag score')
     for score, pk in tag_uses:
-        out.append(Tag.objects.get(id=pk))
-        out[-1].score = int(slope*score + intercept)
+        tag = Tag.objects.get(id=pk)
+        out.append(Item(tag.slug, tag, int(log(slope*score + intercept)*100)-9))
 
-    # TODO: sort by the most used tags and only return the top ``num`` tags
-    # the returned order should be alphabetical
+    out.sort()
     return out
 
 @register.filter
