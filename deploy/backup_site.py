@@ -22,17 +22,15 @@ if __name__ == "__main__":
     # ./manage.py loaddata site_backup/backup-YYYY-mm-dd-HH-MM-SS.json
 
     # Equivalent of: ./manage.py dumpdata -v0 --format=json --indent=2
+    #
+    # Note: you may have to change the ``python`` entry below to something like
+    #       python2.7 if you've multiple Python versions on your machine
     command = ['python', 'manage.py', 'dumpdata', '-v0', '--format=json',
                '--indent=2']
     try:
         out = subprocess.Popen(command, stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE,
                                cwd=os.getcwd())
-
-        stderr = out.stderr.readlines()
-        if stderr:
-            print(stderr)
-            sys.exit(1)
 
         if out.returncode == 0 or out.returncode is None:
             now = datetime.now()
