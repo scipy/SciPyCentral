@@ -4,7 +4,7 @@
 	<li>
 	  <div class="spc-itemdisp-description spc-itemdisp-td" id="spc-item-{{entry.pk}}">
 		{{ entry.description_html|truncatewords_html:"30"|safe|removetags:"p li ul ol"}}
-		<span class="spc-itemdisp-link "><a href="{% url spc-view-link entry.pk %}">More detail</a></span>
+		<span class="spc-itemdisp-link "><a href="{{entry.get_absolute_url}}">More detail</a></span>
 	  </div>
 	  <div class="spc-itemdisp-created spc-itemdisp-td"><a href="{% url spc-user-profile slug=entry.created_by.profile.slug %}">{{entry.created_by.username}}</a> on {{ entry.date_created|date:"d F Y"}}
 	  {% if entry.entry.num_revisions > 1 %}<p>{{ entry.human_revision_string }}{% endif %}</div>
