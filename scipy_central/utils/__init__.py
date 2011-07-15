@@ -115,20 +115,31 @@ def highlight_code(code):
 #from pygments.styles.default import DefaultStyle
 #from pygments.style import Style
 #from pygments.styles import get_style_by_name
-#from pygments.token import Comment, Keyword, Name, String
+#from pygments.token import Comment, Keyword, Name, String, Operator, Number
 #from pygments import formatters
 #class SciPyStyle(Style):
     #default_style = ""
     #styles = {
-        #Comment:                '#888',
-        #Keyword:                'bold #080',
-        #Name:                   '#080',
-        #Name.Function:          '#00F',
+        ##Comment:                '#888',
+        ##Keyword:                'bold #080',
+        ##Name:                   '#080',
+        ##Name.Function:          '#00F',
+        ##Name.Class:             'bold #00F',
+        ##String:                 '#BA2121',
+        #Comment:                '#008000',
+        #Keyword:                'bold #000080',
+        #Name:                   '#000',
+        #Name.Builtin:           '#407090',
+        #Name.Function:          '#008080',
         #Name.Class:             'bold #00F',
-        #String:                 '#BA2121'
+        #Name.Namespace:         '#000000',
+        #Number:                 '#008080',
+        #String:                 '#800080',
+        #String.Doc:             '#800000',
+        #Operator:               '#000000',
+        #Operator.Word:          'bold #AA22FF',
     #}
-#SciPyStyle.styles[Comment] =  'noitalic #888'
-#SciPyStyle.styles[Comment.Preproc]  = "noitalic #888"
+
 #formatter = formatters.HtmlFormatter(style=SciPyStyle)
 #print(formatter.get_style_defs('.highlight'))
 
