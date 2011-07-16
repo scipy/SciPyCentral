@@ -24,6 +24,7 @@ from scipy_central.utils import send_email, paginated_queryset, highlight_code
 from scipy_central.rest_comments.views import compile_rest_to_html
 from scipy_central.pages.views import page_404_error, not_implemented_yet
 from scipy_central.pagehit.views import create_hit, get_pagehits
+from scipy_central.submission.templatetags.core_tags import top_authors
 import models
 import forms
 
@@ -623,21 +624,29 @@ def sort_items_by_page_views(all_items, item_module_name):
 
     return entry_order, count_list
 
-def show_items(request, what_view=None, extra_info=None):
+def show_items(request, what_view='', extra_info=''):
     """ Show different views onto all **revision** items (not submissions)
     """
+    what_view = what_view.lower()
+    extra_info = extra_info.lower()
+    entry_order = []
+    page_title = ''
+    template_name = 'submission/show-entries.html'
     if what_view == 'tag':
         all_revs = models.Revision.objects.all().filter(tags__slug=slugify(extra_info))
         page_title = 'All entries tagged'
         extra_info = '"%s"' % extra_info
         entry_order = list(all_revs)
-    elif what_view == 'all':
+    elif what_view == 'show' and extra_info == 'all-tags':
+        page_title = 'All tags'
+        template_name = 'submission/show-tag-cloud.html'
+    elif what_view == 'show' and extra_info=='all':
         # Show all submissions in reverse time order
         all_revs = models.Revision.objects.all().order_by('-date_created')
         page_title = 'All submissions'
         extra_info = ''
         entry_order = list(all_revs)
-    elif what_view == 'most-viewed':
+    elif what_view == 'sort' and extra_info == 'most-viewed':
         page_title = 'All submissions in order of most views'
         extra_info = ''
         all_subs = set()
@@ -645,52 +654,25 @@ def show_items(request, what_view=None, extra_info=None):
             all_subs.add(rev.entry)
         entry_order, _ = sort_items_by_page_views(all_subs, 'submission')
         entry_order = [entry.last_revision for entry in entry_order]
+    elif what_view == 'show' and extra_info == 'top-contributors':
+        page_title = 'Top contributors'
+        extra_info = ''
+        entry_order = top_authors('', 0)
+        template_name = 'submission/show-top-contributors.html'
 
-    #entry_order.sort(key=lambda r: r.date_created, reverse=True)
     entries = paginated_queryset(request, entry_order)
-    return render_to_response('submission/show-entries.html', {},
+    return render_to_response(template_name, {},
                               context_instance=RequestContext(request,
                                                 {'entries': entries,
                                                  'page_title': page_title,
                                                  'extra_info': extra_info}))
 
-    # This code isn't quite right: a user can create a revision: we should show
-    # the particular revision which that user created, not necessarily the
-    # latest revision of that submission.
-    #if user is not None:
-        #all_revisions = models.Revision.objects.filter(created_by__username_slug=user)
-        #all_subs = set()
-        #for rev in all_revisions:
-            #all_subs.add(rev.entry)
+# This code isn't quite right: a user can create a revision: we should show
+# the particular revision which that user created, not necessarily the
+# latest revision of that submission.
+#if user is not None:
+    #all_revisions = models.Revision.objects.filter(created_by__username_slug=user)
+    #all_subs = set()
+    #for rev in all_revisions:
+        #all_subs.add(rev.entry)
 
-
-
-#------------------------------------------------------------------------------
-def get_tag_uses(start_date=None, end_date=None):
-    """
-    Returns a list of tuples of the form:  [(n_uses, Tag.pk), ....]
-    This allows one to use the builtin ``list.sort()`` function where Python
-    orders the list based on the first entry in the tuple.
-
-    The list will be returned in the order of the ``Tag.pk``, but the
-    first tuple entry is the number of uses of that tag, allowing for easy
-    sorting using Python's ``sort`` method.
-    """
-    if start_date is None:
-        start_date = datetime.date.min
-    if end_date is None:
-        end_date = datetime.date.max
-
-    tags_created = models.TagCreation.objects.all().\
-                                       filter(date_created__gte=start_date).\
-                                       filter(date_created__lte=end_date)
-
-    uses_by_pk = defaultdict(int)
-    for use in tags_created:
-        uses_by_pk[use.tag.pk] += 1
-
-    hit_counts = []
-    for key, val in uses_by_pk.iteritems():
-        hit_counts.append((val, key))
-
-    return hit_counts

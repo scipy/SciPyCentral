@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}{{page_title}}{% endblock %}
+
+{% block content %}
+{% load core_tags %}
+
+<h3>All tags</h3>
+  <div id="spc-itemdisp-container">
+	{% for item in "submission.TagCreation"|cloud:0 %}
+	  <span><a href="{% url spc-show-items what_view="tag" extra_info=item.tag %}" class="spc-tag-cloud" style="font-size: {{item.score}}%">{{item.tag.name}}</a></span>
+	{% endfor %}
+  </div>
+{% endblock %}
+
+

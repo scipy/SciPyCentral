@@ -8,7 +8,7 @@ from django import template
 from scipy_central.pagehit.views import get_pagehits
 from scipy_central.submission.models import Revision, Submission
 from scipy_central.tagging.models import Tag
-from scipy_central.submission.views import get_tag_uses
+from scipy_central.tagging.views import get_tag_uses
 
 from collections import namedtuple
 from math import log
@@ -22,8 +22,13 @@ def top_authors(field, num=5):
 
     # Only return query set instances where the score exceeds 0
     # and the user is validated
-    candidates = manager.top_authors().filter(score__gt=0)[:num*2]
-    return [user for user in candidates if user.profile.is_validated][:num]
+    candidates = manager.top_authors().filter(score__gt=0)
+    entries = [user for user in candidates if user.profile.is_validated]
+    if num > 0:
+        return entries[:num]
+    else:
+        return entries
+
 
 @register.filter
 def most_viewed(field, num=5):
@@ -42,7 +47,8 @@ def cloud(model_or_obj, num=5):
     """ Get a tag cloud """
     tag_uses = get_tag_uses()
     tag_uses.sort(reverse=True)
-    tag_uses = tag_uses[:num]
+    if num != 0:
+        tag_uses = tag_uses[:num]
     max_uses = tag_uses[0][0]
     min_uses = tag_uses[-1][0]
     # Use a logarithmic scaling between 1.0 to 170% of baseline font size

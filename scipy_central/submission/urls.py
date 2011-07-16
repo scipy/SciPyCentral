@@ -9,7 +9,7 @@ urlpatterns = patterns('scipy_central.submission.views',
     #url(r'^show/user/(?P<user>[-\w]+)/', 'show_items',
                                                 #name='spc-show-items-by-user'),
 
-    url(r'^show/(?P<what_view>.+)/(?P<extra_info>.+)?$', 'show_items',
+    url(r'^(?P<what_view>.+)/(?P<extra_info>.+)/$', 'show_items',
                                                        name='spc-show-items'),
 
     # Creating a new item

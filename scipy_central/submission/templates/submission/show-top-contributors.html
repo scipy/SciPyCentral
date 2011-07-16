@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}{{page_title}}{% endblock %}
+
+{% block content %}
+
+<div id="spc-itemdisp-pageheader">{{page_title}}</div>
+<div style="clear:both;"></div>
+<div id="spc-itemdisp-container">
+
+  <div class="spc-itemdisp-pagination">
+	<span class="step-links">
+	  {% if entries.has_previous %}
+		<a href="?page={{ entries.previous_page_number }}">&laquo; Previous</a> |
+	  {% endif %}
+	  {% if entries.has_previous or entries.has_next %}
+		<span class="current">
+		  Page {{ entries.number }} of {{ entries.paginator.num_pages }}
+		</span>
+	  {% endif %}
+	  {% if entries.has_next %}
+	   | <a href="?page={{ entries.next_page_number }}">Next &raquo;</a>
+	  {% endif %}
+	</span>
+  </div>
+
+  <!--<div class="spc-itemdisp-row-container">-->
+	<!--<div class="spc-itemdisp-row spc-itemdisp-header">-->
+		<!--<div class="spc-itemdisp-description spc-itemdisp-td">Description<span class="spc-itemdisp-link "></span></div>-->
+		<!--<div class="spc-itemdisp-created spc-itemdisp-td">Last submission</div>-->
+		<!--<div class="spc-itemdisp-tags spc-itemdisp-td">Tags applied</div>-->
+	<!--</div>-->
+  <!--</div>-->
+
+<ul>
+  {#The ``entry`` objects must be from the ``submission.Revision`` class #}
+  {% for entry in entries.object_list %}
+	<li><a href="{% url spc-user-profile slug=entry.profile.slug %}">{{entry.username}}</a>
+
+	<!--Tags applied by {{entry.username}}: taglist here-->
+
+
+  {% endfor %}
+</ul>
+<div style="clear:both;"></div>
+</div>
+
+{% endblock %}
+

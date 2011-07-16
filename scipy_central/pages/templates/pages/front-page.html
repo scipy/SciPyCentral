@@ -27,7 +27,7 @@
 			  <li><a href="{{ item.get_absolute_url }}">{{ item.title }}</a>{% if item.short_human_revision_string %} ({{item.short_human_revision_string|safe}}){% endif %}</li>
 			{% endfor %}
 			</ul>
-			<a href="{% url spc-show-items what_view="all"  %}">Show all</a>
+			<a href="{% url spc-show-items what_view="show" extra_info="all"  %}">Show all</a>
 		</div>
 		<div class="spc-portal-right">
 		  <h3>Most viewed</h3>
@@ -36,7 +36,7 @@
 			  <li><a href="{{ item.get_absolute_url }}">{{ item.last_revision.title }}</a></li>
 			{% endfor %}
 			</ul>
-			<p><a href="{% url spc-show-items what_view="most-viewed"  %}">Show all</a>
+			<p><a href="{% url spc-show-items what_view="sort" extra_info="most-viewed"  %}">Show all</a>
 		</div>
 	  </div>
 	</div>
@@ -48,8 +48,7 @@
 		    {% for item in "submission.TagCreation"|cloud:25 %}
 			  <span><a href="{% url spc-show-items what_view="tag" extra_info=item.tag %}" class="spc-tag-cloud" style="font-size: {{item.score}}%">{{item.tag.name}}</a></span>
 			{% endfor %}
-			<p><a href=" ">Show all</a>
-		    <!--{{tag_cloud_html}}-->
+			<p><a href="{% url spc-show-items what_view="show" extra_info="all-tags" %}">Show all</a>
 		</div>
 		<div class="spc-portal-right">
 		  <h3>Top contributors</h3>
@@ -58,7 +57,7 @@
 			  <li><a href="{{ item.get_profile.get_absolute_url }}">{{ item.username }}</a> [{{item.score}}]</li>
 			{% endfor %}
 			</ul>
-			<p><a href=" ">Show all</a>
+			<p><a href="{% url spc-show-items what_view="show" extra_info="top-contributors" %}">Show all</a>
 		</div>
 	  </div>
 	</div>
