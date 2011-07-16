@@ -592,22 +592,15 @@ div .spc-itemdisp-mainlink{
   width: 23%;
 }
 .spc-itemdisp-odd{
-  background: #ddd;
+  background: #fff8f1;
 }
 .spc-itemdisp-even{
   background: #fff;
 }
 .spc-itemdisp-header{
-  background: #bbb;
-  height: 2em;
+  background: #f1c79d;
+  padding: 0.4em 0 0.4em 0;
   font-weight: bold;
-  text-align: center;
-}
-.spc-itemdisp-header{
-  background: #bbb;
-  height: 2em;
-  font-weight: bold;
-  text-align: center;
 }
 #spc-itemdisp-pageheader{
   text-align: center;
