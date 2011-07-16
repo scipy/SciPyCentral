@@ -33,7 +33,7 @@ div#spc-section-body td.linenos pre {
     color: #aaa;
 }
 .highlight .hll { background-color: #ffffcc }
-.highlight  { background: #000; }
+.highlight  { background: #ffffff; }
 .highlight .c { color: #008000 } /* Comment */
 .highlight .k { color: #000080; font-weight: bold } /* Keyword */
 .highlight .n { color: #000000 } /* Name */
@@ -57,7 +57,7 @@ div#spc-section-body td.linenos pre {
 .highlight .nd { color: #000000 } /* Name.Decorator */
 .highlight .ni { color: #000000 } /* Name.Entity */
 .highlight .ne { color: #000000 } /* Name.Exception */
-.highlight .nf { color: #008080 } /* Name.Function */
+.highlight .nf { color: #008080; font-weight: bold } /* Name.Function */
 .highlight .nl { color: #000000 } /* Name.Label */
 .highlight .nn { color: #000000 } /* Name.Namespace */
 .highlight .nx { color: #000000 } /* Name.Other */
@@ -85,4 +85,3 @@ div#spc-section-body td.linenos pre {
 .highlight .vg { color: #000000 } /* Name.Variable.Global */
 .highlight .vi { color: #000000 } /* Name.Variable.Instance */
 .highlight .il { color: #008080 } /* Literal.Number.Integer.Long */
-

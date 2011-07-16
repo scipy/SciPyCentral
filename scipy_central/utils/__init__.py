@@ -112,6 +112,8 @@ def _slug_strip(value, separator='-'):
 def highlight_code(code):
     """ Uses Pygments to provide syntax highlighting.
     """
+# See this page for help with colouring: http://pygments.org/docs/tokens/
+#
 #from pygments.styles.default import DefaultStyle
 #from pygments.style import Style
 #from pygments.styles import get_style_by_name
@@ -130,7 +132,7 @@ def highlight_code(code):
         #Keyword:                'bold #000080',
         #Name:                   '#000',
         #Name.Builtin:           '#407090',
-        #Name.Function:          '#008080',
+        #Name.Function:          'bold #008080',
         #Name.Class:             'bold #00F',
         #Name.Namespace:         '#000000',
         #Number:                 '#008080',
