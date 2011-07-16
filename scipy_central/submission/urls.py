@@ -4,11 +4,13 @@ urlpatterns = patterns('scipy_central.submission.views',
 
     # SHOW ITEMS in different ways
     # ============================
-    url(r'^show/$', 'show_items', name='spc-show-all'),
-    url(r'^show/tag/(?P<tag>.+)/', 'show_items',
-                                                 name='spc-show-items-by-tag'),
-    url(r'^show/user/(?P<user>[-\w]+)/', 'show_items',
-                                                name='spc-show-items-by-user'),
+    #url(r'^show/$', 'show_items', name='spc-show-all'),
+
+    #url(r'^show/user/(?P<user>[-\w]+)/', 'show_items',
+                                                #name='spc-show-items-by-user'),
+
+    url(r'^show/(?P<what_view>.+)/(?P<extra_info>.+)?$', 'show_items',
+                                                       name='spc-show-items'),
 
     # Creating a new item
     url(r'^new/$', 'new_or_edit_submission', name='spc-new-submission'),

@@ -623,26 +623,36 @@ def sort_items_by_page_views(all_items, item_module_name):
 
     return entry_order, count_list
 
-
-def show_items(request, tag=None, user=None):
-    """ Shows all items in the database, sorted from most most page views to
-    least page views.
+def show_items(request, what_view=None, extra_info=None):
+    """ Show different views onto all **revision** items (not submissions)
     """
-    all_revs = models.Revision.objects.all().order_by('-date_created')
-    if tag is None:
+    if what_view == 'tag':
+        all_revs = models.Revision.objects.all().filter(tags__slug=slugify(extra_info))
+        page_title = 'All entries tagged'
+        extra_info = '"%s"' % extra_info
+        entry_order = list(all_revs)
+    elif what_view == 'all':
+        # Show all submissions in reverse time order
+        all_revs = models.Revision.objects.all().order_by('-date_created')
         page_title = 'All submissions'
         extra_info = ''
-    else:
-        all_revs = all_revs.filter(tags__slug=slugify(tag))
-        page_title = 'All entries tagged'
-        extra_info = '"%s"' % tag
+        entry_order = list(all_revs)
+    elif what_view == 'most-viewed':
+        page_title = 'All submissions in order of most views'
+        extra_info = ''
+        all_subs = set()
+        for rev in models.Revision.objects.all():
+            all_subs.add(rev.entry)
+        entry_order, _ = sort_items_by_page_views(all_subs, 'submission')
+        entry_order = [entry.last_revision for entry in entry_order]
 
-    #all_subs = set()
-    #for rev in all_revs:
-        #all_subs.add(rev.entry)
-
-    entry_order = list(all_revs)
     #entry_order.sort(key=lambda r: r.date_created, reverse=True)
+    entries = paginated_queryset(request, entry_order)
+    return render_to_response('submission/show-entries.html', {},
+                              context_instance=RequestContext(request,
+                                                {'entries': entries,
+                                                 'page_title': page_title,
+                                                 'extra_info': extra_info}))
 
     # This code isn't quite right: a user can create a revision: we should show
     # the particular revision which that user created, not necessarily the
@@ -653,13 +663,7 @@ def show_items(request, tag=None, user=None):
         #for rev in all_revisions:
             #all_subs.add(rev.entry)
 
-    #entry_order, count_list = sort_items_by_page_views(all_subs, 'submission')
-    entries = paginated_queryset(request, entry_order)
-    return render_to_response('submission/show-entries.html', {},
-                              context_instance=RequestContext(request,
-                                                {'entries': entries,
-                                                 'page_title': page_title,
-                                                 'extra_info': extra_info}))
+
 
 #------------------------------------------------------------------------------
 def get_tag_uses(start_date=None, end_date=None):

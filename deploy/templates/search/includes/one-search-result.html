@@ -8,7 +8,7 @@
 	  </div>
 	  <div class="spc-itemdisp-created spc-itemdisp-td"><a href="{% url spc-user-profile slug=entry.created_by.profile.slug %}">{{entry.created_by.username}}</a> on {{ entry.date_created|date:"d F Y"}}
 	  {% if entry.short_human_revision_string %}<span class="spc-itemdisp-revinfo">({{entry.short_human_revision_string|safe}})</span>{% endif %}</div>
-	  <div class="spc-itemdisp-tags spc-itemdisp-td">{% for tag in entry.tags.all %}<span><a href="{% url spc-show-items-by-tag tag%}" class="spc-tag">{{tag.name}}</a></span>{% endfor %}</div>
+	  <div class="spc-itemdisp-tags spc-itemdisp-td">{% for tag in entry.tags.all %}<span><a href="{% url spc-show-items what_view="tag" extra_info=tag %}" class="spc-tag">{{tag.name}}</a></span>{% endfor %}</div>
 	</li>
   </div>
 </div>

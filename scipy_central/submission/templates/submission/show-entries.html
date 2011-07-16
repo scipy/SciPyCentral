@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{page_title}}{% endblock %}
+{% block title %}{{page_title}}{% if extra_info %}: {{extra_info}}{% endif %}{% endblock %}
 
 {% block content %}
 

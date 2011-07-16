@@ -23,9 +23,16 @@
     <div class="spc-item-row">
     </div>
 
+    {% if item.id %}
+    <div class="spc-item-row">
+      <span class="spc-item-label">Identifier:</span>
+      <span class="spc-item-entry"><b>{{ item.id }}</b></span>
+    </div>
+    {% endif %}
+
     <div class="spc-item-row">
       <span class="spc-item-label">Submitted by:</span>
-      <span class="spc-item-entry">{% if item.entry.created_by.profile.is_validated %}<a href="{% url spc-user-profile item.entry.created_by.profile.slug %}">{{item.entry.created_by.username}}</a>{% else %}Unvalidated user{% endif %}, {% if item.entry.date_created %}{{item.entry.date_created|naturalday:"d F Y"}}{% else %}today{% endif %}</span>
+      <span class="spc-item-entry">{% if item.entry.created_by.profile.is_validated %}<a href="{% url spc-user-profile item.entry.created_by.profile.slug %}">{{item.entry.created_by.username}}</a>, {% if item.entry.date_created %}{{item.entry.date_created|naturalday:"d F Y"}}{% else %}today{% endif %}{% else %}Your name will be here once you validate yourself by email{% endif %}</span>
     </div>
 
     {% if item.entry.num_revisions > 1 %}
@@ -65,7 +72,7 @@
     </div>
     <div class="spc-item-row">
       <span class="spc-item-label">Tags:</span>
-      <span class="spc-item-entry">{% for tag in tag_list %}<span><a href="{% url spc-show-items-by-tag tag%}" class="spc-tag">{{tag.name}}</a></span>{% endfor %}</span>
+      <span class="spc-item-entry">{% for tag in tag_list %}<span><a href="{% url spc-show-items what_view="tag" extra_info=tag %}" class="spc-tag">{{tag.name}}</a></span>{% endfor %}</span>
     </div>
     <div style="clear:both;">&nbsp;</div>
   </div>
