@@ -626,6 +626,9 @@ div#spc-itemdisp-container h6 { font-size: 100%; }
 	font-size: 80%;
 	float: left;
 }
+.spc-permalink p{
+	margin: 0;
+}
 .spc-permalink a{
 	text-decoration: none;
 }

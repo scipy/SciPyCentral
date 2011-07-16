@@ -23,13 +23,6 @@
     <div class="spc-item-row">
     </div>
 
-    {% if item.id %}
-    <div class="spc-item-row">
-      <span class="spc-item-label">Identifier:</span>
-      <span class="spc-item-entry"><b>{{ item.id }}</b></span>
-    </div>
-    {% endif %}
-
     <div class="spc-item-row">
       <span class="spc-item-label">Submitted by:</span>
       <span class="spc-item-entry">{% if item.entry.created_by.profile.is_validated %}<a href="{% url spc-user-profile item.entry.created_by.profile.slug %}">{{item.entry.created_by.username}}</a>, {% if item.entry.date_created %}{{item.entry.date_created|naturalday:"d F Y"}}{% else %}today{% endif %}{% else %}Your name will be here once you validate yourself by email{% endif %}</span>
@@ -80,11 +73,13 @@
   <div id="spc-extra-message">{{extra_html|safe}}</div>
 
   {% if permalink %}
-  <div class="spc-permalink">
-  <p>Permalink to this revision: <a href="{{permalink}}">{{permalink}}</a>
-  <p>Permalink to latest revision: <a href="{{latest_link}}">{{latest_link}}</a>
-  </div>
+    <div class="spc-permalink">
+    <p>{% if item.id %}Identifier #: <b>{{ item.entry.id }}</b>{% endif %}
+    <p>Permalink to this revision: <a href="{{permalink}}">{{permalink}}</a>
+    <p>Permalink to latest revision: <a href="{{latest_link}}">{{latest_link}}</a>
+    </div>
   {% endif %}
+
 
   <div style="clear: both;"><p>&nbsp;</div>
 
