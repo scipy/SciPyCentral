@@ -597,7 +597,7 @@ def sort_items_by_page_views(all_items, item_module_name):
     start_date = today - datetime.timedelta(days=settings.SPC['hit_horizon'])
     page_order = get_pagehits(item_module_name, start_date=start_date,
                                                                end_date=today)
-    page_order.reverse()
+    page_order.sort(reverse=True)
 
     #``page_order`` is a list of tuples; the 2nd entry in each tuple is the
     # primary key, that must exist in ``items_pk``.

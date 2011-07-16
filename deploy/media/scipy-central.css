@@ -576,6 +576,11 @@ div.spc-item-row span.spc-item-entry {
   float: right;
   font-size: 80%;
 }
+div .spc-itemdisp-mainlink{
+	text-decoration: underline;
+	float: left;
+	width: 100%;
+}
 .spc-itemdisp-revinfo{
   float: right;
   font-size: 80%;

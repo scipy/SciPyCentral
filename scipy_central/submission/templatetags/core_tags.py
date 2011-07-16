@@ -31,10 +31,10 @@ def most_viewed(field, num=5):
     top_items = get_pagehits(field)
     top_items.sort(reverse=True)
     out = []
-    for score, pk in top_items:
+    for score, pk in top_items[:num]:
         out.append(Submission.objects.get(id=pk))
         out[-1].score = score
-    return out[:num]
+    return out
 
 
 @register.filter
