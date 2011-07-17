@@ -211,8 +211,8 @@ SPC = {
     # required to sure this location exists for production servers.
     'comment_compile_dir': tempdir + os.sep + 'compile',
 
-    # Default name of license file (e.g. 'LICENSE.TXT')
-    'license_filename': 'LICENSE.TXT',
+    # Default name of license file (e.g. 'COPYING.TXT')
+    'license_filename': 'COPYING.TXT',
 
     # Short link URL root (must end with a trailing slash).
     'short_URL_root': 'http://scpyce.org/',

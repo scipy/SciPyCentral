@@ -258,6 +258,7 @@ def create_or_edit_submission_revision(request, item, is_displayed,
         rev.save()
 
         if sub.sub_type == 'snippet':
+            fname = rev.slug.replace('-', '_') + '.py'
             if not item.cleaned_data['pk']:
             # Create a new repository for the files
                 datenow = datetime.datetime.now()
@@ -275,7 +276,6 @@ def create_or_edit_submission_revision(request, item, is_displayed,
                                                               (user.id)
 
 
-            fname = rev.slug.replace('-', '_') + '.py'
             sub.fileset.add_file_from_string(fname, request.POST['snippet_code'])
             license_file = settings.SPC['license_filename']
             license_text = get_license_text(rev)
@@ -314,7 +314,42 @@ def get_license_text(rev):
     revision and authorship information from previous revisions, if necessary,
     to create the license.
     """
-    return '****\nGENERATE LICENSE TEXT STILL\n****'
+    # See http://wiki.creativecommons.org/CC0_FAQ for all the details
+    if rev.entry.num_revisions > 1:
+        update_list = ['', 'Subsequent updates by:']
+    else:
+        update_list = []
+    for idx, item in enumerate(rev.entry.revisions.all()):
+        if idx > 0:
+            url = settings.SPC['short_URL_root'] + 'users/'
+            url += item.created_by.profile.slug + '/'
+            date = datetime.datetime.strftime(item.date_created, '%d %B %Y')
+            update_list.append('%s on %s' % (url, date))
+
+    update_string = '\n'.join(update_list)
+
+    cc0 = """%s
+-----
+Originally written on %s by %s
+%s
+
+To the extent possible under law, the author(s) have dedicated all copyright
+and related and neighboring rights to this software to the public domain
+worldwide. This software is distributed without any warranty.
+
+You should have received a copy of the CC0 Public Domain Dedication along with
+this software (see below).
+
+Also see http://creativecommons.org/publicdomain/zero/1.0/
+-----
+%s
+""" %\
+(rev.title, datetime.datetime.strftime(rev.entry.date_created, '%d %B %Y'),
+ settings.SPC['short_URL_root'] + 'users/' + item.entry.created_by.profile.slug,
+ update_string, rev.sub_license.text_template)
+
+    if rev.sub_license.slug == 'cc0':
+        return cc0
 
 
 def tag_autocomplete(request):
@@ -636,6 +671,7 @@ def sort_items_by_page_views(all_items, item_module_name):
             count_list.append(0)
 
     return entry_order, count_list
+
 
 def show_items(request, what_view='', extra_info=''):
     """ Show different views onto all **revision** items (not submissions)
