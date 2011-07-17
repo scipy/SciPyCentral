@@ -7,7 +7,7 @@
 		  {% if entry.entry.sub_type == 'snippet' %}<img src="{{MEDIA_URL}}single-file-list-icon-tiny.png">{% endif %}
 		  {% if entry.entry.sub_type == 'link' %}<img src="{{MEDIA_URL}}external-link-list-icon-tiny.png">{% endif %}
 		</div>
-		<div style="width: 90%; float: left;">
+		<div style="width: 85%; float: left;">
 		  <a class="spc-itemdisp-mainlink" href="{{entry.get_absolute_url}}">{{ entry.title}}</a>
 		  {{ entry.description_html|truncatewords_html:"30"|safe|removetags:"p li ul ol"}}
 		</div>
