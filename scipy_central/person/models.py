@@ -66,8 +66,6 @@ class SciPyRegistrationBackend(DefaultBackend):
         return new_user
 
 
-
-
 class UserProfile(models.Model):
     # See https://docs.djangoproject.com/en/1.3/topics/auth/
 
