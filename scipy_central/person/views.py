@@ -94,9 +94,12 @@ def create_new_account_internal(email):
     return new_user
 
 
-def create_new_account( user=None, **kwargs):
+def create_new_account(user=None, **kwargs):
     """
     Complete creating the new user account: i.e. a new ``User`` object.
+
+    This is a signal that is caught when the ``registration`` module creates a
+    new user.
     """
     if 'instance' in kwargs and kwargs.get('created', False):
         new_user = kwargs.get('instance', user)

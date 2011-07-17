@@ -198,6 +198,8 @@ SPC = {
     # Please ensure this directory is NOT somewhere under your web root,
     # to prevent direct access to the files (note that the setting as written
     # in here might be under the webroot).
+    #
+    # Must end with a trailing ``os.sep`` character
     'storage_dir': MEDIA_ROOT + 'code' + os.sep,
 
     # Where should logfiles be written? If DEBUG != True, then you are

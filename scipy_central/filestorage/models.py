@@ -24,7 +24,7 @@ class FileSet(models.Model):
         """ Override the model's saving function to ensure the repo dir is
         created. """
 
-        utils.ensuredir(self.repo_path)
+        utils.ensuredir(storage_dir + self.repo_path)
         super(FileSet, self).save(*args, **kwargs)
 
     def add_file_from_string(self, filename, list_strings, commit_msg=''):
@@ -33,12 +33,12 @@ class FileSet(models.Model):
         the file. A commit will be written to the repo is ``commit_msg`` is not
         empty.
         """
-        fname = self.repo_path + filename
+        fname = storage_dir + self.repo_path + filename
         f = open(fname, 'w')
         f.writelines(list_strings)
         f.close()
 
-        repo = DVCSRepo(backend, self.repo_path,
+        repo = DVCSRepo(backend, storage_dir + self.repo_path,
                              dvcs_executable=revisioning_executable)
         # Save the location for next time
         globals()['revisioning_executable'] = repo.executable
@@ -57,5 +57,5 @@ class FileSet(models.Model):
             repo.commit(commit_msg)
 
     def __unicode__(self):
-        return self.repo_path
+        return '<storage_dir>/' + self.repo_path
 

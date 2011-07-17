@@ -239,19 +239,27 @@ class Revision(models.Model):
     @property
     def previous_revision(self):
         all_revs = list(self.entry.revisions.absolutely_all())
-        if all_revs.index(self)-1 >= 0:
-            return all_revs[all_revs.index(self)-1]
-        else:
+        try:
+            if all_revs.index(self)-1 >= 0:
+                return all_revs[all_revs.index(self)-1]
+            else:
+                return None
+        except ValueError:
+            # Happens when previewing a submission before submitting it
             return None
 
     @property
     def next_revision(self):
         all_revs = list(self.entry.revisions.absolutely_all())
-        if all_revs.index(self)+1 >= len(all_revs):
+        try:
+            if all_revs.index(self)+1 >= len(all_revs):
+                return None
+            else:
+                return all_revs[all_revs.index(self)+1]
+        except ValueError:
+            # Happens when previewing a submission before submitting it
+            # (the template calls on self.next_revision)
             return None
-        else:
-            return all_revs[all_revs.index(self)+1]
-
     @property
     def human_revision_string(self):
         """ Returns the revision information in a helpful way

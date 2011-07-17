@@ -10,13 +10,17 @@
   <h2>{{item.title}}</h2>
 
   <div id="spc-profile-user-options">
+    <ul>
       {% if user.id == item.created_by.id %}
         {% if item.id %}
-        <ul>
           <li><a href="{% url spc-edit-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Edit this {{item.entry.sub_type}}</a></li>
-        </ul>
+        {% endif %}
+      {% else %}
+        {% if user.username %}
+          <li><a href="{% url spc-edit-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Edit this {{item.entry.sub_type}}</a></li>
         {% endif %}
       {% endif %}
+    </ul>
   </div>
   <div id="spc-itemdisp-container">
 

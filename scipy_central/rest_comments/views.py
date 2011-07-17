@@ -57,8 +57,8 @@ def compile_rest_to_html(raw_rest):
             if raw.match(line):
                 raw_rest[idx] = ''
 
-        # Remove hyperlinks to remote items: e.g. .. image:: http://badimage.com
-        NO_REMOTE = ['image', 'figure', 'literalinclude', 'include', 'csv-table']
+                # Remove hyperlinks to remote items: e.g. .. include:: http://badstuff.com
+        NO_REMOTE = ['literalinclude', 'include', 'csv-table']
         for item in NO_REMOTE:
             remote_re = re.compile(r'^(\s*)..(\s*)' + item + r'(\s*)::(\s*)http')
             for idx, line in enumerate(raw_rest):

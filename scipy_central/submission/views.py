@@ -81,7 +81,13 @@ def get_items_or_404(view_function):
                                               not(the_revision.is_displayed):
             return page_404_error(request)
 
-        if request.path.split('/')[2] != 'edit':
+        # Is the URL of the form: "..../NN/MM/edit"; if so, then edit the item
+        path_split = request.path.split('/')
+        if len(path_split)>4 and path_split[4] == 'edit':
+            return view_function(request, the_submission, the_revision)
+
+        # Is the URL not the canonical URL for the item? .... redirect the user
+        else:
             if rev_id is None:
                 rev_id_str = '0'
                 do_redirect = True
@@ -161,6 +167,7 @@ def create_or_edit_submission_revision(request, item, is_displayed,
 
     # A new submission
     if item.cleaned_data['pk']:
+        # We are editing an existing submission: pull it from the DB
         try:
             sub = models.Submission.objects.get(id=item.cleaned_data['pk'])
         except ObjectDoesNotExist:
@@ -251,12 +258,14 @@ def create_or_edit_submission_revision(request, item, is_displayed,
         rev.save()
 
         if sub.sub_type == 'snippet':
-            datenow = datetime.datetime.now()
-            year, month = datenow.strftime('%Y'), datenow.strftime('%m')
-            repo_path = settings.SPC['storage_dir'] + year + os.sep + month
-            repo_path += os.sep + '%06d%s' % (rev.id, os.sep)
-            sub.fileset = FileSet.objects.create(repo_path=repo_path)
-            sub.save()
+            if not item.cleaned_data['pk']:
+            # Create a new repository for the files
+                datenow = datetime.datetime.now()
+                year, month = datenow.strftime('%Y'), datenow.strftime('%m')
+                repo_path = year + os.sep + month + os.sep + '%06d'% sub.id +\
+                          os.sep
+                sub.fileset = FileSet.objects.create(repo_path=repo_path)
+                sub.save()
 
             fname = rev.slug.replace('-', '_') + '.py'
 
