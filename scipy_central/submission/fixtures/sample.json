@@ -35,6 +35,14 @@
     }
   },
   {
+    "pk": 1,
+    "model": "filestorage.fileset",
+    "fields": {
+      "created": "2011-07-17 16:36:49",
+      "repo_path": "2011/07/000005/"
+    }
+  },
+  {
     "_comment_": "License code from http://creativecommons.org/publicdomain/zero/1.0/legalcode.txt",
     "pk": 1,
     "model": "submission.license",
@@ -1091,7 +1099,18 @@
       "slug": "monte-carlo"
     }
   },
-    {
+  {
+    "pk": 128,
+    "model": "tagging.tag",
+    "fields": {
+      "description": null,
+      "tag_type": "regular",
+      "slug": "fsolve",
+      "image": "",
+      "name": "fsolve"
+    }
+  },
+  {
     "pk": 1,
     "model": "submission.submission",
     "fields": {
@@ -1133,6 +1152,17 @@
       "created_by": 3,
       "date_created": "2011-07-03 12:15:54",
       "sub_type": "link"
+    }
+  },
+  {
+    "pk": 5,
+    "model": "submission.submission",
+    "fields": {
+      "frozen": false,
+      "date_created": "2011-07-17 16:36:49",
+      "sub_type": "snippet",
+      "created_by": 3,
+      "fileset": 1
     }
   },
   {
@@ -1238,6 +1268,27 @@
       "entry": 4,
       "slug": "ipython-an-interactive-computing-environment",
       "hash_id": "d41d8cd98f00b204e9800998ecf8427e"
+    }
+  },
+  {
+    "pk": 6,
+    "model": "submission.revision",
+    "fields": {
+      "sub_license": 1,
+      "item_url": null,
+      "description": "The code considers the case of finding the intersection of a polynomial, :math:`y=x^2` and a line, :math:`y=x+1`.\r\n\r\nWrite these functions in the form :math:`\\mathbf{f(x) = 0}`, in other words:\r\n\r\n.. math::\r\n\r\n    f_1(x, y) &= y - x^2 = 0\\\\\r\n    f_2(x, y) &= y - x - 1 = 0 \r\n\r\nNow write your Python function, as shown in the code, so that it accepts a vector of these inputs, :math:`x` and :math:`y`, and return another vector of outputs which contains :math:`\\mathbf{f(x)}`.\r\n\r\nEntry inspired by http://scipy.org/Cookbook/Intersection\r\n\r\nRead the `documentation for fsolve <http://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.fsolve.html>`_.",
+      "description_html": "<p>The code considers the case of finding the intersection of a polynomial, <span class=\"math\">\\(y=x^2\\)</span> and a line, <span class=\"math\">\\(y=x+1\\)</span>.</p>\n<p>Write these functions in the form <span class=\"math\">\\(\\mathbf{f(x) = 0}\\)</span>, in other words:</p>\n<div class=\"math\">\n\\[\\begin{split}f_1(x, y) &amp;= y - x^2 = 0\\\\\nf_2(x, y) &amp;= y - x - 1 = 0\\end{split}\\]</div>\n<p>Now write your Python function, as shown in the code, so that it accepts a vector of these inputs, <span class=\"math\">\\(x\\)</span> and <span class=\"math\">\\(y\\)</span>, and return another vector of outputs which contains <span class=\"math\">\\(\\mathbf{f(x)}\\)</span>.</p>\n<p>Entry inspired by <a class=\"reference external\" href=\"http://scipy.org/Cookbook/Intersection\">http://scipy.org/Cookbook/Intersection</a></p>\n<p>Read the <a class=\"reference external\" href=\"http://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.fsolve.html\">documentation for fsolve</a>.</p>\n",
+      "title": "Find the points at which two given functions intersect",
+      "screenshot": null,
+      "created_by": 3,
+      "is_displayed": true,
+      "validation_hash": null,
+      "item_code": "from scipy.optimize import fsolve\r\nimport numpy as np\r\n\r\ndef f(input_vector):\r\n   x, y = input_vector\r\n   return  np.array([y - x**2, y - x - 1.0])\r\n\r\n\r\n# Solve the function, using (x=1, y=2) as the initial guess\r\nfsolve(f, [1.0, 2.0])",
+      "date_created": "2011-07-17 16:36:49",
+      "item_highlighted_code": "<table class=\"highlighttable\"><tr><td class=\"linenos\"><div class=\"linenodiv\"><pre> 1\n 2\n 3\n 4\n 5\n 6\n 7\n 8\n 9\n10</pre></div></td><td class=\"code\"><div class=\"highlight\"><pre><span class=\"kn\">from</span> <span class=\"nn\">scipy.optimize</span> <span class=\"kn\">import</span> <span class=\"n\">fsolve</span>\n<span class=\"kn\">import</span> <span class=\"nn\">numpy</span> <span class=\"kn\">as</span> <span class=\"nn\">np</span>\n\n<span class=\"k\">def</span> <span class=\"nf\">f</span><span class=\"p\">(</span><span class=\"n\">input_vector</span><span class=\"p\">):</span>\n   <span class=\"n\">x</span><span class=\"p\">,</span> <span class=\"n\">y</span> <span class=\"o\">=</span> <span class=\"n\">input_vector</span>\n   <span class=\"k\">return</span>  <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">array</span><span class=\"p\">([</span><span class=\"n\">y</span> <span class=\"o\">-</span> <span class=\"n\">x</span><span class=\"o\">**</span><span class=\"mi\">2</span><span class=\"p\">,</span> <span class=\"n\">y</span> <span class=\"o\">-</span> <span class=\"n\">x</span> <span class=\"o\">-</span> <span class=\"mf\">1.0</span><span class=\"p\">])</span>\n\n\n<span class=\"c\"># Solve the function, using (x=1, y=2) as the initial guess</span>\n<span class=\"n\">fsolve</span><span class=\"p\">(</span><span class=\"n\">f</span><span class=\"p\">,</span> <span class=\"p\">[</span><span class=\"mf\">1.0</span><span class=\"p\">,</span> <span class=\"mf\">2.0</span><span class=\"p\">])</span>\n</pre></div>\n</td></tr></table>",
+      "entry": 5,
+      "slug": "find-the-points-at-which-two-given-functions-intersect",
+      "hash_id": "b0d2f5f786edf3da05d2e4148ca6b7e9"
     }
   },
   {
@@ -1398,6 +1449,26 @@
       "tag": 57,
       "created_by": 3,
       "revision": 5
+    }
+  },
+  {
+    "pk": 17,
+    "model": "submission.tagcreation",
+    "fields": {
+      "date_created": "2011-07-17 16:36:50",
+      "tag": 128,
+      "created_by": 3,
+      "revision": 6
+    }
+  },
+  {
+    "pk": 18,
+    "model": "submission.tagcreation",
+    "fields": {
+      "date_created": "2011-07-17 16:36:50",
+      "tag": 114,
+      "created_by": 3,
+      "revision": 6
     }
   }
 ]

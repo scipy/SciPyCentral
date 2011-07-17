@@ -266,13 +266,17 @@ def create_or_edit_submission_revision(request, item, is_displayed,
                           os.sep
                 sub.fileset = FileSet.objects.create(repo_path=repo_path)
                 sub.save()
+                commit_msg = ('SPC: auto add "%s" and license to the repo '
+                              'based on the web submission by user "%d"') %\
+                                                              (fname, user.id)
+            else:
+                commit_msg = ('SPC: auto update of file(s) in the repo '
+                              'based on the web submission by user "%d"') %\
+                                                              (user.id)
+
 
             fname = rev.slug.replace('-', '_') + '.py'
-
-            commit_msg = ('SPC: auto add "%s" and license to the repo based '
-                          'on the web submission by user "%d"') % (fname, user.id)
             sub.fileset.add_file_from_string(fname, request.POST['snippet_code'])
-
             license_file = settings.SPC['license_filename']
             license_text = get_license_text(rev)
             sub.fileset.add_file_from_string(license_file, license_text,
