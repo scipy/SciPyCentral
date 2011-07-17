@@ -3,9 +3,14 @@
   <div class="spc-itemdisp-row spc-itemdisp-{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
 	<li>
 	  <div class="spc-itemdisp-description spc-itemdisp-td" id="spc-item-{{entry.pk}}">
-	    <a class="spc-itemdisp-mainlink" href="{{entry.get_absolute_url}}">{{ entry.title}}</a>
-		{{ entry.description_html|truncatewords_html:"30"|safe|removetags:"p li ul ol"}}
-		<!--<span class="spc-itemdisp-link "><a href="{{entry.get_absolute_url}}">More detail</a></span>-->
+		<div style="width: 42px; float: left;">
+		  {% if entry.entry.sub_type == 'snippet' %}<img src="{{MEDIA_URL}}single-file-list-icon-tiny.png">{% endif %}
+		  {% if entry.entry.sub_type == 'link' %}<img src="{{MEDIA_URL}}external-link-list-icon-tiny.png">{% endif %}
+		</div>
+		<div style="width: 90%; float: left;">
+		  <a class="spc-itemdisp-mainlink" href="{{entry.get_absolute_url}}">{{ entry.title}}</a>
+		  {{ entry.description_html|truncatewords_html:"30"|safe|removetags:"p li ul ol"}}
+		</div>
 	  </div>
 	  <div class="spc-itemdisp-created spc-itemdisp-td"><a href="{% url spc-user-profile slug=entry.created_by.profile.slug %}">{{entry.created_by.username}}</a> on {{ entry.date_created|date:"d F Y"}}
 	  {% if entry.short_human_revision_string %}<span class="spc-itemdisp-revinfo">({{entry.short_human_revision_string|safe}})</span>{% endif %}</div>
