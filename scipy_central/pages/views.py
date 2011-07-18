@@ -68,7 +68,8 @@ def page_404_error(request, extra_info=''):
     """ Override Django's 404 handler, because we want to log this also.
     """
     ip = get_IP_address(request)
-    logger.info('404 from %s for request "%s"' % (ip, request.path))
+    logger.info('404 from %s for request "%s"; extra info=%s' %\
+                                          (ip, request.path, str(extra_info)))
     t = get_template('404.html')
     c = RequestContext(request)
     c.update({'extra_info': extra_info})

@@ -58,10 +58,10 @@ def get_items_or_404(view_function):
             # Use the Submissions manager's ``all()`` function
             the_submission = models.Submission.objects.all().filter(id=item_id)
         except ObjectDoesNotExist:
-            return page_404_error(request)
+            return page_404_error(request, 'You request a non-existant item')
 
         if len(the_submission) == 0:
-            return page_404_error(request)
+            return page_404_error(request, 'This item does not exist yet')
 
         the_submission = the_submission[0]
         the_revision = the_submission.last_revision
@@ -74,12 +74,13 @@ def get_items_or_404(view_function):
             try:
                 the_revision = all_revisions[rev_index]
             except (ValueError, IndexError):
-                return page_404_error(request)
+                return page_404_error(request, ('The requested revision is '
+                                                 'non-existant.'))
 
         # Don't return revisions that are not approved for display yet
         if not isinstance(the_revision, models.Revision) or\
                                               not(the_revision.is_displayed):
-            return page_404_error(request)
+            return page_404_error(request, "That revision is'nt available yet.")
 
         # Is the URL of the form: "..../NN/MM/edit"; if so, then edit the item
         path_split = request.path.split('/')
@@ -630,6 +631,10 @@ def edit_submission(request, submission, revision):
 
     # TODO: Check that user is authorized to edit the submission
     # (e.g. link.created_by==user)
+    if submission.sub_type == 'link' and request.user != submission.created_by:
+        return page_404_error(request, ('You are not authorized to edit that '
+                                        'submission. Only the original author '
+                                        'may edit it.'))
 
     # if by POST, we are in the process of editing, so don't send the revision
     if request.POST:

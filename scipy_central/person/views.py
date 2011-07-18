@@ -47,11 +47,11 @@ def profile_page(request, slug):
         try:
             the_user = models.User.objects.get(profile__slug=slug)
         except ObjectDoesNotExist:
-            return page_404_error(request)
+            return page_404_error(request, 'No profile for that user.')
 
     # Don't show the profile for inactive (unvalidated) users
     if not(the_user.is_active):
-        return page_404_error(request)
+        return page_404_error(request, "That user's profile isn't available.")
 
 
     # Items created by this user. Use the ``all()`` function first, to prevent
