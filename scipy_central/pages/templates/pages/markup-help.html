@@ -5,17 +5,147 @@
 {% block content %}
 
 <div id="spc-static-centering">
-Describe markup options:
 
-* bullet points
-* LaTeX math
-* links to tags, items
-* URLS
-* bold, italics
-* code snippets
+<p>We use <a href="http://sphinx.pocoo.org/latest/rest.html">reStructuredText</a>. The &nbsp;<tt> ` </tt>&nbsp; character is the key next to &nbsp;<tt> 1 </tt>&nbsp; and above &nbsp;<tt> Tab </tt>&nbsp; on many keyboards.
+
+<h3 class="spc-help-section"><a href="#mathematics">Mathematics!</a></h3>
+Being a website for scientific resources, we expect good mathematics. Use <a href="http://en.wikibooks.org/wiki/LaTeX/Mathematics#Greek_letters">LaTeX notation</a>.
+<div class="spc-item-row">
+    <span class="spc-50-50">This is inline math: \(z = x^2 + y^2\)</span>
+    <span class="spc-50-50"><tt>This is inline math: </tt><tt>\(</tt><tt>z = x^2 + y^2</tt><tt>\)</tt></span>
+</div>
+<div class="spc-item-row">
+    <span class="spc-50-50">and \(a = \sqrt{b}\) is an alternative way.</span>
+    <span class="spc-50-50"><tt>and :math:`a = \sqrt{b}` is an alternative way.</tt></span>
+    <div style="clear:both;"></div>
+</div>
+<div class="spc-item-row">
+    <span class="spc-50-50">Longer mathematical statements:<div class="math">
+\[\begin{split}f_1(x, y) &amp;= y - x^2 = 0\\
+f_2(x, y) &amp;= y - x - 1 = 0\end{split}\]</div></span>
+    <span class="spc-50-50"><pre>Longer mathematical statements:
+
+.. math::
+
+    f_1(x, y) &= y - x^2 = 0\\
+    f_2(x, y) &= y - x - 1 = 0
+</pre>
+</span>
 </div>
 
+<div style="clear:both;"></div>
+<h3 class="spc-help-section"><a href="#styling">Basic text styling</a></h3>
 
+<div class="spc-item-row">
+    <span class="spc-50-50"><i>Text in italics</i></span>
+    <span class="spc-50-50"><tt>*Text in italics*</tt></span>
+</div>
+<div class="spc-item-row">
+    <span class="spc-50-50"><b>Bold text</b></span>
+    <span class="spc-50-50"><tt>**Bold text**</tt></span>
+</div>
+<div class="spc-item-row">
+    Bold and italics cannot be combined - <i>sorry</i>.
+</div>
+
+<div style="clear:both;"></div>
+<h3 class="spc-help-section"><a href="#bullet-points">Bullet points</a></h3>
+
+<div class="spc-item-row">
+    <span class="spc-50-50">
+<ul>
+<li>Start each line</li>
+<li>with an asterisk.<ul>
+<li>Indent asterisks to get deeper</li>
+<li>and deeper levels.</li>
+</ul>
+</li>
+<li>Line breaks
+do not break levels.<ul>
+<li>But empty lines with indents</li>
+<li>will start new bullet points</li>
+<li>Blank lines are optional</li>
+</ul>
+</li>
+</ul></span>
+    <span class="spc-50-50"><pre>
+*   Start each line
+*   with an asterisk.
+
+    * Indent asterisks to get deeper
+    * and deeper levels.
+
+*   Line breaks
+    do not break levels.
+
+    -   But empty lines with indents
+    -   will start new bullet points
+
+    -   Blank lines are optional.
+</pre></span>
+</div>
+<div class="spc-item-row">
+    <span class="spc-50-50">
+<ol class="arabic simple">
+<li>Start each line</li>
+<li>with a number sign and a period.<ol class="arabic">
+<li>Use indents, as before,</li>
+<li>to nest the level<ul>
+<li>And they may be combined.</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol></span>
+    <span class="spc-50-50"><pre>
+#.  Start each line
+#.  with a number sign and a period.
+
+    #.  Use indents, as before,
+    #.  to nest the level
+
+        - And they may be combined.
+</pre></span>
+</div>
+
+<div style="clear:both;"></div>
+<h3 class="spc-help-section"><a href="#monospaced-text">Monospaced text</a></h3>
+
+<div class="spc-item-row">
+    <span class="spc-50-50">Use backticks to write <tt>monospaced text</tt></span>
+    <span class="spc-50-50"><tt>Use backticks to write ``monospaced text``</tt></span>
+</div>
+
+<div style="clear:both;"></div>
+<h3 class="spc-help-section"><a href="#hyperlinks">External hyperlinks</a></h3>
+
+<div class="spc-item-row">
+    <span class="spc-50-50">An <a href="http://example.com">inline</a> hyperlink</span>
+    <span class="spc-50-50"><tt>An `inline &lt;http://example.com&gt;`_ hyperlink</tt></span>
+</div>
+<div class="spc-item-row">
+    <span class="spc-50-50">Auto-converted when detected: <a href="http://example.com">http://example.com</a></span>
+    <span class="spc-50-50"><tt>Auto-converted when detected: http://example.com</tt></span>
+    <div style="clear:both;"></div>
+</div>
+
+<div style="clear:both;"></div>
+<h3 class="spc-help-section"><a href="#internal-links">Internal hyperlinks</a></h3>
+
+<div class="spc-item-row">
+    <span class="spc-50-50">Link to another link or code: <i>still to come</i></span>
+    <span class="spc-50-50"><tt></tt></span>
+</div>
+<div class="spc-item-row">
+    <span class="spc-50-50">Link to a tag: <i>still to come</i></span>
+    <span class="spc-50-50"><tt></tt></span>
+</div>
+<div class="spc-item-row">
+    <span class="spc-50-50">Link to a user's profile: <i>still to come</i></span>
+    <span class="spc-50-50"><tt></tt></span>
+</div>
+<!--* links to tags, items-->
+</div>
 {% endblock %}
 
 

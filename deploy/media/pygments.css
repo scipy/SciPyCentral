@@ -1,6 +1,6 @@
 /* Styling for the source code listings: (mostly from pygments)*/
 
-div#spc-section-body pre{
+.highlight pre{
     overflow: auto;
     padding: 5px;
     background-color: #ffffff;
@@ -10,6 +10,7 @@ div#spc-section-body pre{
     border-left: none;
     border-right: none;
 }
+
 /* Styling for pre elements: from http://perishablepress.com/press/2009/11/09/perfect-pre-tags/ */
 /* no vertical scrollbars for IE 6 */
 * html pre {

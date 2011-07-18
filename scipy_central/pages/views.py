@@ -38,9 +38,8 @@ def search(request):
 
 
 def markup_help(request):
-    return not_implemented_yet(request, 39)
-    #return render_to_response('pages/markup-help.html', {},
-    #                          context_instance=RequestContext(request))
+    return render_to_response('pages/markup-help.html', {},
+                              context_instance=RequestContext(request))
 
 
 def csrf_failure(request, reason=''):

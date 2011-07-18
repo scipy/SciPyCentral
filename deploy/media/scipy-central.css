@@ -99,6 +99,7 @@ body {
 	margin-top: -2em;
 
 }
+
 #spc-top-menu{
 	padding-top: 0.25em;
 }
@@ -186,10 +187,7 @@ div#spc-section-body .align-center{
 tt {
 	background-color:#EEE;
 	color:#000;
-	font-family: 'Inconsolata', Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
-}
-#id_snippet_code{
-	font: 14px/1.0 'Inconsolata', Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+	font: 16px/1.0 'Inconsolata', Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
 }
 
 /* Main page */
@@ -498,9 +496,6 @@ li.spc-even tt {
 	color: #1E4D6E;
 }
 
-#spc-item-description p{
-	margin-top: 0;
-}
 #spc-preview-edit-submit{
 	clear: both;
 }
@@ -539,6 +534,34 @@ div.spc-item-row span.spc-item-entry {
 	text-align: left;
 }
 
+div.spc-item-row span.spc-50-50{
+	float: left;
+	width: 50%;
+	text-align: left;
+}
+.spc-help-section a{
+   color: #0069CC;
+   margin-top: 1em;
+}
+.spc-entries-list ul{
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+/* Unstyle certain elements in the code/link description fields */
+#spc-item-description p{
+	margin: 0;
+}
+.spc-item-row pre{
+  border: 0px solid #FFF;
+  overflow: auto;
+  padding: 5px;
+  background-color: #EEE;
+  border: none;
+  margin: 0;
+  font: 16px/1.0 'Inconsolata', Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+}
+
 
 /* Item display*/
 #spc-itemdisp-container{
@@ -548,13 +571,7 @@ div.spc-item-row span.spc-item-entry {
 	margin: 0 auto;
 	width: 85%;
 }
-#spc-itemdisp-container ul{
-  padding: 0;
-  margin: 0;
-}
-#spc-itemdisp-container ul{
-  list-style-type: none;
-}
+
 .spc-itemdisp-row-container {
 	clear:both;
 	float:left;
