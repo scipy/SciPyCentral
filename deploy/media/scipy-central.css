@@ -553,6 +553,7 @@ div.spc-item-row span.spc-50-50{
 /* Unstyle certain elements in the code/link description fields */
 .spc-item-description p{
 	margin: 0;
+	margin-bottom: 1em;
 }
 .spc-item-row pre{
   border: 0px solid #FFF;

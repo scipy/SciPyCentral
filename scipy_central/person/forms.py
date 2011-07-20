@@ -52,8 +52,6 @@ class ProfileEditForm(forms.Form):
 
 
 
-
-attrs_dict = {'class': 'required'}
 class SignUpForm(RegistrationForm):
     """
     Same as ``registration``s default form, except we allow spaces in the
@@ -61,7 +59,9 @@ class SignUpForm(RegistrationForm):
     """
     username = forms.RegexField(regex=re.compile('^[\w @.-]+$', re.UNICODE),
                                 max_length=30,
-                                widget=forms.TextInput(attrs=attrs_dict),
+                                widget=forms.TextInput(attrs=
+                                       {'class': 'required',
+                                        'placeholder': '"Mary Appleseed"'}),
                                 label="Username",
                                 error_messages={'invalid': 'This value must '
                                    'contain only letters, numbers, underscores '
