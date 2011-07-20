@@ -1,15 +1,22 @@
-from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
+from django.template.loader import render_to_string
+
 
 # Imports from other SciPy Central apps
-from scipy_central.pages.views import page_404_error, not_implemented_yet
-from scipy_central.submission.models import Revision, Submission
-from scipy_central.utils import paginated_queryset
+from scipy_central.pages.views import page_404_error
+from scipy_central.submission.models import Revision
+from scipy_central.rest_comments.views import compile_rest_to_html
+from scipy_central.utils import paginated_queryset, send_email
+from scipy_central.tagging.views import get_and_create_tags
+
 
 import models
+import forms
+
 import random
 import logging
 
@@ -28,7 +35,83 @@ def profile_page_edit(request, slug):
     User wants to edit his/her profile page.
     """
     # First verify that request.user is the same as slug
-    return not_implemented_yet(request, 43)
+    if request.user.profile.slug != slug:
+        return page_404_error(request, ('You are not authorized to edit that '
+                                        'profile. Only that user may edit it.'))
+
+
+    if request.POST:
+        form = forms.ProfileEditForm(request.POST)
+        if form.is_valid():
+            # Update profile information
+            user = request.user
+
+            previous_email = ''
+            if form.cleaned_data['email'] != user.email:
+                previous_email = user.email
+                user.email = form.cleaned_data['email']
+                user.save()
+
+            user.profile.affiliation = form.cleaned_data['affiliation']
+            user.profile.country = form.cleaned_data['country']
+            user.profile.bio = form.cleaned_data['bio']
+            user.profile.bio_html = compile_rest_to_html(form.cleaned_data['bio'])
+            user.profile.uri = form.cleaned_data['uri']
+
+            user.profile.save()
+
+            tag_list = get_and_create_tags(form.cleaned_data['interests'])
+
+            # First delete all the user's previous interests, so we can update
+            # them with the new ones
+            for interest in models.InterestCreation.objects.filter(user=user):
+                #.profile.interests.all():
+                interest.delete()
+
+            # Add user's interests through the intermediate
+            # model instance
+            for tag in tag_list:
+                tag_intermediate = models.InterestCreation(user=user.profile,
+                                                           tag=tag)
+                tag_intermediate.save()
+                logger.debug('User "%s" added interest "%s" to their profile'%\
+                             (user.profile.slug, str(tag)))
+
+            if previous_email:
+                ctx_dict = {'new_email': user.email,
+                            'admin_email': settings.DEFAULT_FROM_EMAIL,
+                            'username': user.username}
+                message = render_to_string(\
+                              'person/email_about_changed_email_address.txt',
+                              ctx_dict)
+                send_email((previous_email,), ("SciPy Central: change of "
+                                        "email address"), message=message)
+
+
+            return redirect(profile_page, user.profile.slug)
+
+    else:
+        user = request.user
+        interests = ','.join(list(set([str(intr) for intr in user.profile.interests.all()])))
+        fields =  {'uri': user.profile.uri,
+                   'email': user.email,
+                   'bio': user.profile.bio,
+                   'interests': interests,
+                   'country': user.profile.country,
+                   'affiliation': user.profile.affiliation,
+                   'pk': user.id,
+                   }
+        form = forms.ProfileEditForm(fields)
+
+    return render_to_response('submission/new-item.html', {},
+                          context_instance=RequestContext(request,
+                                {'item': form,
+                                 'buttontext': 'Update your profile',
+                                 'pagetitle': 'Update your profile',
+                                }))
+
+
+#return not_implemented_yet(request, 43)
 
 
 @login_required
@@ -123,3 +206,4 @@ def account_activation(user, **kwargs):
         rev.is_displayed = True
         rev.validation_hash = None
         rev.save()
+

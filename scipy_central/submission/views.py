@@ -1,5 +1,4 @@
 # All of Django's wonderful imports
-from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.conf import settings
@@ -7,11 +6,9 @@ from django.core.files.base import ContentFile
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.template.defaultfilters import slugify
 from django.template.loader import render_to_string
-from django.utils import simplejson
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.models import Site
-from django.views.generic.list_detail import object_list
 from django.utils.hashcompat import sha_constructor
 
 # Imports from this app and other SPC apps
@@ -19,7 +16,7 @@ from scipy_central.screenshot.forms import ScreenshotForm as ScreenshotForm
 from scipy_central.screenshot.models import Screenshot as ScreenshotClass
 from scipy_central.person.views import create_new_account_internal
 from scipy_central.filestorage.models import FileSet
-from scipy_central.tagging.models import Tag, parse_tags
+from scipy_central.tagging.views import get_and_create_tags
 from scipy_central.utils import send_email, paginated_queryset, highlight_code
 from scipy_central.rest_comments.views import compile_rest_to_html
 from scipy_central.pages.views import page_404_error, not_implemented_yet
@@ -30,7 +27,7 @@ import forms
 
 # Python imports
 from hashlib import md5
-from collections import namedtuple, defaultdict
+from collections import namedtuple
 import random
 import logging
 import os
@@ -192,19 +189,7 @@ def create_or_edit_submission_revision(request, item, is_displayed,
         sshot = None
 
     # Process any tags
-    tag_list = []
-    for tag in parse_tags(item.cleaned_data['sub_tags']):
-        try:
-            tag_obj = Tag.objects.get_or_create(name=tag)[0]
-        except ValidationError:
-            pass
-        else:
-            # Does the tag really exist or was it found because of the lack of
-            # case sensitivity (e.g. "2D" vs "2d"
-            if tag_obj.id is None:
-                tag_obj = Tag.objects.get(slug=slugify(tag))
-
-            tag_list.append(tag_obj)
+    tag_list = get_and_create_tags(item.cleaned_data['sub_tags'])
 
     # Create a ``Revision`` instance. Must always have a ``title``, ``created_by``,
     # and ``description`` fields; the rest are set according to the submission
@@ -308,7 +293,7 @@ def create_or_edit_submission_revision(request, item, is_displayed,
     return sub, rev, tag_list
 
 #------------------------------------------------------------------------------
-# Licensing and tagging
+# Licensing
 def get_license_text(rev):
     """
     Generates and returns the license text for the given revision. Uses these
@@ -346,43 +331,11 @@ Also see http://creativecommons.org/publicdomain/zero/1.0/
 %s
 """ %\
 (rev.title, datetime.datetime.strftime(rev.entry.date_created, '%d %B %Y'),
- settings.SPC['short_URL_root'] + 'users/' + item.entry.created_by.profile.slug,
+ settings.SPC['short_URL_root'] + 'users/' + rev.entry.created_by.profile.slug,
  update_string, rev.sub_license.text_template)
 
     if rev.sub_license.slug == 'cc0':
         return cc0
-
-
-def tag_autocomplete(request):
-    """
-    Filters through all available tags to find those starting with, or
-    containing the string ``contains_str``.
-
-    Parts from http://djangosnippets.org/snippets/233/
-    """
-    # TODO(KGD): cache this lookup for 30 minutes
-    # Also, randomize the tag order to prevent only the those with lower
-    # primary keys from being shown more frequently
-
-    # TODO(KGD): put the typed text in bold, e.g. typed="bi" then return
-    # proba<b>bi</b>lity
-    all_tags = [tag.name for tag in Tag.objects.all()]
-
-    contains_str = request.REQUEST.get('term', '').lower()
-
-    starts = []
-    includes = []
-    for item in all_tags:
-        index = item.lower().find(contains_str)
-        if index == 0:
-            starts.append(item)
-        elif index > 0:
-            includes.append(item)
-
-    # Return tags starting with ``contains_str`` at the top of the list,
-    # followed by tags that only include ``contains_str``
-    starts.extend(includes)
-    return HttpResponse(simplejson.dumps(starts), mimetype='text/text')
 
 #------------------------------------------------------------------------------
 # All submissions: have a form associated with them, as well as a number of
@@ -454,7 +407,11 @@ def new_or_edit_submission(request, bound_form=False):
     if new_item_or_edit:
         return render_to_response('submission/new-item.html', {},
                               context_instance=RequestContext(request,
-                                                    {'item': theform}))
+                                    {'item': theform,
+                                     'buttontext': 'Preview your submission',
+                                     'autocomplete_field': 'id_sub_tags',
+                                     'autocomplete_url': r'"spc-tagging-ajax"',
+                                     'pagetitle': 'Create a new submission'}))
 
 
 
@@ -462,18 +419,18 @@ def new_or_edit_submission(request, bound_form=False):
 
     # 0. Use the built-in forms checking to validate the fields.
     valid_fields = []
-    #new_submission = get_form(request, bound=True,
-    #                          form_class=SUBS[itemtype].form,
-    #                          field_order=SUBS[itemtype].field_order)
     sshot = ScreenshotForm(request.POST, request.FILES)
     valid_fields.append(sshot.is_valid())
     valid_fields.append(theform.is_valid())
 
-
     if not(all(valid_fields)):
         return render_to_response('submission/new-item.html', {},
                               context_instance=RequestContext(request,
-                                            {'item': theform}))
+                                    {'item': theform,
+                                     'buttontext': 'Preview your submission',
+                                     'autocomplete_field': 'id_sub_tags',
+                                     'autocomplete_url': r'"spc-tagging-ajax"',
+                                     'pagetitle': 'Create a new submission'}))
 
     # 1. Create user account, if required
     if request.user.is_authenticated():
@@ -629,8 +586,6 @@ def view_link(request, submission, revision):
 @get_items_or_404
 def edit_submission(request, submission, revision):
 
-    # TODO: Check that user is authorized to edit the submission
-    # (e.g. link.created_by==user)
     if submission.sub_type == 'link' and request.user != submission.created_by:
         return page_404_error(request, ('You are not authorized to edit that '
                                         'submission. Only the original author '

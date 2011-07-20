@@ -3,7 +3,7 @@ from django.forms.forms import BoundField
 from django.utils.safestring import mark_safe
 from models import License, Revision
 from scipy_central.screenshot.forms import ScreenshotForm as ScreenshotForm
-
+from scipy_central.utils import rest_help_extra
 required_css_class = 'spc-form-required'
 error_css_class = 'spc-form-error'
 
@@ -17,17 +17,8 @@ class HiddenBaseForm(forms.BaseForm):
                                     for name, field in self.fields.items()))
     as_hidden.needs_autoescape = True
 
-rest_help = ('Let the community know what your submission does, '
-             'how it solves the problem, and/or how it works. ')
-rest_help += """Use <a href="http://sphinx.pocoo.org/latest/rest.html">reStructuredText</a>.
-<div class="spc-markup-help"><ul>
-<li class="spc-odd">Use linebreaks between paragraphs</li>
-<li class="spc-even"><tt>*</tt><i>italics</i><tt>*</tt> and <tt>**</tt><b>bold</b><tt>**</tt></li>
-<li class="spc-odd">Hyperlinks <tt>`are easy &lt;http://example.com&gt;`_</tt></li>
-<li class="spc-even"><tt>``monospaced text``</tt></li>
-<li class="spc-odd"><tt>:math:`e^{i \pi}+1=0`</tt> shows as \(e^{i \pi}+1=0\)</li>
-<li class="spc-even"><a href="/markup-help" target="_blank">More help</a> with bullet points, and other features</li>
-</div>"""
+rest_help = ('Let the community know what your submission does, how it solves '
+             'the problem, and/or how it works. ') + rest_help_extra
 
 pep8_help = """Please follow <a target="_blank"
 href="http://www.python.org/dev/peps/pep-0008/">PEP 8 guidelines</a>
@@ -65,11 +56,12 @@ class Submission_Form__Common_Parts(HiddenBaseForm, forms.Form):
                             'your submission.'),
                  required=True, widget=html5_email_widget)
 
-    sub_tags = forms.CharField(max_length=150, label=('Provide some '
-                                                     '<b>tags</b>'),
-                               help_text=('Please provide between 1 and 5 tags'
-                                          ' that describe your submission (use'
-                                          ' commas to separate tags)'))
+    sub_tags = forms.CharField(max_length=150,
+                label=('Provide some <b>tags</b>'),
+                widget=forms.TextInput(attrs={'class':'spc-autocomplete'}),
+                help_text=('Please provide between 1 and 5 tags '
+                           'that describe your submission (use '
+                           'commas to separate tags)'))
 
 
 class SnippetForm(Submission_Form__Common_Parts, ScreenshotForm):

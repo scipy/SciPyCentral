@@ -21,6 +21,9 @@ urlpatterns = patterns('scipy_central',
     # in scipy_central.person.urls
     (r'^user/', include('registration.backends.default.urls')),
 
+    # Tagging
+    (r'^tagging/', include('scipy_central.tagging.urls')),
+
 )
 from django.conf import settings
 settings.LOGIN_REDIRECT_URL = '/user/profile/'

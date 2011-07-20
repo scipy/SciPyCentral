@@ -76,7 +76,9 @@ body {
 #spc-document-container img{
     border: 0
 }
-
+#spc-document-container a:visited { /* for IE6 */
+    color: purple;
+}
 /* Header block styling */
 .spc-header-row{
 	text-align: center;
@@ -549,7 +551,7 @@ div.spc-item-row span.spc-50-50{
   list-style-type: none;
 }
 /* Unstyle certain elements in the code/link description fields */
-#spc-item-description p{
+.spc-item-description p{
 	margin: 0;
 }
 .spc-item-row pre{

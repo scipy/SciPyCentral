@@ -66,6 +66,22 @@ class SciPyRegistrationBackend(DefaultBackend):
         return new_user
 
 
+class Country(models.Model):
+    """ Model for a country """
+    # Country's official name
+    name = models.CharField(max_length=255, help_text="Official country name")
+
+    # The 2-character code: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+    code = models.CharField(max_length=2, help_text="Country code",
+                            blank=True, null=True)
+
+    # Country flag
+    flag = models.ImageField(upload_to='flags/', blank=True)
+
+    def __unicode__(self):
+        return self.name
+
+
 class UserProfile(models.Model):
     # See https://docs.djangoproject.com/en/1.3/topics/auth/
 
@@ -80,22 +96,25 @@ class UserProfile(models.Model):
 
     # User's company, university, private. Default = ``None``
     affiliation = models.CharField(max_length=255, null=True, blank=True,
-                 help_text="User's affiliation: company, university, private")
+                 help_text=("Your <b>affiliation</b> (company name, "
+                            "university name, or private)"))
 
     # Country: where the user is based
-    country = models.CharField(max_length=255, null=True, blank=True,
-                               help_text="User's country")
+    country = models.ForeignKey(Country, null=True, blank=True,
+                               help_text="Your <b>country</b>")
 
-    # profile: a one-line profile about yourself
-    bio = models.CharField(max_length=1500, null=True, blank=True,
-                               help_text="A profile about yourself")
+    # profile: a profile about yourself
+    bio = models.TextField(null=True, blank=True,
+                                 help_text="A <b>profile</b> about yourself")
+
+    bio_html = models.TextField(editable=False, null=True, blank=True)
 
     # A user-provided URL to their own site or affiliated company
     uri = models.URLField(null=True, blank=True, verbose_name="User's URL",
-       help_text='A URL to your website, affiliated company, or personal page')
+       help_text='A URL to <b>your website</b>, affiliated company, or personal page')
 
     # List of tags/subject areas that describes the user's interests
-    #interests = models.ManyToManyField('Tags')
+    interests = models.ManyToManyField('tagging.Tag', through='InterestCreation')
 
     # OpenID_URI: user's optional OpenID URI
     openid = models.URLField(null=True, blank=True, max_length=255,
@@ -132,3 +151,15 @@ class UserProfile(models.Model):
 
     def __unicode__(self):
         return 'Profile for: ' + self.user.username
+
+
+class InterestCreation(models.Model):
+    """
+    Tracks by whom and when tags were created
+    """
+    user = models.ForeignKey(UserProfile)
+    tag = models.ForeignKey('tagging.Tag')
+    date_created = models.DateTimeField(auto_now_add=True, editable=False)
+
+    def __unicode__(self):
+        return self.tag.name

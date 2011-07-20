@@ -1,12 +1,58 @@
 {% extends "base.html" %}
 
-{% block title %}Create a new submission{% endblock %}
+{% block title %}{{pagetitle}}{% endblock %}
 
 {% block content %}
 
-{{TAGGING_JAVSCRIPT|safe}}
+<script>
+<!--JQuery example: http://jqueryui.com/demos/autocomplete/#multiple-remote -->
+$(function() {
+	function split( val ) {
+		return val.split( /,\s*/ );
+	}
+	function extractLast( term ) {
+		return split( term ).pop();
+	}
 
-<!--<h2>A new link to a scientific resource</h2>-->
+	$(".spc-autocomplete")
+		// don't navigate away from the field on tab when selecting an item
+		.bind( "keydown", function( event ) {
+			if ( event.keyCode === $.ui.keyCode.TAB &&
+					$( this ).data( "autocomplete" ).menu.active ) {
+				event.preventDefault();
+			}
+		})
+		.autocomplete({
+			source: function( request, response ) {
+				$.getJSON( "{% url spc-tagging-ajax %}", {
+					term: extractLast( request.term )
+				}, response );
+			},
+			search: function() {
+				// custom minLength
+				var term = extractLast( this.value );
+				if ( term.length < 1 ) {
+					return false;
+				}
+			},
+			focus: function() {
+				// prevent value inserted on focus
+				return false;
+			},
+			select: function( event, ui ) {
+				var terms = split( this.value );
+				// remove the current input
+				terms.pop();
+				// add the selected item
+				terms.push( ui.item.value );
+				// add placeholder to get the comma-and-space at the end
+				terms.push( "" );
+				this.value = terms.join( ", " );
+				return false;
+			}
+		});
+});
+</script>
 
 <div class="spc-form">
 <form action="" method="POST" class="spc-ul-form" enctype="multipart/form-data">
@@ -46,7 +92,7 @@
 				<div class="colleft">
 					<div class="col1 form-field">
 						<input type="submit" name="spc-preview"
-						value="Preview your submission" id="spc-item-preview"/>
+						value="{{buttontext}}" id="spc-item-preview"/>
 					</div>
 					<div class="col2">&nbsp;</div>
 					<div class="col3">

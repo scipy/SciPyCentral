@@ -48,7 +48,7 @@ def csrf_failure(request, reason=''):
     """
     ip = get_IP_address(request)
     logger.info('CSRF failure from %s for request "%s", coming from "%s"' %\
-                (ip, request.path, request.META['HTTP_REFERER']))
+                (ip, request.path, request.META.get('HTTP_REFERER', '??')))
     return render_to_response('pages/please-enable-cookies.html', {},
                               context_instance=RequestContext(request))
 

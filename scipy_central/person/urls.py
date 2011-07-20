@@ -20,6 +20,7 @@ urlpatterns = patterns('scipy_central.person.views',
                                                      name='spc-user-profile'),
 
     # Edit the user's profile
-    url(r'^profile/(?P<slug>[-\w]+)?/edit$', 'profile_page_edit',
+    url(r'^profile/(?P<slug>[-\w]+)/edit/$', 'profile_page_edit',
                                                 name='spc-user-profile-edit'),
+
 )

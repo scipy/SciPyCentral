@@ -23,7 +23,7 @@
     </div>
     <div class="spc-item-row">
       <span class="spc-item-label">Profile:</span>
-      <span class="spc-item-entry">{% if theuser.profile.bio %}<span class="spc-item-entry">{{theuser.profile.bio}}</span>{% else %}Not provided yet{% endif %}</span>
+      <span class="spc-item-entry spc-item-description">{% if theuser.profile.bio_html %}<span class="spc-item-entry">{{theuser.profile.bio_html|safe}}</span>{% else %}Not provided yet{% endif %}</span>
     </div>
     <div class="spc-item-row">
       <span class="spc-item-label">Affiliation:</span>
@@ -31,17 +31,23 @@
     </div>
     <div class="spc-item-row">
       <span class="spc-item-label">Country:</span>
-      <span class="spc-item-entry">{% if theuser.profile.country %}<span class="spc-item-entry">{{theuser.profile.country}}</span>{% else %}Not provided yet{% endif %}</span>
+      <span class="spc-item-entry">{% if theuser.profile.country %}<span class="spc-item-entry">{{theuser.profile.country.name}}</span>{% else %}Not provided yet{% endif %}</span>
     </div>
     <div class="spc-item-row">
       <span class="spc-item-label">Web site:</span>
       {% if theuser.profile.uri %}<span class="spc-item-entry"><a href="{{theuser.profile.uri}}" rel="nofollow">{{theuser.profile.uri}}</a></span>{% else %}Not provided yet{% endif %}
     </div>
+    <div class="spc-item-row">
+      <span class="spc-item-label">My interests:</span>
+      {% if theuser.profile.interests.all %}<span class="spc-item-entry">{% for tag in theuser.profile.interests.all %}<span><a href="{% url spc-show-items what_view="tag" extra_info=tag %}" class="spc-tag">{{tag.name}}</a></span>{% endfor %}</span>{% else %}Not provided yet{% endif %}
+    </div>
     <div style="clear:both;">&nbsp;</div>
   </div>
 
-  <h3>Items created/edited by{% if user.profile.slug == theuser.profile.slug %} you</h3><span style="font-size:80%;">Note: only entries approved by you are shown</span>{% else %}: {{theuser.username}}</h3>{% endif %}
-  {% include 'submission/entries_list.html' %}
+  {% if entries %}
+    <h3>Items created/edited by{% if user.profile.slug == theuser.profile.slug %} you</h3><span style="font-size:80%;">Note: only entries approved by you are shown</span>{% else %}: {{theuser.username}}</h3>{% endif %}
+    {% include 'submission/entries_list.html' %}
+  {% endif %}
 
   <div id="spc-extra-message">{{extra_html|safe}}</div>
 

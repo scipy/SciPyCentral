@@ -25,7 +25,7 @@
       "bio": "SciPy Central site administrator",
       "openid": null,
       "slug": "scipy-central",
-      "country": "Canada",
+      "country": 1,
       "uri": "http://scipy-central.org",
       "contactable_via_site": true,
       "affiliation": "N/A",
@@ -40,6 +40,60 @@
     "fields": {
       "created": "2011-07-17 16:36:49",
       "repo_path": "2011/07/000005/"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "person.country",
+    "fields": {
+      "name": "Canada",
+      "code": "CA",
+      "flag": null
+    }
+  },
+  {
+    "pk": 2,
+    "model": "person.country",
+    "fields": {
+      "name": "Andorra",
+      "code": "AD",
+      "flag": null
+    }
+  },
+  {
+    "pk": 3,
+    "model": "person.country",
+    "fields": {
+      "name": "United Arab Emirates",
+      "code": "AE",
+      "flag": null
+    }
+  },
+  {
+    "pk": 4,
+    "model": "person.country",
+    "fields": {
+      "name": "Afghanistan",
+      "code": "AF",
+      "flag": null
+    }
+  },
+  {
+    "pk": 5,
+    "model": "person.country",
+    "fields": {
+      "name": "Antigua and Barbuda",
+      "code": "AG",
+      "flag": null
+    }
+  },
+  {
+    "pk": 6,
+    "model": "person.country",
+    "fields": {
+      "name": "Anguilla",
+      "code": "AI",
+      "flag": null
     }
   },
   {

@@ -24,15 +24,7 @@ urlpatterns = patterns('scipy_central.submission.views',
     url(r'^(?P<item_id>\d+)+(/)?(?P<rev_id>\d+)?(/)?(?P<slug>[-\w]+)?(/)?',
                                            'view_link', name='spc-view-link'),
 
-
-
     # Validating an item
     url(r'^validate/(?P<code>.+)/$', 'validate_submission',
                                                     name='spc-item-validate'),
-
-
-    # AJAX tagging suggestions: to complete tagging based on a partial string
-    # We will accept any input, but the views function will ignore any
-    # characters that cannot appear in a slug (e.g. "$", "&", etc).
-    url(r'^tag_autocomplete', 'tag_autocomplete', name='spc-tagging-ajax'),
 )

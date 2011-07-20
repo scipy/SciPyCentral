@@ -1,0 +1,12 @@
+Hi {{username}},
+
+This is a precautionary notification.
+
+You, or someone using your account on SciPy Central, has changed your account
+email address to {{new_email}}
+
+We are sending this email to the previous email address we had on record.
+
+If you did not request this change, please contact us at {{admin_email|safe}}
+
+The SciPy Central team.
