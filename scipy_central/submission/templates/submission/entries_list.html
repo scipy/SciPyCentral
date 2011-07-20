@@ -18,6 +18,7 @@
 	</span>
   </div>
 
+
   <div class="spc-itemdisp-row-container">
 	<div class="spc-itemdisp-row spc-itemdisp-header">
 		<div class="spc-itemdisp-description spc-itemdisp-td">Description<span class="spc-itemdisp-link "></span></div>
@@ -27,14 +28,39 @@
   </div>
 
 <ul>
-  {% comment %}The ``entry`` objects must be from the ``submission.Revision`` class {% endcomment %}
+  {#  The ``entry`` objects must be from the ``submission.Revision`` class   #}
+  {#  or from the ``person.UserProfile`` class                               #}
   {% for entry in entries.object_list %}
-	{% if entry.django_CT %}
-	  {% with entry.object as entry %}
-		{% include 'search/includes/one-search-result.html' %}
-	  {% endwith %}
+
+	{% if entry.verbose_name == "User profile" %}
+
+	  {# It's a search query result #}
+	  {% if entry.django_CT %}
+		{% with entry.object as entry %}
+		  {% include 'search/includes/one-person-result.html' %}
+		{% endwith %}
+
+	  {# It's just a list of objects #}
+	  {% else %}
+	    {% include 'search/includes/one-person-result.html' %}
+	  {% endif %}
+
+
+	{# It's a revision object #}
 	{% else %}
-	  {% include 'search/includes/one-search-result.html' %}
+
+	  {# It's a search query result #}
+	  {% if entry.django_CT %}
+		{% with entry.object as entry %}
+		  {% include 'search/includes/one-search-result.html' %}
+		{% endwith %}
+
+	  {# It's just a list of objects #}
+	  {% else %}
+		{% include 'search/includes/one-search-result.html' %}
+	  {% endif %}
+
+
 	{% endif %}
   {% endfor %}
 </ul>

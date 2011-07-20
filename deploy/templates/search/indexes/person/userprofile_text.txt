@@ -1,0 +1,7 @@
+{{object.user.username}}
+{{object.slug}}
+{{object.affiliation}}
+{{object.bio}}
+{{object.uri}}
+{{object.country.name}}
+{% for interest in object.interests.all %}{{interest}}, {% endfor %}
