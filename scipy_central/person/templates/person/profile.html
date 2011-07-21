@@ -42,7 +42,7 @@
       {% if theuser.profile.uri %}<span class="spc-item-entry"><a href="{{theuser.profile.uri}}" rel="nofollow">{{theuser.profile.uri}}</a></span>{% else %}Not provided yet{% endif %}
     </div>
     <div class="spc-item-row">
-      <span class="spc-item-label">My interests:</span>
+      <span class="spc-item-label">Interests:</span>
       {% if theuser.profile.interests.all %}<span class="spc-item-entry">{% for tag in theuser.profile.interests.all %}<span><a href="{% url spc-show-items what_view="tag" extra_info=tag %}" class="spc-tag">{{tag.name}}</a></span>{% endfor %}</span>{% else %}Not provided yet{% endif %}
     </div>
     <div style="clear:both;">&nbsp;</div>
@@ -55,5 +55,5 @@
 
   <div id="spc-extra-message">{{extra_html|safe}}</div>
 
-  {% include "pages/make-submission-buttons.html" %}
+
 {% endblock %}

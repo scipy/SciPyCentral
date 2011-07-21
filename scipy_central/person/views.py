@@ -77,6 +77,10 @@ def profile_page_edit(request, slug):
                 logger.debug('User "%s" added interest "%s" to their profile'%\
                              (user.profile.slug, str(tag)))
 
+            # Resave the user profile to capture their interests in the search
+            # results.
+            user.profile.save()
+
             if previous_email:
                 ctx_dict = {'new_email': user.email,
                             'admin_email': settings.DEFAULT_FROM_EMAIL,

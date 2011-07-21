@@ -22,8 +22,8 @@
   <div class="spc-itemdisp-row-container">
 	<div class="spc-itemdisp-row spc-itemdisp-header">
 		<div class="spc-itemdisp-description spc-itemdisp-td">Description<span class="spc-itemdisp-link "></span></div>
-		<div class="spc-itemdisp-created spc-itemdisp-td">Created by</div>
-		<div class="spc-itemdisp-tags spc-itemdisp-td">Tags</div>
+		<div class="spc-itemdisp-created spc-itemdisp-td">Created by/User</div>
+		<div class="spc-itemdisp-tags spc-itemdisp-td">Tags or Interests</div>
 	</div>
   </div>
 
@@ -67,5 +67,6 @@
 <div style="clear:both;"></div>
 </div>
 {% else %}
-  <p>{% if no_entries_message %}{{no_entries_message}}{% else %}There are no items matching your criteria.{% endif %}
+  <p>{% if no_entries_message %}{{no_entries_message}}{% else %}There are no items matching your criteria. Create your own?{% endif %}
+  {% include "pages/make-submission-buttons.html" %}
 {% endif %}

@@ -6,6 +6,15 @@ from django.template.defaultfilters import slugify
 from scipy_central.person.models import User
 from scipy_central.pagehit.models import PageHit
 
+class Module(models.Model):
+    """
+    Modules that code snippets and code libraries depend on
+    i.e. code dependancies
+    """
+    name = models.CharField(max_length=100, unique=True)
+    website = models.URLField()
+
+
 class License(models.Model):
     """
     License for the submission
@@ -71,14 +80,11 @@ class Submission(models.Model):
     # fileset: for revisioning of the submission
     fileset = models.ForeignKey('filestorage.FileSet', null=True, blank=True)
 
-    # frozen: no further revisions allowed
+    # frozen: no further revisions allowed (not used at the moment)
     frozen = models.BooleanField(default=False)
 
-    # FUTURE
-    # ------
-    # cloned_from = models.ForeignKey('self', null=True, blank=True)
-    # vote_for_inclusion_in_scipy [ForeignKey] to ThumbsUpDown model
-    # modules_required  [list of modules required to run the code]
+    # For future use:
+    inspired_by = models.ManyToManyField('self', null=True, blank=True)
 
     @property
     def last_revision(self):
@@ -215,9 +221,11 @@ class Revision(models.Model):
     # Validation hash
     validation_hash = models.CharField(max_length=40, null=True, blank=True)
 
+    # For future user: list of modules required to run the code
+    modules_used = models.ManyToManyField(Module)
 
-    # FUTURE: inspired_by: a comma-separated list of previous submissions
-    # FUTURE: list of modules required to run the code
+    # For future use: revision reason
+    update_reason = models.CharField(max_length=155, null=True, blank=True)
 
     class Meta:
         ordering = ['date_created']

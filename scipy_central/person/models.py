@@ -76,11 +76,8 @@ class Country(models.Model):
     code = models.CharField(max_length=2, help_text="Country code",
                             unique=True)
 
-    # Country flag
-    flag = models.ImageField(upload_to='flags/', blank=True)
-
     def __unicode__(self):
-        return self.name + '(%s)' % self.code
+        return self.name
 
 
 class UserProfile(models.Model):

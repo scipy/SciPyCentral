@@ -60,8 +60,8 @@ class SignUpForm(RegistrationForm):
     username = forms.RegexField(regex=re.compile('^[\w @.-]+$', re.UNICODE),
                                 max_length=30,
                                 widget=forms.TextInput(attrs=
-                                       {'class': 'required',
-                                        'placeholder': '"Mary Appleseed"'}),
+                                    {'class': 'required',
+                                     'placeholder': 'e.g. "Mary Appleseed"'}),
                                 label="Username",
                                 error_messages={'invalid': 'This value must '
                                    'contain only letters, numbers, underscores '

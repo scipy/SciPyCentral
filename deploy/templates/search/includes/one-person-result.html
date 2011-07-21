@@ -1,0 +1,23 @@
+{# The ``entry`` object must be from the ``person.UserProfile`` class #}
+{% if entry %}
+<div class="spc-itemdisp-row-container">
+  <div class="spc-itemdisp-row spc-itemdisp-{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
+	<li>
+	  <div class="spc-itemdisp-description spc-itemdisp-td" id="spc-item-{{entry.pk}}">
+		<div style="width: 42px; float: left;">
+		  <img src="{{MEDIA_URL}}person-list-icon-tiny.png">
+		</div>
+		<div style="width: 85%; float: left;">{% if entry.bio_html %}{{ entry.bio_html|truncatewords_html:"30"|safe|removetags:"p li ul ol img a"}}{% else %}User profile not completed yet{% endif %}
+		</div>
+	  </div>
+	  <div class="spc-itemdisp-created spc-itemdisp-td">
+	    <a href="{% url spc-user-profile slug=entry.slug %}">{{entry.user.username}}</a>
+  	    {% if entry.country %}
+          <img class="spc-flag" src="{{MEDIA_URL}}flags/flag-{{entry.country.code|lower}}.png">
+		{% endif %}
+	  </div>
+	  <div class="spc-itemdisp-tags spc-itemdisp-td">{% for tag in entry.interests.all %}<span><a href="{% url spc-show-items what_view="tag" extra_info=tag %}" class="spc-tag">{{tag.name}}</a></span>{% endfor %}</div>
+	</li>
+  </div>
+</div>
+{% endif %}

@@ -23,7 +23,7 @@ class UserProfileIndex(indexes.RealTimeSearchIndex):
         """ See http://docs.haystacksearch.org/dev/searchindex_api.html
         """
         self.prepared_data = super(UserProfileIndex, self).prepare(object)
-        self.prepared_data['interests'] = ' '.join([intr.name for intr in object.interests.all()])
+        #self.prepared_data['interests'] = ' '.join([intr.name for intr in object.interests.all()])
 
         return self.prepared_data
 

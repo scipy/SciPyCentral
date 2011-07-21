@@ -47,8 +47,7 @@
     "model": "person.country",
     "fields":{
       "name": "Andorra",
-      "code": "AD",
-      "flag": null
+      "code": "AD"
     }
   },
   {
@@ -56,8 +55,7 @@
     "model": "person.country",
     "fields":{
       "name": "United Arab Emirates",
-      "code": "AE",
-      "flag": null
+      "code": "AE"
     }
   },
   {
@@ -65,8 +63,7 @@
     "model": "person.country",
     "fields":{
       "name": "Afghanistan",
-      "code": "AF",
-      "flag": null
+      "code": "AF"
     }
   },
   {
@@ -74,8 +71,7 @@
     "model": "person.country",
     "fields":{
       "name": "Antigua and Barbuda",
-      "code": "AG",
-      "flag": null
+      "code": "AG"
     }
   },
   {
@@ -83,8 +79,7 @@
     "model": "person.country",
     "fields":{
       "name": "Anguilla",
-      "code": "AI",
-      "flag": null
+      "code": "AI"
     }
   },
   {
@@ -92,8 +87,7 @@
     "model": "person.country",
     "fields":{
       "name": "Albania",
-      "code": "AL",
-      "flag": null
+      "code": "AL"
     }
   },
   {
@@ -101,8 +95,7 @@
     "model": "person.country",
     "fields":{
       "name": "Armenia",
-      "code": "AM",
-      "flag": null
+      "code": "AM"
     }
   },
   {
@@ -110,8 +103,7 @@
     "model": "person.country",
     "fields":{
       "name": "Angola",
-      "code": "AO",
-      "flag": null
+      "code": "AO"
     }
   },
   {
@@ -119,8 +111,7 @@
     "model": "person.country",
     "fields":{
       "name": "Antarctica",
-      "code": "AQ",
-      "flag": null
+      "code": "AQ"
     }
   },
   {
@@ -128,8 +119,7 @@
     "model": "person.country",
     "fields":{
       "name": "Argentina",
-      "code": "AR",
-      "flag": null
+      "code": "AR"
     }
   },
   {
@@ -137,8 +127,7 @@
     "model": "person.country",
     "fields":{
       "name": "American Samoa",
-      "code": "AS",
-      "flag": null
+      "code": "AS"
     }
   },
   {
@@ -146,8 +135,7 @@
     "model": "person.country",
     "fields":{
       "name": "Austria",
-      "code": "AT",
-      "flag": null
+      "code": "AT"
     }
   },
   {
@@ -155,8 +143,7 @@
     "model": "person.country",
     "fields":{
       "name": "Australia",
-      "code": "AU",
-      "flag": null
+      "code": "AU"
     }
   },
   {
@@ -164,8 +151,7 @@
     "model": "person.country",
     "fields":{
       "name": "Aruba",
-      "code": "AW",
-      "flag": null
+      "code": "AW"
     }
   },
   {
@@ -173,8 +159,7 @@
     "model": "person.country",
     "fields":{
       "name": "Azerbaijan",
-      "code": "AZ",
-      "flag": null
+      "code": "AZ"
     }
   },
   {
@@ -182,8 +167,7 @@
     "model": "person.country",
     "fields":{
       "name": "Bosnia and Herzegovina",
-      "code": "BA",
-      "flag": null
+      "code": "BA"
     }
   },
   {
@@ -191,8 +175,7 @@
     "model": "person.country",
     "fields":{
       "name": "Barbados",
-      "code": "BB",
-      "flag": null
+      "code": "BB"
     }
   },
   {
@@ -200,8 +183,7 @@
     "model": "person.country",
     "fields":{
       "name": "Bangladesh",
-      "code": "BD",
-      "flag": null
+      "code": "BD"
     }
   },
   {
@@ -209,8 +191,7 @@
     "model": "person.country",
     "fields":{
       "name": "Belgium",
-      "code": "BE",
-      "flag": null
+      "code": "BE"
     }
   },
   {
@@ -218,8 +199,7 @@
     "model": "person.country",
     "fields":{
       "name": "Burkina Faso",
-      "code": "BF",
-      "flag": null
+      "code": "BF"
     }
   },
   {
@@ -227,8 +207,7 @@
     "model": "person.country",
     "fields":{
       "name": "Bulgaria",
-      "code": "BG",
-      "flag": null
+      "code": "BG"
     }
   },
   {
@@ -236,8 +215,7 @@
     "model": "person.country",
     "fields":{
       "name": "Bahrain",
-      "code": "BH",
-      "flag": null
+      "code": "BH"
     }
   },
   {
@@ -245,8 +223,7 @@
     "model": "person.country",
     "fields":{
       "name": "Burundi",
-      "code": "BI",
-      "flag": null
+      "code": "BI"
     }
   },
   {
@@ -254,8 +231,7 @@
     "model": "person.country",
     "fields":{
       "name": "Benin",
-      "code": "BJ",
-      "flag": null
+      "code": "BJ"
     }
   },
   {
@@ -263,8 +239,7 @@
     "model": "person.country",
     "fields":{
       "name": "Saint Barthélemy",
-      "code": "BL",
-      "flag": null
+      "code": "BL"
     }
   },
   {
@@ -272,8 +247,7 @@
     "model": "person.country",
     "fields":{
       "name": "Bermuda",
-      "code": "BM",
-      "flag": null
+      "code": "BM"
     }
   },
   {
@@ -281,8 +255,7 @@
     "model": "person.country",
     "fields":{
       "name": "Brunei Darussalam",
-      "code": "BN",
-      "flag": null
+      "code": "BN"
     }
   },
   {
@@ -290,8 +263,7 @@
     "model": "person.country",
     "fields":{
       "name": "Bolivia",
-      "code": "BO",
-      "flag": null
+      "code": "BO"
     }
   },
   {
@@ -299,8 +271,7 @@
     "model": "person.country",
     "fields":{
       "name": "Brazil",
-      "code": "BR",
-      "flag": null
+      "code": "BR"
     }
   },
   {
@@ -308,8 +279,7 @@
     "model": "person.country",
     "fields":{
       "name": "The Bahamas",
-      "code": "BS",
-      "flag": null
+      "code": "BS"
     }
   },
   {
@@ -317,1891 +287,1618 @@
     "model": "person.country",
     "fields":{
       "name": "Bhutan",
-      "code": "BT",
-      "flag": null
+      "code": "BT"
     }
   },
   {
     "pk": 33,
     "model": "person.country",
     "fields":{
-      "name": "Bouvet Island",
-      "code": "BV",
-      "flag": null
+      "name": "Botswana",
+      "code": "BW"
     }
   },
   {
     "pk": 34,
     "model": "person.country",
     "fields":{
-      "name": "Botswana",
-      "code": "BW",
-      "flag": null
+      "name": "Belarus",
+      "code": "BY"
     }
   },
   {
     "pk": 35,
     "model": "person.country",
     "fields":{
-      "name": "Belarus",
-      "code": "BY",
-      "flag": null
+      "name": "Belize",
+      "code": "BZ"
     }
   },
   {
     "pk": 36,
     "model": "person.country",
     "fields":{
-      "name": "Belize",
-      "code": "BZ",
-      "flag": null
+      "name": "Canada",
+      "code": "CA"
     }
   },
   {
     "pk": 37,
     "model": "person.country",
     "fields":{
-      "name": "Canada",
-      "code": "CA",
-      "flag": null
+      "name": "Cocos (Keeling) Islands",
+      "code": "CC"
     }
   },
   {
     "pk": 38,
     "model": "person.country",
     "fields":{
-      "name": "Cocos (Keeling) Islands",
-      "code": "CC",
-      "flag": null
+      "name": "Congo, the Democratic Republic of the",
+      "code": "CD"
     }
   },
   {
     "pk": 39,
     "model": "person.country",
     "fields":{
-      "name": "Congo, the Democratic Republic of the",
-      "code": "CD",
-      "flag": null
+      "name": "Central African Republic",
+      "code": "CF"
     }
   },
   {
     "pk": 40,
     "model": "person.country",
     "fields":{
-      "name": "Central African Republic",
-      "code": "CF",
-      "flag": null
+      "name": "Congo",
+      "code": "CG"
     }
   },
   {
     "pk": 41,
     "model": "person.country",
     "fields":{
-      "name": "Congo",
-      "code": "CG",
-      "flag": null
+      "name": "Switzerland",
+      "code": "CH"
     }
   },
   {
     "pk": 42,
     "model": "person.country",
     "fields":{
-      "name": "Switzerland",
-      "code": "CH",
-      "flag": null
+      "name": "Cote d'Ivoire",
+      "code": "CI"
     }
   },
   {
     "pk": 43,
     "model": "person.country",
     "fields":{
-      "name": "Cote d'Ivoire",
-      "code": "CI",
-      "flag": null
+      "name": "Cook Islands",
+      "code": "CK"
     }
   },
   {
     "pk": 44,
     "model": "person.country",
     "fields":{
-      "name": "Cook Islands",
-      "code": "CK",
-      "flag": null
+      "name": "Chile",
+      "code": "CL"
     }
   },
   {
     "pk": 45,
     "model": "person.country",
     "fields":{
-      "name": "Chile",
-      "code": "CL",
-      "flag": null
+      "name": "Cameroon",
+      "code": "CM"
     }
   },
   {
     "pk": 46,
     "model": "person.country",
     "fields":{
-      "name": "Cameroon",
-      "code": "CM",
-      "flag": null
+      "name": "China, People's Republic of",
+      "code": "CN"
     }
   },
   {
     "pk": 47,
     "model": "person.country",
     "fields":{
-      "name": "China, People's Republic of",
-      "code": "CN",
-      "flag": null
+      "name": "Colombia",
+      "code": "CO"
     }
   },
   {
     "pk": 48,
     "model": "person.country",
     "fields":{
-      "name": "Colombia",
-      "code": "CO",
-      "flag": null
+      "name": "Costa Rica",
+      "code": "CR"
     }
   },
   {
     "pk": 49,
     "model": "person.country",
     "fields":{
-      "name": "Costa Rica",
-      "code": "CR",
-      "flag": null
+      "name": "Cuba",
+      "code": "CU"
     }
   },
   {
     "pk": 50,
     "model": "person.country",
     "fields":{
-      "name": "Cuba",
-      "code": "CU",
-      "flag": null
+      "name": "Cape Verde",
+      "code": "CV"
     }
   },
   {
     "pk": 51,
     "model": "person.country",
     "fields":{
-      "name": "Cape Verde",
-      "code": "CV",
-      "flag": null
+      "name": "Curaçao",
+      "code": "CW"
     }
   },
   {
     "pk": 52,
     "model": "person.country",
     "fields":{
-      "name": "Curaçao",
-      "code": "CW",
-      "flag": null
+      "name": "Christmas Island",
+      "code": "CX"
     }
   },
   {
     "pk": 53,
     "model": "person.country",
     "fields":{
-      "name": "Christmas Island",
-      "code": "CX",
-      "flag": null
+      "name": "Cyprus",
+      "code": "CY"
     }
   },
   {
     "pk": 54,
     "model": "person.country",
     "fields":{
-      "name": "Cyprus",
-      "code": "CY",
-      "flag": null
+      "name": "Czech Republic",
+      "code": "CZ"
     }
   },
   {
     "pk": 55,
     "model": "person.country",
     "fields":{
-      "name": "Czech Republic",
-      "code": "CZ",
-      "flag": null
+      "name": "Germany",
+      "code": "DE"
     }
   },
   {
     "pk": 56,
     "model": "person.country",
     "fields":{
-      "name": "Germany",
-      "code": "DE",
-      "flag": null
+      "name": "Djibouti",
+      "code": "DJ"
     }
   },
   {
     "pk": 57,
     "model": "person.country",
     "fields":{
-      "name": "Djibouti",
-      "code": "DJ",
-      "flag": null
+      "name": "Denmark",
+      "code": "DK"
     }
   },
   {
     "pk": 58,
     "model": "person.country",
     "fields":{
-      "name": "Denmark",
-      "code": "DK",
-      "flag": null
+      "name": "Dominica",
+      "code": "DM"
     }
   },
   {
     "pk": 59,
     "model": "person.country",
     "fields":{
-      "name": "Dominica",
-      "code": "DM",
-      "flag": null
+      "name": "Dominican Republic",
+      "code": "DO"
     }
   },
   {
     "pk": 60,
     "model": "person.country",
     "fields":{
-      "name": "Dominican Republic",
-      "code": "DO",
-      "flag": null
+      "name": "Algeria",
+      "code": "DZ"
     }
   },
   {
     "pk": 61,
     "model": "person.country",
     "fields":{
-      "name": "Algeria",
-      "code": "DZ",
-      "flag": null
+      "name": "Ecuador",
+      "code": "EC"
     }
   },
   {
     "pk": 62,
     "model": "person.country",
     "fields":{
-      "name": "Ecuador",
-      "code": "EC",
-      "flag": null
+      "name": "Estonia",
+      "code": "EE"
     }
   },
   {
     "pk": 63,
     "model": "person.country",
     "fields":{
-      "name": "Estonia",
-      "code": "EE",
-      "flag": null
+      "name": "Egypt",
+      "code": "EG"
     }
   },
   {
     "pk": 64,
     "model": "person.country",
     "fields":{
-      "name": "Egypt",
-      "code": "EG",
-      "flag": null
+      "name": "Eritrea",
+      "code": "ER"
     }
   },
   {
     "pk": 65,
     "model": "person.country",
     "fields":{
-      "name": "Eritrea",
-      "code": "ER",
-      "flag": null
+      "name": "Spain",
+      "code": "ES"
     }
   },
   {
     "pk": 66,
     "model": "person.country",
     "fields":{
-      "name": "Spain",
-      "code": "ES",
-      "flag": null
+      "name": "Ethiopia",
+      "code": "ET"
     }
   },
   {
     "pk": 67,
     "model": "person.country",
     "fields":{
-      "name": "Ethiopia",
-      "code": "ET",
-      "flag": null
+      "name": "Finland",
+      "code": "FI"
     }
   },
   {
     "pk": 68,
     "model": "person.country",
     "fields":{
-      "name": "Finland",
-      "code": "FI",
-      "flag": null
+      "name": "Fiji",
+      "code": "FJ"
     }
   },
   {
     "pk": 69,
     "model": "person.country",
     "fields":{
-      "name": "Fiji",
-      "code": "FJ",
-      "flag": null
+      "name": "Falkland Islands",
+      "code": "FK"
     }
   },
   {
     "pk": 70,
     "model": "person.country",
     "fields":{
-      "name": "Falkland Islands",
-      "code": "FK",
-      "flag": null
+      "name": "Micronesia, Federated States of",
+      "code": "FM"
     }
   },
   {
     "pk": 71,
     "model": "person.country",
     "fields":{
-      "name": "Micronesia, Federated States of",
-      "code": "FM",
-      "flag": null
+      "name": "Faroe Islands",
+      "code": "FO"
     }
   },
   {
     "pk": 72,
     "model": "person.country",
     "fields":{
-      "name": "Faroe Islands",
-      "code": "FO",
-      "flag": null
+      "name": "France",
+      "code": "FR"
     }
   },
   {
     "pk": 73,
     "model": "person.country",
     "fields":{
-      "name": "France",
-      "code": "FR",
-      "flag": null
+      "name": "Gabon",
+      "code": "GA"
     }
   },
   {
     "pk": 74,
     "model": "person.country",
     "fields":{
-      "name": "Gabon",
-      "code": "GA",
-      "flag": null
+      "name": "United Kingdom",
+      "code": "GB"
     }
   },
   {
     "pk": 75,
     "model": "person.country",
     "fields":{
-      "name": "United Kingdom",
-      "code": "GB",
-      "flag": null
+      "name": "Grenada",
+      "code": "GD"
     }
   },
   {
     "pk": 76,
     "model": "person.country",
     "fields":{
-      "name": "Grenada",
-      "code": "GD",
-      "flag": null
+      "name": "Georgia",
+      "code": "GE"
     }
   },
   {
     "pk": 77,
     "model": "person.country",
     "fields":{
-      "name": "Georgia",
-      "code": "GE",
-      "flag": null
+      "name": "Guernsey",
+      "code": "GG"
     }
   },
   {
     "pk": 78,
     "model": "person.country",
     "fields":{
-      "name": "French Guiana",
-      "code": "GF",
-      "flag": null
+      "name": "Ghana",
+      "code": "GH"
     }
   },
   {
     "pk": 79,
     "model": "person.country",
     "fields":{
-      "name": "Guernsey",
-      "code": "GG",
-      "flag": null
+      "name": "Gibraltar",
+      "code": "GI"
     }
   },
   {
     "pk": 80,
     "model": "person.country",
     "fields":{
-      "name": "Ghana",
-      "code": "GH",
-      "flag": null
+      "name": "Greenland",
+      "code": "GL"
     }
   },
   {
     "pk": 81,
     "model": "person.country",
     "fields":{
-      "name": "Gibraltar",
-      "code": "GI",
-      "flag": null
+      "name": "Gambia",
+      "code": "GM"
     }
   },
   {
     "pk": 82,
     "model": "person.country",
     "fields":{
-      "name": "Greenland",
-      "code": "GL",
-      "flag": null
+      "name": "Guinea",
+      "code": "GN"
     }
   },
   {
     "pk": 83,
     "model": "person.country",
     "fields":{
-      "name": "Gambia",
-      "code": "GM",
-      "flag": null
+      "name": "Equatorial Guinea",
+      "code": "GQ"
     }
   },
   {
     "pk": 84,
     "model": "person.country",
     "fields":{
-      "name": "Guinea",
-      "code": "GN",
-      "flag": null
+      "name": "Greece",
+      "code": "GR"
     }
   },
   {
     "pk": 85,
     "model": "person.country",
     "fields":{
-      "name": "Guadeloupe",
-      "code": "GP",
-      "flag": null
+      "name": "Guatemala",
+      "code": "GT"
     }
   },
   {
     "pk": 86,
     "model": "person.country",
     "fields":{
-      "name": "Equatorial Guinea",
-      "code": "GQ",
-      "flag": null
+      "name": "Guam",
+      "code": "GU"
     }
   },
   {
     "pk": 87,
     "model": "person.country",
     "fields":{
-      "name": "Greece",
-      "code": "GR",
-      "flag": null
+      "name": "Guinea-Bissau",
+      "code": "GW"
     }
   },
   {
     "pk": 88,
     "model": "person.country",
     "fields":{
-      "name": "South Georgia and the South Sandwich Islands",
-      "code": "GS",
-      "flag": null
+      "name": "Guyana",
+      "code": "GY"
     }
   },
   {
     "pk": 89,
     "model": "person.country",
     "fields":{
-      "name": "Guatemala",
-      "code": "GT",
-      "flag": null
+      "name": "Hong Kong",
+      "code": "HK"
     }
   },
   {
     "pk": 90,
     "model": "person.country",
     "fields":{
-      "name": "Guam",
-      "code": "GU",
-      "flag": null
+      "name": "Honduras",
+      "code": "HN"
     }
   },
   {
     "pk": 91,
     "model": "person.country",
     "fields":{
-      "name": "Guinea-Bissau",
-      "code": "GW",
-      "flag": null
+      "name": "Croatia",
+      "code": "HR"
     }
   },
   {
     "pk": 92,
     "model": "person.country",
     "fields":{
-      "name": "Guyana",
-      "code": "GY",
-      "flag": null
+      "name": "Haiti",
+      "code": "HT"
     }
   },
   {
     "pk": 93,
     "model": "person.country",
     "fields":{
-      "name": "Hong Kong",
-      "code": "HK",
-      "flag": null
+      "name": "Hungary",
+      "code": "HU"
     }
   },
   {
     "pk": 94,
     "model": "person.country",
     "fields":{
-      "name": "Honduras",
-      "code": "HN",
-      "flag": null
+      "name": "Indonesia",
+      "code": "ID"
     }
   },
   {
     "pk": 95,
     "model": "person.country",
     "fields":{
-      "name": "Croatia",
-      "code": "HR",
-      "flag": null
+      "name": "Ireland",
+      "code": "IE"
     }
   },
   {
     "pk": 96,
     "model": "person.country",
     "fields":{
-      "name": "Haiti",
-      "code": "HT",
-      "flag": null
+      "name": "Israel",
+      "code": "IL"
     }
   },
   {
     "pk": 97,
     "model": "person.country",
     "fields":{
-      "name": "Hungary",
-      "code": "HU",
-      "flag": null
+      "name": "Isle of Man",
+      "code": "IM"
     }
   },
   {
     "pk": 98,
     "model": "person.country",
     "fields":{
-      "name": "Indonesia",
-      "code": "ID",
-      "flag": null
+      "name": "India",
+      "code": "IN"
     }
   },
   {
     "pk": 99,
     "model": "person.country",
     "fields":{
-      "name": "Ireland",
-      "code": "IE",
-      "flag": null
+      "name": "Iraq",
+      "code": "IQ"
     }
   },
   {
     "pk": 100,
     "model": "person.country",
     "fields":{
-      "name": "Israel",
-      "code": "IL",
-      "flag": null
+      "name": "Iran",
+      "code": "IR"
     }
   },
   {
     "pk": 101,
     "model": "person.country",
     "fields":{
-      "name": "Isle of Man",
-      "code": "IM",
-      "flag": null
+      "name": "Iceland",
+      "code": "IS"
     }
   },
   {
     "pk": 102,
     "model": "person.country",
     "fields":{
-      "name": "India",
-      "code": "IN",
-      "flag": null
+      "name": "Italy",
+      "code": "IT"
     }
   },
   {
     "pk": 103,
     "model": "person.country",
     "fields":{
-      "name": "British Indian Ocean Territory",
-      "code": "IO",
-      "flag": null
+      "name": "Jersey",
+      "code": "JE"
     }
   },
   {
     "pk": 104,
     "model": "person.country",
     "fields":{
-      "name": "Iraq",
-      "code": "IQ",
-      "flag": null
+      "name": "Jamaica",
+      "code": "JM"
     }
   },
   {
     "pk": 105,
     "model": "person.country",
     "fields":{
-      "name": "Iran",
-      "code": "IR",
-      "flag": null
+      "name": "Jordan",
+      "code": "JO"
     }
   },
   {
     "pk": 106,
     "model": "person.country",
     "fields":{
-      "name": "Iceland",
-      "code": "IS",
-      "flag": null
+      "name": "Japan",
+      "code": "JP"
     }
   },
   {
     "pk": 107,
     "model": "person.country",
     "fields":{
-      "name": "Italy",
-      "code": "IT",
-      "flag": null
+      "name": "Kenya",
+      "code": "KE"
     }
   },
   {
     "pk": 108,
     "model": "person.country",
     "fields":{
-      "name": "Jersey",
-      "code": "JE",
-      "flag": null
+      "name": "Kyrgyzstan",
+      "code": "KG"
     }
   },
   {
     "pk": 109,
     "model": "person.country",
     "fields":{
-      "name": "Jamaica",
-      "code": "JM",
-      "flag": null
+      "name": "Cambodia",
+      "code": "KH"
     }
   },
   {
     "pk": 110,
     "model": "person.country",
     "fields":{
-      "name": "Jordan",
-      "code": "JO",
-      "flag": null
+      "name": "Kiribati",
+      "code": "KI"
     }
   },
   {
     "pk": 111,
     "model": "person.country",
     "fields":{
-      "name": "Japan",
-      "code": "JP",
-      "flag": null
+      "name": "Comoros",
+      "code": "KM"
     }
   },
   {
     "pk": 112,
     "model": "person.country",
     "fields":{
-      "name": "Kenya",
-      "code": "KE",
-      "flag": null
+      "name": "Saint Kitts and Nevis",
+      "code": "KN"
     }
   },
   {
     "pk": 113,
     "model": "person.country",
     "fields":{
-      "name": "Kyrgyzstan",
-      "code": "KG",
-      "flag": null
+      "name": "North Korea",
+      "code": "KP"
     }
   },
   {
     "pk": 114,
     "model": "person.country",
     "fields":{
-      "name": "Cambodia",
-      "code": "KH",
-      "flag": null
+      "name": "South Korea",
+      "code": "KR"
     }
   },
   {
     "pk": 115,
     "model": "person.country",
     "fields":{
-      "name": "Kiribati",
-      "code": "KI",
-      "flag": null
+      "name": "Kuwait",
+      "code": "KW"
     }
   },
   {
     "pk": 116,
     "model": "person.country",
     "fields":{
-      "name": "Comoros",
-      "code": "KM",
-      "flag": null
+      "name": "Cayman Islands",
+      "code": "KY"
     }
   },
   {
     "pk": 117,
     "model": "person.country",
     "fields":{
-      "name": "Saint Kitts and Nevis",
-      "code": "KN",
-      "flag": null
+      "name": "Kazakhstan",
+      "code": "KZ"
     }
   },
   {
     "pk": 118,
     "model": "person.country",
     "fields":{
-      "name": "North Korea",
-      "code": "KP",
-      "flag": null
+      "name": "Laos",
+      "code": "LA"
     }
   },
   {
     "pk": 119,
     "model": "person.country",
     "fields":{
-      "name": "South Korea",
-      "code": "KR",
-      "flag": null
+      "name": "Lebanon",
+      "code": "LB"
     }
   },
   {
     "pk": 120,
     "model": "person.country",
     "fields":{
-      "name": "Kuwait",
-      "code": "KW",
-      "flag": null
+      "name": "Saint Lucia",
+      "code": "LC"
     }
   },
   {
     "pk": 121,
     "model": "person.country",
     "fields":{
-      "name": "Cayman Islands",
-      "code": "KY",
-      "flag": null
+      "name": "Liechtenstein",
+      "code": "LI"
     }
   },
   {
     "pk": 122,
     "model": "person.country",
     "fields":{
-      "name": "Kazakhstan",
-      "code": "KZ",
-      "flag": null
+      "name": "Sri Lanka",
+      "code": "LK"
     }
   },
   {
     "pk": 123,
     "model": "person.country",
     "fields":{
-      "name": "Laos",
-      "code": "LA",
-      "flag": null
+      "name": "Liberia",
+      "code": "LR"
     }
   },
   {
     "pk": 124,
     "model": "person.country",
     "fields":{
-      "name": "Lebanon",
-      "code": "LB",
-      "flag": null
+      "name": "Lesotho",
+      "code": "LS"
     }
   },
   {
     "pk": 125,
     "model": "person.country",
     "fields":{
-      "name": "Saint Lucia",
-      "code": "LC",
-      "flag": null
+      "name": "Lithuania",
+      "code": "LT"
     }
   },
   {
     "pk": 126,
     "model": "person.country",
     "fields":{
-      "name": "Liechtenstein",
-      "code": "LI",
-      "flag": null
+      "name": "Luxembourg",
+      "code": "LU"
     }
   },
   {
     "pk": 127,
     "model": "person.country",
     "fields":{
-      "name": "Sri Lanka",
-      "code": "LK",
-      "flag": null
+      "name": "Latvia",
+      "code": "LV"
     }
   },
   {
     "pk": 128,
     "model": "person.country",
     "fields":{
-      "name": "Liberia",
-      "code": "LR",
-      "flag": null
+      "name": "Libya",
+      "code": "LY"
     }
   },
   {
     "pk": 129,
     "model": "person.country",
     "fields":{
-      "name": "Lesotho",
-      "code": "LS",
-      "flag": null
+      "name": "Morocco",
+      "code": "MA"
     }
   },
   {
     "pk": 130,
     "model": "person.country",
     "fields":{
-      "name": "Lithuania",
-      "code": "LT",
-      "flag": null
+      "name": "Monaco",
+      "code": "MC"
     }
   },
   {
     "pk": 131,
     "model": "person.country",
     "fields":{
-      "name": "Luxembourg",
-      "code": "LU",
-      "flag": null
+      "name": "Moldova",
+      "code": "MD"
     }
   },
   {
     "pk": 132,
     "model": "person.country",
     "fields":{
-      "name": "Latvia",
-      "code": "LV",
-      "flag": null
+      "name": "Montenegro",
+      "code": "ME"
     }
   },
   {
     "pk": 133,
     "model": "person.country",
     "fields":{
-      "name": "Libya",
-      "code": "LY",
-      "flag": null
+      "name": "Saint Martin",
+      "code": "MF"
     }
   },
   {
     "pk": 134,
     "model": "person.country",
     "fields":{
-      "name": "Morocco",
-      "code": "MA",
-      "flag": null
+      "name": "Madagascar",
+      "code": "MG"
     }
   },
   {
     "pk": 135,
     "model": "person.country",
     "fields":{
-      "name": "Monaco",
-      "code": "MC",
-      "flag": null
+      "name": "Marshall Islands",
+      "code": "MH"
     }
   },
   {
     "pk": 136,
     "model": "person.country",
     "fields":{
-      "name": "Moldova",
-      "code": "MD",
-      "flag": null
+      "name": "Macedonia, Republic of",
+      "code": "MK"
     }
   },
   {
     "pk": 137,
     "model": "person.country",
     "fields":{
-      "name": "Montenegro",
-      "code": "ME",
-      "flag": null
+      "name": "Mali",
+      "code": "ML"
     }
   },
   {
     "pk": 138,
     "model": "person.country",
     "fields":{
-      "name": "Saint Martin",
-      "code": "MF",
-      "flag": null
+      "name": "Myanmar",
+      "code": "MM"
     }
   },
   {
     "pk": 139,
     "model": "person.country",
     "fields":{
-      "name": "Madagascar",
-      "code": "MG",
-      "flag": null
+      "name": "Mongolia",
+      "code": "MN"
     }
   },
   {
     "pk": 140,
     "model": "person.country",
     "fields":{
-      "name": "Marshall Islands",
-      "code": "MH",
-      "flag": null
+      "name": "Macau",
+      "code": "MO"
     }
   },
   {
     "pk": 141,
     "model": "person.country",
     "fields":{
-      "name": "Macedonia, Republic of",
-      "code": "MK",
-      "flag": null
+      "name": "Martinique",
+      "code": "MQ"
     }
   },
   {
     "pk": 142,
     "model": "person.country",
     "fields":{
-      "name": "Mali",
-      "code": "ML",
-      "flag": null
+      "name": "Mauritania",
+      "code": "MR"
     }
   },
   {
     "pk": 143,
     "model": "person.country",
     "fields":{
-      "name": "Myanmar",
-      "code": "MM",
-      "flag": null
+      "name": "Montserrat",
+      "code": "MS"
     }
   },
   {
     "pk": 144,
     "model": "person.country",
     "fields":{
-      "name": "Mongolia",
-      "code": "MN",
-      "flag": null
+      "name": "Malta",
+      "code": "MT"
     }
   },
   {
     "pk": 145,
     "model": "person.country",
     "fields":{
-      "name": "Macau",
-      "code": "MO",
-      "flag": null
+      "name": "Mauritius",
+      "code": "MU"
     }
   },
   {
     "pk": 146,
     "model": "person.country",
     "fields":{
-      "name": "Martinique",
-      "code": "MQ",
-      "flag": null
+      "name": "Maldives",
+      "code": "MV"
     }
   },
   {
     "pk": 147,
     "model": "person.country",
     "fields":{
-      "name": "Mauritania",
-      "code": "MR",
-      "flag": null
+      "name": "Malawi",
+      "code": "MW"
     }
   },
   {
     "pk": 148,
     "model": "person.country",
     "fields":{
-      "name": "Montserrat",
-      "code": "MS",
-      "flag": null
+      "name": "Mexico",
+      "code": "MX"
     }
   },
   {
     "pk": 149,
     "model": "person.country",
     "fields":{
-      "name": "Malta",
-      "code": "MT",
-      "flag": null
+      "name": "Malaysia",
+      "code": "MY"
     }
   },
   {
     "pk": 150,
     "model": "person.country",
     "fields":{
-      "name": "Mauritius",
-      "code": "MU",
-      "flag": null
+      "name": "Mozambique",
+      "code": "MZ"
     }
   },
   {
     "pk": 151,
     "model": "person.country",
     "fields":{
-      "name": "Maldives",
-      "code": "MV",
-      "flag": null
+      "name": "Namibia",
+      "code": "NA"
     }
   },
   {
     "pk": 152,
     "model": "person.country",
     "fields":{
-      "name": "Malawi",
-      "code": "MW",
-      "flag": null
+      "name": "New Caledonia",
+      "code": "NC"
     }
   },
   {
     "pk": 153,
     "model": "person.country",
     "fields":{
-      "name": "Mexico",
-      "code": "MX",
-      "flag": null
+      "name": "Niger",
+      "code": "NE"
     }
   },
   {
     "pk": 154,
     "model": "person.country",
     "fields":{
-      "name": "Malaysia",
-      "code": "MY",
-      "flag": null
+      "name": "Norfolk Island",
+      "code": "NF"
     }
   },
   {
     "pk": 155,
     "model": "person.country",
     "fields":{
-      "name": "Mozambique",
-      "code": "MZ",
-      "flag": null
+      "name": "Nigeria",
+      "code": "NG"
     }
   },
   {
     "pk": 156,
     "model": "person.country",
     "fields":{
-      "name": "Namibia",
-      "code": "NA",
-      "flag": null
+      "name": "Nicaragua",
+      "code": "NI"
     }
   },
   {
     "pk": 157,
     "model": "person.country",
     "fields":{
-      "name": "New Caledonia",
-      "code": "NC",
-      "flag": null
+      "name": "Netherlands",
+      "code": "NL"
     }
   },
   {
     "pk": 158,
     "model": "person.country",
     "fields":{
-      "name": "Niger",
-      "code": "NE",
-      "flag": null
+      "name": "Norway",
+      "code": "NO"
     }
   },
   {
     "pk": 159,
     "model": "person.country",
     "fields":{
-      "name": "Norfolk Island",
-      "code": "NF",
-      "flag": null
+      "name": "Nepal",
+      "code": "NP"
     }
   },
   {
     "pk": 160,
     "model": "person.country",
     "fields":{
-      "name": "Nigeria",
-      "code": "NG",
-      "flag": null
+      "name": "Nauru",
+      "code": "NR"
     }
   },
   {
     "pk": 161,
     "model": "person.country",
     "fields":{
-      "name": "Nicaragua",
-      "code": "NI",
-      "flag": null
+      "name": "Niue",
+      "code": "NU"
     }
   },
   {
     "pk": 162,
     "model": "person.country",
     "fields":{
-      "name": "Netherlands",
-      "code": "NL",
-      "flag": null
+      "name": "New Zealand",
+      "code": "NZ"
     }
   },
   {
     "pk": 163,
     "model": "person.country",
     "fields":{
-      "name": "Norway",
-      "code": "NO",
-      "flag": null
+      "name": "Oman",
+      "code": "OM"
     }
   },
   {
     "pk": 164,
     "model": "person.country",
     "fields":{
-      "name": "Nepal",
-      "code": "NP",
-      "flag": null
+      "name": "Panama",
+      "code": "PA"
     }
   },
   {
     "pk": 165,
     "model": "person.country",
     "fields":{
-      "name": "Nauru",
-      "code": "NR",
-      "flag": null
+      "name": "Peru",
+      "code": "PE"
     }
   },
   {
     "pk": 166,
     "model": "person.country",
     "fields":{
-      "name": "Niue",
-      "code": "NU",
-      "flag": null
+      "name": "French Polynesia",
+      "code": "PF"
     }
   },
   {
     "pk": 167,
     "model": "person.country",
     "fields":{
-      "name": "New Zealand",
-      "code": "NZ",
-      "flag": null
+      "name": "Papua New Guinea",
+      "code": "PG"
     }
   },
   {
     "pk": 168,
     "model": "person.country",
     "fields":{
-      "name": "Oman",
-      "code": "OM",
-      "flag": null
+      "name": "Philippines",
+      "code": "PH"
     }
   },
   {
     "pk": 169,
     "model": "person.country",
     "fields":{
-      "name": "Panama",
-      "code": "PA",
-      "flag": null
+      "name": "Pakistan",
+      "code": "PK"
     }
   },
   {
     "pk": 170,
     "model": "person.country",
     "fields":{
-      "name": "Peru",
-      "code": "PE",
-      "flag": null
+      "name": "Poland",
+      "code": "PL"
     }
   },
   {
     "pk": 171,
     "model": "person.country",
     "fields":{
-      "name": "French Polynesia",
-      "code": "PF",
-      "flag": null
+      "name": "Saint Pierre and Miquelon",
+      "code": "PM"
     }
   },
   {
     "pk": 172,
     "model": "person.country",
     "fields":{
-      "name": "Papua New Guinea",
-      "code": "PG",
-      "flag": null
+      "name": "Pitcairn Islands",
+      "code": "PN"
     }
   },
   {
     "pk": 173,
     "model": "person.country",
     "fields":{
-      "name": "Philippines",
-      "code": "PH",
-      "flag": null
+      "name": "Puerto Rico",
+      "code": "PR"
     }
   },
   {
     "pk": 174,
     "model": "person.country",
     "fields":{
-      "name": "Pakistan",
-      "code": "PK",
-      "flag": null
+      "name": "Portugal",
+      "code": "PT"
     }
   },
   {
     "pk": 175,
     "model": "person.country",
     "fields":{
-      "name": "Poland",
-      "code": "PL",
-      "flag": null
+      "name": "Palau",
+      "code": "PW"
     }
   },
   {
     "pk": 176,
     "model": "person.country",
     "fields":{
-      "name": "Saint Pierre and Miquelon",
-      "code": "PM",
-      "flag": null
+      "name": "Paraguay",
+      "code": "PY"
     }
   },
   {
     "pk": 177,
     "model": "person.country",
     "fields":{
-      "name": "Pitcairn Islands",
-      "code": "PN",
-      "flag": null
+      "name": "Qatar",
+      "code": "QA"
     }
   },
   {
     "pk": 178,
     "model": "person.country",
     "fields":{
-      "name": "Puerto Rico",
-      "code": "PR",
-      "flag": null
+      "name": "Réunion",
+      "code": "RE"
     }
   },
   {
     "pk": 179,
     "model": "person.country",
     "fields":{
-      "name": "Portugal",
-      "code": "PT",
-      "flag": null
+      "name": "Romania",
+      "code": "RO"
     }
   },
   {
     "pk": 180,
     "model": "person.country",
     "fields":{
-      "name": "Palau",
-      "code": "PW",
-      "flag": null
+      "name": "Serbia",
+      "code": "RS"
     }
   },
   {
     "pk": 181,
     "model": "person.country",
     "fields":{
-      "name": "Paraguay",
-      "code": "PY",
-      "flag": null
+      "name": "Russia",
+      "code": "RU"
     }
   },
   {
     "pk": 182,
     "model": "person.country",
     "fields":{
-      "name": "Qatar",
-      "code": "QA",
-      "flag": null
+      "name": "Rwanda",
+      "code": "RW"
     }
   },
   {
     "pk": 183,
     "model": "person.country",
     "fields":{
-      "name": "Réunion",
-      "code": "RE",
-      "flag": null
+      "name": "Saudi Arabia",
+      "code": "SA"
     }
   },
   {
     "pk": 184,
     "model": "person.country",
     "fields":{
-      "name": "Romania",
-      "code": "RO",
-      "flag": null
+      "name": "Solomon Islands",
+      "code": "SB"
     }
   },
   {
     "pk": 185,
     "model": "person.country",
     "fields":{
-      "name": "Serbia",
-      "code": "RS",
-      "flag": null
+      "name": "Seychelles",
+      "code": "SC"
     }
   },
   {
     "pk": 186,
     "model": "person.country",
     "fields":{
-      "name": "Russia",
-      "code": "RU",
-      "flag": null
+      "name": "Sudan",
+      "code": "SD"
     }
   },
   {
     "pk": 187,
     "model": "person.country",
     "fields":{
-      "name": "Rwanda",
-      "code": "RW",
-      "flag": null
+      "name": "Sweden",
+      "code": "SE"
     }
   },
   {
     "pk": 188,
     "model": "person.country",
     "fields":{
-      "name": "Saudi Arabia",
-      "code": "SA",
-      "flag": null
+      "name": "Singapore",
+      "code": "SG"
     }
   },
   {
     "pk": 189,
     "model": "person.country",
     "fields":{
-      "name": "Solomon Islands",
-      "code": "SB",
-      "flag": null
+      "name": "Saint Helena, Ascension and Tristan da Cunha",
+      "code": "SH"
     }
   },
   {
     "pk": 190,
     "model": "person.country",
     "fields":{
-      "name": "Seychelles",
-      "code": "SC",
-      "flag": null
+      "name": "Slovenia",
+      "code": "SI"
     }
   },
   {
     "pk": 191,
     "model": "person.country",
     "fields":{
-      "name": "Sudan",
-      "code": "SD",
-      "flag": null
+      "name": "Svalbard and Jan Mayen",
+      "code": "SJ"
     }
   },
   {
     "pk": 192,
     "model": "person.country",
     "fields":{
-      "name": "Sweden",
-      "code": "SE",
-      "flag": null
+      "name": "Slovakia",
+      "code": "SK"
     }
   },
   {
     "pk": 193,
     "model": "person.country",
     "fields":{
-      "name": "Singapore",
-      "code": "SG",
-      "flag": null
+      "name": "Sierra Leone",
+      "code": "SL"
     }
   },
   {
     "pk": 194,
     "model": "person.country",
     "fields":{
-      "name": "Saint Helena, Ascension and Tristan da Cunha",
-      "code": "SH",
-      "flag": null
+      "name": "San Marino",
+      "code": "SM"
     }
   },
   {
     "pk": 195,
     "model": "person.country",
     "fields":{
-      "name": "Slovenia",
-      "code": "SI",
-      "flag": null
+      "name": "Senegal",
+      "code": "SN"
     }
   },
   {
     "pk": 196,
     "model": "person.country",
     "fields":{
-      "name": "Svalbard and Jan Mayen",
-      "code": "SJ",
-      "flag": null
+      "name": "Somalia",
+      "code": "SO"
     }
   },
   {
     "pk": 197,
     "model": "person.country",
     "fields":{
-      "name": "Slovakia",
-      "code": "SK",
-      "flag": null
+      "name": "Suriname",
+      "code": "SR"
     }
   },
   {
     "pk": 198,
     "model": "person.country",
     "fields":{
-      "name": "Sierra Leone",
-      "code": "SL",
-      "flag": null
+      "name": "São Tomé and Príncipe",
+      "code": "ST"
     }
   },
   {
     "pk": 199,
     "model": "person.country",
     "fields":{
-      "name": "San Marino",
-      "code": "SM",
-      "flag": null
+      "name": "El Salvador",
+      "code": "SV"
     }
   },
   {
     "pk": 200,
     "model": "person.country",
     "fields":{
-      "name": "Senegal",
-      "code": "SN",
-      "flag": null
+      "name": "Sint Maarten",
+      "code": "SX"
     }
   },
   {
     "pk": 201,
     "model": "person.country",
     "fields":{
-      "name": "Somalia",
-      "code": "SO",
-      "flag": null
+      "name": "Syria",
+      "code": "SY"
     }
   },
   {
     "pk": 202,
     "model": "person.country",
     "fields":{
-      "name": "Suriname",
-      "code": "SR",
-      "flag": null
+      "name": "Swaziland",
+      "code": "SZ"
     }
   },
   {
     "pk": 203,
     "model": "person.country",
     "fields":{
-      "name": "São Tomé and Príncipe",
-      "code": "ST",
-      "flag": null
+      "name": "Turks and Caicos Islands",
+      "code": "TC"
     }
   },
   {
     "pk": 204,
     "model": "person.country",
     "fields":{
-      "name": "El Salvador",
-      "code": "SV",
-      "flag": null
+      "name": "Chad",
+      "code": "TD"
     }
   },
   {
     "pk": 205,
     "model": "person.country",
     "fields":{
-      "name": "Sint Maarten",
-      "code": "SX",
-      "flag": null
+      "name": "Togo",
+      "code": "TG"
     }
   },
   {
     "pk": 206,
     "model": "person.country",
     "fields":{
-      "name": "Syria",
-      "code": "SY",
-      "flag": null
+      "name": "Thailand",
+      "code": "TH"
     }
   },
   {
     "pk": 207,
     "model": "person.country",
     "fields":{
-      "name": "Swaziland",
-      "code": "SZ",
-      "flag": null
+      "name": "Tajikistan",
+      "code": "TJ"
     }
   },
   {
     "pk": 208,
     "model": "person.country",
     "fields":{
-      "name": "Turks and Caicos Islands",
-      "code": "TC",
-      "flag": null
+      "name": "Tokelau",
+      "code": "TK"
     }
   },
   {
     "pk": 209,
     "model": "person.country",
     "fields":{
-      "name": "Chad",
-      "code": "TD",
-      "flag": null
+      "name": "East Timor",
+      "code": "TL"
     }
   },
   {
     "pk": 210,
     "model": "person.country",
     "fields":{
-      "name": "Togo",
-      "code": "TG",
-      "flag": null
+      "name": "Turkmenistan",
+      "code": "TM"
     }
   },
   {
     "pk": 211,
     "model": "person.country",
     "fields":{
-      "name": "Thailand",
-      "code": "TH",
-      "flag": null
+      "name": "Tunisia",
+      "code": "TN"
     }
   },
   {
     "pk": 212,
     "model": "person.country",
     "fields":{
-      "name": "Tajikistan",
-      "code": "TJ",
-      "flag": null
+      "name": "Tonga",
+      "code": "TO"
     }
   },
   {
     "pk": 213,
     "model": "person.country",
     "fields":{
-      "name": "Tokelau",
-      "code": "TK",
-      "flag": null
+      "name": "Turkey",
+      "code": "TR"
     }
   },
   {
     "pk": 214,
     "model": "person.country",
     "fields":{
-      "name": "Timor-Leste",
-      "code": "TL",
-      "flag": null
+      "name": "Trinidad and Tobago",
+      "code": "TT"
     }
   },
   {
     "pk": 215,
     "model": "person.country",
     "fields":{
-      "name": "Turkmenistan",
-      "code": "TM",
-      "flag": null
+      "name": "Taiwan",
+      "code": "TW"
     }
   },
   {
     "pk": 216,
     "model": "person.country",
     "fields":{
-      "name": "Tunisia",
-      "code": "TN",
-      "flag": null
+      "name": "Tanzania",
+      "code": "TZ"
     }
   },
   {
     "pk": 217,
     "model": "person.country",
     "fields":{
-      "name": "Tonga",
-      "code": "TO",
-      "flag": null
+      "name": "Ukraine",
+      "code": "UA"
     }
   },
   {
     "pk": 218,
     "model": "person.country",
     "fields":{
-      "name": "Turkey",
-      "code": "TR",
-      "flag": null
+      "name": "Uganda",
+      "code": "UG"
     }
   },
   {
     "pk": 219,
     "model": "person.country",
     "fields":{
-      "name": "Trinidad and Tobago",
-      "code": "TT",
-      "flag": null
+      "name": "United States of America",
+      "code": "US"
     }
   },
   {
     "pk": 220,
     "model": "person.country",
     "fields":{
-      "name": "Tuvalu",
-      "code": "TV",
-      "flag": null
+      "name": "Uruguay",
+      "code": "UY"
     }
   },
   {
     "pk": 221,
     "model": "person.country",
     "fields":{
-      "name": "Taiwan",
-      "code": "TW",
-      "flag": null
+      "name": "Uzbekistan",
+      "code": "UZ"
     }
   },
   {
     "pk": 222,
     "model": "person.country",
     "fields":{
-      "name": "Tanzania",
-      "code": "TZ",
-      "flag": null
+      "name": "Vatican City",
+      "code": "VA"
     }
   },
   {
     "pk": 223,
     "model": "person.country",
     "fields":{
-      "name": "Ukraine",
-      "code": "UA",
-      "flag": null
+      "name": "Saint Vincent and the Grenadines",
+      "code": "VC"
     }
   },
   {
     "pk": 224,
     "model": "person.country",
     "fields":{
-      "name": "Uganda",
-      "code": "UG",
-      "flag": null
+      "name": "Venezuela",
+      "code": "VE"
     }
   },
   {
     "pk": 225,
     "model": "person.country",
     "fields":{
-      "name": "United States",
-      "code": "US",
-      "flag": null
+      "name": "Virgin Islands, British",
+      "code": "VG"
     }
   },
   {
     "pk": 226,
     "model": "person.country",
     "fields":{
-      "name": "Uruguay",
-      "code": "UY",
-      "flag": null
+      "name": "Virgin Islands, U.S.",
+      "code": "VI"
     }
   },
   {
     "pk": 227,
     "model": "person.country",
     "fields":{
-      "name": "Uzbekistan",
-      "code": "UZ",
-      "flag": null
+      "name": "Viet Nam",
+      "code": "VN"
     }
   },
   {
     "pk": 228,
     "model": "person.country",
     "fields":{
-      "name": "Vatican City",
-      "code": "VA",
-      "flag": null
+      "name": "Vanuatu",
+      "code": "VU"
     }
   },
   {
     "pk": 229,
     "model": "person.country",
     "fields":{
-      "name": "Saint Vincent and the Grenadines",
-      "code": "VC",
-      "flag": null
+      "name": "Samoa",
+      "code": "WS"
     }
   },
   {
     "pk": 230,
     "model": "person.country",
     "fields":{
-      "name": "Venezuela",
-      "code": "VE",
-      "flag": null
+      "name": "Yemen",
+      "code": "YE"
     }
   },
   {
     "pk": 231,
     "model": "person.country",
     "fields":{
-      "name": "Virgin Islands, British",
-      "code": "VG",
-      "flag": null
+      "name": "South Africa, Republic of",
+      "code": "ZA"
     }
   },
   {
     "pk": 232,
     "model": "person.country",
     "fields":{
-      "name": "Virgin Islands, U.S.",
-      "code": "VI",
-      "flag": null
+      "name": "Zambia",
+      "code": "ZM"
     }
   },
   {
     "pk": 233,
     "model": "person.country",
     "fields":{
-      "name": "Viet Nam",
-      "code": "VN",
-      "flag": null
-    }
-  },
-  {
-    "pk": 234,
-    "model": "person.country",
-    "fields":{
-      "name": "Vanuatu",
-      "code": "VU",
-      "flag": null
-    }
-  },
-  {
-    "pk": 235,
-    "model": "person.country",
-    "fields":{
-      "name": "Wallis and Futuna",
-      "code": "WF",
-      "flag": null
-    }
-  },
-  {
-    "pk": 236,
-    "model": "person.country",
-    "fields":{
-      "name": "Samoa",
-      "code": "WS",
-      "flag": null
-    }
-  },
-  {
-    "pk": 237,
-    "model": "person.country",
-    "fields":{
-      "name": "Yemen",
-      "code": "YE",
-      "flag": null
-    }
-  },
-  {
-    "pk": 238,
-    "model": "person.country",
-    "fields":{
-      "name": "Mayotte",
-      "code": "YT",
-      "flag": null
-    }
-  },
-  {
-    "pk": 239,
-    "model": "person.country",
-    "fields":{
-      "name": "South Africa",
-      "code": "ZA",
-      "flag": null
-    }
-  },
-  {
-    "pk": 240,
-    "model": "person.country",
-    "fields":{
-      "name": "Zambia",
-      "code": "ZM",
-      "flag": null
-    }
-  },
-  {
-    "pk": 241,
-    "model": "person.country",
-    "fields":{
       "name": "Zimbabwe",
-      "code": "ZW",
-      "flag": null
+      "code": "ZW"
     }
   },
+
   {
     "_comment_": "License code from http://creativecommons.org/publicdomain/zero/1.0/legalcode.txt",
     "pk": 1,
