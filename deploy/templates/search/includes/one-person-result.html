@@ -7,7 +7,7 @@
 		<div style="width: 42px; float: left;">
 		  <img src="{{MEDIA_URL}}person-list-icon-tiny.png">
 		</div>
-		<div style="width: 85%; float: left;">{% if entry.bio_html %}{{ entry.bio_html|truncatewords_html:"30"|safe|removetags:"p li ul ol img a"}}{% else %}User profile not completed yet{% endif %}
+		<div style="width: 85%; float: left;">{% if entry.bio_html %}{{ entry.bio_html|truncatewords_html:"30"|safe|removetags:"p li ul ol img a math h1 h2 h3 h4 h5 h6"}}{% else %}User profile not completed yet{% endif %}
 		</div>
 	  </div>
 	  <div class="spc-itemdisp-created spc-itemdisp-td">
