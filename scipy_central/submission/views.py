@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.conf import settings
 from django.core.files.base import ContentFile
-from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.core.exceptions import ObjectDoesNotExist
 from django.template.defaultfilters import slugify
 from django.template.loader import render_to_string
 from django import template
@@ -191,9 +191,9 @@ def create_or_edit_submission_revision(request, item, is_displayed,
     # Process any tags
     tag_list = get_and_create_tags(item.cleaned_data['sub_tags'])
 
-    # Create a ``Revision`` instance. Must always have a ``title``, ``created_by``,
-    # and ``description`` fields; the rest are set according to the submission
-    # type, ``sub.sub_type``
+    # Create a ``Revision`` instance. Must always have a ``title``,
+    # ``created_by``, and ``description`` fields; the rest are set according
+    # to the submission type, ``sub.sub_type``
     hash_id = md5(post.get('snippet_code', '')).hexdigest()
     if sub.sub_type == 'link':
         sub_license = None
@@ -262,7 +262,8 @@ def create_or_edit_submission_revision(request, item, is_displayed,
                                                               (user.id)
 
 
-            sub.fileset.add_file_from_string(fname, request.POST['snippet_code'])
+            sub.fileset.add_file_from_string(fname,
+                                                 request.POST['snippet_code'])
             license_file = settings.SPC['license_filename']
             license_text = get_license_text(rev)
             sub.fileset.add_file_from_string(license_file, license_text,
@@ -329,7 +330,7 @@ this software (see below).
 Also see http://creativecommons.org/publicdomain/zero/1.0/
 -----
 %s
-""" %\
+""" % \
 (rev.title, datetime.datetime.strftime(rev.entry.date_created, '%d %B %Y'),
  settings.SPC['short_URL_root'] + 'users/' + rev.entry.created_by.profile.slug,
  update_string, rev.sub_license.text_template)
@@ -465,7 +466,8 @@ def new_or_edit_submission(request, bound_form=False):
                 'id="spc-item-cancel" />\n'
                 '<input type="submit" name="spc-edit"   value="Resume editing"'
                 'id="spc-item-edit" />\n'
-                '<input type="submit" name="spc-submit" value="Finish submission"'
+                '<input type="submit" name="spc-submit" '
+                'value="Finish submission"'
                 'id="spc-item-submit"/>\n'
                 '</div></form></div>')
         resp = template.Template(html)
@@ -642,14 +644,15 @@ def show_items(request, what_view='', extra_info=''):
     page_title = ''
     template_name = 'submission/show-entries.html'
     if what_view == 'tag':
-        all_revs = models.Revision.objects.all().filter(tags__slug=slugify(extra_info))
+        all_revs = models.Revision.objects.all().\
+                                        filter(tags__slug=slugify(extra_info))
         page_title = 'All entries tagged'
         extra_info = '"%s"' % extra_info
         entry_order = list(all_revs)
     elif what_view == 'show' and extra_info == 'all-tags':
         page_title = 'All tags'
         template_name = 'submission/show-tag-cloud.html'
-    elif what_view == 'show' and extra_info=='all':
+    elif what_view == 'show' and extra_info =='all':
         # Show all submissions in reverse time order
         all_revs = models.Revision.objects.all().order_by('-date_created')
         page_title = 'All submissions'
@@ -667,7 +670,7 @@ def show_items(request, what_view='', extra_info=''):
         page_title = 'Top contributors'
         extra_info = ''
         entry_order = top_authors('', 0)
-        template_name = 'submission/show-top-contributors.html'
+        #template_name = 'submission/show-top-contributors.html'
 
     entries = paginated_queryset(request, entry_order)
     return render_to_response(template_name, {},
@@ -679,9 +682,4 @@ def show_items(request, what_view='', extra_info=''):
 # This code isn't quite right: a user can create a revision: we should show
 # the particular revision which that user created, not necessarily the
 # latest revision of that submission.
-#if user is not None:
-    #all_revisions = models.Revision.objects.filter(created_by__username_slug=user)
-    #all_subs = set()
-    #for rev in all_revisions:
-        #all_subs.add(rev.entry)
 

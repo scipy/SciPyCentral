@@ -32,6 +32,7 @@
   {#  or from the ``person.UserProfile`` class                               #}
   {% for entry in entries.object_list %}
 
+    {# It's a user #}
 	{% if entry.verbose_name == "User profile" %}
 
 	  {# It's a search query result #}

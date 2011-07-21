@@ -36,7 +36,8 @@ def compile_rest_to_html(raw_rest):
                             because Sphinx converts is back to a single slash
         * Removes hyperlinks to remote images
 
-        TODO(KGD): prevent csv-table directive, raw directive, include directive
+        Alternative way to prevent csv-table directive, raw directive,
+        include directive: if using docutils.
         For more, see: http://docutils.sourceforge.net/docs/user/config.html#file-insertion-enabled
         """
 

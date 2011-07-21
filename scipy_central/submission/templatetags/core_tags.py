@@ -23,7 +23,12 @@ def top_authors(field, num=5):
     # Only return query set instances where the score exceeds 0
     # and the user is validated
     candidates = manager.top_authors().filter(score__gt=0)
-    entries = [user for user in candidates if user.profile.is_validated]
+    entries = [user.profile for user in candidates \
+                                                 if user.profile.is_validated]
+    # Used in the template
+    for entry in entries:
+        entry.verbose_name = 'User profile'
+
     if num > 0:
         return entries[:num]
     else:

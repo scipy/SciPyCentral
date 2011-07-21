@@ -25,7 +25,7 @@
       "bio": "SciPy Central site administrator",
       "openid": null,
       "slug": "scipy-central",
-      "country": 38,
+      "country": 36,
       "uri": "http://scipy-central.org",
       "contactable_via_site": true,
       "affiliation": "N/A",
@@ -334,7 +334,7 @@
     "pk": 38,
     "model": "person.country",
     "fields":{
-      "name": "Congo, the Democratic Republic of the",
+      "name": "Congo, The Democratic Republic of the",
       "code": "CD"
     }
   },
