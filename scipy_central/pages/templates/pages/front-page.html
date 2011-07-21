@@ -27,7 +27,7 @@
 			  <li class="spc-li-{{item.entry.sub_type}}"><a href="{{ item.get_absolute_url }}">{{ item.title }}</a>{% if item.short_human_revision_string %} ({{item.short_human_revision_string|safe}}){% endif %}</li>
 			{% endfor %}
 			</ul>
-			<a href="{% url spc-show-items what_view="show" extra_info="all"  %}">Show all</a>
+			<a href="{% url spc-show-items what_view="show" extra_info="all-revisions" %}">Show all</a>
 		</div>
 		<div class="spc-portal-right">
 		  <h3>Most viewed</h3>

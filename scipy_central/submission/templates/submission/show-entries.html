@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}{{page_title}}{% if extra_info %}: {{extra_info}}{% endif %}{% endblock %}
+{% block title %}{{page_title}}{% if extra_info %}{{extra_info}}{% endif %}{% endblock %}
 
 {% block content %}
 
-<div id="spc-itemdisp-pageheader">{{page_title}}{% if extra_info %}: {{extra_info}}{% endif %}</div>
+<div id="spc-itemdisp-pageheader">{{page_title}}{% if extra_info %}{{extra_info}}{% endif %}</div>
 {% include 'submission/entries_list.html' %}
 
 {% endblock %}
