@@ -31,7 +31,11 @@
     </div>
     <div class="spc-item-row">
       <span class="spc-item-label">Country:</span>
-      <span class="spc-item-entry">{% if theuser.profile.country %}<span class="spc-item-entry">{{theuser.profile.country.name}}</span>{% else %}Not provided yet{% endif %}</span>
+      <span class="spc-item-entry">
+        {% if theuser.profile.country %}
+          {{theuser.profile.country.name}}<img class="spc-flag" src="{{MEDIA_URL}}flags/flag-{{theuser.profile.country.code|lower}}.png">
+        {% else %}Not provided yet{% endif %}
+      </span>
     </div>
     <div class="spc-item-row">
       <span class="spc-item-label">Web site:</span>

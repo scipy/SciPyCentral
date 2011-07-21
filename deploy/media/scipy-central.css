@@ -720,9 +720,12 @@ div#spc-itemdisp-container h6 { font-size: 100%; }
 	padding-right: 7px;
 	border-right: 0px solid #aaa;
 }
-
 .spc-indent{
 	margin-left: 15px;
+}
+.spc-flag{
+	padding-left: 1em;
+	vertical-align: middle;
 }
 
 /* ---------------- */

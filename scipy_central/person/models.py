@@ -69,17 +69,18 @@ class SciPyRegistrationBackend(DefaultBackend):
 class Country(models.Model):
     """ Model for a country """
     # Country's official name
-    name = models.CharField(max_length=255, help_text="Official country name")
+    name = models.CharField(max_length=255, help_text="Official country name",
+                            unique=True)
 
     # The 2-character code: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
     code = models.CharField(max_length=2, help_text="Country code",
-                            blank=True, null=True)
+                            unique=True)
 
     # Country flag
     flag = models.ImageField(upload_to='flags/', blank=True)
 
     def __unicode__(self):
-        return self.name
+        return self.name + '(%s)' % self.code
 
 
 class UserProfile(models.Model):

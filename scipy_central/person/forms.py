@@ -15,7 +15,7 @@ class ProfileEditForm(forms.Form):
     affiliation = forms.CharField(max_length=150, required=False,
                 label=UserProfile._meta.get_field('affiliation').help_text)
 
-    choices = Country.objects.all()
+    choices = Country.objects.all().order_by('name')
     # Country: where the user is based
     country = forms.ModelChoiceField(choices, empty_label='------',
         widget=forms.Select(attrs={'class':'form-field-auto-width'},
