@@ -54,7 +54,7 @@
 		  <h3>Top contributors</h3>
 		  <ul>
 			{% for item in "authors"|top_authors:5 %}
-			  <li><a href="{{ item.profile.get_absolute_url }}">{{ item.user.username }}</a></li>
+			  <li><a href="{{ item.get_absolute_url }}">{{ item.user.username }}</a></li>
 			{% endfor %}
 			</ul>
 			<p><a href="{% url spc-show-items what_view="show" extra_info="top-contributors" %}">Show all</a>
