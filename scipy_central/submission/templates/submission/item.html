@@ -39,7 +39,7 @@
      <div class="spc-item-row">
       <span class="spc-item-label">Update history:</span>
       <span class="spc-item-entry">{{ item.human_revision_string }}:
-      {% if item.previous_revision %}<a href="{{item.previous_revision.get_absolute_url}}">previous</a><span style="padding-right: 2em;">&nbsp;<span>{% endif %}
+      {% if item.previous_revision %}<a href="{{item.previous_revision.get_absolute_url}}">previous</a><span style="padding-right: 2em;">&nbsp;</span>{% endif %}
 
       {% if item.next_revision %}<a href="{{ item.next_revision.get_absolute_url }}">next</a>{% endif %}
       </span>
