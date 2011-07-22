@@ -77,7 +77,7 @@ def get_items_or_404(view_function):
         # Don't return revisions that are not approved for display yet
         if not isinstance(the_revision, models.Revision) or\
                                               not(the_revision.is_displayed):
-            return page_404_error(request, "That revision is'nt available yet.")
+            return page_404_error(request, "That revision isn't available yet.")
 
         # Is the URL of the form: "..../NN/MM/edit"; if so, then edit the item
         path_split = request.path.split('/')
