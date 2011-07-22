@@ -663,7 +663,6 @@ def show_items(request, what_view='', extra_info=''):
         page_title = 'All submissions'
         extra_info = ' (only showing the latest revision)'
         entry_order = [sub.last_revision for sub in all_subs if sub.last_revision.is_displayed]
-
     elif what_view == 'sort' and extra_info == 'most-viewed':
         page_title = 'All submissions in order of most views'
         extra_info = ''
@@ -676,6 +675,8 @@ def show_items(request, what_view='', extra_info=''):
         page_title = 'Top contributors'
         extra_info = ''
         entry_order = top_authors('', 0)
+    elif what_view == 'validate':
+        validate_submission(request, code=extra_info)
 
     entries = paginated_queryset(request, entry_order)
     return render_to_response(template_name, {},
