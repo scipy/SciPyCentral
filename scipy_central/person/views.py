@@ -124,17 +124,20 @@ def sign_in_landing(request):
     return redirect(profile_page, request.user.profile.slug)
 
 
-def profile_page(request, slug):
+def profile_page(request, slug=None, user_id=None):
     """
     Shows the user's profile.
     """
-    if slug is None:
-        the_user = request.user
-    else:
-        try:
+    try:
+        if user_id:
+            the_user = models.User.objects.get(id=user_id)
+            return redirect(profile_page, the_user.profile.slug)
+        elif slug is None:
+            the_user = request.user
+        else:
             the_user = models.User.objects.get(profile__slug=slug)
-        except ObjectDoesNotExist:
-            return page_404_error(request, 'No profile for that user.')
+    except ObjectDoesNotExist:
+        return page_404_error(request, 'No profile for that user.')
 
     # Don't show the profile for inactive (unvalidated) users
     if not(the_user.is_active):
@@ -151,9 +154,12 @@ def profile_page(request, slug):
     else:
         no_entries = 'This user has not submitted any entries to SciPy Central.'
 
+    permalink = settings.SPC['short_URL_root'] + 'user/' + str(the_user.id) + '/'
+
     return render_to_response('person/profile.html', {},
                 context_instance=RequestContext(request,
                             {'theuser': the_user,
+                             'permalink': permalink,
                              'entries':paginated_queryset(request, all_revs),
                              'no_entries_message': no_entries, }))
 

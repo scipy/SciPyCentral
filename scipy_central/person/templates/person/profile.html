@@ -48,6 +48,15 @@
     <div style="clear:both;">&nbsp;</div>
   </div>
 
+  {% if permalink %}
+      <div class="spc-permalink">
+      <p>{% if theuser.id %}Identifier #: <b>{{ theuser.id }}</b>{% endif %}
+      <p>Permalink to this profile: <a href="{{permalink}}">{{permalink}}</a>
+      </div>
+    {% endif %}
+  <div style="clear:both;">&nbsp;</div>
+
+
   {% if entries %}
     <h3>Items created/edited by{% if user.profile.slug == theuser.profile.slug %} you</h3><span style="font-size:80%;">Note: only entries approved by you are shown</span>{% else %}: {{theuser.username}}</h3>{% endif %}
     {% include 'submission/entries_list.html' %}
