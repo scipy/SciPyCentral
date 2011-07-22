@@ -23,7 +23,7 @@
 		<div class="spc-portal-left spc-portal">
 		  <h3>Recently changed</h3>
 			<ul>
-			{% for item in "submission.revision"|latest:5 %}
+			{% for item in "submission.revision"|latest:8 %}
 			  <li class="spc-li-{{item.entry.sub_type}}"><a href="{{ item.get_absolute_url }}">{{ item.title }}</a>{% if item.short_human_revision_string %} ({{item.short_human_revision_string|safe}}){% endif %}</li>
 			{% endfor %}
 			</ul>
@@ -45,7 +45,7 @@
 	  <div class="spc-portal-row">
 		<div class="spc-portal-left">
 		  <h3>Tag cloud</h3>
-		    {% for item in "submission.TagCreation"|cloud:25 %}
+		    {% for item in "submission.TagCreation"|cloud:20 %}
 			  <span><a href="{% url spc-show-items what_view="tag" extra_info=item.tag %}" class="spc-tag-cloud" style="font-size: {{item.score}}%">{{item.tag.name}}</a></span>
 			{% endfor %}
 			<p><a href="{% url spc-show-items what_view="show" extra_info="all-tags" %}">Show all</a>
@@ -53,7 +53,7 @@
 		<div class="spc-portal-right">
 		  <h3>Top contributors</h3>
 		  <ul>
-			{% for item in "authors"|top_authors:5 %}
+			{% for item in "authors"|top_authors:8 %}
 			  <li><a href="{{ item.get_absolute_url }}">{{ item.user.username }}</a></li>
 			{% endfor %}
 			</ul>
