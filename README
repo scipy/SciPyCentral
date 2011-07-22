@@ -112,6 +112,33 @@ Installation
 #.  or ``./manage.py update_index``
 
 
+Backup and restore
+------------------
+
+There are 2 components to backup:
+
+    #.  The database: use ``deploy/backup_site.py``
+    #.  The repositories: use ``rsync`` and mirror ``SPC['storage_dir']``
+        directory that you set in ``settings.py``
+
+To restore:
+
+    #.  Delete your existing database.
+
+    #.  Run: ``./manage.py syncdb`` to create the empty tables in the database.
+
+    #.  ``./manage.py loaddata backup-YYYY-MM-DD-HH-MM-SS.json``
+
+        which restores the json database dump created by ``backup_site.py`` in
+        step 1 of the backup procedure.
+
+    #.  Do a full mirror of the rsynced repositories to your new
+        ``SPC['storage_dir']`` location. This storage contains hidden
+        directories (.hg or .git directories).
+
+
+
+
 Attribution
 -----------
 
