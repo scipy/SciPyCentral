@@ -222,7 +222,7 @@ class Revision(models.Model):
     validation_hash = models.CharField(max_length=40, null=True, blank=True)
 
     # For future user: list of modules required to run the code
-    modules_used = models.ManyToManyField(Module)
+    modules_used = models.ManyToManyField(Module, blank=True, null=True)
 
     # For future use: revision reason
     update_reason = models.CharField(max_length=155, null=True, blank=True)

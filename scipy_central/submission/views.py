@@ -309,7 +309,7 @@ def get_license_text(rev):
     for idx, item in enumerate(rev.entry.revisions.all()):
         if idx > 0:
             url = settings.SPC['short_URL_root'] + 'user/'
-            url += item.created_by.id + '/'
+            url += str(item.created_by.id) + '/'
             date = datetime.datetime.strftime(item.date_created, '%d %B %Y')
             update_list.append('%s on %s' % (url, date))
 
