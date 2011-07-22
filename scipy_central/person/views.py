@@ -131,7 +131,8 @@ def profile_page(request, slug=None, user_id=None):
     try:
         if user_id:
             the_user = models.User.objects.get(id=user_id)
-            return redirect(profile_page, the_user.profile.slug)
+            if the_user.is_active:
+                return redirect(profile_page, the_user.profile.slug)
         elif slug is None:
             the_user = request.user
         else:
