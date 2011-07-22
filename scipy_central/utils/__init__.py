@@ -37,16 +37,9 @@ def get_IP_address(request):
     Returns the visitor's IP address as a string given the Django ``request``.
     """
     # Catchs the case when the user is on a proxy
-    try:
-        ip = request.META['HTTP_X_FORWARDED_FOR']
-    except KeyError:
-        ip = ''
-    else:
-        # HTTP_X_FORWARDED_FOR is a comma-separated list; take first IP:
-        ip = ip.split(',')[0]
-
+    ip = request.META.get('HTTP_X_FORWARDED_FOR', '')
     if ip == '' or ip.lower() == 'unkown':
-        ip = request.META['REMOTE_ADDR']      # User is not on a proxy
+        ip = request.META.get('REMOTE_ADDR', '')   # User is not on a proxy
     return ip
 
 # From: http://djangosnippets.org/snippets/690/
