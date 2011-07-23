@@ -11,16 +11,19 @@
 
   <div id="spc-profile-user-options">
     <ul>
-      {% if user.id == item.created_by.id %}
-        {% if item.id %}
-          <li><a href="{% url spc-edit-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Edit this {{item.entry.sub_type}}</a></li>
-        {% endif %}
-      {% else %}
-        {% if user.username %}
-          {# Links cannot be edited by registered users, other than the author #}
-          {% if item.entry.sub_type != 'link' %}
-            <li><a href="{% url spc-edit-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Edit this {{item.entry.sub_type}}</a></li>
+
+      {# Only items with an ID are editable (prevents link showing when previewing a new item #}
+      {% if item.id %}
+
+        {# Links can only be edited by their original author #}
+        {% if item.entry.sub_type == 'link' %}
+
+          {# If the signed-in user is the same as the creator of the current revision: show edit link#}
+          {% if user.id == item.created_by.id %}
+            <li><a href="{% url spc-edit-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Edit your link</a></li>
           {% endif %}
+        {% else %}
+          <li><a href="{% url spc-edit-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Improve this {{item.entry.sub_type}}</a></li>
         {% endif %}
       {% endif %}
     </ul>

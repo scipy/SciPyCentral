@@ -30,10 +30,21 @@ def get_tag_uses(start_date=None, end_date=None):
                                        filter(date_created__gte=start_date).\
                                        filter(date_created__lte=end_date)
 
-    uses_by_pk = defaultdict(int)
+    # Let all the revisions from each submission be grouped, so that duplicate
+    # tags across revisions only have a single influence
+    uses_by_sub_pk = defaultdict(set)
     for use in tags_created:
-        uses_by_pk[use.tag.pk] += 1
+        uses_by_sub_pk[use.revision.entry_id].add(use.tag)
 
+    # Then for each set of tags in each submission, iterate a create a dict
+    # where the keys are the tag's primary key and the values are the number
+    # of uses of that tag
+    uses_by_pk = defaultdict(int)
+    for tag_set in uses_by_sub_pk.itervalues():
+        for tag in tag_set:
+            uses_by_pk[tag.pk] += 1
+
+    # Finally, create a list of hit counts, which can be used for sorting
     hit_counts = []
     for key, val in uses_by_pk.iteritems():
         hit_counts.append((val, key))
