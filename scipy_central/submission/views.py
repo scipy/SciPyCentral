@@ -343,8 +343,8 @@ Also see http://creativecommons.org/publicdomain/zero/1.0/
 # fields that must appear in a certain order
 Item = namedtuple('Item', 'form field_order')
 SUBS = {'snippet': Item(forms.SnippetForm, field_order=['title',
-                        'snippet_code', 'description', 'sub_license',
-                        'sub_tags', 'email', 'sub_type', 'pk']),
+                        'snippet_code', 'description', 'sub_tags',
+                        'sub_license', 'email', 'sub_type', 'pk']),
         'package': Item(forms.PackageForm, field_order=['title',
                         'description', 'package_file', 'sub_license',
                         'sub_tags', 'email', 'sub_type', 'pk']),
