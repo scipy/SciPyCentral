@@ -90,7 +90,9 @@ def latest(model_or_obj, num=5):
         if isinstance(field, (DateTimeField, DateField)):
             field_name = field.name
             break
-    return manager.all().order_by('-%s' % field_name)[:num]
+    subs = manager.all().order_by('-%s' % field_name)
+    return [sub.last_revision for sub in subs \
+                                     if sub.last_revision.is_displayed][:num]
 
 @register.filter
 def call_manager(model_or_obj, method):

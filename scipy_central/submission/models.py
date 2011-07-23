@@ -56,6 +56,9 @@ class SubmissionManager(models.Manager):
         #obj.save(force_insert=True, using=self.db)
         return obj
 
+    def all_last_revision_is_valid(self):
+        return self.all().filter(last_revision__is_displayed=True)
+
 
 class Submission(models.Model):
     """

@@ -23,8 +23,8 @@
 		<div class="spc-portal-left spc-portal">
 		  <h3>Recently changed</h3>
 			<ul>
-			{% for item in "submission.revision"|latest:8 %}
-			  <li class="spc-li-{{item.entry.sub_type}}"><a href="{{ item.get_absolute_url }}">{{ item.title }}</a>{% if item.short_human_revision_string %} ({{item.short_human_revision_string|safe}}){% endif %}</li>
+			{% for revision in "submission.submission"|latest:8 %}
+			    <li class="spc-li-{{revision.entry.sub_type}}"><a href="{{ revision.get_absolute_url }}">{{ revision.title }}</a>{% if revision.short_human_revision_string %} ({{revision.short_human_revision_string|safe}}){% endif %}</li>
 			{% endfor %}
 			</ul>
 			<a href="{% url spc-show-items what_view="show" extra_info="all-revisions" %}">Show all</a>
