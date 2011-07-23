@@ -32,7 +32,7 @@
 		<div class="spc-portal-right">
 		  <h3>Most viewed</h3>
 			<ul>
-		  	{% for item in "submission"|most_viewed:5 %}
+		  	{% for item in "submission"|most_viewed:8 %}
 			  <li><a href="{{ item.get_absolute_url }}">{{ item.last_revision.title }}</a></li>
 			{% endfor %}
 			</ul>
