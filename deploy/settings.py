@@ -222,7 +222,7 @@ SPC = {
     'hit_horizon': 30,
 
     # Number of entries per page is search output and table outputs
-    'entries_per_page': 30,
+    'entries_per_page': 20,
 }
 
 # All about ``local_settings.py``

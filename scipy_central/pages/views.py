@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.template.loader import get_template
 from django.http import HttpResponse
@@ -30,6 +30,9 @@ def search(request):
     """
     Calls Haystack, but allows us to first log the search query
     """
+    if request.GET['q'].strip() == '':
+        return redirect(front_page)
+
     # Avoid duplicate logging if search request results in more than 1 page
     if 'page' not in request.GET:
         logger.info('SEARCH [%s]: %s' % (get_IP_address(request),

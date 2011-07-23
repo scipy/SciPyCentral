@@ -7,11 +7,13 @@ class LicenseAdmin(admin.ModelAdmin):
 class SubmissionAdmin(admin.ModelAdmin):
     list_display = ('sub_type', 'slug', 'created_by', 'date_created',
                     'num_revisions')
+    list_display_links = ('slug',)
     ordering = ['-date_created']
 
 class RevisionAdmin(admin.ModelAdmin):
     list_display = ('pk', 'title', 'created_by', 'date_created',
                     'sub_license', 'item_url', 'rev_id', 'is_displayed')
+    list_display_links = ('title',)
     ordering = ['-date_created']
 
 class TagCreationAdmin(admin.ModelAdmin):
