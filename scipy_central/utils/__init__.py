@@ -12,10 +12,10 @@ rest_help_extra = """Use <a href="http://sphinx.pocoo.org/latest/rest.html">reSt
 <div class="spc-markup-help"><ul>
 <li class="spc-odd">Use linebreaks between paragraphs</li>
 <li class="spc-even"><tt>*</tt><i>italics</i><tt>*</tt> and <tt>**</tt><b>bold</b><tt>**</tt></li>
-<li class="spc-odd">Hyperlinks <tt>`are easy &lt;http://example.com&gt;`_</tt></li>
+<li class="spc-odd"><tt>`Hyperlinks &lt;http://example.com&gt;`_</tt></li>
 <li class="spc-even"><tt>``monospaced text``</tt></li>
-<li class="spc-odd"><tt>:math:`e^{i \pi}+1=0`</tt> shows as \(e^{i \pi}+1=0\)</li>
-<li class="spc-even"><a href="/markup-help" target="_blank">More help</a> with bullet points, and other features</li>
+<li class="spc-odd"><tt>\(</tt><tt>e^{i \pi}+1=0</tt><tt>\)</tt> shows as \(e^{i \pi}+1=0\)</li>
+<li class="spc-even"><a href="/markup-help" target="_blank">More help</a> with bulleted lists, math, hyperlinks and other features</li>
 </div>"""
 
 
