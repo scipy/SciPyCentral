@@ -401,8 +401,9 @@ def new_or_edit_submission(request, bound_form=False):
         bound_form = True
         commit = False
 
+    # Important: make a copy of ``field_order``, since it may be altered
     theform = get_form(request, form_class=SUBS[itemtype].form,
-                       field_order=SUBS[itemtype].field_order,
+                       field_order=SUBS[itemtype].field_order[:],
                        bound=bound_form)
 
     if new_item_or_edit:
