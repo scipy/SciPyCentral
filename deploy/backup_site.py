@@ -43,11 +43,17 @@ if __name__ == "__main__":
             fh = open(backup_file, 'w')
             fh.write(out.communicate()[0])
             fh.close()
-            print('Successfully backup to JSON files in %s' % backup_file)
-            sys.exit(0)
+            size = os.path.getsize(backup_file)
+            if size > 0:
+                print('Successfully backup to JSON files in %s [%s bytes]' %\
+                      (backup_file, str(size))
+                sys.exit(0)
+            else:
+                print('Zero length backup file "%s".\n\n' % backup_file)
+                raise OSError
         else:
-            print('Error code %d returned' % out.returncode)
-            sys.exit(out.returncode)
+            print('Error code %d returned.\n\n' % out.returncode)
+            raise OSError
 
     except OSError:
         print('ERROR: Could NOT backup: to see what the problem might be, try '
