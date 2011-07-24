@@ -54,7 +54,7 @@ def cloud(model_or_obj, num=5):
     tag_uses.sort(reverse=True)
     if num != 0:
         tag_uses = tag_uses[:num]
-    max_uses = tag_uses[0][0]
+    max_uses = max(tag_uses[0][0], 5)
     min_uses = tag_uses[-1][0]
     # Use a logarithmic scaling between 1.0 to 170% of baseline font size
     # We could consider a logarithmic scale
