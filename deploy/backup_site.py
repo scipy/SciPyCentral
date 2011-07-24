@@ -50,7 +50,8 @@ if __name__ == "__main__":
             sys.exit(out.returncode)
 
     except OSError:
-        print('ERROR: Could NOT backup: try manually with this command\n\n'
+        print('ERROR: Could NOT backup: to see what the problem might be, try '
+               'backing up manually with this command\n\n'
                'python manage.py dumpdata -v0 --format=json --indent=2')
 
 
