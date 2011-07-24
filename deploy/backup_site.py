@@ -1,4 +1,13 @@
 #!/usr/bin/env python
+"""
+Dump the database to human-readable text file. This script is the equivalent
+of typing: ``./manage.py dumpdata -v0 --format=json --indent=2``
+in your Django project.
+
+To restore from the database dump, use: ``./manage.py loaddata DUMP.DB``, where
+DUMP.DB is the filename of the database dump.
+"""
+
 import os
 import sys
 import errno
@@ -7,22 +16,20 @@ from datetime import datetime
 
 if __name__ == "__main__":
 
-    backup_dir = os.path.join(os.path.dirname(__file__), 'site_backup')
-    try:
-        os.makedirs(backup_dir)
-    except OSError, err:
-        if err.errno not in [0, getattr(errno, 'EEXIST', 0)]:
-            raise IOError("Could not create the backup directory location")
+    if len(sys.argv) > 1:
+        backup_file = sys.argv[1]
+    elif len(sys.argv)==1:
+        backup_dir = os.path.join(os.path.dirname(__file__), 'site_backup')
+        try:
+            os.makedirs(backup_dir)
+        except OSError, err:
+            if err.errno not in [0, getattr(errno, 'EEXIST', 0)]:
+                raise IOError("Could not create the backup directory location")
 
+        now = datetime.now()
+        fname = datetime.strftime(now, 'backup-%Y-%m-%d-%H-%M-%S.json')
+        backup_file = os.path.join(backup_dir, fname)
 
-    # Also see https://docs.djangoproject.com/en/1.3/topics/serialization/
-    # to make sure we are backing up all information.
-    # Restoring from the backup has NOT BEEN TESTED yet.
-
-    # ./manage.py loaddata site_backup/backup-YYYY-mm-dd-HH-MM-SS.json
-
-    # Equivalent of: ./manage.py dumpdata -v0 --format=json --indent=2
-    #
     # Note: you may have to change the ``python`` entry below to something like
     #       python2.7 if you've multiple Python versions on your machine
     command = ['python', 'manage.py', 'dumpdata', '-v0', '--format=json',
@@ -33,9 +40,6 @@ if __name__ == "__main__":
                                cwd=os.getcwd())
 
         if out.returncode == 0 or out.returncode is None:
-            now = datetime.now()
-            fname = datetime.strftime(now, 'backup-%Y-%m-%d-%H-%M-%S.json')
-            backup_file = os.path.join(backup_dir, fname)
             fh = open(backup_file, 'w')
             fh.write(out.communicate()[0])
             fh.close()

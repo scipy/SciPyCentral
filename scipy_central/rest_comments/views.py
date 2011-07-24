@@ -44,7 +44,7 @@ def compile_rest_to_html(raw_rest):
         raw_rest = raw_rest.encode('utf-8')
 
         # Required: so that things like \( a = \frac{b}{c} \) works as
-        # expected, otherwise user have to write  \\ a = \\frac{b}{c} \\)
+        # expected, otherwise users have to write  \\ a = \\frac{b}{c} \\)
         raw_rest = raw_rest.replace('\\', '\\\\')
 
         # Replace tabs with 4 spaces: so that source code listings don't get
