@@ -46,7 +46,7 @@ if __name__ == "__main__":
             size = os.path.getsize(backup_file)
             if size > 0:
                 print('Successfully backup to JSON files in %s [%s bytes]' %\
-                      (backup_file, str(size))
+                      (backup_file, str(size)))
                 sys.exit(0)
             else:
                 print('Zero length backup file "%s".\n\n' % backup_file)
