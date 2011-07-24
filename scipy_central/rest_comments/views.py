@@ -43,8 +43,9 @@ def compile_rest_to_html(raw_rest):
 
         raw_rest = raw_rest.encode('utf-8')
 
-        # Not required
-        #raw_rest = raw_rest.replace('\\', '\\\\')
+        # Required: so that things like \( a = \frac{b}{c} \) works as
+        # expected, otherwise user have to write  \\ a = \\frac{b}{c} \\)
+        raw_rest = raw_rest.replace('\\', '\\\\')
 
         # Replace tabs with 4 spaces: so that source code listings don't get
         # the default 8 spaces that Sphinx/docutils use.
