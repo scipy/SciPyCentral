@@ -17,6 +17,7 @@ from django.conf import settings
 # Internal import
 from scipy_central.utils import ensuredir
 
+
 def compile_rest_to_html(raw_rest):
     """ Compiles the RST string, ``raw_RST`, to HTML.  Performs no
     further checking on the RST string.
@@ -116,19 +117,12 @@ def compile_rest_to_html(raw_rest):
                                                                    'w') as fh:
         fh.write(modified_rest)
 
-    try:
-        # Does a ``conf.py`` file exist there?
-        conf_file = settings.SPC['comment_compile_dir'] + os.sep + 'conf.py'
-        conf_file_hdl = file(conf_file, 'r')
-    except IOError:
-        # Use a fresh copy of the ``conf.py`` file, found in the current
-        # directory, and copy it to comment destination.
-        cf = os.path.abspath(__file__ + os.sep + os.path.pardir) + \
+    # The original copy of the ``conf.py`` file, found in the current
+    # directory (copy it to comment destination)
+    cf = os.path.abspath(__file__ + os.sep + os.path.pardir) + \
                                                       os.sep + 'sphinx-conf.py'
-        shutil.copyfile(cf, settings.SPC['comment_compile_dir'] + os.sep +\
+    shutil.copyfile(cf, settings.SPC['comment_compile_dir'] + os.sep +\
                                                                     'conf.py')
-    else:
-        conf_file_hdl.close()
 
     # Compile the comment
     call_sphinx_to_compile(settings.SPC['comment_compile_dir'])
@@ -139,6 +133,7 @@ def compile_rest_to_html(raw_rest):
         obj = pickle.load(fhand)
 
     return obj['body'].encode('utf-8')
+
 
 def rest_to_html_ajax(request, field_name='rst_comment'):
     """
