@@ -19,7 +19,9 @@ mathjax_path = ("http://cdn.mathjax.org/mathjax/latest/MathJax.js?"
 # Allows for inline markup as: :tag:`gui`.
 # TODO(KGD): modify the extlinks function so the <a..> link can have a class
 # set, for CSS styling
-extlinks = {'id': ('http://scpyce.org/%s', 'item ')}
+extlinks = {'id': ('http://scipy-central.org/item/%s', 'item #'),
+            'user': ('http://scipy-central.org/user/%s', 'user #'),
+            'tag': ('http://scipy-central.org/item/tag/%s', 'tag: ')}
 
 # The suffix of source filenames.
 source_suffix = '.rst'
