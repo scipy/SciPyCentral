@@ -48,6 +48,7 @@ def compile_rest_to_html(raw_rest):
         # expected, otherwise users have to write  \\ a = \\frac{b}{c} \\)
         raw_rest = raw_rest.replace('\\', '\\\\')
 
+
         # Replace tabs with 4 spaces: so that source code listings don't get
         # the default 8 spaces that Sphinx/docutils use.
         raw_rest = raw_rest.replace('\t', '    ')
@@ -56,9 +57,25 @@ def compile_rest_to_html(raw_rest):
 
         # Strip  '.. raw::'' directive
         raw = re.compile(r'^(\s*)..(\s*)raw(\s*)::(\s*)')
+        math_env = re.compile(r':math:`(.+?)`')
         for idx, line in enumerate(raw_rest):
             if raw.match(line):
                 raw_rest[idx] = ''
+
+            # Fix double \\\\ in :math:` ... `
+            outline = ''
+            last_pos = 0
+            for math_str in math_env.finditer(line):
+                outline += line[last_pos:math_str.start()+7]
+                outline += math_str.group(1).replace('\\\\', '\\')
+                outline += '`'
+                last_pos = math_str.end()
+
+            outline += line[last_pos:]
+            raw_rest[idx] = outline
+
+
+
 
                 # Remove hyperlinks to remote items: e.g. .. include:: http://badstuff.com
         NO_REMOTE = ['literalinclude', 'include', 'csv-table']
@@ -67,6 +84,8 @@ def compile_rest_to_html(raw_rest):
             for idx, line in enumerate(raw_rest):
                 if remote_re.match(line):
                     raw_rest[idx] = ''
+
+
         return '\r\n'.join(raw_rest)
 
     def call_sphinx_to_compile(working_dir):
