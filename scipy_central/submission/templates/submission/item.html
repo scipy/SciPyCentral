@@ -88,6 +88,7 @@
   <div id="spc-extra-message">{{extra_html|safe}}</div>
 
   <div class="spc-minor-info">
+    {% if pageviews %}<p> Page views: {{pageviews}} (past 60 days){% endif %}
 	{% if permalink %}
 	  <p>{% if item.id %}Identifier #: <b>{{ item.entry.id }}</b>{% endif %}
 	  <p>Permalink to this revision: <a href="{{permalink}}">{{permalink}}</a>

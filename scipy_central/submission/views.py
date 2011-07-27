@@ -574,12 +574,16 @@ def view_link(request, submission, revision):
                                                   str(revision.rev_id+1) + '/'
     latest_link = settings.SPC['short_URL_root'] + str(submission.id) + '/'
 
+    pageviews = get_pagehits('submission', start_date=datetime.datetime.now()\
+                        -datetime.timedelta(days=60), item_pk=submission.id)
+
     return render_to_response('submission/item.html', {},
                               context_instance=RequestContext(request,
                                        {'item': revision,
                                         'tag_list': revision.tags.all(),
                                         'permalink': permalink,
                                         'latest_link': latest_link,
+                                        'pageviews': pageviews,
                                        }))
 
 
