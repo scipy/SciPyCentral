@@ -359,12 +359,14 @@ tt {
 }
 .errorlist{
 	list-style-type: none;
-
 	float: left;
+	padding: 0;
+}
+.errorlist li{
+	font-style: italic;
 }
 .spc-field-error{
     background: #ee8888;
-	font-style: italic;
 	padding: 4px;
 }
 .spc-form-button{

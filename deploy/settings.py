@@ -227,7 +227,7 @@ SPC = {
     'entries_per_page': 20,
 
     # SciPy Central version
-    'version': 0.1,
+    'version': 0.11,
 }
 
 # All about ``local_settings.py``
