@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 {% load humanize %}
 
-{% block title %}
-{{item.title}}
-{% endblock %}
+{% block title %}{{item.title}}{% endblock %}
 
 {% block content %}
+
+  <div id="spc-item-header">
+	<div id="spc-item-header-left">{% if item.previous_submission %}<a href="{{item.previous_submission}}">Previous<a>{% endif %}</div>
+	<div id="spc-item-header-right">{% if item.next_submission %}<a href="{{item.next_submission}}">Next<a>{% endif %}</div>
+  </div>
 
   <h2>{{item.title}}</h2>
 
@@ -25,6 +28,8 @@
         {% else %}
           <li><a href="{% url spc-edit-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Improve this {{item.entry.sub_type}}</a></li>
         {% endif %}
+
+
       {% endif %}
     </ul>
   </div>

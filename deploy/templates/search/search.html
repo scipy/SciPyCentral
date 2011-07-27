@@ -8,14 +8,13 @@
     {% include "search/includes/main-search-box.html" %}
 
     {% if query %}
-        {# <div id="spc-itemdisp-pageheader">Search results for: "{{query}}" #}
 
         {% with page as entries %}
             {% include 'submission/entries_list.html' %}
         {% endwith %}
 
     {% else %}
-        {# Show some example queries to run, maybe query syntax, something else? #}
+        {# Show some example queries to run, maybe advanced query syntax #}
     {% endif %}
 
 {% endblock %}

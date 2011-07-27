@@ -134,7 +134,7 @@ body {
 #spc-border {
 	margin-left: 0px;
 	background: white;
-    padding-top: 1em;     /* Don't remove top and bottom padding: leads to   */
+    padding-top: 0em;     /* Don't remove top and bottom padding: leads to   */
     padding-bottom: 0em;  /* unwanted horizontal borders around the document.*/
 	padding-left: 2em;
 	padding-right: 2em;
@@ -515,6 +515,27 @@ li.spc-even tt {
 	padding: 0.5em;
 	text-align:center;
 }
+
+#spc-item-header{
+	clear: both;
+	padding: 0px;
+	float: left;
+	width: 102%;
+	position: relative;
+	display: block;
+	margin: 0 auto;
+	left: -1%;
+	top: -20px;
+}
+#spc-item-header-left{
+	float: left;
+	text-align: left;
+}
+#spc-item-header-right{
+	float: right;
+	text-align: right;
+}
+
 div.spc-item-row {
 	clear: both;
 	padding-top: 10px;

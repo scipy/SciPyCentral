@@ -2,6 +2,8 @@ from django.db import models
 from django.db.models import signals
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
+from django.core.exceptions import ObjectDoesNotExist
+
 
 from scipy_central.person.models import User
 from scipy_central.pagehit.models import PageHit
@@ -55,9 +57,6 @@ class SubmissionManager(models.Manager):
         self._for_write = True
         #obj.save(force_insert=True, using=self.db)
         return obj
-
-    def all_last_revision_is_valid(self):
-        return self.all().filter(last_revision__is_displayed=True)
 
 
 class Submission(models.Model):
@@ -245,6 +244,37 @@ class Revision(models.Model):
     @property
     def rev_id_human(self):
         return self.rev_id + 1
+
+    @property
+    def previous_submission(self):
+        n = 1
+        sub = Submission.objects.all().filter(pk=self.entry.pk-n)
+        if len(sub):
+            while sub[0].last_revision.is_displayed==False:
+                n += 1
+                sub = Submission.objects.all().filter(pk=self.entry.pk-n)
+            if len(sub):
+                return sub[0].get_absolute_url()
+            else:
+                return None
+        else:
+            return None
+
+    @property
+    def next_submission(self):
+        n = 1
+        sub = Submission.objects.all().filter(pk=self.entry.pk+n)
+        if len(sub):
+            while sub[0].last_revision.is_displayed==False:
+                n += 1
+                sub = Submission.objects.all().filter(pk=self.entry.pk+n)
+            if len(sub):
+                return sub[0].get_absolute_url()
+            else:
+                return None
+        else:
+            return None
+
 
     @property
     def previous_revision(self):
