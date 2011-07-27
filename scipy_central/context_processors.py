@@ -8,4 +8,5 @@ def global_template_variables(request):
              # Assume the submitting user is not validated, by default
              'validated_user': False,
              'short_URL': settings.SPC['short_URL_root'],
+             'VERSION': settings.SPC['version'],
             }

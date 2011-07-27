@@ -1,6 +1,8 @@
 # Django settings for ``deploy`` project.
 import django.conf.global_settings as DEFAULT_SETTINGS
 
+
+
 # Add the parent to the path, to access files in ``../scipy_central/``
 import os, sys
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -223,6 +225,9 @@ SPC = {
 
     # Number of entries per page is search output and table outputs
     'entries_per_page': 20,
+
+    # SciPy Central version
+    'version': 0.1,
 }
 
 # All about ``local_settings.py``
