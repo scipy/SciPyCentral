@@ -477,7 +477,9 @@ def new_or_edit_submission(request, bound_form=False):
                                   context_instance=RequestContext(request,
                                                   {'item': rev,
                                                    'tag_list': tag_list,
-                                                   'extra_html': extra_html}))
+                                                   'extra_html': extra_html,
+                                                   'preview': True,
+                                                   }))
 
     else:
         # 4. Thank user and return with any extra messages, and send an email

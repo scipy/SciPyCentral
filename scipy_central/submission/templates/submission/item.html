@@ -5,10 +5,14 @@
 
 {% block content %}
 
+
   <div id="spc-item-header">
+  {% if not preview %}
 	<div id="spc-item-header-left">{% if item.previous_submission %}<a href="{{item.previous_submission}}">Previous<a>{% endif %}</div>
 	<div id="spc-item-header-right">{% if item.next_submission %}<a href="{{item.next_submission}}">Next<a>{% endif %}</div>
+  {% endif %}
   </div>
+
 
   <h2>{{item.title}}</h2>
 
@@ -16,7 +20,7 @@
     <ul>
 
       {# Only items with an ID are editable (prevents link showing when previewing a new item #}
-      {% if item.id %}
+      {% if not preview %}
 
         {# Links can only be edited by their original author #}
         {% if item.entry.sub_type == 'link' %}
