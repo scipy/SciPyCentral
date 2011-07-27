@@ -87,13 +87,14 @@
 
   <div id="spc-extra-message">{{extra_html|safe}}</div>
 
-  {% if permalink %}
-    <div class="spc-permalink">
-    <p>{% if item.id %}Identifier #: <b>{{ item.entry.id }}</b>{% endif %}
-    <p>Permalink to this revision: <a href="{{permalink}}">{{permalink}}</a>
-    <p>Permalink to latest revision: <a href="{{latest_link}}">{{latest_link}}</a>
-    </div>
-  {% endif %}
+  <div class="spc-minor-info">
+	{% if permalink %}
+	  <p>{% if item.id %}Identifier #: <b>{{ item.entry.id }}</b>{% endif %}
+	  <p>Permalink to this revision: <a href="{{permalink}}">{{permalink}}</a>
+	  <p>Permalink to latest revision: <a href="{{latest_link}}">{{latest_link}}</a>
+	{% endif %}
+  </div>
+
 
 
   <div style="clear: both;"><p>&nbsp;</div>

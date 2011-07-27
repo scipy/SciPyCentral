@@ -662,18 +662,18 @@ div#spc-itemdisp-container h4 { font-size: 100%; }
 div#spc-itemdisp-container h5 { font-size: 100%; }
 div#spc-itemdisp-container h6 { font-size: 100%; }
 
-/* Permalinks */
-.spc-permalink {
+/* Permalinks and other minor info*/
+.spc-minor-info {
 	font-size: 80%;
 	float: left;
 }
-.spc-permalink p{
+.spc-minor-info p{
 	margin: 0;
 }
-.spc-permalink a{
+.spc-minor-info a{
 	text-decoration: none;
 }
-.spc-permalink a:hover{
+.spc-minor-info a:hover{
 	text-decoration: underline;
 }
 
