@@ -128,12 +128,14 @@ def get_form(request, form_class, field_order, bound=False):
                        }
             if bound.entry.sub_type == 'link':
                 fields['sub_type'] = 'link'
+            elif bound.entry.sub_type == 'package':
+                fields['sub_type'] = 'package'
             elif  bound.entry.sub_type == 'code':
                 fields['sub_type'] = 'snippet'
 
             form_output = form_class(fields)
         else:
-            form_output = form_class(data=request.POST)
+            form_output = form_class(request.POST, request.FILES)
     else:
         form_output = form_class()
 
@@ -203,13 +205,19 @@ def create_or_edit_submission_revision(request, item, is_displayed,
         sub_license = item.cleaned_data['sub_license']
         item_url = None
         item_code = item.cleaned_data['snippet_code']
+    elif sub.sub_type == 'package':
+        sub_license = item.cleaned_data['sub_license']
+        item_url = None
+        item_code = None
+
+        # Save the uploaded file to the server
+        zip_file = request.FILES['package_file']
 
     # Convert the raw ReST description to HTML using Sphinx: could include
     # math, paragraphs, <tt>, bold, italics, bullets, hyperlinks, etc.
-    #raw_rest =
     description_html = compile_rest_to_html(item.cleaned_data['description'])
     item_highlighted_code = highlight_code(item.cleaned_data.get(\
-                                                           'snippet_code',''))
+                                                        'snippet_code', None))
     rev = models.Revision.objects.create_without_commit(
                             entry=sub,
                             title=item.cleaned_data['title'],
@@ -224,6 +232,8 @@ def create_or_edit_submission_revision(request, item, is_displayed,
                             item_highlighted_code=item_highlighted_code,
                             is_displayed=is_displayed,
                             )
+
+
 
     if commit:
         # Save the submission, then the revision. If we have a primary key
@@ -379,8 +389,8 @@ def new_or_edit_submission(request, bound_form=False):
         itemtype = 'snippet'
         new_item_or_edit = True # we're coming from the front page
     elif 'package' in buttons:
-        #itemtype = 'package'
-        #new_item_or_edit = True # we're coming from the front page
+        itemtype = 'package'
+        new_item_or_edit = True # we're coming from the front page
         return not_implemented_yet(request, 48)
     elif 'link' in buttons:
         itemtype = 'link'
@@ -683,7 +693,7 @@ def show_items(request, what_view='', extra_info=''):
         extra_info = ''
         entry_order = top_authors('', 0)
     elif what_view == 'validate':
-        validate_submission(request, code=extra_info)
+        return validate_submission(request, code=extra_info)
 
     entries = paginated_queryset(request, entry_order)
     return render_to_response(template_name, {},

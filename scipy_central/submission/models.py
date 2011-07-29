@@ -152,6 +152,7 @@ class RevisionManager(models.Manager):
         return User.objects.annotate(score=models.Count('revision'))\
                                                .order_by('-score', 'username')
 
+
 class Revision(models.Model):
 
     objects = RevisionManager()
@@ -336,6 +337,7 @@ class Revision(models.Model):
         """
         return reverse('spc-view-link', args=[0]).rstrip('0') + \
                         '%d/%d/%s' % (self.entry.pk, self.rev_id+1, self.slug)
+
 
 
 class TagCreation(models.Model):

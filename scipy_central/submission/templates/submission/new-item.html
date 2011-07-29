@@ -54,13 +54,14 @@ $(function() {
 });
 </script>
 
+
 <div class="spc-form">
 <form action="" method="POST" class="spc-ul-form" enctype="multipart/form-data">
   {% csrf_token %}
 
-  {% if link.errors %}
+  {% if item.errors %}
   <div id="spc-form-error-message"><p><b>Some errors were found</b>. Please see fields with
-  <span class="spc-field-error">a coloured background</span>.</p></div>
+  <span class="spc-field-error">a coloured background</span></p></div>
   {% endif %}
 
   {% for field in item%}

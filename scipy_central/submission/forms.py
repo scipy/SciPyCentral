@@ -1,4 +1,5 @@
 from django import forms
+from django.conf import settings
 from django.forms.forms import BoundField
 from django.utils.safestring import mark_safe
 from models import License, Revision
@@ -94,15 +95,27 @@ class PackageForm(Submission_Form__Common_Parts, ScreenshotForm):
     """
     Code package submission: upload a ZIP file
     """
-    package_file = forms.FileField(label='Your code in a single ZIP file',
-            help_text=('10 Mb limit. Do not include any files named <tt>'
+    package_file = forms.FileField(label='Your submission in a single ZIP file',
+            help_text=('25 Mb limit. Do not include any files named <tt>'
                        'LICENSE.txt</tt> or <tt>DESCRIPTION.txt</tt> as these '
                        'will be automatically generated from the information '
                        'submitted.'))
+
     sub_license = forms.ModelChoiceField(License.objects.all(),
             empty_label=None,
             label="Select a license for your submission",
             help_text='<a href="/licenses">More on licenses</a>')
+    sub_type = forms.CharField(max_length=10, initial='package',
+                               widget=forms.HiddenInput(), required=False)
+
+    def clean_package_file(self):
+        zip_file_size = self.cleaned_data['package_file'].size
+        if zip_file_size > settings.SPC['library_max_size']:
+            raise forms.ValidationError("ZIP file size too large")
+        else:
+            return self.cleaned_data['package_file']
+
+
 
 class LinkForm(Submission_Form__Common_Parts, ScreenshotForm):
     """
@@ -120,16 +133,6 @@ class LinkForm(Submission_Form__Common_Parts, ScreenshotForm):
 
     sub_type = forms.CharField(max_length=10, initial='link',
                                widget=forms.HiddenInput(), required=False)
-
-#class LicenseForm(forms.Form):
-    #"""
-    #Select a license. User must select a license (empty_label designation)
-    #"""
-    #sub_license = forms.ModelChoiceField(License.objects.all(),
-            #empty_label=None,
-            #label="Select a license for your submission",
-            #help_text='<a href="/licenses">More on licenses</a>')
-
 
 #
 # Packages
@@ -157,17 +160,3 @@ class LinkForm(Submission_Form__Common_Parts, ScreenshotForm):
 
     #change_comment = forms.CharField(required=True, widget=forms.Textarea())
 
-##
-## Infos
-##
-
-#class InfoForm(EditForm):
-    #description = forms.CharField(widget=forms.Textarea())
-
-    #license = forms.ModelChoiceField(License.objects.all(), empty_label=None)
-    #author = forms.CharField(max_length=256)
-
-    #url = forms.CharField()
-    #pypi_name = forms.CharField(max_length=256)
-
-    #change_comment = forms.CharField(required=True, widget=forms.Textarea())

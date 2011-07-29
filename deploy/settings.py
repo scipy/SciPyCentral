@@ -228,6 +228,9 @@ SPC = {
 
     # SciPy Central version
     'version': 0.11,
+
+    # Library submission maximum size (in bytes)
+    'library_max_size': 25 * 1024 * 1024,
 }
 
 # All about ``local_settings.py``

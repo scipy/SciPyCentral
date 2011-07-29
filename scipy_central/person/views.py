@@ -115,9 +115,6 @@ def profile_page_edit(request, slug):
                                 }))
 
 
-#return not_implemented_yet(request, 43)
-
-
 @login_required
 def sign_in_landing(request):
     """ Redirect the user to their actual profile page """

@@ -80,6 +80,16 @@
       <span class="spc-item-entry">{{item.sub_license.description|safe}} (<a href="{% url spc-about-licenses%}">More details</a>)</span>
     </div>
     {% endif %}
+	{% if item.entry.sub_type == "package" %}
+    <div class="spc-item-row">
+      <span class="spc-item-label">Files:</span>
+	  {% if preview %}
+		<span class="spc-item-entry"><i>Links to the ZIP file contents will appear here</i></span>
+	  {% else %}
+	    <span class="spc-item-entry">Details about files inside item go here</span>
+	  {% endif %}
+    </div>
+    {% endif %}
 
 
     <div class="spc-item-row">

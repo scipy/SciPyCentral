@@ -754,6 +754,10 @@ div#spc-itemdisp-container h6 { font-size: 100%; }
 /* ---------------- */
 /* Form styling     */
 /* ---------------- */
+.spc-form{
+	padding-top: 2em;
+}
+
 .spc-form-label{
 	display: block;
 	font-size: 14px;
