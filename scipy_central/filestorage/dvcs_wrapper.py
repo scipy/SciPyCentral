@@ -58,7 +58,7 @@ class DVCSRepo(object):
                 'init':     ['init',     [], {}],
                 'add':      ['add',      [], {}],
                 'heads':    ['heads',    [], {0: '<string>'}],
-                'commit':   ['commit',   ['-m',], {1: 'Nothing changed'}],
+                'commit':   ['commit',   ['-m', '-u'], {1: 'Nothing changed'}],
                 'push':     ['push',     [], {}],
                 'summary':  ['summary',  [], {0: '<string>'}],# return stdout
             }
@@ -222,14 +222,21 @@ class DVCSRepo(object):
         return DVCSRepo(self.backend, destination, do_init=False,
                         dvcs_executable=self.executable)
 
-    def commit(self, message):
+    def commit(self, message, user=None):
         """
-        Commit changes to the ``repo`` repository, with the given commit ``message``
+        Commit changes to the ``repo`` repository, with the given commit
+        ``message`` and commit as ``user``. If ``user`` is None, then it
+        commits as the user set in the .hgrc file.
+
         Returns the hexadecimal revision number.
         """
         command = [self.verbs['commit'][0],]
-        command.extend(self.verbs['commit'][1])
+        command.append(self.verbs['commit'][1][0])
         command.extend([message,])
+        if user:
+            command.append(self.verbs['commit'][1][1])
+            command.extend([user,])
+
         self.run_dvcs_command(command)
         return self.get_revision_info()
 

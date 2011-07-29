@@ -27,7 +27,8 @@ class FileSet(models.Model):
         utils.ensuredir(storage_dir + self.repo_path)
         super(FileSet, self).save(*args, **kwargs)
 
-    def add_file_from_string(self, filename, list_strings, commit_msg=''):
+    def add_file_from_string(self, filename, list_strings, commit_msg='',
+                                 user=None):
         """
         Add a ``filename`` to the repo using the list of strings to create
         the file. A commit will be written to the repo is ``commit_msg`` is not
@@ -54,7 +55,7 @@ class FileSet(models.Model):
                 raise
 
         if commit_msg:
-            repo.commit(commit_msg)
+            repo.commit(commit_msg, user=user)
 
     def __unicode__(self):
         return '<storage_dir>/' + self.repo_path

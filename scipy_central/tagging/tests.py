@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
+
 from django.test import TestCase
-from models import Tag, parse_tags
+from models import Tag
+from views import parse_tags
 from django.core.exceptions import ValidationError
 
 class RepeatedTag(TestCase):

@@ -263,21 +263,24 @@ def create_or_edit_submission_revision(request, item, is_displayed,
                           os.sep
                 sub.fileset = FileSet.objects.create(repo_path=repo_path)
                 sub.save()
-                commit_msg = ('SPC: auto add "%s" and license to the repo '
+                commit_msg = ('Add "%s" to the repo '
                               'based on the web submission by user "%d"') %\
                                                               (fname, user.id)
             else:
-                commit_msg = ('SPC: auto update of file(s) in the repo '
+                commit_msg = ('Update of file(s) in the repo '
                               'based on the web submission by user "%d"') %\
                                                               (user.id)
 
 
             sub.fileset.add_file_from_string(fname,
-                                                 request.POST['snippet_code'])
+                                             request.POST['snippet_code'],
+                                             user=user.username,
+                                             commit_msg=commit_msg)
             license_file = settings.SPC['license_filename']
             license_text = get_license_text(rev)
             sub.fileset.add_file_from_string(license_file, license_text,
-                                             commit_msg)
+                                             user="SciPy Central",
+                            commit_msg="SPC: added/updated license file" )
 
 
         # Once you have the revision you can add tags through the intermediate
