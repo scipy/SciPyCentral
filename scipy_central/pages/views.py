@@ -4,6 +4,7 @@ from django.template.loader import get_template
 from django.http import HttpResponse
 
 from scipy_central.utils import get_IP_address
+from scipy_central.pagehit.views import create_hit
 
 from haystack.views import SearchView
 
@@ -12,16 +13,19 @@ logger = logging.getLogger('scipycentral')
 logger.debug('Initializing pages::views.py')
 
 def front_page(request):
+    create_hit(request, 'spc-main-page')
     return render_to_response('pages/front-page.html', {},
                               context_instance=RequestContext(request))
 
 
 def about_page(request):
+    create_hit(request, 'spc-about-page')
     return render_to_response('pages/about-page.html', {},
                               context_instance=RequestContext(request))
 
 
 def licence_page(request):
+    create_hit(request, 'spc-about-licenses')
     return render_to_response('pages/about-licenses.html', {},
                               context_instance=RequestContext(request))
 
@@ -30,6 +34,7 @@ def search(request):
     """
     Calls Haystack, but allows us to first log the search query
     """
+    create_hit(request, 'haystack_search')
     if request.GET['q'].strip() == '':
         return redirect(front_page)
 
@@ -41,6 +46,7 @@ def search(request):
 
 
 def markup_help(request):
+    create_hit(request, 'spc-markup-help')
     return render_to_response('pages/markup-help.html', {},
                               context_instance=RequestContext(request))
 
@@ -61,7 +67,8 @@ def not_implemented_yet(request, issue_number=None):
     we can prioritize them
     """
     ip = get_IP_address(request)
-    logger.info('Not implemented yet [%s] for request "%s"' % (ip, request.path))
+    logger.info('Not implemented yet [%s] for request "%s" and issue=%s' %\
+                (ip, request.path, str(issue_number)))
     return render_to_response('pages/not-implemented-yet.html',
                               {'issue_number': issue_number},
                               context_instance=RequestContext(request))

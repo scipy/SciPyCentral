@@ -12,7 +12,7 @@ from scipy_central.submission.models import Revision
 from scipy_central.rest_comments.views import compile_rest_to_html
 from scipy_central.utils import paginated_queryset, send_email
 from scipy_central.tagging.views import get_and_create_tags
-
+from scipy_central.pagehit.views import create_hit
 
 import models
 import forms
@@ -154,6 +154,7 @@ def profile_page(request, slug=None, user_id=None):
 
     permalink = settings.SPC['short_URL_root'] + 'user/' + str(the_user.id) + '/'
 
+    create_hit(request, the_user)
     return render_to_response('person/profile.html', {},
                 context_instance=RequestContext(request,
                             {'theuser': the_user,

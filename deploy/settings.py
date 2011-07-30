@@ -244,7 +244,7 @@ SPC = {
 this_dir = __file__[0:__file__.find('settings.py')]
 try:
     execfile(this_dir + os.sep + 'local_settings.py')
-except ImportError:
+except IOError:
     # See https://docs.djangoproject.com/en/1.3/ref/settings for EMAIL settings
     EMAIL_HOST = ''
     EMAIL_HOST_USER = ''

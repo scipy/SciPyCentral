@@ -31,5 +31,6 @@ class PageHit(models.Model):
     def most_viewed(self, field):
         """ Most viewed in terms of a certain item.
         """
-        return PageHit.objects.filter(item=field).annotate(score=models.Count('revision'))\
-                                               .order_by('-score', 'username')
+        return PageHit.objects.filter(item=field)\
+                            .annotate(score=models.Count('revision'))\
+                            .order_by('-score', 'username')
