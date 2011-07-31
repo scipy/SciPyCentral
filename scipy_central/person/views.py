@@ -4,6 +4,7 @@ from django.template import RequestContext
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 from django.template.loader import render_to_string
+from django.db.utils import IntegrityError
 
 
 # Imports from other SciPy Central apps
@@ -176,10 +177,13 @@ def create_new_account_internal(email):
     if len(previous) > 0:
         return previous[0]
 
-    username = 'Unvalidated User ' + email.split('@')[0]
-    new_user = models.User.objects.create(username=username, email=email)
+
     temp_password = ''.join([random.choice('abcdefghjkmnpqrstuvwxyz2345689')\
                              for i in range(50)])
+    username = 'Unvalidated %s-%s' % (email.split('@')[0],
+                                      temp_password[2:6])
+    new_user = models.User.objects.create(username=username, email=email)
+
     new_user.set_password(temp_password)
     new_user.is_active = False
     new_user.save()

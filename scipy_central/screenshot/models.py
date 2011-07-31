@@ -1,52 +1,68 @@
 from django.db import models
+from django.conf import settings
+from django.core.files import base
+from django.utils.encoding import force_unicode, smart_str
+from settings import (IMG_MAX_SIZE, IMG_QUALITY, IMG_RESIZE_METHOD,
+                      IMG_DEFAULT_FORMAT, IMG_ACCEPTABLE_FORMATS)
+
 from PIL import Image
-from django.core.files import File
+import os
+import datetime
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from StringIO import StringIO
 
 class Screenshot(models.Model):
     """ Screenshot model. Forces the screeshot to the dimensions,
     and also creates a thumbnail.
     """
+    #help_text=('Provide, if possible, a screenshot of '
+    #           'what your code might produce as output. '
+    #           'E.g a histogram, image, etc'))
 
-    img_file_raw = models.ImageField(upload_to='screenshots/%Y/%m/%d',
-                                 max_length=255, blank=True, null=True,
-                                 verbose_name="Screenshot",
-                        help_text=('Provide, if possible, a screenshot of '
-                                   'what your code might produce as output. '
-                                   'E.g a histogram, image, etc'))
-    img_file = models.ImageField(upload_to='screenshots/%Y/%m/%d')
+    date_added = models.DateTimeField(auto_now=True)
+    img_file_raw = models.ImageField(upload_to=settings.SPC['raw_image_dir'],
+                                     max_length=1024)
+    img_file = models.ImageField(upload_to=settings.SPC['resized_image_dir'],
+                                 max_length=1024)
+
+
+    def __unicode__(self):
+        return self.img_file_raw.name
 
     def save(self, *args, **kwargs):
-        """ Override the model's saving function to resize the screenshot"""
+        """ Override the model's saving function to resize the screenshot
+        """
+        # Code inspired by:
+        # https://github.com/ericflo/django-avatar/blob/master/avatar/models.py
 
-        # TODO(KGD): create a 128x128 thumbnail image that is displayed in site
+        # Create image that are no more than 700 pixels wide
+        # for use in the website
+        self.img_file_raw.seek(0)
+        orig = self.img_file_raw.read()
+        image = Image.open(StringIO(orig))
+        if image.format in IMG_ACCEPTABLE_FORMATS:
+            format_used = image.format
+        else:
+            format_used = IMG_DEFAULT_FORMAT
 
+        (w, h) = image.size
+        if w > IMG_MAX_SIZE:
+            h = int(h*IMG_MAX_SIZE/(w+0.0))
+            w = IMG_MAX_SIZE
+            if image.mode != "RGB" and image.mode != "RGBA":
+                image = image.convert("RGB")
+            image = image.resize((w, h), IMG_RESIZE_METHOD)
+            thumb = StringIO()
+            image.save(thumb, format_used, quality=IMG_QUALITY)
+            thumb_file = base.ContentFile(thumb.getvalue())
+        else:
+            thumb_file = base.ContentFile(orig)
 
-        # From: http://djangosnippets.org/snippets/978/
-        #def resize_image(content, size):
+        location = os.path.normpath(force_unicode(datetime.datetime.now()\
+                    .strftime(smart_str(settings.SPC['resized_image_dir']))))\
+                            + os.sep + self.img_file_raw.name
+        self.img_file = self.img_file.storage.save(location, thumb_file)
 
-        #img = Image.open(get_file(content))
-        #if img.size[0] > size['width'] or img.size[1] > size['height']:
-            #if size['force']:
-                #target_height = float(size['height'] * img.size[WIDTH]) / size['width']
-                #if target_height < img.size[HEIGHT]: # Crop height
-                    #crop_side_size = int((img.size[HEIGHT] - target_height) / 2)
-                    #img = img.crop((0, crop_side_size, img.size[WIDTH], img.size[HEIGHT] - crop_side_size))
-                #elif target_height > img.size[HEIGHT]: # Crop width
-                    #target_width = float(size['width'] * img.size[HEIGHT]) / size['height']
-                    #crop_side_size = int((img.size[WIDTH] - target_width) / 2)
-                    #img = img.crop((crop_side_size, 0, img.size[WIDTH] - crop_side_size, img.size[HEIGHT]))
-            #img.thumbnail((size['width'], size['height']), Image.ANTIALIAS)
-            #out = StringIO()
-            #try:
-                #img.save(out, optimize=1)
-            #except IOError:
-                #img.save(out)
-            #return out
-        #else:
-            #return content
-
-
-        # Call the "real" save() method.
         super(Screenshot, self).save(*args, **kwargs)
-
-

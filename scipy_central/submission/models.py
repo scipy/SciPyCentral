@@ -184,15 +184,11 @@ class Revision(models.Model):
 
     # User-provided description of the submission. Uses reStructuredText.
     # Is blank for URL (link) submissions.
-    description = models.TextField(help_text=('<b>Explain</b> your '
-                    'submission'))
+    description = models.TextField(help_text=('<b>Describe and '
+                                              'explain</b> your submission'))
 
     # HTML version of the ReST ``description`` field
     description_html = models.TextField()
-
-    # User uploaded image
-    screenshot = models.ForeignKey('screenshot.Screenshot', null=True,
-                                   blank=True)
 
     # Code snippet hash (will use ssdeep later on: 57 characters)
     hash_id = models.CharField(max_length=60, null=True, blank=True,
@@ -254,10 +250,11 @@ class Revision(models.Model):
             while sub[0].last_revision.is_displayed==False:
                 n += 1
                 sub = Submission.objects.all().filter(pk=self.entry.pk-n)
-            if len(sub):
-                return sub[0].get_absolute_url()
-            else:
-                return None
+                if len(sub):
+                    break
+                else:
+                    return None
+            return sub[0].get_absolute_url()
         else:
             return None
 
@@ -269,10 +266,11 @@ class Revision(models.Model):
             while sub[0].last_revision.is_displayed==False:
                 n += 1
                 sub = Submission.objects.all().filter(pk=self.entry.pk+n)
-            if len(sub):
-                return sub[0].get_absolute_url()
-            else:
-                return None
+                if len(sub):
+                    break
+                else:
+                    return None
+            return sub[0].get_absolute_url()
         else:
             return None
 

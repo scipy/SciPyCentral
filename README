@@ -115,11 +115,13 @@ Installation
 Backup and restore
 ------------------
 
-There are 2 components to backup:
+There are 4 components to backup:
 
-    #.  The database: use ``deploy/backup_site.py``
-    #.  The repositories: use ``rsync`` and mirror ``SPC['storage_dir']``
+    #.  Database: use ``deploy/backup_site.py``
+    #.  Repositories: use ``rsync`` and mirror ``SPC['storage_dir']``
         directory that you set in ``settings.py``
+    #.  Raw image files: rsync the ``SPC['raw_image_dir']``
+    #.  Resized images: rsync the ``SPC['resized_image_dir']``
 
 To restore:
 
@@ -136,6 +138,9 @@ To restore:
         ``SPC['storage_dir']`` location. This storage contains hidden
         directories (.hg or .git directories).
 
+    #.  Similarly, restore the mirror of the resized images (the raw images
+        may optionally be restored).
+
 
 
 
@@ -148,4 +153,4 @@ attributed at the point of use. In summary though, we have used code from:
 * `django-taggit <https://github.com/alex/django-taggit>`_
 * `djangosnippets.org <https://github.com/coleifer/djangosnippets.org>`_
 * `django-registration <https://bitbucket.org/ubernostrum/django-registration/>`_
-
+* `django-avatar <https://github.com/ericflo/django-avatar>`_

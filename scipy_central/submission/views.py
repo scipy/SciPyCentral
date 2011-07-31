@@ -12,8 +12,6 @@ from django.contrib.sites.models import Site
 from django.utils.hashcompat import sha_constructor
 
 # Imports from this app and other SPC apps
-from scipy_central.screenshot.forms import ScreenshotForm as ScreenshotForm
-from scipy_central.screenshot.models import Screenshot as ScreenshotClass
 from scipy_central.person.views import create_new_account_internal
 from scipy_central.filestorage.models import FileSet
 from scipy_central.tagging.views import get_and_create_tags
@@ -139,7 +137,7 @@ def get_form(request, form_class, field_order, bound=False):
     else:
         form_output = form_class()
 
-    # Rearrange the form order: screenshot and tags at the end
+    # Rearrange the form order
     form_output.fields.keyOrder = field_order
     index = 1
     for field_name, field in form_output.fields.iteritems():
@@ -179,16 +177,6 @@ def create_or_edit_submission_revision(request, item, is_displayed,
         sub = models.Submission.objects.create_without_commit(created_by=user,
                                     sub_type=item.cleaned_data['sub_type'])
 
-    # Process screenshot:
-    if request.FILES.get('screenshot', ''):
-        sshot_name = '_raw_' + sub.slug + '__' + \
-                                         request.FILES['screenshot'].name
-        sshot = ScreenshotClass()
-        sshot.img_file_raw.save(sshot_name, \
-                        ContentFile(request.FILES['screenshot'].read()))
-        sshot.save()
-    else:
-        sshot = None
 
     # Process any tags
     tag_list = get_and_create_tags(item.cleaned_data['sub_tags'])
@@ -225,15 +213,12 @@ def create_or_edit_submission_revision(request, item, is_displayed,
                             sub_license=sub_license,
                             description=item.cleaned_data['description'],
                             description_html=description_html,
-                            screenshot=sshot,
                             hash_id=hash_id,
                             item_url=item_url,
                             item_code=item_code,
                             item_highlighted_code=item_highlighted_code,
                             is_displayed=is_displayed,
                             )
-
-
 
     if commit:
         # Save the submission, then the revision. If we have a primary key
@@ -362,8 +347,7 @@ SUBS = {'snippet': Item(forms.SnippetForm, field_order=['title',
                         'description', 'package_file', 'sub_license',
                         'sub_tags', 'email', 'sub_type', 'pk']),
         'link': Item(forms.LinkForm, field_order=['title', 'description',
-                        'item_url', 'sub_tags', 'email',
-                        'sub_type', 'pk']),
+                        'item_url', 'sub_tags', 'email', 'sub_type', 'pk']),
         }
 
 
@@ -433,12 +417,8 @@ def new_or_edit_submission(request, bound_form=False):
     # OK, having all that out of the way, lets process the user's submission
 
     # 0. Use the built-in forms checking to validate the fields.
-    valid_fields = []
-    sshot = ScreenshotForm(request.POST, request.FILES)
-    valid_fields.append(sshot.is_valid())
-    valid_fields.append(theform.is_valid())
 
-    if not(all(valid_fields)):
+    if not(theform.is_valid()):
         return render_to_response('submission/new-item.html', {},
                               context_instance=RequestContext(request,
                                     {'item': theform,

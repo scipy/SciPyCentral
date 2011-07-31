@@ -453,6 +453,19 @@ li.spc-even tt {
 	background-color: #CCF;
 }
 
+/* Image upload */
+#spc-imageupload {
+	border-top: 1px solid;
+}
+#spc-imageupload-button{
+	padding: 0.5em;
+	text-align: center;
+}
+.spc-imageupload-success{
+    background: #ffa;
+	padding: 4px;
+}
+
 /* Tagging */
 .ui-autocomplete {
 	max-height: 150px;

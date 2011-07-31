@@ -3,7 +3,6 @@ from django.conf import settings
 from django.forms.forms import BoundField
 from django.utils.safestring import mark_safe
 from models import License, Revision
-from scipy_central.screenshot.forms import ScreenshotForm as ScreenshotForm
 from scipy_central.utils import rest_help_extra
 required_css_class = 'spc-form-required'
 error_css_class = 'spc-form-error'
@@ -65,7 +64,7 @@ class Submission_Form__Common_Parts(HiddenBaseForm, forms.Form):
                            'commas to separate tags)'))
 
 
-class SnippetForm(Submission_Form__Common_Parts, ScreenshotForm):
+class SnippetForm(Submission_Form__Common_Parts):
     """
     Code snippet: requires a box to paste the code in.
     """
@@ -91,7 +90,7 @@ class SnippetForm(Submission_Form__Common_Parts, ScreenshotForm):
     sub_type = forms.CharField(max_length=10, initial='snippet',
                                widget=forms.HiddenInput(), required=False)
 
-class PackageForm(Submission_Form__Common_Parts, ScreenshotForm):
+class PackageForm(Submission_Form__Common_Parts):
     """
     Code package submission: upload a ZIP file
     """
@@ -117,7 +116,7 @@ class PackageForm(Submission_Form__Common_Parts, ScreenshotForm):
 
 
 
-class LinkForm(Submission_Form__Common_Parts, ScreenshotForm):
+class LinkForm(Submission_Form__Common_Parts):
     """
     Link submission: only requires a URL
     """

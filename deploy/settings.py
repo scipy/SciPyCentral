@@ -204,6 +204,11 @@ SPC = {
     # Must end with a trailing ``os.sep`` character
     'storage_dir': MEDIA_ROOT + 'code' + os.sep,
 
+    # Image storage directories
+    'raw_image_dir': 'raw-images/%Y%m' + os.sep,
+    'resized_image_dir': 'images/%Y%m' + os.sep,
+
+
     # Where should logfiles be written? If DEBUG != True, then you are
     # responsible that this location is valid and exists. Overwrite the
     # location in ``local_settings.py`` below.
@@ -227,7 +232,7 @@ SPC = {
     'entries_per_page': 20,
 
     # SciPy Central version
-    'version': 0.11,
+    'version': 0.13,
 
     # Library submission maximum size (in bytes)
     'library_max_size': 25 * 1024 * 1024,

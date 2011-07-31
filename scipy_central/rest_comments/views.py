@@ -17,6 +17,31 @@ from django.conf import settings
 # Internal import
 from scipy_central.utils import ensuredir
 
+# We need certain files in place to compile the comments
+# Copy the settings, image extension, and an __init__.py to the appropriate
+# places. The original copy of the ``conf.py`` file, found in the current
+# directory (copy it to comment destination)
+
+working_dir = settings.SPC['comment_compile_dir']
+ext_dir = os.path.abspath(working_dir + os.sep + 'ext')
+ensuredir(working_dir)
+ensuredir(ext_dir)
+
+cf = os.path.abspath(__file__ + os.sep + os.path.pardir) + \
+                                          os.sep + 'sphinx-conf.py'
+shutil.copyfile(cf, settings.SPC['comment_compile_dir'] + os.sep +\
+                                                            'conf.py')
+
+cf = os.path.abspath(__file__ + os.sep + os.path.pardir) + \
+                                                  os.sep + 'images.py'
+shutil.copyfile(cf, settings.SPC['comment_compile_dir'] + os.sep +\
+                                        'ext' + os.sep + 'images.py')
+
+cf = os.path.abspath(__file__ + os.sep + os.path.pardir) + \
+                                                  os.sep + '__init__.py'
+shutil.copyfile(cf, settings.SPC['comment_compile_dir'] + os.sep +\
+                                        'ext' + os.sep + '__init__.py')
+
 
 def compile_rest_to_html(raw_rest):
     """ Compiles the RST string, ``raw_RST`, to HTML.  Performs no
@@ -75,9 +100,7 @@ def compile_rest_to_html(raw_rest):
             raw_rest[idx] = outline
 
 
-
-
-                # Remove hyperlinks to remote items: e.g. .. include:: http://badstuff.com
+        # Remove hyperlinks to remote items: e.g. .. include:: http://badstuff.com
         NO_REMOTE = ['literalinclude', 'include', 'csv-table']
         for item in NO_REMOTE:
             remote_re = re.compile(r'^(\s*)..(\s*)' + item + r'(\s*)::(\s*)http')
@@ -96,8 +119,8 @@ def compile_rest_to_html(raw_rest):
         Returns nothing, but logs if an error occurred.
         """
         build_dir = os.path.abspath(working_dir + os.sep + '_build')
-        ensuredir(working_dir)
         ensuredir(build_dir)
+
         status = StringIO()
         warning = StringIO()
         try:
@@ -112,7 +135,7 @@ def compile_rest_to_html(raw_rest):
                          tags = [])
 
             # Call the ``pickle`` builder
-            app.build()
+            app.build(force_all=True)
 
         except SphinxError as error:
             if warning.tell():
@@ -136,12 +159,6 @@ def compile_rest_to_html(raw_rest):
                                                                    'w') as fh:
         fh.write(modified_rest)
 
-    # The original copy of the ``conf.py`` file, found in the current
-    # directory (copy it to comment destination)
-    cf = os.path.abspath(__file__ + os.sep + os.path.pardir) + \
-                                                      os.sep + 'sphinx-conf.py'
-    shutil.copyfile(cf, settings.SPC['comment_compile_dir'] + os.sep +\
-                                                                    'conf.py')
 
     # Compile the comment
     call_sphinx_to_compile(settings.SPC['comment_compile_dir'])

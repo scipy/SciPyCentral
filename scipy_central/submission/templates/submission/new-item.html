@@ -103,7 +103,69 @@ $(function() {
 			</div>
 		</div>
 	</div>
-
 </form>
+<div style="clear:both;"></div>
+</div>
+
+
+<div id="spc-imageupload" class="spc-form">
+
+	<script type="text/javascript" src="{{MEDIA_URL}}jquery.form.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+	   var options = {
+		   target:    '#spc-imageupload-output-ajax-adds-it', // target element(s) to be updated with server response
+		   success: function() { $('#spc-imageupload-output-ajax-adds-it').fadeIn('slow'); },
+		   url:       '{% url spc-screenshot-add %}',
+		   type:      'post',
+		   clearForm:  true,
+		   resetForm:  true,
+		};
+		// bind form using 'ajaxForm'
+		$('#spc-imageupload-add').ajaxForm(options);
+	});
+
+	<!--// post-submit callback-->
+	<!--function showResponse(responseText, statusText, xhr, $form)  {-->
+		<!--// for normal html responses, the first argument to the success callback-->
+		<!--// is the XMLHttpRequest object's responseText property-->
+
+		<!--// if the ajaxForm method was passed an Options Object with the dataType-->
+		<!--// property set to 'xml' then the first argument to the success callback-->
+		<!--// is the XMLHttpRequest object's responseXML property-->
+
+		<!--// if the ajaxForm method was passed an Options Object with the dataType-->
+		<!--// property set to 'json' then the first argument to the success callback-->
+		<!--// is the json data object returned by the server-->
+
+		<!--//alert('status: ' + statusText + '\n\nresponseText: \n' + responseText +-->
+		<!--//	'\n\nThe output div should have already been updated with the responseText.');-->
+
+		<!--// Edit the other form to add the pk of the screenshot to use as the-->
+		<!--// thumbnail-->
+	<!--}-->
+	</script>
+
+	<form id="spc-imageupload-add" action="{% url spc-screenshot-add%}" method="post" enctype="multipart/form-data">
+	   {% csrf_token %}
+		<div class="colmask threecol">
+			<div class="colmid">
+				<div class="colleft">
+					<div class="col1 form-field">
+						<input type="file" placeholder="Choose" id="spc_image_upload" name="spc_image_upload" />
+					</div>
+					<div class="col2">
+						<label for="spc_image_upload">Optionally upload <b>image file(s)</b> to use in your description</label>
+					</div>
+					<div class="col3">
+						<input type="submit" value="Upload image" id="spc-imageupload-button" /> (JPEG or PNG)
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<div id="spc-imageupload-output-ajax-adds-it"></div>
+	<div style="clear: both;"></div>
 </div>
 {% endblock %}
