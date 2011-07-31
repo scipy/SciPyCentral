@@ -42,8 +42,13 @@ with file(conf_file, 'r') as conf_file_raw:
     fc = conf_file_raw.read()
 
 resp = template.Template(fc)
-conf_file_text = resp.render(template.Context({'FULL_MEDIA_URL': \
+if settings.MEDIA_URL.startswith('http'):
+    conf_file_text = resp.render(template.Context({'FULL_MEDIA_URL': \
+                                           settings.MEDIA_URL}))
+else:
+    conf_file_text = resp.render(template.Context({'FULL_MEDIA_URL': \
                                            site + settings.MEDIA_URL}))
+
 with file(conf_file, 'w') as conf_file_raw:
     conf_file_raw.write(conf_file_text)
 
