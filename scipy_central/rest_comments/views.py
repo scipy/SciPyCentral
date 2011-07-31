@@ -11,8 +11,10 @@ logger = logging.getLogger('scipycentral')
 from sphinx.application import Sphinx, SphinxError
 
 # Django import
+from django.contrib.sites.models import Site
 from django.http import HttpResponse
 from django.conf import settings
+from django import template
 
 # Internal import
 from scipy_central.utils import ensuredir
@@ -21,16 +23,29 @@ from scipy_central.utils import ensuredir
 # Copy the settings, image extension, and an __init__.py to the appropriate
 # places. The original copy of the ``conf.py`` file, found in the current
 # directory (copy it to comment destination)
-
 working_dir = settings.SPC['comment_compile_dir']
+
+if Site._meta.installed:
+    site = 'http://' + Site.objects.get_current().domain
+else:
+    site = ''
+
 ext_dir = os.path.abspath(working_dir + os.sep + 'ext')
 ensuredir(working_dir)
 ensuredir(ext_dir)
 
 cf = os.path.abspath(__file__ + os.sep + os.path.pardir) + \
                                           os.sep + 'sphinx-conf.py'
-shutil.copyfile(cf, settings.SPC['comment_compile_dir'] + os.sep +\
-                                                            'conf.py')
+conf_file = settings.SPC['comment_compile_dir'] + os.sep + 'conf.py'
+shutil.copyfile(cf, conf_file)
+with file(conf_file, 'r') as conf_file_raw:
+    fc = conf_file_raw.read()
+
+resp = template.Template(fc)
+conf_file_text = resp.render(template.Context({'FULL_MEDIA_URL': \
+                                           site + settings.MEDIA_URL}))
+with file(conf_file, 'w') as conf_file_raw:
+    conf_file_raw.write(conf_file_text)
 
 cf = os.path.abspath(__file__ + os.sep + os.path.pardir) + \
                                                   os.sep + 'images.py'
@@ -41,7 +56,6 @@ cf = os.path.abspath(__file__ + os.sep + os.path.pardir) + \
                                                   os.sep + '__init__.py'
 shutil.copyfile(cf, settings.SPC['comment_compile_dir'] + os.sep +\
                                         'ext' + os.sep + '__init__.py')
-
 
 def compile_rest_to_html(raw_rest):
     """ Compiles the RST string, ``raw_RST`, to HTML.  Performs no

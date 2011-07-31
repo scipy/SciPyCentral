@@ -3,6 +3,9 @@
 # DO NOT REMOVE.  This file is used as the "conf.py" file to convert web user
 # comments in ReST to HTML.
 #
+# This file contains a templated variable, {{FULL_MEDIA_URL}}, which will be
+# replaced with your site's complete MEDIA_URL
+#
 # The user's ReST is written to index.rst, and converted to HTML using the
 # settings listed here.
 #
@@ -28,7 +31,7 @@ extlinks = {'id': ('http://scipy-central.org/item/%s', 'item #'),
 import sys, os
 sys.path.insert(0, os.path.abspath('.'))
 extensions.append('ext.images')
-ext_images = {'image': 'http://scipy-central.org/media/images/%s'}
+ext_images = {'image': '{{FULL_MEDIA_URL}}images/%s'}
 
 # The suffix of source filenames.
 source_suffix = '.rst'
