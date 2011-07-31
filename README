@@ -154,6 +154,7 @@ attributed at the point of use. In summary though, we have used code from:
 * `djangosnippets.org <https://github.com/coleifer/djangosnippets.org>`_
 * `django-registration <https://bitbucket.org/ubernostrum/django-registration/>`_
 * `django-avatar <https://github.com/ericflo/django-avatar>`_
+* `Sphinx <http://sphinx.pocoo.org/latest/>`)
 
 The jQuery Forms extensions is MIT licensed (compatible with BSD); more
 information at http://malsup.com/jquery/form/

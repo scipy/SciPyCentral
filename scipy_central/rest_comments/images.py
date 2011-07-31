@@ -3,13 +3,12 @@
 Based on the sphinx.ext.extlinks.py, from the Sphinx documentation software.
 BSD licensed: see http://sphinx.pocoo.org/latest/
 
-
     Extension to save typing and prevent hard-coding of base URLs in the reST
     files.
 
     This adds a new config value called ``ext_images`` that is created like this::
 
-       ext_images = {'image': 'http://scipy-central.org/images/%s'}
+       ext_images = {'image': 'http://127.0.0.1:8000/media/images/%s'}
 
     Now you can use e.g. :image:`201107/pic.png` in the ReST and it will create
     a link to ``http://scipy-central.org/images/201107/pic.png``.
