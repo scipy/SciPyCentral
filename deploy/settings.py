@@ -236,6 +236,9 @@ SPC = {
 
     # Library submission maximum size (in bytes)
     'library_max_size': 25 * 1024 * 1024,
+
+    # Image (screenshots) maximum size (in bytes)
+    'image_max_size': 2 * 1024 * 1024,
 }
 
 # All about ``local_settings.py``

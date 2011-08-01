@@ -90,6 +90,7 @@ class SnippetForm(Submission_Form__Common_Parts):
     sub_type = forms.CharField(max_length=10, initial='snippet',
                                widget=forms.HiddenInput(), required=False)
 
+
 class PackageForm(Submission_Form__Common_Parts):
     """
     Code package submission: upload a ZIP file
@@ -110,10 +111,15 @@ class PackageForm(Submission_Form__Common_Parts):
     def clean_package_file(self):
         zip_file_size = self.cleaned_data['package_file'].size
         if zip_file_size > settings.SPC['library_max_size']:
-            raise forms.ValidationError("ZIP file size too large")
+            raise forms.ValidationError('ZIP file size too large')
         else:
             return self.cleaned_data['package_file']
 
+        # Is it a ZIP file
+        if self.cleaned_data['package_file'].get('content-type') !=\
+                                                             'application/zip':
+            raise forms.ValidationError(('Upload a valid ZIP file; it was not'
+                                          ' a ZIP file, or it was corrupted.'))
 
 
 class LinkForm(Submission_Form__Common_Parts):
@@ -132,30 +138,3 @@ class LinkForm(Submission_Form__Common_Parts):
 
     sub_type = forms.CharField(max_length=10, initial='link',
                                widget=forms.HiddenInput(), required=False)
-
-#
-# Packages
-#
-
-#class EditForm(forms.Form):
-    #def __init__(self, *a, **kw):
-        #files = kw.pop('files', [])
-        #forms.Form.__init__(self, *a, **kw)
-        #self.set_files(files)
-
-    #def set_files(self, files):
-        #if 'files' in self.fields:
-            #self.fields['files'].choices = [(x, x) for x in files]
-
-#class PackageForm(EditForm):
-    #description = forms.CharField(widget=forms.Textarea())
-
-    #license = forms.ModelChoiceField(License.objects.all(), empty_label=None)
-    #author = forms.CharField(max_length=256)
-    #url = forms.CharField(required=False)
-
-    #files = forms.MultipleChoiceField(choices=(), required=False)
-    #upload_file = forms.FileField(required=False)
-
-    #change_comment = forms.CharField(required=True, widget=forms.Textarea())
-
