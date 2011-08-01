@@ -76,7 +76,7 @@ $(function() {
 				</div>
 				<div class="col2 {% if field.errors %}spc-field-error{% endif %}">
 					<label for="{{field.id_for_label}}">{{field.label|safe}}</label>
-					<span>{{ field.errors }}</span>
+					<span>{{field.errors|safe}}</span>
 				</div>
 				<div class="col3" id="help-{{field.id_for_label}}">
 					<span class="spc-helptext">{{field.help_text|safe}}</span>

@@ -23,8 +23,3 @@ def add_screenshot(request):
         msg = ('<div class="spc-field-error" style="float: left; font-style: '
                'italic;">%s</div>') % img_form.errors.get('spc_image_upload')[0]
         return HttpResponse(msg)
-
-
-
-
-

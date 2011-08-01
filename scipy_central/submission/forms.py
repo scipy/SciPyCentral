@@ -7,6 +7,13 @@ from scipy_central.utils import rest_help_extra
 required_css_class = 'spc-form-required'
 error_css_class = 'spc-form-error'
 
+# Built-in imports
+import zipfile
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from StringIO import StringIO
+
 # From: http://djangosnippets.org/snippets/316/
 class HiddenBaseForm(forms.BaseForm):
     def as_hidden(self):
@@ -109,17 +116,42 @@ class PackageForm(Submission_Form__Common_Parts):
                                widget=forms.HiddenInput(), required=False)
 
     def clean_package_file(self):
-        zip_file_size = self.cleaned_data['package_file'].size
+        zip_file = self.cleaned_data['package_file']
+        zip_file_size = zip_file.size
         if zip_file_size > settings.SPC['library_max_size']:
             raise forms.ValidationError('ZIP file size too large')
-        else:
-            return self.cleaned_data['package_file']
 
-        # Is it a ZIP file
-        if self.cleaned_data['package_file'].get('content-type') !=\
-                                                             'application/zip':
-            raise forms.ValidationError(('Upload a valid ZIP file; it was not'
-                                          ' a ZIP file, or it was corrupted.'))
+        # Code is based on http://djangosnippets.org/snippets/103/
+        # Is it a ZIP file?
+        if zip_file.content_type != 'application/zip':
+            raise forms.ValidationError(mark_safe(('Upload a <b>valid</b> '
+                    'ZIP file; it was not a ZIP file, or it was corrupted.')))
+
+        # Can we unzip it?
+        try:
+            zip_f = zipfile.ZipFile(StringIO(zip_file.read()))
+        except:
+            raise forms.ValidationError(mark_safe(('Upload a <b>valid</b> ZIP '
+                                        'file; could not unzip the file.')))
+        bad_file = zip_f.testzip()
+
+        # Some checks for malicious unzipping
+        for zip_item in zip_f.filelist:
+            # ``zipfile`` ensures that path separators are always ``/``
+            filename = zip_item.filename.split('/')
+            for idx, entry in enumerate(filename):
+                # See warning at http://docs.python.org/library/zipfile.html
+                if entry.startswith('..') or (idx==0 and entry==''):
+                    raise forms.ValidationError(mark_safe(('Please upload a '
+                        '<b>valid</b> ZIP file; file contains an invalid  '
+                        'filename <tt>"%s"</tt>.') % zip_item.filename))
+        zip_f.close()
+        del zip_f
+        if bad_file:
+            raise forms.ValidationError(mark_safe(('Upload a <b>valid</b> '
+                            'ZIP file; %s failed CRC-32 checks.') % bad_file))
+
+        return self.cleaned_data['package_file']
 
 
 class LinkForm(Submission_Form__Common_Parts):
