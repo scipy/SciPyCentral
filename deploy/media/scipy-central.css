@@ -454,14 +454,14 @@ li.spc-even tt {
 }
 
 /* Image upload */
-#spc-imageupload {
+#spc-item-upload {
 	border-top: 1px solid;
 }
-#spc-imageupload-button{
+#spc-item-upload-button{
 	padding: 0.5em;
 	text-align: center;
 }
-.spc-imageupload-success{
+.spc-item-upload-success{
     background: #ffa;
 	padding: 4px;
 }

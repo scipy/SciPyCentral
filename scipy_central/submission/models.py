@@ -1,12 +1,15 @@
 from django.db import models
-from django.db.models import signals
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
-from django.core.exceptions import ObjectDoesNotExist
-
 
 from scipy_central.person.models import User
-from scipy_central.pagehit.models import PageHit
+
+#import zipfile
+#try:
+    #from cStringIO import StringIO
+#except ImportError:
+    #from StringIO import StringIO
 
 class Module(models.Model):
     """
@@ -337,7 +340,6 @@ class Revision(models.Model):
                         '%d/%d/%s' % (self.entry.pk, self.rev_id+1, self.slug)
 
 
-
 class TagCreation(models.Model):
     """
     Tracks by whom and when tags were created
@@ -350,3 +352,30 @@ class TagCreation(models.Model):
     def __unicode__(self):
         return self.tag.name
 
+
+
+class ZIP_file(models.Model):
+    """ ZIP file model.
+    """
+    date_added = models.DateTimeField(auto_now=True)
+    zip_hash = models.CharField(max_length=255)
+    raw_zip_file = models.FileField(upload_to=settings.SPC['ZIP_staging'],
+                                     max_length=1024)
+
+    def __unicode__(self):
+        return self.raw_zip_file.name
+
+    def save(self, *args, **kwargs):
+        """ Override the model's saving function to resize the screenshot
+        """
+        #zip_file.seek(0)
+        #zip_f = zipfile.ZipFile(StringIO(zip_file.read()))
+        #zip_nfiles = len(zip_f.filelist)
+        #zip_f.close()
+
+        #self.raw_zip_file.seek(0)
+        #zip_file = zipfile.ZipFile(StringIO(self.raw_zip_file.read()))
+        #self.zip_hash = md5(''.join(zip_file.namelist())).hexdigest()
+        #zip_file.close()
+
+        super(ZIP_file, self).save(*args, **kwargs)

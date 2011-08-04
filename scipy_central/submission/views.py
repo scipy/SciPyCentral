@@ -2,7 +2,7 @@
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.conf import settings
-from django.core.files.base import ContentFile
+#from django.core.files.base import ContentFile
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.defaultfilters import slugify
 from django.template.loader import render_to_string
@@ -10,6 +10,7 @@ from django import template
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.models import Site
 from django.utils.hashcompat import sha_constructor
+from django.core.files.uploadedfile import UploadedFile
 
 # Imports from this app and other SPC apps
 from scipy_central.person.views import create_new_account_internal
@@ -17,7 +18,7 @@ from scipy_central.filestorage.models import FileSet
 from scipy_central.tagging.views import get_and_create_tags
 from scipy_central.utils import send_email, paginated_queryset, highlight_code
 from scipy_central.rest_comments.views import compile_rest_to_html
-from scipy_central.pages.views import page_404_error, not_implemented_yet
+from scipy_central.pages.views import page_404_error
 from scipy_central.pagehit.views import create_hit, get_pagehits
 from scipy_central.submission.templatetags.core_tags import top_authors
 import models
@@ -31,6 +32,12 @@ import logging
 import os
 import re
 import datetime
+#import zipfile
+#try:
+#    from cStringIO import StringIO
+#except ImportError:
+#    from StringIO import StringIO
+
 logger = logging.getLogger('scipycentral')
 logger.debug('Initializing submission::views.py')
 
@@ -133,6 +140,19 @@ def get_form(request, form_class, field_order, bound=False):
 
             form_output = form_class(fields)
         else:
+            if request.POST['sub_type'] == 'package':
+                # Create a fake "UploadedFile" object, so the user can resume
+                # editing or finish their submission, without being told
+                # they have to reenter this field.
+                zip_hash = request.POST.get('package_hash', '')
+                zip_file = models.ZIP_file.objects.filter(zip_hash=zip_hash)
+                if zip_file:
+                    zip_name = zip_file[0].raw_zip_file.name
+                    uploaded_file = UploadedFile(zip_name, name=zip_name,
+                                        content_type='application/zip',
+                                        size=zip_file[0].raw_zip_file.size)
+                    uploaded_file.skip_validation = True # see ``forms.py``
+                    request.FILES['package_file'] = uploaded_file
             form_output = form_class(request.POST, request.FILES)
     else:
         form_output = form_class()
@@ -163,7 +183,6 @@ def create_or_edit_submission_revision(request, item, is_displayed,
     # posted by users that have not yet validated themselves is not displayed
     # until they do so.
 
-    # A new submission
     if item.cleaned_data['pk']:
         # We are editing an existing submission: pull it from the DB
         try:
@@ -174,6 +193,7 @@ def create_or_edit_submission_revision(request, item, is_displayed,
             page_404_error(request, ('You requested an invalid submission to '
                                      'edit'))
     else:
+        # A new submission
         sub = models.Submission.objects.create_without_commit(created_by=user,
                                     sub_type=item.cleaned_data['sub_type'])
 
@@ -198,8 +218,16 @@ def create_or_edit_submission_revision(request, item, is_displayed,
         item_url = None
         item_code = None
 
-        # Save the uploaded file to the server
-        zip_file = request.FILES['package_file']
+        # Handle the ZIP file more completely only when the user commits.
+        # ZIP file has been validated: OK to save it to the server
+        # However, this might be the second time around, so skip saving it
+        # (happens after preview, or if user resumes editing submission)
+        if not hasattr(request.FILES['package_file'], 'skip_validation'):
+            zip_f = models.ZIP_file(raw_zip_file=request.FILES['package_file'],
+                                zip_hash=request.POST.get('package_hash', ''))
+            zip_f.save()
+
+
 
     # Convert the raw ReST description to HTML using Sphinx: could include
     # math, paragraphs, <tt>, bold, italics, bullets, hyperlinks, etc.
@@ -237,6 +265,16 @@ def create_or_edit_submission_revision(request, item, is_displayed,
             rev.validation_hash = create_validation_code(rev)
 
         rev.save()
+
+        if sub.sub_type == 'package':
+            # Save the uploaded file to the server. At this point we are sure
+            # it's a valid ZIP file, has no malicious filenames, and can be
+            # unpacked to the hard drive. See validation in ``forms.py``.
+            # Move the Uploaded ZIP file from the temporary location to the
+            # file location; unzip it; delete the old file
+            # Create "LICENSE.txt" and "DESCRIPTION.txt"
+            zip_file = request.FILES['package_file']
+
 
         if sub.sub_type == 'snippet':
             fname = rev.slug.replace('-', '_') + '.py'
@@ -344,7 +382,8 @@ SUBS = {'snippet': Item(forms.SnippetForm, field_order=['title',
                         'snippet_code', 'description', 'sub_tags',
                         'sub_license', 'email', 'sub_type', 'pk']),
         'package': Item(forms.PackageForm, field_order=['title',
-                        'description', 'package_file', 'sub_license',
+                        'description', 'sub_license',
+                        'package_file', 'package_hash',
                         'sub_tags', 'email', 'sub_type', 'pk']),
         'link': Item(forms.LinkForm, field_order=['title', 'description',
                         'item_url', 'sub_tags', 'email', 'sub_type', 'pk']),
@@ -354,6 +393,8 @@ SUBS = {'snippet': Item(forms.SnippetForm, field_order=['title',
 def new_or_edit_submission(request, bound_form=False):
     """
     Users wants to submit a new link item, or continue editing a submission.
+    There are multiple possible paths through the logic here. Careful about
+    making changes.
     """
     # User is going to edit their submission
     sub_type = None
@@ -368,24 +409,7 @@ def new_or_edit_submission(request, bound_form=False):
     else:
         new_item_or_edit = False
 
-
-    # Find which button was pressed on the front page submission form
-    buttons = [key.rstrip('.x') for key in request.POST.keys()]
-
-    if 'snippet' in buttons:
-        itemtype = 'snippet'
-        new_item_or_edit = True # we're coming from the front page
-    elif 'package' in buttons:
-        itemtype = 'package'
-        new_item_or_edit = True # we're coming from the front page
-        #return not_implemented_yet(request, 48)
-    elif 'link' in buttons:
-        itemtype = 'link'
-        new_item_or_edit = True # we're coming from the front page
-    else:
-        itemtype = request.POST.get('sub_type', sub_type)
-
-
+    commit = False
     if request.POST.has_key('spc-edit'):
         new_item_or_edit = True
         bound_form = True
@@ -396,36 +420,47 @@ def new_or_edit_submission(request, bound_form=False):
 
     if request.POST.has_key('spc-preview'):
         bound_form = True
-        commit = False
+
+    # Find which button was pressed on the front page submission form
+    buttons = [key.rstrip('.x') for key in request.POST.keys()]
+
+    buttontext_extra = ''
+    if 'snippet' in buttons:
+        itemtype = 'snippet'
+        new_item_or_edit = True # coming from the front page
+    elif 'package' in buttons:
+        itemtype = 'package'
+        buttontext_extra = '(Upload ZIP file on next page)'
+        new_item_or_edit = True
+        return not_implemented_yet(request, 48)
+    elif 'link' in buttons:
+        itemtype = 'link'
+        new_item_or_edit = True
+    else:
+        itemtype = request.POST.get('sub_type', sub_type)
 
     # Important: make a copy of ``field_order``, since it may be altered
+    field_order = SUBS[itemtype].field_order[:]
+    # Don't ask for package on the first screen; wait until user is about to
+    # commit the submission
+    #if itemtype == 'package' and commit==False:
+    #    field_order.remove('package')
+
     theform = get_form(request, form_class=SUBS[itemtype].form,
-                       field_order=SUBS[itemtype].field_order[:],
-                       bound=bound_form)
-
-    if new_item_or_edit:
-        return render_to_response('submission/new-item.html', {},
-                              context_instance=RequestContext(request,
-                                    {'item': theform,
-                                     'buttontext': 'Preview your submission',
-                                     'autocomplete_field': 'id_sub_tags',
-                                     'autocomplete_url': r'"spc-tagging-ajax"',
-                                     'pagetitle': 'Create a new submission'}))
-
-
+                       field_order=field_order, bound=bound_form)
 
     # OK, having all that out of the way, lets process the user's submission
-
     # 0. Use the built-in forms checking to validate the fields.
-
-    if not(theform.is_valid()):
+    if new_item_or_edit or not(theform.is_valid()):
         return render_to_response('submission/new-item.html', {},
                               context_instance=RequestContext(request,
                                     {'item': theform,
                                      'buttontext': 'Preview your submission',
+                                     'buttontext_extra': buttontext_extra,
                                      'autocomplete_field': 'id_sub_tags',
                                      'autocomplete_url': r'"spc-tagging-ajax"',
                                      'pagetitle': 'Create a new submission'}))
+
 
     # 1. Create user account, if required
     if request.user.is_authenticated():
@@ -450,18 +485,27 @@ def new_or_edit_submission(request, bound_form=False):
         # hyperlinks and CSRF
         context = RequestContext(request)
         context['item'] = theform
+
+        #if request.POST['sub_type'] == 'package':
+            #context['finish_button_text'] = 'Upload ZIP file and finish'
+            #zip_form = forms.ZIP_File_Form(request.POST, request.FILES)
+            #context['zip_form'] = zip_form
+        #else:
+        context['finish_button_text'] = 'Finish submission'
+        #context['zip_form'] = ''
+
         html = ('<div id="spc-preview-edit-submit" class="spc-form">'
                 '<form action="{% url spc-new-submission %}" '
                 'method="POST" enctype="multipart/form-data">\n'
                 '{% csrf_token %}\n'
-                '{{item.as_hidden}}'
+                '{{item.as_hidden}}'  # upload the form values as hidden fields
                 '<div id="spc-preview-edit-submit-button-group">'
                 '<input type="submit" name="spc-cancel" value="Cancel"'
                 'id="spc-item-cancel" />\n'
                 '<input type="submit" name="spc-edit"   value="Resume editing"'
                 'id="spc-item-edit" />\n'
                 '<input type="submit" name="spc-submit" '
-                'value="Finish submission"'
+                'value="{{ finish_button_text }}"'
                 'id="spc-item-submit"/>\n'
                 '</div></form></div>')
         resp = template.Template(html)

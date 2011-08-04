@@ -208,6 +208,11 @@ SPC = {
     'raw_image_dir': 'raw-images/%Y%m' + os.sep,
     'resized_image_dir': 'images/%Y%m' + os.sep,
 
+    # Where are ZIP files staged? User's upload ZIP files; only the submission
+    # is created, we retrieve the staged ZIP file and handle it appropriately
+    # The staged files are then deleted. i.e. these is like a "tempdir", and
+    # should not be web-accessible.
+    'ZIP_staging': 'zip-staging',
 
     # Where should logfiles be written? If DEBUG != True, then you are
     # responsible that this location is valid and exists. Overwrite the
@@ -232,7 +237,7 @@ SPC = {
     'entries_per_page': 20,
 
     # SciPy Central version
-    'version': 0.13,
+    'version': 0.14,
 
     # Library submission maximum size (in bytes)
     'library_max_size': 25 * 1024 * 1024,

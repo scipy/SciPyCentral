@@ -14,7 +14,7 @@ def add_screenshot(request):
         img = models.Screenshot(img_file_raw=img_form.\
                                               cleaned_data['spc_image_upload'])
         img.save()
-        msg = ('<div class="spc-imageupload-success" style="float: left;">'
+        msg = ('<div class="spc-item-upload-success" style="float: left;">'
                'Upload successful. Insert the image in your description as'
                '&nbsp;&nbsp;&nbsp; <tt>:image:`%s`</tt></div>') %\
                                       img.img_file_raw.name.partition('/')[2]

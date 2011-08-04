@@ -9,6 +9,7 @@ error_css_class = 'spc-form-error'
 
 # Built-in imports
 import zipfile
+from hashlib import md5
 try:
     from cStringIO import StringIO
 except ImportError:
@@ -98,7 +99,7 @@ class SnippetForm(Submission_Form__Common_Parts):
                                widget=forms.HiddenInput(), required=False)
 
 
-class PackageForm(Submission_Form__Common_Parts):
+class ZIP_File_Form(forms.Form):
     """
     Code package submission: upload a ZIP file
     """
@@ -107,13 +108,8 @@ class PackageForm(Submission_Form__Common_Parts):
                        'LICENSE.txt</tt> or <tt>DESCRIPTION.txt</tt> as these '
                        'will be automatically generated from the information '
                        'submitted.'))
-
-    sub_license = forms.ModelChoiceField(License.objects.all(),
-            empty_label=None,
-            label="Select a license for your submission",
-            help_text='<a href="/licenses">More on licenses</a>')
-    sub_type = forms.CharField(max_length=10, initial='package',
-                               widget=forms.HiddenInput(), required=False)
+    package_hash = forms.CharField(widget=forms.HiddenInput(),
+                                   max_length=32, required=False)
 
     def clean_package_file(self):
         zip_file = self.cleaned_data['package_file']
@@ -131,9 +127,18 @@ class PackageForm(Submission_Form__Common_Parts):
         try:
             zip_f = zipfile.ZipFile(StringIO(zip_file.read()))
         except:
-            raise forms.ValidationError(mark_safe(('Upload a <b>valid</b> ZIP '
-                                        'file; could not unzip the file.')))
+            if hasattr(zip_file, 'skip_validation'):
+                # Somewhat of a hack so we don't revalidate ZIP file after
+                # preview stage, and if user wants to re-edit their submission.
+                return self.cleaned_data['package_file']
+
+            raise forms.ValidationError(mark_safe(('Upload a <b>valid</b> ZIP'
+                                        ' file; could not unzip the file.')))
         bad_file = zip_f.testzip()
+        if bad_file:
+            zip_f.close()
+            raise forms.ValidationError(mark_safe(('Upload a <b>valid</b> '
+                            'ZIP file; %s failed CRC-32 checks.') % bad_file))
 
         # Some checks for malicious unzipping
         for zip_item in zip_f.filelist:
@@ -145,13 +150,42 @@ class PackageForm(Submission_Form__Common_Parts):
                     raise forms.ValidationError(mark_safe(('Please upload a '
                         '<b>valid</b> ZIP file; file contains an invalid  '
                         'filename <tt>"%s"</tt>.') % zip_item.filename))
-        zip_f.close()
-        del zip_f
-        if bad_file:
-            raise forms.ValidationError(mark_safe(('Upload a <b>valid</b> '
-                            'ZIP file; %s failed CRC-32 checks.') % bad_file))
 
+
+        zip_f.close()
         return self.cleaned_data['package_file']
+
+    def clean_package_hash(self):
+        """
+        Create the zip file hash
+        """
+        zip_file = self.cleaned_data.get('package_file', '')
+        if zip_file:
+            if hasattr(zip_file, 'skip_validation'):
+                # Already validated and hashed; just return
+                return self.data['package_hash']
+
+            zip_file.seek(0)
+            zip_f = zipfile.ZipFile(StringIO(zip_file.read()))
+            zip_hash = md5(''.join(zip_f.namelist())).hexdigest()
+            zip_f.close()
+            # Pretend it was there all along
+            self.data['package_hash'] = zip_hash
+            return zip_hash
+        else:
+            return None
+
+
+class PackageForm(Submission_Form__Common_Parts, ZIP_File_Form):
+    """
+    Code package submission: can choose the license
+    """
+    sub_license = forms.ModelChoiceField(License.objects.all(),
+            empty_label=None,
+            label="Select a license for your submission",
+            help_text='<a href="/licenses">More on licenses</a>')
+    sub_type = forms.CharField(max_length=10, initial='package',
+                               widget=forms.HiddenInput(), required=False)
 
 
 class LinkForm(Submission_Form__Common_Parts):
