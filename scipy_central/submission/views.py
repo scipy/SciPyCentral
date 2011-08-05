@@ -18,7 +18,7 @@ from scipy_central.filestorage.models import FileSet
 from scipy_central.tagging.views import get_and_create_tags
 from scipy_central.utils import send_email, paginated_queryset, highlight_code
 from scipy_central.rest_comments.views import compile_rest_to_html
-from scipy_central.pages.views import page_404_error
+from scipy_central.pages.views import page_404_error, not_implemented_yet
 from scipy_central.pagehit.views import create_hit, get_pagehits
 from scipy_central.submission.templatetags.core_tags import top_authors
 import models

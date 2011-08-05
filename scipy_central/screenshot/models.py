@@ -2,8 +2,9 @@ from django.db import models
 from django.conf import settings
 from django.core.files import base
 from django.utils.encoding import force_unicode, smart_str
-from settings import (IMG_MAX_SIZE, IMG_QUALITY, IMG_RESIZE_METHOD,
-                      IMG_DEFAULT_FORMAT, IMG_ACCEPTABLE_FORMATS)
+from settings import (IMG_MAX_WIDTH, IMG_MAX_HEIGHT, IMG_QUALITY,
+                      IMG_RESIZE_METHOD, IMG_DEFAULT_FORMAT,
+                      IMG_ACCEPTABLE_FORMATS)
 
 from PIL import Image
 import os
@@ -48,9 +49,18 @@ class Screenshot(models.Model):
             format_used = IMG_DEFAULT_FORMAT
 
         (w, h) = image.size
-        if w > IMG_MAX_SIZE:
-            h = int(h*IMG_MAX_SIZE/(w+0.0))
-            w = IMG_MAX_SIZE
+        if w > IMG_MAX_WIDTH:
+            h = int(h*IMG_MAX_WIDTH/(w+0.0))
+            w = IMG_MAX_WIDTH
+            if image.mode != "RGB" and image.mode != "RGBA":
+                image = image.convert("RGB")
+            image = image.resize((w, h), IMG_RESIZE_METHOD)
+            thumb = StringIO()
+            image.save(thumb, format_used, quality=IMG_QUALITY)
+            thumb_file = base.ContentFile(thumb.getvalue())
+        if h > IMG_MAX_HEIGHT:
+            w = int(w*IMG_MAX_HEIGHT/(h+0.0))
+            h = IMG_MAX_HEIGHT
             if image.mode != "RGB" and image.mode != "RGBA":
                 image = image.convert("RGB")
             image = image.resize((w, h), IMG_RESIZE_METHOD)

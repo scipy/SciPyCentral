@@ -204,7 +204,9 @@ SPC = {
     # Must end with a trailing ``os.sep`` character
     'storage_dir': MEDIA_ROOT + 'code' + os.sep,
 
-    # Image storage directories
+    # Image storage directories. Do not change these settings. They are used
+    # in the Sphinx extension to ensure user does not resize image beyond
+    # the maximum width or height.
     'raw_image_dir': 'raw-images/%Y%m' + os.sep,
     'resized_image_dir': 'images/%Y%m' + os.sep,
 

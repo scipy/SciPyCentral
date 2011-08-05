@@ -18,6 +18,7 @@ from django import template
 
 # Internal import
 from scipy_central.utils import ensuredir
+from scipy_central.screenshot.models import Screenshot
 
 # We need certain files in place to compile the comments
 # Copy the settings, image extension, and an __init__.py to the appropriate
@@ -152,6 +153,11 @@ def compile_rest_to_html(raw_rest):
                          freshenv = True,
                          warningiserror = False,
                          tags = [])
+
+            # We need to access some settings while inside Sphinx
+            # This is the easiest way to get them there
+            app.env.config.SPC = settings.SPC
+            app.env.config.SPC['__Screenshot__'] = Screenshot
 
             # Call the ``pickle`` builder
             app.build(force_all=True)
