@@ -354,7 +354,7 @@ class TagCreation(models.Model):
 
 
 
-class ZIP_file(models.Model):
+class ZipFile(models.Model):
     """ ZIP file model.
     """
     date_added = models.DateTimeField(auto_now=True)

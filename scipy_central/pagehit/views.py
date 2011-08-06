@@ -14,21 +14,26 @@ static_items = {'spc-main-page': 1,
                 'haystack_search': 5,
                }
 
-def create_hit(request, item):
+def create_hit(request, item, extra_info=None):
     """
     Given a Django ``request`` object, create an entry in the DB for the hit.
 
     If the ``item`` is a string, then we assume it is a static item and use
     the dictionary above to look up its "primary key".
+
+    If ``extra_info`` is provided then (ab)use the user agent field and
+    store that string info instead.
     """
     ip_address = get_IP_address(request)
     ua_string = request.META.get('HTTP_USER_AGENT', '')
     try:
         page_hit = models.PageHit(ip_address=ip_address, ua_string=ua_string,
-                                 item=item._meta.module_name, item_pk=item.pk)
+                                 item=item._meta.module_name, item_pk=item.pk,)
+                                 #extra_info=extra_info)
     except AttributeError:
         page_hit = models.PageHit(ip_address=ip_address, ua_string=ua_string,
-                                 item=item, item_pk=static_items.get(item, 0))
+                                 item=item, item_pk=static_items.get(item, 0),)
+                                 #extra_info=extra_info)
 
     page_hit.save()
 

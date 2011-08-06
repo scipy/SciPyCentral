@@ -34,12 +34,13 @@ def search(request):
     """
     Calls Haystack, but allows us to first log the search query
     """
-    create_hit(request, 'haystack_search')
+
     if request.GET['q'].strip() == '':
         return redirect(front_page)
 
     # Avoid duplicate logging if search request results in more than 1 page
     if 'page' not in request.GET:
+        create_hit(request, 'haystack_search', request.GET['q'])
         logger.info('SEARCH [%s]: %s' % (get_IP_address(request),
                                          request.GET['q']))
     return SearchView().__call__(request)

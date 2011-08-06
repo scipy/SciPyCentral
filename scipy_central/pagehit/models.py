@@ -23,6 +23,7 @@ class PageHit(models.Model):
     datetime = models.DateTimeField(auto_now=True)
     item = models.CharField(max_length=50)
     item_pk = models.IntegerField()
+    #extra_info = models.CharField(max_length=512, null=True, blank=True)
 
     def __unicode__(self):
         return '%s at %s' % (self.item, self.datetime)

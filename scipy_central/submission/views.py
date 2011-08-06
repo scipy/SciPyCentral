@@ -145,7 +145,7 @@ def get_form(request, form_class, field_order, bound=False):
                 # editing or finish their submission, without being told
                 # they have to reenter this field.
                 zip_hash = request.POST.get('package_hash', '')
-                zip_file = models.ZIP_file.objects.filter(zip_hash=zip_hash)
+                zip_file = models.ZipFile.objects.filter(zip_hash=zip_hash)
                 if zip_file:
                     zip_name = zip_file[0].raw_zip_file.name
                     uploaded_file = UploadedFile(zip_name, name=zip_name,
@@ -223,7 +223,7 @@ def create_or_edit_submission_revision(request, item, is_displayed,
         # However, this might be the second time around, so skip saving it
         # (happens after preview, or if user resumes editing submission)
         if not hasattr(request.FILES['package_file'], 'skip_validation'):
-            zip_f = models.ZIP_file(raw_zip_file=request.FILES['package_file'],
+            zip_f = models.ZipFile(raw_zip_file=request.FILES['package_file'],
                                 zip_hash=request.POST.get('package_hash', ''))
             zip_f.save()
 
