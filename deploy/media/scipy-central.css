@@ -681,6 +681,7 @@ div#spc-itemdisp-container h6 { font-size: 100%; }
 .spc-minor-info {
 	font-size: 80%;
 	float: left;
+	border-top: 1px solid #ddd;
 }
 .spc-minor-info p{
 	margin: 0;

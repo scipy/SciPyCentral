@@ -105,14 +105,23 @@
 
   <div id="spc-extra-message">{{extra_html|safe}}</div>
 
+  <div id="spc-item-header">
+  {% if not preview %}
+	<div id="spc-item-header-left">{% if item.previous_submission %}<a href="{{item.previous_submission}}">Previous<a>{% endif %}</div>
+	<div id="spc-item-header-right">{% if item.next_submission %}<a href="{{item.next_submission}}">Next<a>{% endif %}</div>
+  {% endif %}
+  </div>
+
   <div class="spc-minor-info">
-    {% if pageviews %}<p> Page views: {{pageviews}} (past 60 days){% endif %}
+    {% if pageviews %}<p> Page views: {{pageviews}} (past {{pageview_days}} days){% endif %}
 	{% if permalink %}
 	  <p>{% if item.id %}Identifier #: <b>{{ item.entry.id }}</b>{% endif %}
 	  <p>Permalink to this revision: <a href="{{permalink}}">{{permalink}}</a>
 	  <p>Permalink to latest revision: <a href="{{latest_link}}">{{latest_link}}</a>
 	{% endif %}
   </div>
+
+
 
 
 
