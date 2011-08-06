@@ -55,10 +55,13 @@ Please ensure these Python packages are available on your server:
     *   cd django-registration
     *   python setup.py install
 
+*   Python Imaging Library (for screenshot handling)
+
+    *   This is a requirement for Django and Sphinx.
+
 
 Not required yet (might be as we add more functionality to the site):
 
-*   Python Imaging Library (for screenshot handling)
 *   easy_install python-openid
 
 Installation
@@ -85,6 +88,7 @@ Installation
         *   ``'django.contrib.humanize'``
         *   ``'haystack'``
         *   ``'registration'``
+        *   ``'south'``
         *   ``'scipy_central.filestorage'``
         *   ``'scipy_central.pages'``
         *   ``'scipy_central.person'``
