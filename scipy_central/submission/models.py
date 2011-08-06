@@ -365,17 +365,3 @@ class ZipFile(models.Model):
     def __unicode__(self):
         return self.raw_zip_file.name
 
-    def save(self, *args, **kwargs):
-        """ Override the model's saving function to resize the screenshot
-        """
-        #zip_file.seek(0)
-        #zip_f = zipfile.ZipFile(StringIO(zip_file.read()))
-        #zip_nfiles = len(zip_f.filelist)
-        #zip_f.close()
-
-        #self.raw_zip_file.seek(0)
-        #zip_file = zipfile.ZipFile(StringIO(self.raw_zip_file.read()))
-        #self.zip_hash = md5(''.join(zip_file.namelist())).hexdigest()
-        #zip_file.close()
-
-        super(ZIP_file, self).save(*args, **kwargs)

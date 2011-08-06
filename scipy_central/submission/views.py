@@ -16,7 +16,8 @@ from django.core.files.uploadedfile import UploadedFile
 from scipy_central.person.views import create_new_account_internal
 from scipy_central.filestorage.models import FileSet
 from scipy_central.tagging.views import get_and_create_tags
-from scipy_central.utils import send_email, paginated_queryset, highlight_code
+from scipy_central.utils import (send_email, paginated_queryset,
+                                 highlight_code, ensuredir)
 from scipy_central.rest_comments.views import compile_rest_to_html
 from scipy_central.pages.views import page_404_error, not_implemented_yet
 from scipy_central.pagehit.views import create_hit, get_pagehits
@@ -32,14 +33,15 @@ import logging
 import os
 import re
 import datetime
-#import zipfile
-#try:
-#    from cStringIO import StringIO
-#except ImportError:
-#    from StringIO import StringIO
+import shutil
+import zipfile
+import fnmatch
 
 logger = logging.getLogger('scipycentral')
 logger.debug('Initializing submission::views.py')
+
+# We will strip out directories from common revision control systems
+common_rcs_dirs = ['.hg', '.git', '.bzr', '.svn',]
 
 
 def get_items_or_404(view_function):
@@ -266,24 +268,72 @@ def create_or_edit_submission_revision(request, item, is_displayed,
 
         rev.save()
 
+        # Storage location: if we do save files it will be here
+        datenow = datetime.datetime.now()
+        year, month = datenow.strftime('%Y'), datenow.strftime('%m')
+        repo_path = os.path.join(year, month, '%06d'% sub.id)
+        #ensuredir(repo_path)
+        full_repo_path = os.path.join(settings.SPC['storage_dir'], repo_path)
+        ensuredir(full_repo_path)
+
         if sub.sub_type == 'package':
             # Save the uploaded file to the server. At this point we are sure
             # it's a valid ZIP file, has no malicious filenames, and can be
             # unpacked to the hard drive. See validation in ``forms.py``.
-            # Move the Uploaded ZIP file from the temporary location to the
-            # file location; unzip it; delete the old file
-            # Create "LICENSE.txt" and "DESCRIPTION.txt"
+
+            # Copy ZIP file, delete original
             zip_file = request.FILES['package_file']
 
+            dst = os.path.join(full_repo_path, zip_file.name)
+            src = os.path.join(settings.SPC['ZIP_staging'], zip_file.name)
+
+            shutil.copyfile(src, dst)
+            os.remove(src)
+
+            # Remove the entry from the database
+            zip_hash = request.POST.get('package_hash', '')
+            zip_objs = models.ZipFile.objects.filter(zip_hash=zip_hash)
+            if zip_objs:
+                zip_objs[0].delete()
+
+            # Unzip file and commit contents to the repo
+            zip_f = zipfile.ZipFile(dst, 'r')
+            zip_f.extractall(full_repo_path)
+            zip_f.close()
+
+            # Delete common RCS directories that might have been in the ZIP
+            for path, dirs, files in os.walk(full_repo_path):
+                if os.path.split(path)[1] in common_rcs_dirs:
+                    shutil.rmtree(path, ignore_errors=True)
+
+            # Create the repo
+            sub.fileset = FileSet.objects.create(repo_path=repo_path)
+            sub.fileset.create_empty()
+            sub.save()
+
+            # Then add all files from the ZIP file to the repo
+            for path, dirs, files in os.walk(full_repo_path):
+                if os.path.split(path)[1] == '.' + \
+                                          settings.SPC['revisioning_backend']:
+                    continue
+                for name in files:
+                    if not fnmatch.fnmatch(name, zip_file.name):
+                        sub.fileset.add_file(os.path.join(path, name))
+
+            # Add "DESCRIPTION.txt"
+            descrip_name = os.path.join(full_repo_path, 'DESCRIPTION.txt')
+            descrip_file = file(descrip_name, 'w')
+            descrip_file.write(rev.description)
+            descrip_file.close()
+            sub.fileset.add_file(descrip_name, user=user,
+                            commit_msg=('Added files from web-uploaded ZIP '
+                                        'file. Added DESCRIPTION.txt also.'))
 
         if sub.sub_type == 'snippet':
             fname = rev.slug.replace('-', '_') + '.py'
             if not item.cleaned_data['pk']:
             # Create a new repository for the files
-                datenow = datetime.datetime.now()
-                year, month = datenow.strftime('%Y'), datenow.strftime('%m')
-                repo_path = year + os.sep + month + os.sep + '%06d'% sub.id +\
-                          os.sep
+
                 sub.fileset = FileSet.objects.create(repo_path=repo_path)
                 sub.save()
                 commit_msg = ('Add "%s" to the repo '
@@ -299,6 +349,8 @@ def create_or_edit_submission_revision(request, item, is_displayed,
                                              request.POST['snippet_code'],
                                              user=user.username,
                                              commit_msg=commit_msg)
+
+        if sub.sub_type in ['snippet', 'package']:
             license_file = settings.SPC['license_filename']
             license_text = get_license_text(rev)
             sub.fileset.add_file_from_string(license_file, license_text,
@@ -432,7 +484,7 @@ def new_or_edit_submission(request, bound_form=False):
         itemtype = 'package'
         buttontext_extra = '(Upload ZIP file on next page)'
         new_item_or_edit = True
-        return not_implemented_yet(request, 48)
+        #return not_implemented_yet(request, 48)
     elif 'link' in buttons:
         itemtype = 'link'
         new_item_or_edit = True

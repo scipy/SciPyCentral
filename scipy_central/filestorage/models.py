@@ -4,10 +4,14 @@ from scipy_central import utils
 from dvcs_wrapper import DVCSError, DVCSRepo
 # Python imports
 import os
+import logging
 
 storage_dir = settings.SPC['storage_dir']
 backend = settings.SPC['revisioning_backend']
 revisioning_executable = settings.SPC['revisioning_executable']
+
+logger = logging.getLogger('scipycentral')
+logger.debug('Initializing filestorage::models.py')
 
 class FileSet(models.Model):
     """
@@ -26,6 +30,16 @@ class FileSet(models.Model):
 
         utils.ensuredir(storage_dir + self.repo_path)
         super(FileSet, self).save(*args, **kwargs)
+
+    def create_empty(self):
+        """
+        Create an empty repo (``init``)
+        """
+        repo = DVCSRepo(backend, storage_dir + self.repo_path, do_init=True,
+                        dvcs_executable=revisioning_executable)
+        # Save the location for next time
+        globals()['revisioning_executable'] = repo.executable
+
 
     def add_file_from_string(self, filename, list_strings, commit_msg='',
                                  user=None):
@@ -53,6 +67,27 @@ class FileSet(models.Model):
                 pass
             else:
                 raise
+
+        if commit_msg:
+            repo.commit(commit_msg, user=user)
+
+
+    def add_file(self, filename, commit_msg='', user=None):
+        """
+        Add a sequence of file to the repo
+
+        A commit will be written to the repo is ``commit_msg`` is not
+        empty.
+        """
+        repo = DVCSRepo(backend, storage_dir + self.repo_path, do_init=False,
+                        dvcs_executable=revisioning_executable)
+
+        # Only add this file
+        try:
+            repo.add(filename)
+        except DVCSError as e:
+            logger.error('DVCS error: %s' % e.original_message)
+
 
         if commit_msg:
             repo.commit(commit_msg, user=user)

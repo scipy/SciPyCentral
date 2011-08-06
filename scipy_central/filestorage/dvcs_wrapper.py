@@ -25,8 +25,9 @@ testing = False
 
 class DVCSError(Exception):
     """ Exception class used to raise errors related to the DVCS operations."""
-    def __init__(self, value):
+    def __init__(self, value, original_message=''):
         self.value = value
+        self.original_message = original_message
 
 class DVCSRepo(object):
     """
@@ -188,7 +189,8 @@ class DVCSRepo(object):
         command.extend(patterns)
         out = self.run_dvcs_command(command)
         if out != None and out != 0:
-            raise DVCSError('Could not add one or more files to repository.')
+            raise DVCSError('Could not add one or more files to repository.',
+                            original_message=str(out))
 
     def check_out(self, rev='tip'):
         """

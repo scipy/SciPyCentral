@@ -8,7 +8,7 @@ import os, sys
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, parent_dir)
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -168,12 +168,6 @@ REGISTRATION_OPEN = True    # permit users to create new accounts
 CSRF_FAILURE_VIEW = 'scipy_central.pages.views.csrf_failure'
 
 
-if DEBUG:
-    import tempfile
-    tempdir = tempfile.mkdtemp()
-else:
-    tempdir = ''
-
 # These settings define and modify the behaviour of the entire website.
 # SciPy Central = SPC.
 SPC = {
@@ -198,10 +192,6 @@ SPC = {
     # where <storage> is the variable defined next, as should always end
     # with ``os.sep``
     #
-    # Please ensure this directory is NOT somewhere under your web root,
-    # to prevent direct access to the files (note that the setting as written
-    # in here might be under the webroot).
-    #
     # Must end with a trailing ``os.sep`` character
     'storage_dir': MEDIA_ROOT + 'code' + os.sep,
 
@@ -213,18 +203,18 @@ SPC = {
 
     # Where are ZIP files staged? User's upload ZIP files; only the submission
     # is created, we retrieve the staged ZIP file and handle it appropriately
-    # The staged files are then deleted. i.e. these is like a "tempdir", and
-    # should not be web-accessible.
-    'ZIP_staging': 'zip-staging',
+    # The staged files are then deleted. i.e. these is like a "tempdir"
+    #
+    'ZIP_staging': MEDIA_ROOT + 'zip-staging',
 
     # Where should logfiles be written? If DEBUG != True, then you are
     # responsible that this location is valid and exists. Overwrite the
     # location in ``local_settings.py`` below.
-    'logfile_location': tempdir + os.sep + 'logfile.log',
+    'logfile_location': 'logfile.log',
 
     # Comments are compiled (using Sphinx) in this location. Again, you are
     # required to sure this location exists for production servers.
-    'comment_compile_dir': tempdir + os.sep + 'compile',
+    'comment_compile_dir': 'compile',
 
     # Default name of license file (e.g. 'COPYING.TXT')
     'license_filename': 'COPYING.TXT',
@@ -234,13 +224,13 @@ SPC = {
 
     # Page hit horizon in days. Lists of views are sorted by the number of page
     # views over the past NNN days (the horizon).
-    'hit_horizon': 30,
+    'hit_horizon': 60,
 
     # Number of entries per page is search output and table outputs
     'entries_per_page': 20,
 
     # SciPy Central version
-    'version': 0.15,
+    'version': 0.16,
 
     # Library submission maximum size (in bytes)
     'library_max_size': 25 * 1024 * 1024,
