@@ -142,6 +142,7 @@ INSTALLED_APPS = (
     # 3rd party apps:
     'haystack',
     'registration',
+    'south',
 
     #  Local apps
     'scipy_central.filestorage',
