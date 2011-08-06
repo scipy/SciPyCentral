@@ -28,12 +28,12 @@ def create_hit(request, item, extra_info=None):
     ua_string = request.META.get('HTTP_USER_AGENT', '')
     try:
         page_hit = models.PageHit(ip_address=ip_address, ua_string=ua_string,
-                                 item=item._meta.module_name, item_pk=item.pk,)
-                                 #extra_info=extra_info)
+                                 item=item._meta.module_name, item_pk=item.pk,
+                                 extra_info=extra_info)
     except AttributeError:
         page_hit = models.PageHit(ip_address=ip_address, ua_string=ua_string,
-                                 item=item, item_pk=static_items.get(item, 0),)
-                                 #extra_info=extra_info)
+                                 item=item, item_pk=static_items.get(item, 0),
+                                 extra_info=extra_info)
 
     page_hit.save()
 
