@@ -484,7 +484,7 @@ def new_or_edit_submission(request, bound_form=False):
         itemtype = 'package'
         buttontext_extra = '(Upload ZIP file on next page)'
         new_item_or_edit = True
-        #return not_implemented_yet(request, 48)
+        return not_implemented_yet(request, 48)
     elif 'link' in buttons:
         itemtype = 'link'
         new_item_or_edit = True
