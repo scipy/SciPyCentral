@@ -49,11 +49,13 @@
   </div>
 
   {% if permalink %}
+    <div class="spc-minor-info">
       <div class="spc-permalink">
       <p>{% if theuser.id %}Identifier #: <b>{{ theuser.id }}</b>{% endif %}
       <p>Permalink to this profile: <a href="{{permalink}}">{{permalink}}</a>
       </div>
-    {% endif %}
+    </div>
+  {% endif %}
   <div style="clear:both;">&nbsp;</div>
 
 

@@ -8,7 +8,7 @@ import os, sys
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, parent_dir)
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -240,7 +240,7 @@ SPC = {
     'entries_per_page': 20,
 
     # SciPy Central version
-    'version': 0.14,
+    'version': 0.15,
 
     # Library submission maximum size (in bytes)
     'library_max_size': 25 * 1024 * 1024,
