@@ -20,7 +20,7 @@ def add_screenshot(request):
         msg = ('<div class="spc-item-upload-success" style="float: left;">'
                'Upload successful. Insert the image in your description as'
                '&nbsp;&nbsp;&nbsp; <tt>:image:`%s`</tt><br>'
-               '<b>Scale</b> image down to 40%% of maximum: &nbsp;&nbsp;&nbsp;'
+               'Want a <b>smaller</b> image? e.g. scale down to 40%%: &nbsp;&nbsp;&nbsp;'
                '<tt>:image:`%s;40`</tt><br></div>') %\
                             (img.img_file_raw.name.partition('/')[2],
                              img.img_file_raw.name.partition('/')[2])

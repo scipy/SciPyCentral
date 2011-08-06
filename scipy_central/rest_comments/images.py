@@ -25,7 +25,9 @@ def make_link_role(base_url, app):
                  'wspec': None, 'hspec': None}
         if re.search(r'(?P<scaling>\d+)', text_rest):
             specs['scaling'] = abs(float(text_rest))
-            specs['scaling'] = min(100, specs['scaling'])
+            # Don't allow image sizes smaller than 15% of maximum width or
+            # height. Also, not greater than 100%
+            specs['scaling'] = max(15.0, min(100, specs['scaling']))
 
         img_dir = app.env.config.SPC['resized_image_dir'].partition(os.sep)[0]
         img_file = os.path.join(img_dir, text_part[0])
