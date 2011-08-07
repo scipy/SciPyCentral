@@ -86,7 +86,13 @@
 	  {% if preview %}
 		<span class="spc-item-entry"><i>Links to the ZIP file contents will appear here</i></span>
 	  {% else %}
-	    <span class="spc-item-entry">Details about files inside item go here</span>
+	    <span class="spc-item-entry">
+		  <ul>
+			{% for file in package_files %}
+			  <li>{{file}}
+			{% endfor %}
+		  </ul>
+		</span>
 	  {% endif %}
     </div>
     {% endif %}

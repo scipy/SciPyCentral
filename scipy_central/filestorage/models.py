@@ -1,11 +1,13 @@
 from django.db import models
 from django.conf import settings
 from scipy_central import utils
+from django.utils.datastructures import SortedDict
+
 from dvcs_wrapper import DVCSError, DVCSRepo
 # Python imports
 import os
 import logging
-
+import shutil
 storage_dir = settings.SPC['storage_dir']
 backend = settings.SPC['revisioning_backend']
 revisioning_executable = settings.SPC['revisioning_executable']
@@ -19,7 +21,6 @@ class FileSet(models.Model):
     defines where those files are stored, creates that storage, and has
     class methods to add files to the storage location.
     """
-
     # Where will the files be stored. Path name should always end with a slash
     repo_path = models.CharField(max_length=500)
     created = models.DateTimeField(auto_now_add=True)
@@ -30,6 +31,7 @@ class FileSet(models.Model):
 
         utils.ensuredir(storage_dir + self.repo_path)
         super(FileSet, self).save(*args, **kwargs)
+
 
     def create_empty(self):
         """
@@ -93,6 +95,39 @@ class FileSet(models.Model):
 
         if commit_msg:
             repo.commit(commit_msg, user=user)
+
+    def list_iterator(self):
+        """
+        COMMENT NOT TRUE YET:
+
+        Returns a list of all files in a repo. For example, if the repo has:
+            /dir1/abc.png
+            /dir1/def.png
+            /dir2/            <-- empty dir
+            /dir3/dir4/frg.png
+            /dir3/tyr.png
+            ghw.png
+            yqr.png
+
+        This function will return a Django ``SortedDict`` data structure:
+        [ {'dir1': ['abc.png', 'def.png'],
+          'dir2': [],
+          'dir3': [{'dir4': 'frg.png'}, 'tyr.png'],
+          },
+          'ghw.png',
+          'yqr.png'
+        ]
+        """
+        common = os.path.join(storage_dir, self.repo_path) + os.sep
+        for path, dirs, files in os.walk(os.path.join(storage_dir, self.repo_path)):
+            dirname = os.path.split(path)[1]
+            if dirname in settings.SPC['common_rcs_dirs']:
+                for entry in dirs[:]:
+                    dirs.remove(entry)
+            else:
+                for fname in files:
+                    yield (path + os.sep + fname).partition(common)[2]
+
 
     def __unicode__(self):
         return '<storage_dir>/' + self.repo_path

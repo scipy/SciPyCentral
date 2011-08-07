@@ -237,6 +237,10 @@ SPC = {
 
     # Image (screenshots) maximum size (in bytes)
     'image_max_size': 2 * 1024 * 1024,
+
+    # We will strip out directories from common revision control systems
+    # when users upload (ZIP) files
+    'common_rcs_dirs': ['.hg', '.git', '.bzr', '.svn',],
 }
 
 # All about ``local_settings.py``

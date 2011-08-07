@@ -39,10 +39,6 @@ import zipfile
 logger = logging.getLogger('scipycentral')
 logger.debug('Initializing submission::views.py')
 
-# We will strip out directories from common revision control systems
-common_rcs_dirs = ['.hg', '.git', '.bzr', '.svn',]
-
-
 def get_items_or_404(view_function):
     """
     Decorator for views that ensures the revision and submission requested
@@ -304,7 +300,7 @@ def create_or_edit_submission_revision(request, item, is_displayed,
 
             # Delete common RCS directories that might have been in the ZIP
             for path, dirs, files in os.walk(full_repo_path):
-                if os.path.split(path)[1] in common_rcs_dirs:
+                if os.path.split(path)[1] in settings.SPC['common_rcs_dirs']:
                     shutil.rmtree(path, ignore_errors=True)
 
             # Create the repo
@@ -669,6 +665,9 @@ def view_link(request, submission, revision):
                         -datetime.timedelta(days=settings.SPC['hit_horizon']),
                         item_pk=submission.id)
 
+    if submission.sub_type == 'package':
+        package_files = list(submission.fileset.list_iterator())
+
     return render_to_response('submission/item.html', {},
                               context_instance=RequestContext(request,
                                 {'item': revision,
@@ -677,6 +676,7 @@ def view_link(request, submission, revision):
                                  'latest_link': latest_link,
                                  'pageviews': pageviews,
                                  'pageview_days': settings.SPC['hit_horizon'],
+                                 'package_files': package_files,
                                 }))
 
 
