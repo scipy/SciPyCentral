@@ -254,7 +254,7 @@ class Revision(models.Model):
                 n += 1
                 sub = Submission.objects.all().filter(pk=self.entry.pk-n)
                 if len(sub):
-                    break
+                    continue
                 else:
                     return None
             return sub[0].get_absolute_url()
@@ -270,7 +270,7 @@ class Revision(models.Model):
                 n += 1
                 sub = Submission.objects.all().filter(pk=self.entry.pk+n)
                 if len(sub):
-                    break
+                    continue
                 else:
                     return None
             return sub[0].get_absolute_url()
