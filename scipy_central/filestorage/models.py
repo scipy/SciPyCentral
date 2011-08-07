@@ -48,7 +48,7 @@ class FileSet(models.Model):
         the file. A commit will be written to the repo is ``commit_msg`` is not
         empty.
         """
-        fname = storage_dir + self.repo_path + filename
+        fname = os.path.join(storage_dir, self.repo_path, filename)
         f = open(fname, 'w')
         f.writelines(list_strings)
         f.close()

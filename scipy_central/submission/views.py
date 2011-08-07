@@ -325,7 +325,7 @@ def create_or_edit_submission_revision(request, item, is_displayed,
             descrip_file = file(descrip_name, 'w')
             descrip_file.write(rev.description)
             descrip_file.close()
-            sub.fileset.add_file(descrip_name, user=user,
+            sub.fileset.add_file(descrip_name, user=user.id,
                             commit_msg=('Added files from web-uploaded ZIP '
                                         'file. Added DESCRIPTION.txt also.'))
 
@@ -347,7 +347,7 @@ def create_or_edit_submission_revision(request, item, is_displayed,
 
             sub.fileset.add_file_from_string(fname,
                                              request.POST['snippet_code'],
-                                             user=user.username,
+                                             user=user.id,
                                              commit_msg=commit_msg)
 
         if sub.sub_type in ['snippet', 'package']:
