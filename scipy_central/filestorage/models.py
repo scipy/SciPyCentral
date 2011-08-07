@@ -33,12 +33,13 @@ class FileSet(models.Model):
 
     def create_empty(self):
         """
-        Create an empty repo (``init``)
+        Create an empty repo (``init``) and returns it.
         """
         repo = DVCSRepo(backend, storage_dir + self.repo_path, do_init=True,
                         dvcs_executable=revisioning_executable)
         # Save the location for next time
         globals()['revisioning_executable'] = repo.executable
+        return repo
 
 
     def add_file_from_string(self, filename, list_strings, commit_msg='',
@@ -72,15 +73,16 @@ class FileSet(models.Model):
             repo.commit(commit_msg, user=user)
 
 
-    def add_file(self, filename, commit_msg='', user=None):
+    def add_file(self, filename, commit_msg='', user=None, repo=None):
         """
-        Add a sequence of file to the repo
-
+        Add a sequence of file to the repo.
         A commit will be written to the repo is ``commit_msg`` is not
         empty.
         """
-        repo = DVCSRepo(backend, storage_dir + self.repo_path, do_init=False,
-                        dvcs_executable=revisioning_executable)
+        if repo is None:
+            repo = DVCSRepo(backend, storage_dir + self.repo_path,
+                            do_init=False,
+                            dvcs_executable=revisioning_executable)
 
         # Only add this file
         try:

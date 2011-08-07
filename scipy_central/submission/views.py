@@ -35,7 +35,6 @@ import re
 import datetime
 import shutil
 import zipfile
-import fnmatch
 
 logger = logging.getLogger('scipycentral')
 logger.debug('Initializing submission::views.py')
@@ -289,7 +288,7 @@ def create_or_edit_submission_revision(request, item, is_displayed,
             src = os.path.join(settings.SPC['ZIP_staging'], zip_file.name)
 
             shutil.copyfile(src, dst)
-            os.remove(src)
+            # os.remove(src) Keep the original ZIP file, for now
 
             # Remove the entry from the database
             zip_hash = request.POST.get('package_hash', '')
@@ -301,6 +300,7 @@ def create_or_edit_submission_revision(request, item, is_displayed,
             zip_f = zipfile.ZipFile(dst, 'r')
             zip_f.extractall(full_repo_path)
             zip_f.close()
+            os.remove(dst) # but delete the copy
 
             # Delete common RCS directories that might have been in the ZIP
             for path, dirs, files in os.walk(full_repo_path):
@@ -309,17 +309,23 @@ def create_or_edit_submission_revision(request, item, is_displayed,
 
             # Create the repo
             sub.fileset = FileSet.objects.create(repo_path=repo_path)
-            sub.fileset.create_empty()
+            repo = sub.fileset.create_empty()
             sub.save()
 
-            # Then add all files from the ZIP file to the repo
+
+            # Then add all files from the ZIP file to the repo. Add directories
+            # at a time rather than file-by-file.
             for path, dirs, files in os.walk(full_repo_path):
                 if os.path.split(path)[1] == '.' + \
                                           settings.SPC['revisioning_backend']:
                     continue
+                all_files = []
                 for name in files:
-                    if not fnmatch.fnmatch(name, zip_file.name):
-                        sub.fileset.add_file(os.path.join(path, name))
+                    all_files.append(os.path.join(path, name))
+
+                if all_files:
+                    repo.add(*all_files)
+
 
             # Add "DESCRIPTION.txt"
             descrip_name = os.path.join(full_repo_path, 'DESCRIPTION.txt')
