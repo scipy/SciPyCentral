@@ -11,9 +11,10 @@ def add_screenshot(request):
     img_form = ScreenshotForm(request.POST, request.FILES)
     if img_form.is_valid():
 
-        #TODO: CODE HERE TO PREVENT spaces;
-        #slugify the file name
-
+        # Somehow (not sure how yet) the file name is slugified, so that there
+        # will never be characters such as ";", "#", "&" etc in the names
+        # We benefit from that by allowing the magnifier setting to be
+        # specified after a ";" character.
         img = models.Screenshot(img_file_raw=img_form.\
                                               cleaned_data['spc_image_upload'])
         img.save()

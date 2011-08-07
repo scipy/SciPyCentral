@@ -237,7 +237,7 @@ class DVCSRepo(object):
         command.extend([message,])
         if user:
             command.append(self.verbs['commit'][1][1])
-            command.extend([user,])
+            command.extend([str(user),])
 
         self.run_dvcs_command(command)
         return self.get_revision_info()

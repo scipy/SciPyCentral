@@ -250,6 +250,7 @@ def create_or_edit_submission_revision(request, item, is_displayed,
                             is_displayed=is_displayed,
                             )
 
+    user_url = settings.SPC['short_URL_root'] + 'user/' + str(user.id)
     if commit:
         # Save the submission, then the revision. If we have a primary key
         # (case happens when user is editing a previous submission), then
@@ -325,7 +326,7 @@ def create_or_edit_submission_revision(request, item, is_displayed,
             descrip_file = file(descrip_name, 'w')
             descrip_file.write(rev.description)
             descrip_file.close()
-            sub.fileset.add_file(descrip_name, user=user.id,
+            sub.fileset.add_file(descrip_name, user=user_url,
                             commit_msg=('Added files from web-uploaded ZIP '
                                         'file. Added DESCRIPTION.txt also.'))
 
@@ -337,17 +338,17 @@ def create_or_edit_submission_revision(request, item, is_displayed,
                 sub.fileset = FileSet.objects.create(repo_path=repo_path)
                 sub.save()
                 commit_msg = ('Add "%s" to the repo '
-                              'based on the web submission by user "%d"') %\
-                                                              (fname, user.id)
+                              'based on the web submission by user "%s"') %\
+                                                              (fname, user_url)
             else:
                 commit_msg = ('Update of file(s) in the repo '
-                              'based on the web submission by user "%d"') %\
-                                                              (user.id)
+                              'based on the web submission by user "%s"') %\
+                                                              (user_url)
 
 
             sub.fileset.add_file_from_string(fname,
                                              request.POST['snippet_code'],
-                                             user=user.id,
+                                             user=user_url,
                                              commit_msg=commit_msg)
 
         if sub.sub_type in ['snippet', 'package']:
@@ -537,15 +538,7 @@ def new_or_edit_submission(request, bound_form=False):
         # hyperlinks and CSRF
         context = RequestContext(request)
         context['item'] = theform
-
-        #if request.POST['sub_type'] == 'package':
-            #context['finish_button_text'] = 'Upload ZIP file and finish'
-            #zip_form = forms.ZIP_File_Form(request.POST, request.FILES)
-            #context['zip_form'] = zip_form
-        #else:
         context['finish_button_text'] = 'Finish submission'
-        #context['zip_form'] = ''
-
         html = ('<div id="spc-preview-edit-submit" class="spc-form">'
                 '<form action="{% url spc-new-submission %}" '
                 'method="POST" enctype="multipart/form-data">\n'
