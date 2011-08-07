@@ -455,7 +455,6 @@ li.spc-even tt {
 
 /* Image upload */
 #spc-item-upload {
-	border-top: 1px solid;
 }
 #spc-item-upload-button{
 	padding: 0.5em;

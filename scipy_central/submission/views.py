@@ -484,7 +484,7 @@ def new_or_edit_submission(request, bound_form=False):
         itemtype = 'package'
         buttontext_extra = '(Upload ZIP file on next page)'
         new_item_or_edit = True
-        return not_implemented_yet(request, 48)
+        #return not_implemented_yet(request, 48)
     elif 'link' in buttons:
         itemtype = 'link'
         new_item_or_edit = True
@@ -751,13 +751,13 @@ def show_items(request, what_view='', extra_info=''):
     elif what_view == 'show' and extra_info == 'all-tags':
         page_title = 'All tags'
         template_name = 'submission/show-tag-cloud.html'
-    elif what_view == 'show' and extra_info =='all-revisions':
+    elif what_view == 'show' and extra_info == 'all-revisions':
         # Show all submissions in reverse time order
         all_revs = models.Revision.objects.all().order_by('-date_created')
         page_title = 'All revisions'
         extra_info = ''
         entry_order = list(all_revs)
-    elif what_view == 'show' and extra_info =='all-unique-revisions':
+    elif what_view == 'show' and extra_info == 'all-unique-revisions':
         all_subs = models.Submission.objects.all().order_by('-date_created')
         page_title = 'All submissions'
         extra_info = ' (only showing the latest revision)'
