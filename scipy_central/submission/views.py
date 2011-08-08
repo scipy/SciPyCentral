@@ -406,7 +406,8 @@ def get_license_text(rev):
 
     update_string = '\n'.join(update_list)
 
-    cc0 = """%s
+    if rev.sub_license.slug == 'cc0':
+        return """%s
 -----
 Originally written on %s by %s
 %s
@@ -422,12 +423,26 @@ Also see http://creativecommons.org/publicdomain/zero/1.0/
 -----
 %s
 """ % \
-(rev.title, datetime.datetime.strftime(rev.entry.date_created, '%d %B %Y'),
- settings.SPC['short_URL_root'] + 'users/' + rev.entry.created_by.profile.slug,
- update_string, rev.sub_license.text_template)
+            (rev.title, datetime.datetime.strftime(rev.entry.date_created,
+                                                   '%d %B %Y'),
+            settings.SPC['short_URL_root'] + 'users/' +\
+                                           rev.entry.created_by.profile.slug,
+            update_string, rev.sub_license.text_template)
 
-    if rev.sub_license.slug == 'cc0':
-        return cc0
+    if rev.sub_license.slug == 'bsd':
+
+        creator_url = settings.SPC['short_URL_root'] + 'user/' + \
+                                                str(item.created_by.id) + '/'
+        text = ('{{title}}\n'
+                'Copyright holder: {{copyright_holder}} (full details at this page)\n'
+                '-----\n') + rev.sub_license.text_template
+        context = {}
+        context['title'] = rev.title
+        context['copyright_holder'] = creator_url
+        context['year'] = datetime.datetime.now().year
+        resp = template.Template(text)
+        return resp.render(template.Context(context))
+
 
 #------------------------------------------------------------------------------
 # All submissions: have a form associated with them, as well as a number of
@@ -487,7 +502,7 @@ def new_or_edit_submission(request, bound_form=False):
         itemtype = 'package'
         buttontext_extra = '(Upload ZIP file on next page)'
         new_item_or_edit = True
-        #return not_implemented_yet(request, 48)
+        return not_implemented_yet(request, 48)
     elif 'link' in buttons:
         itemtype = 'link'
         new_item_or_edit = True
