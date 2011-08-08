@@ -665,8 +665,10 @@ def view_link(request, submission, revision):
                         -datetime.timedelta(days=settings.SPC['hit_horizon']),
                         item_pk=submission.id)
 
+    package_files = []
     if submission.sub_type == 'package':
         package_files = list(submission.fileset.list_iterator())
+
 
     return render_to_response('submission/item.html', {},
                               context_instance=RequestContext(request,
