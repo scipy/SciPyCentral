@@ -203,7 +203,7 @@ SPC = {
 
     # Where are ZIP files staged? User's upload ZIP files; only the submission
     # is created, we retrieve the staged ZIP file and handle it appropriately
-    # The staged files are then deleted. i.e. these is like a "tempdir"
+    # The staged files are then deleted. i.e. this is like a "tempdir"
     #
     'ZIP_staging': MEDIA_ROOT + 'zip-staging',
 

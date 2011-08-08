@@ -4,12 +4,7 @@ from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 
 from scipy_central.person.models import User
-
-#import zipfile
-#try:
-    #from cStringIO import StringIO
-#except ImportError:
-    #from StringIO import StringIO
+from scipy_central.utils import ensuredir
 
 class Module(models.Model):
     """
@@ -277,7 +272,6 @@ class Revision(models.Model):
         else:
             return None
 
-
     @property
     def previous_revision(self):
         all_revs = list(self.entry.revisions.absolutely_all())
@@ -353,7 +347,6 @@ class TagCreation(models.Model):
         return self.tag.name
 
 
-
 class ZipFile(models.Model):
     """ ZIP file model.
     """
@@ -365,3 +358,7 @@ class ZipFile(models.Model):
     def __unicode__(self):
         return self.raw_zip_file.name
 
+    def save(self, *args, **kwargs):
+        """ Override the model's saving function to create the slug """
+        ensuredir(settings.SPC['ZIP_staging'])
+        super(ZipFile, self).save(*args, **kwargs)
