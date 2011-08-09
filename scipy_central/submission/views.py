@@ -701,6 +701,7 @@ def download_submission(request, submission, revision):
     zip_dir = os.path.join(settings.SPC['ZIP_staging'], 'download')
     ensuredir(zip_dir)
     if submission.sub_type == 'snippet':
+        create_hit(request, submission, extra_info="download")
         response = HttpResponse(mimetype="application/x-python")
         fname = submission.slug.replace('-', '_') + '.py'
         response["Content-Disposition"] = "attachment; filename=%s" % fname

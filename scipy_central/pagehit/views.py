@@ -20,9 +20,6 @@ def create_hit(request, item, extra_info=None):
 
     If the ``item`` is a string, then we assume it is a static item and use
     the dictionary above to look up its "primary key".
-
-    If ``extra_info`` is provided then (ab)use the user agent field and
-    store that string info instead.
     """
     ip_address = get_IP_address(request)
     ua_string = request.META.get('HTTP_USER_AGENT', '')
@@ -56,15 +53,18 @@ def get_pagehits(item, start_date=None, end_date=None, item_pk=None):
     if end_date is None:
         end_date = date.max
 
+    # extra_info=None to avoid counting download hits
     if item_pk is None:
         page_hits = models.PageHit.objects.filter(item=item).\
                                        filter(datetime__gte=start_date).\
-                                       filter(datetime__lte=end_date)
+                                       filter(datetime__lte=end_date).\
+                                       filter(extra_info=None)
     else:
         page_hits = models.PageHit.objects.filter(item=item).\
                                        filter(datetime__gte=start_date).\
                                        filter(datetime__lte=end_date).\
-                                       filter(item_pk=item_pk)
+                                       filter(item_pk=item_pk).\
+                                       filter(extra_info=None)
 
         return len(page_hits)
 
