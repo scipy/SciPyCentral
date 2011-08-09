@@ -1,5 +1,5 @@
 # All of Django's wonderful imports
-from django.shortcuts import render_to_response, redirect
+from django.shortcuts import render_to_response, redirect, HttpResponse
 from django.template import RequestContext
 from django.conf import settings
 #from django.core.files.base import ContentFile
@@ -83,7 +83,7 @@ def get_items_or_404(view_function):
 
         # Is the URL of the form: "..../NN/MM/edit"; if so, then edit the item
         path_split = request.path.split('/')
-        if len(path_split)>4 and path_split[4] == 'edit':
+        if len(path_split)>4 and path_split[4] in ['edit', 'download']:
             return view_function(request, the_submission, the_revision)
 
         # Is the URL not the canonical URL for the item? .... redirect the user
@@ -661,7 +661,7 @@ def validate_submission(request, code):
         return page_404_error(request, ('That validation code is invalid.'))
 
 #------------------------------------------------------------------------------
-# Viewing existing submissions:
+# View and download existing submissions:
 @get_items_or_404
 def view_link(request, submission, revision):
     """
@@ -696,6 +696,18 @@ def view_link(request, submission, revision):
                                  'package_files': package_files,
                                 }))
 
+@get_items_or_404
+def download_submission(request, submission, revision):
+    zip_dir = os.path.join(settings.SPC['ZIP_staging'], 'download')
+    ensuredir(zip_dir)
+    if submission.sub_type == 'snippet':
+        response = HttpResponse(mimetype="application/x-python")
+        fname = submission.slug.replace('-', '_') + '.py'
+        response["Content-Disposition"] = "attachment; filename=%s" % fname
+        source = Site.objects.get_current().domain + \
+                                                 submission.get_absolute_url()
+        response.write('# Source: ' + source + '\n\n' + revision.item_code)
+        return response
 
 #------------------------------------------------------------------------------
 # Editing submissions: decorator order is important!
