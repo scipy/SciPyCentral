@@ -96,6 +96,29 @@ class FileSet(models.Model):
         if commit_msg:
             repo.commit(commit_msg, user=user)
 
+
+    def get_hash(self):
+        """
+        Returns the current repo hash for this fileset
+        """
+        repo = DVCSRepo(backend, storage_dir + self.repo_path,
+                            do_init=False,
+                            dvcs_executable=revisioning_executable)
+        return repo.get_revision_info()[0:60]
+
+
+    def checkout_revision(self, hash_id):
+        """ Set the repo state to the revision given by ``hash_id``
+
+        Equivalent, for e.g., to ``hg checkout 28ed0c6faa19`` for that hash_id.
+        """
+        repo = DVCSRepo(backend, storage_dir + self.repo_path,
+                    do_init=False,
+                    dvcs_executable=revisioning_executable)
+        hash_str = repo.check_out(hash_id)
+        return hash_str == hash_id
+
+
     def list_iterator(self):
         """
         COMMENT NOT TRUE YET:

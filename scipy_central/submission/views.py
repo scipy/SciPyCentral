@@ -201,7 +201,7 @@ def create_or_edit_submission_revision(request, item, is_displayed,
     # Create a ``Revision`` instance. Must always have a ``title``,
     # ``created_by``, and ``description`` fields; the rest are set according
     # to the submission type, ``sub.sub_type``
-    hash_id = md5(post.get('snippet_code', '')).hexdigest()
+    hash_id = ''
     if sub.sub_type == 'link':
         sub_license = None
         item_url = item.cleaned_data['item_url']
@@ -359,6 +359,7 @@ def create_or_edit_submission_revision(request, item, is_displayed,
             sub.fileset.add_file_from_string(license_file, license_text,
                                              user="SciPy Central",
                             commit_msg="SPC: added/updated license file" )
+            rev.hash_id = sub.fileset.get_hash()
 
 
         # Once you have the revision you can add tags through the intermediate
@@ -442,7 +443,6 @@ Also see http://creativecommons.org/publicdomain/zero/1.0/
         context['year'] = datetime.datetime.now().year
         resp = template.Template(text)
         return resp.render(template.Context(context))
-
 
 #------------------------------------------------------------------------------
 # All submissions: have a form associated with them, as well as a number of
@@ -629,7 +629,8 @@ def new_or_edit_submission(request, bound_form=False):
 def create_validation_code(revision):
     """
     From BSD licensed code, James Bennett
-    https://bitbucket.org/ubernostrum/django-registration/src/58eef8330b0f/registration/models.py
+    https://bitbucket.org/ubernostrum/django-registration/src/58eef8330b0f/
+                                                         registration/models.py
     """
     salt = sha_constructor(str(random.random())).hexdigest()[:5]
     slug = revision.slug
@@ -698,10 +699,9 @@ def view_link(request, submission, revision):
 
 @get_items_or_404
 def download_submission(request, submission, revision):
-    zip_dir = os.path.join(settings.SPC['ZIP_staging'], 'download')
-    ensuredir(zip_dir)
+
+    create_hit(request, submission, extra_info="download")
     if submission.sub_type == 'snippet':
-        create_hit(request, submission, extra_info="download")
         response = HttpResponse(mimetype="application/x-python")
         fname = submission.slug.replace('-', '_') + '.py'
         response["Content-Disposition"] = "attachment; filename=%s" % fname
@@ -709,6 +709,53 @@ def download_submission(request, submission, revision):
                                                  submission.get_absolute_url()
         response.write('# Source: ' + source + '\n\n' + revision.item_code)
         return response
+
+    if submission.sub_type == 'package':
+        zip_dir = os.path.join(settings.SPC['ZIP_staging'], 'download')
+        ensuredir(zip_dir)
+        response = HttpResponse(mimetype="attachment; application/zip")
+        zip_name = '%s-%d-%d.zip' % (submission.slug, submission.id,
+                                     revision.rev_id_human)
+        response['Content-Disposition'] = 'filename=%s' % zip_name
+        full_zip_file = os.path.join(zip_dir, zip_name)
+        if not os.path.exists(full_zip_file):
+
+            # Set the repo's state to the state when that particular revision
+            # existed
+            out = submission.fileset.checkout_revision(revision.hash_id)
+            if out:
+                logger.info('Checked out revision "%s" for rev.id=%d' % \
+                            (revision.hash_id, revision.id))
+            else:
+                logger.error('Could not checked out revision "%s" for '
+                             'rev.id=%d' % (revision.hash_id, revision.id))
+                return page_404_error(request, ('Could not create the ZIP '
+                                                'file. This error has been '
+                                                'reported.'))
+
+            #zip_buf = StringIO()
+            zip_f = zipfile.ZipFile(full_zip_file, "w", zipfile.ZIP_DEFLATED)
+            src_dir = os.path.join(settings.SPC['storage_dir'],
+                                   submission.fileset.repo_path)
+            for path, dirs, files in os.walk(src_dir):
+                for name in files:
+                    file_name = os.path.join(path, name)
+                    file_h = open(file_name, "r")
+                    zip_f.write(file_name, file_name.partition(src_dir)[2])
+                    file_h.close()
+
+            for file_h in zip_f.filelist:
+                file_h.create_system = 0
+
+            zip_f.close()
+           # zip_buf.flush()
+           # zip_buf.seek(0)
+
+        zip_data = open(full_zip_file, "rb")
+        response.write(zip_data.read())
+        zip_data.close()
+        return response
+
 
 #------------------------------------------------------------------------------
 # Editing submissions: decorator order is important!
