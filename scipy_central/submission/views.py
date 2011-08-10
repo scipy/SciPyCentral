@@ -151,6 +151,10 @@ def get_form(request, form_class, field_order, bound=False):
                     uploaded_file.skip_validation = True # see ``forms.py``
                     request.FILES['package_file'] = uploaded_file
             form_output = form_class(request.POST, request.FILES)
+
+            if request.POST['sub_type'] == 'package' and zip_file:
+                form_output.fields['package_file'].initial = uploaded_file
+
     else:
         form_output = form_class()
 
@@ -225,7 +229,6 @@ def create_or_edit_submission_revision(request, item, is_displayed,
             zip_f.save()
 
 
-
     # Convert the raw ReST description to HTML using Sphinx: could include
     # math, paragraphs, <tt>, bold, italics, bullets, hyperlinks, etc.
     description_html = compile_rest_to_html(item.cleaned_data['description'])
@@ -268,7 +271,6 @@ def create_or_edit_submission_revision(request, item, is_displayed,
         datenow = datetime.datetime.now()
         year, month = datenow.strftime('%Y'), datenow.strftime('%m')
         repo_path = os.path.join(year, month, '%06d'% sub.id)
-        #ensuredir(repo_path)
         full_repo_path = os.path.join(settings.SPC['storage_dir'], repo_path)
         ensuredir(full_repo_path)
 
@@ -277,12 +279,21 @@ def create_or_edit_submission_revision(request, item, is_displayed,
             # it's a valid ZIP file, has no malicious filenames, and can be
             # unpacked to the hard drive. See validation in ``forms.py``.
 
-            # Copy ZIP file, delete original
-            zip_file = request.FILES['package_file']
+            # First empty the target directory from all files, except for
+            # the repository (.hg, .git, etc)
+            for path, dirs, files in os.walk(full_repo_path):
+                if path is full_repo_path:
+                    continue
+                if os.path.split(path)[1] in settings.SPC['common_rcs_dirs']:
+                    Remove the .hg dir from the walk
 
+                    shutil.rmtree(path, ignore_errors=True)
+
+
+            # Copy ZIP file
+            zip_file = request.FILES['package_file']
             dst = os.path.join(full_repo_path, zip_file.name)
             src = os.path.join(settings.SPC['ZIP_staging'], zip_file.name)
-
             shutil.copyfile(src, dst)
             # os.remove(src) Keep the original ZIP file, for now
 
@@ -502,7 +513,7 @@ def new_or_edit_submission(request, bound_form=False):
         itemtype = 'package'
         buttontext_extra = '(Upload ZIP file on next page)'
         new_item_or_edit = True
-        return not_implemented_yet(request, 48)
+        #return not_implemented_yet(request, 48)
     elif 'link' in buttons:
         itemtype = 'link'
         new_item_or_edit = True
@@ -511,10 +522,6 @@ def new_or_edit_submission(request, bound_form=False):
 
     # Important: make a copy of ``field_order``, since it may be altered
     field_order = SUBS[itemtype].field_order[:]
-    # Don't ask for package on the first screen; wait until user is about to
-    # commit the submission
-    #if itemtype == 'package' and commit==False:
-    #    field_order.remove('package')
 
     theform = get_form(request, form_class=SUBS[itemtype].form,
                        field_order=field_order, bound=bound_form)
@@ -733,7 +740,6 @@ def download_submission(request, submission, revision):
                                                 'file. This error has been '
                                                 'reported.'))
 
-            #zip_buf = StringIO()
             zip_f = zipfile.ZipFile(full_zip_file, "w", zipfile.ZIP_DEFLATED)
             src_dir = os.path.join(settings.SPC['storage_dir'],
                                    submission.fileset.repo_path)
@@ -748,9 +754,8 @@ def download_submission(request, submission, revision):
                 file_h.create_system = 0
 
             zip_f.close()
-           # zip_buf.flush()
-           # zip_buf.seek(0)
 
+        # Return the ZIP file
         zip_data = open(full_zip_file, "rb")
         response.write(zip_data.read())
         zip_data.close()

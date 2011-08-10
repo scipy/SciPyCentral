@@ -31,7 +31,7 @@
           {% endif %}
         {% else %}
           <li><a href="{% url spc-edit-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Improve this {{item.entry.sub_type}}</a></li>
-		  {% if item.entry.sub_type == "snippet" %}
+		  {% if item.entry.sub_type != "link" %}
 			<li><a href="{% url spc-download-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Download the code</a></li>
 		  {% endif %}
         {% endif %}
