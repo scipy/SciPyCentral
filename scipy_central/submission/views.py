@@ -326,7 +326,18 @@ def create_or_edit_submission_revision(request, item, is_displayed,
                                            settings.SPC['revisioning_backend'])
                 dst = os.path.join(full_repo_path , '.' + \
                                            settings.SPC['revisioning_backend'])
-                os.rename(src, dst)
+                try:
+                    os.rename(src, dst)
+                except os.error, e:
+                    # For cases when /tmp is on a different filesystem
+                    # (usually production servers)
+                    import errno
+                    if e.errno == errno.EXDEV:
+                        shutil.copytree(src, dst, symlinks=True)
+                        shutil.rmtree(src)
+                    else:
+                        raise
+
                 shutil.rmtree(temp_dir, ignore_errors=True)
                 repo = sub.fileset.get_repo()
             else:
