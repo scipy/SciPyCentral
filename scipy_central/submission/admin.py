@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import License, Submission, Revision, TagCreation
+from models import License, Submission, Revision, TagCreation, ZipFile
 
 class LicenseAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
@@ -19,7 +19,11 @@ class RevisionAdmin(admin.ModelAdmin):
 class TagCreationAdmin(admin.ModelAdmin):
     list_display = ('date_created', 'tag', 'created_by', 'revision')
 
+class ZipFileAdmin(admin.ModelAdmin):
+    list_display = ('date_added', 'zip_hash', 'raw_zip_file')
+
 admin.site.register(License, LicenseAdmin)
 admin.site.register(Submission, SubmissionAdmin)
 admin.site.register(Revision, RevisionAdmin)
 admin.site.register(TagCreation, TagCreationAdmin)
+admin.site.register(ZipFile, ZipFileAdmin)
