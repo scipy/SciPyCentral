@@ -35,6 +35,7 @@ import re
 import datetime
 import shutil
 import zipfile
+import tempfile
 
 logger = logging.getLogger('scipycentral')
 logger.debug('Initializing submission::views.py')
@@ -272,25 +273,30 @@ def create_or_edit_submission_revision(request, item, is_displayed,
         year, month = datenow.strftime('%Y'), datenow.strftime('%m')
         repo_path = os.path.join(year, month, '%06d'% sub.id)
         full_repo_path = os.path.join(settings.SPC['storage_dir'], repo_path)
-        ensuredir(full_repo_path)
+
 
         if sub.sub_type == 'package':
             # Save the uploaded file to the server. At this point we are sure
             # it's a valid ZIP file, has no malicious filenames, and can be
             # unpacked to the hard drive. See validation in ``forms.py``.
 
-            # First empty the target directory from all files, except for
-            # the repository (.hg, .git, etc)
-            for path, dirs, files in os.walk(full_repo_path):
-                if path is full_repo_path:
-                    continue
-                if os.path.split(path)[1] in settings.SPC['common_rcs_dirs']:
-                    Remove the .hg dir from the walk
 
-                    shutil.rmtree(path, ignore_errors=True)
+            if os.path.exists(full_repo_path) and sub.fileset.repo_path == \
+                                                                     repo_path:
+                # Make a temporary directory and copy the existing package
+                # repository to that location
+                temp_dir = tempfile.mkdtemp(prefix='tmp_spc_')
+                src = os.path.join(full_repo_path, '.' + \
+                                           settings.SPC['revisioning_backend'])
+                shutil.move(src, temp_dir)
+                shutil.rmtree(full_repo_path, ignore_errors=True)
+            else:
+                temp_dir = None
 
+            # Create/ensure destination directory exists
+            ensuredir(full_repo_path)
 
-            # Copy ZIP file
+               # Copy ZIP file
             zip_file = request.FILES['package_file']
             dst = os.path.join(full_repo_path, zip_file.name)
             src = os.path.join(settings.SPC['ZIP_staging'], zip_file.name)
@@ -314,10 +320,20 @@ def create_or_edit_submission_revision(request, item, is_displayed,
                 if os.path.split(path)[1] in settings.SPC['common_rcs_dirs']:
                     shutil.rmtree(path, ignore_errors=True)
 
-            # Create the repo
-            sub.fileset = FileSet.objects.create(repo_path=repo_path)
-            repo = sub.fileset.create_empty()
-            sub.save()
+
+            if temp_dir:
+                src = os.path.join(temp_dir, '.' + \
+                                           settings.SPC['revisioning_backend'])
+                dst = os.path.join(full_repo_path , '.' + \
+                                           settings.SPC['revisioning_backend'])
+                os.rename(src, dst)
+                shutil.rmtree(temp_dir, ignore_errors=True)
+                repo = sub.fileset.get_repo()
+            else:
+                # Create the repo
+                sub.fileset = FileSet.objects.create(repo_path=repo_path)
+                repo = sub.fileset.create_empty()
+                sub.save()
 
 
             # Then add all files from the ZIP file to the repo. Add directories
@@ -325,13 +341,17 @@ def create_or_edit_submission_revision(request, item, is_displayed,
             for path, dirs, files in os.walk(full_repo_path):
                 if os.path.split(path)[1] == '.' + \
                                           settings.SPC['revisioning_backend']:
+                    for entry in dirs[:]:
+                        dirs.remove(entry)
+
                     continue
+
                 all_files = []
                 for name in files:
                     all_files.append(os.path.join(path, name))
 
                 if all_files:
-                    repo.add(*all_files)
+                    repo.add(patterns=all_files, ignore_errors=True)
 
 
             # Add "DESCRIPTION.txt"
@@ -340,8 +360,8 @@ def create_or_edit_submission_revision(request, item, is_displayed,
             descrip_file.write(rev.description)
             descrip_file.close()
             sub.fileset.add_file(descrip_name, user=user_url,
-                            commit_msg=('Added files from web-uploaded ZIP '
-                                        'file. Added DESCRIPTION.txt also.'))
+                            commit_msg=('Added/updated files from web-uploaded '
+                                    'ZIP file. Added DESCRIPTION.txt also.'))
 
         if sub.sub_type == 'snippet':
             fname = rev.slug.replace('-', '_') + '.py'
@@ -444,7 +464,7 @@ Also see http://creativecommons.org/publicdomain/zero/1.0/
     if rev.sub_license.slug == 'bsd':
 
         creator_url = settings.SPC['short_URL_root'] + 'user/' + \
-                                                str(item.created_by.id) + '/'
+                                                str(rev.created_by.id) + '/'
         text = ('{{title}}\n'
                 'Copyright holder: {{copyright_holder}} (full details at this page)\n'
                 '-----\n') + rev.sub_license.text_template

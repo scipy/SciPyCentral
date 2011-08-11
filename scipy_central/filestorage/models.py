@@ -75,20 +75,19 @@ class FileSet(models.Model):
             repo.commit(commit_msg, user=user)
 
 
-    def add_file(self, filename, commit_msg='', user=None, repo=None):
+    def add_file(self, pattern, commit_msg='', user=None, repo=None):
         """
-        Add a sequence of file to the repo.
-        A commit will be written to the repo is ``commit_msg`` is not
-        empty.
+        Add a single file, or a file ``pattern``, to the repo.
+        A commit will be written to the repo if ``commit_msg`` is not empty.
         """
         if repo is None:
             repo = DVCSRepo(backend, storage_dir + self.repo_path,
                             do_init=False,
                             dvcs_executable=revisioning_executable)
 
-        # Only add this file
+
         try:
-            repo.add(filename)
+            repo.add(pattern)
         except DVCSError as e:
             logger.error('DVCS error: %s' % e.original_message)
 
@@ -105,6 +104,14 @@ class FileSet(models.Model):
                             do_init=False,
                             dvcs_executable=revisioning_executable)
         return repo.get_revision_info()[0:60]
+
+
+    def get_repo(self):
+        """
+        Returns the DVCS repo object
+        """
+        return DVCSRepo(backend, storage_dir + self.repo_path,
+                         dvcs_executable=revisioning_executable)
 
 
     def checkout_revision(self, hash_id):

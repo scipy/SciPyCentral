@@ -179,7 +179,7 @@ class DVCSRepo(object):
         if out != None and out != 0:
             raise DVCSError('Could not initialize repository at %s' % dest)
 
-    def add(self, *patterns):
+    def add(self, patterns, ignore_errors=False):
         """
         Adds one or more files to the repository, using Mercurial's syntax for
         ``hg add``.  See ``hg help patterns`` for the syntax.
@@ -188,7 +188,7 @@ class DVCSRepo(object):
         command.extend(self.verbs['add'][1])
         command.extend(patterns)
         out = self.run_dvcs_command(command)
-        if out != None and out != 0:
+        if out != None and out != 0 and not(ignore_errors):
             raise DVCSError('Could not add one or more files to repository.',
                             original_message=str(out))
 
