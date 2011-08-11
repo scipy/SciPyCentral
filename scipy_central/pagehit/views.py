@@ -23,6 +23,8 @@ def create_hit(request, item, extra_info=None):
     """
     ip_address = get_IP_address(request)
     ua_string = request.META.get('HTTP_USER_AGENT', '')
+    if extra_info is None:
+        extra_info = request.META.get('HTTP_REFERER', None)
     try:
         page_hit = models.PageHit(ip_address=ip_address, ua_string=ua_string,
                                  item=item._meta.module_name, item_pk=item.pk,
