@@ -710,6 +710,8 @@ def view_link(request, submission, revision):
 
     package_files = []
     if submission.sub_type == 'package':
+        # Update the repo to the version required
+        out = submission.fileset.checkout_revision(revision.hash_id)
         package_files = list(submission.fileset.list_iterator())
 
 
@@ -774,6 +776,10 @@ def download_submission(request, submission, revision):
                 file_h.create_system = 0
 
             zip_f.close()
+
+            # Return the repo checkout back to the most recent revision
+            out = submission.fileset.checkout_revision(submission.\
+                                                       last_revision.hash_id)
 
         # Return the ZIP file
         zip_data = open(full_zip_file, "rb")

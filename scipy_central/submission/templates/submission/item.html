@@ -22,19 +22,22 @@
       {# Only items with an ID are editable (prevents link showing when previewing a new item #}
       {% if not preview %}
 
-        {# Links can only be edited by their original author #}
-        {% if item.entry.sub_type == 'link' %}
+        {# Links and packages can only be edited by their original author; snippets can be edited by anyone #}
+        {% if item.entry.sub_type != 'snippet' %}
 
           {# If the signed-in user is the same as the creator of the current revision: show edit link#}
           {% if user.id == item.created_by.id %}
-            <li><a href="{% url spc-edit-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Edit your link</a></li>
+            <li>This is your submission: <a href="{% url spc-edit-submission item_id=item.entry.id rev_id=item.rev_id_human %}">want to improve it</a>?</li>
           {% endif %}
+
         {% else %}
           <li><a href="{% url spc-edit-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Improve this {{item.entry.sub_type}}</a></li>
-		  {% if item.entry.sub_type != "link" %}
-			<li><a href="{% url spc-download-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Download the code</a></li>
-		  {% endif %}
         {% endif %}
+
+		{% if item.entry.sub_type != "link" %}
+		  <li><a href="{% url spc-download-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Download the code</a></li>
+		{% endif %}
+
       {% endif %}
     </ul>
   </div>
