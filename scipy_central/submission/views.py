@@ -805,7 +805,8 @@ def download_submission(request, submission, revision):
 @get_items_or_404
 def edit_submission(request, submission, revision):
 
-    if submission.sub_type == 'link' and request.user != submission.created_by:
+    if submission.sub_type in ['link', 'package'] and \
+                                        request.user != submission.created_by:
         return page_404_error(request, ('You are not authorized to edit that '
                                         'submission. Only the original author '
                                         'may edit it.'))
