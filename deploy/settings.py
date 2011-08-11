@@ -217,7 +217,7 @@ SPC = {
     'comment_compile_dir': 'compile',
 
     # Default name of license file (e.g. 'COPYING.TXT')
-    'license_filename': 'COPYING.TXT',
+    'license_filename': 'LICENSE.TXT',
 
     # Short link URL root (must end with a trailing slash).
     'short_URL_root': 'http://scpyce.org/',
@@ -230,7 +230,7 @@ SPC = {
     'entries_per_page': 20,
 
     # SciPy Central version
-    'version': 0.18,
+    'version': 0.19,
 
     # Library submission maximum size (in bytes)
     'library_max_size': 25 * 1024 * 1024,

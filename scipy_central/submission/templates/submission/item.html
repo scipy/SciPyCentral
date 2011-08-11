@@ -79,9 +79,6 @@
     <div class="spc-item-row">
       <span class="spc-item-entry">{{item.item_highlighted_code|safe}}</span>
     </div>
-	<!--<div class="spc-item-row">-->
-	  <!--<span style="float: right"><a href="{% url spc-download-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Download code</a></span>-->
-	<!--</div>-->
 	<div class="spc-item-row">
       <span class="spc-item-label">Software license:</span>
       <span class="spc-item-entry">{{item.sub_license.description|safe}} (<a href="{% url spc-about-licenses%}">More details</a>)</span>
