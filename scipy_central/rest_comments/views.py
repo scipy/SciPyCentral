@@ -27,7 +27,7 @@ from scipy_central.screenshot.models import Screenshot
 working_dir = settings.SPC['comment_compile_dir']
 
 if Site._meta.installed:
-    site = 'http://' + Site.objects.get_current().domain
+    site = Site.objects.get_current().domain
 else:
     site = ''
 
@@ -102,15 +102,20 @@ def compile_rest_to_html(raw_rest):
 
         # Strip  '.. raw::'' directive
         raw = re.compile(r'^(\s*)..(\s*)raw(\s*)::(\s*)')
-        math_env = re.compile(r':math:`(.+?)`')
+        math_role = re.compile(r':math:`(.+?)`')
+        math_env = re.compile(r'^\s*.. math::*')
+        math_lines = []
         for idx, line in enumerate(raw_rest):
             if raw.match(line):
                 raw_rest[idx] = ''
 
+            if math_env.match(line):
+                math_lines.append(idx)
+
             # Fix double \\\\ in :math:` ... `
             outline = ''
             last_pos = 0
-            for math_str in math_env.finditer(line):
+            for math_str in math_role.finditer(line):
                 outline += line[last_pos:math_str.start()+7]
                 outline += math_str.group(1).replace('\\\\', '\\')
                 outline += '`'
@@ -118,6 +123,43 @@ def compile_rest_to_html(raw_rest):
 
             outline += line[last_pos:]
             raw_rest[idx] = outline
+
+        # Are there math environments we need to remove "\\" from?
+        for _, line_num in enumerate(math_lines):
+            # From http://ucomment.org
+            prefix_re = re.compile('^\s*')
+            prefix_match = prefix_re.match(raw_rest[line_num])
+            prefix = prefix_match.group()
+
+            # Search down to find where the math environment ends
+            finished = False
+            next_line = ''
+            end_line = line_num + 1
+            for idx, line in enumerate(raw_rest[line_num+1:]):
+                end_line += 1
+                bias = idx + 2
+                if line.strip() == '':
+                    # Keep looking further down
+                    for _, next_line in enumerate(raw_rest[line_num+bias:]):
+                        if next_line.strip() != '':
+                            finished = True
+                            break
+
+                if finished:
+                    next_prefix = prefix_re.match(next_line.rstrip('\n')).group()
+
+                    # Break if a non-blank line has the same, or lower indent
+                    # level than the environment's level (``prefix``)
+                    if len(next_prefix.expandtabs()) <= len(prefix.expandtabs()):
+                        break
+                    else:
+                        finished = False
+
+            # All done: replace the \\\\ with \\
+            for i, math_str in enumerate(raw_rest[line_num:end_line]):
+                math_str = math_str.replace('\\\\', '\\')
+                raw_rest[i+line_num] = math_str
+
 
 
         # Remove hyperlinks to remote items: e.g. .. include:: http://badstuff.com
