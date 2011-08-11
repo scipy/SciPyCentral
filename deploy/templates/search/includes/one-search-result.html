@@ -6,6 +6,7 @@
 	  <div class="spc-itemdisp-description spc-itemdisp-td" id="spc-item-{{entry.pk}}">
 		<div style="width: 42px; float: left;">
 		  {% if entry.entry.sub_type == 'snippet' %}<img src="{{MEDIA_URL}}single-file-list-icon-tiny.png">{% endif %}
+		  {% if entry.entry.sub_type == 'package' %}<img src="{{MEDIA_URL}}multiple-file-list-icon-tiny.png">{% endif %}
 		  {% if entry.entry.sub_type == 'link' %}<img src="{{MEDIA_URL}}external-link-list-icon-tiny.png">{% endif %}
 		</div>
 		<div style="width: 85%; float: left;">
