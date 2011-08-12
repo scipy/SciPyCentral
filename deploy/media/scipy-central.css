@@ -571,6 +571,12 @@ div.spc-item-row span.spc-item-entry {
 	text-align: left;
 }
 
+div.spc-item-row span.spc-item-entry ul{
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
 div.spc-item-row span.spc-50-50{
 	float: left;
 	width: 49%;

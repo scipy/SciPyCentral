@@ -34,7 +34,7 @@
           <li><a href="{% url spc-edit-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Improve this {{item.entry.sub_type}}</a></li>
         {% endif %}
 
-		{% if item.entry.sub_type != "link" %}
+		{% if item.entry.sub_type == "snippet" %}
 		  <li><a href="{% url spc-download-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Download the code</a></li>
 		{% endif %}
 
@@ -90,6 +90,7 @@
 	  {% if preview %}
 		<span class="spc-item-entry"><i>Links to the ZIP file contents will appear here</i></span>
 	  {% else %}
+	    <span class="spc-download-button"><a href="{% url spc-download-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Download all files</a></span>
 	    <span class="spc-item-entry">
 		  <ul>
 			{% for file in package_files %}
