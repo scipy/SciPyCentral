@@ -29,7 +29,7 @@ urlpatterns = patterns('scipy_central.submission.views',
     #
     # See unit tests in "tests.py" before making changes here
     url(r'^(?P<item_id>\d+)+(/)?(?P<rev_id>\d+)?(/)?(?P<slug>[-\w]+)?(/)?',
-                                           'view_link', name='spc-view-link'),
+                                           'view_item', name='spc-view-item'),
 
 
     # Validating an item

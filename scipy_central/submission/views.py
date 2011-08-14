@@ -702,7 +702,7 @@ def validate_submission(request, code):
 #------------------------------------------------------------------------------
 # View and download existing submissions:
 @get_items_or_404
-def view_link(request, submission, revision):
+def view_item(request, submission, revision):
     """
     Shows a submitted item to web users. The ``slug`` is always ignored, but
     appears in the URLs for the sake of search engines. The revision, if

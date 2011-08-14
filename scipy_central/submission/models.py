@@ -111,7 +111,7 @@ class Submission(models.Model):
         """ I can't seem to find a way to use the "reverse" or "permalink"
         functions to create this URL: do it manually, to match ``urls.py``
         """
-        return reverse('spc-view-link', args=[0]).rstrip('0') + \
+        return reverse('spc-view-item', args=[0]).rstrip('0') + \
                 '%d/%d/%s' % (self.pk, self.last_revision.rev_id+1, self.slug)
 
 
@@ -330,7 +330,7 @@ class Revision(models.Model):
         """ I can't seem to find a way to use the "reverse" or "permalink"
         functions to create this URL: do it manually, to match ``urls.py``
         """
-        return reverse('spc-view-link', args=[0]).rstrip('0') + \
+        return reverse('spc-view-item', args=[0]).rstrip('0') + \
                         '%d/%d/%s' % (self.entry.pk, self.rev_id+1, self.slug)
 
 

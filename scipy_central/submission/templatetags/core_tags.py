@@ -51,6 +51,8 @@ def most_viewed(field, num=5):
 def cloud(model_or_obj, num=5):
     """ Get a tag cloud """
     tag_uses = get_tag_uses()
+    if not(tag_uses):
+        return []
     tag_uses.sort(reverse=True)
     if num != 0:
         tag_uses = tag_uses[:num]
