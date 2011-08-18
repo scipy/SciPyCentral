@@ -157,7 +157,6 @@ def highlight_code(code):
                                                                linenostep=1,))
 
 
-
 def send_email(to_addresses, subject, message, from_address=None):
     """
     Basic function to send email according to the four required string inputs.

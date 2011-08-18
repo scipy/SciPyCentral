@@ -2,7 +2,6 @@
 from django.shortcuts import render_to_response, redirect, HttpResponse
 from django.template import RequestContext
 from django.conf import settings
-#from django.core.files.base import ContentFile
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.defaultfilters import slugify
 from django.template.loader import render_to_string
@@ -11,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.sites.models import Site
 from django.utils.hashcompat import sha_constructor
 from django.core.files.uploadedfile import UploadedFile
+from django.utils.encoding import force_unicode, smart_str
 
 # Imports from this app and other SPC apps
 from scipy_central.person.views import create_new_account_internal
@@ -36,6 +36,9 @@ import datetime
 import shutil
 import zipfile
 import tempfile
+import mimetypes; mimetypes.init()
+from pygments.lexers import guess_lexer_for_filename
+from pygments.util import ClassNotFound
 
 logger = logging.getLogger('scipycentral')
 logger.debug('Initializing submission::views.py')
@@ -46,7 +49,7 @@ def get_items_or_404(view_function):
     actually exist. If not, throws a 404, else, it calls the view function
     with the required inputs.
     """
-    def decorator(request, item_id, rev_id=None, slug=None):
+    def decorator(request, item_id, rev_id=None, slug=None, filename=None):
         """Retrieves the ``Submission`` and ``Revision`` objects when given,
         at a minimum the submission's primary key (``item_id``). Since the
         submission can have more than 1 revision, we can get a specific
@@ -84,8 +87,12 @@ def get_items_or_404(view_function):
 
         # Is the URL of the form: "..../NN/MM/edit"; if so, then edit the item
         path_split = request.path.split('/')
-        if len(path_split)>4 and path_split[4] in ['edit', 'download']:
-            return view_function(request, the_submission, the_revision)
+        if len(path_split)>4 and path_split[4] in ['edit', 'download', 'show']:
+            if path_split[4] == 'show' and len(path_split)>=6:
+                return view_function(request, the_submission, the_revision,
+                                     filename=path_split[5:])
+            else:
+                return view_function(request, the_submission, the_revision)
 
         # Is the URL not the canonical URL for the item? .... redirect the user
         else:
@@ -736,6 +743,85 @@ def view_item(request, submission, revision):
                                  'pageview_days': settings.SPC['hit_horizon'],
                                  'package_files': package_files,
                                 }))
+
+
+def get_display(submission, revision, filename):
+    """
+    Determines how to display a filetype, given its name
+    """
+    fname = filename[-1]
+    mime_guess = mimetypes.guess_type(fname)[0]
+    mime_type, mime_file = mime_guess.split('/')
+    if str(mime_type).startswith('image'):
+        # We only dislay certain image types
+        VALID_IMAGE_TYPES = ['gif', 'jpeg', 'png', 'bmp']
+        if mime_file in VALID_IMAGE_TYPES:
+            disp_type = 'image'
+            # Copy image over to media location
+            disp_obj = os.path.normpath(force_unicode(datetime.datetime.now()\
+            .strftime(smart_str(settings.SPC['resized_image_dir']))))\
+                    + os.sep + fname
+
+        return disp_type, disp_obj
+
+    # Set the repo to the correct revision
+    repo = submission.fileset.checkout_revision(revision.hash_id)
+    if not repo:
+        # Something went wrong when checking out the repo
+        logger.error('Could not checked out revision "%s" for '
+                             'rev.id=%d' % (revision.hash_id, revision.id))
+        return 'none', None
+
+
+    if str(mime_type).startswith('text'):
+
+        # Read the first 20 lines to send to the lexer guessing mechanism
+
+        open the file, read some lines
+
+        some_file_content = ''
+        try:
+            guess_lexer_for_filename(fname, some_file_content)
+        except ClassNotFound:
+            pass
+
+        else:
+            return disp_type, disp_obj
+
+    # All other file types are assumed to be binary
+    disp_type = 'binary'
+    disp_obj = link to file (add this capability to ``FileSet``)
+
+    return disp_type, disp_obj
+
+@get_items_or_404
+def show_file(request, submission, revision, filename):
+    key_parts = [str(submission.id), str(revision.id)]
+    key_parts.extend(filename)
+    key = md5('-'.join(key_parts)).hexdigest()
+
+    display = models.DisplayFile.objects.filter(fhash=key)
+    if display:
+        # Get the displayed item from the database rather than checking out
+        # the repository, determining the file type and HTML to display
+        obj = display[0]
+    else:
+        # Create the displayed item and store it in the database
+        disp_type, disp_obj = get_display(submission, revision, filename)
+        obj = models.DisplayFile.objects.create(fhash=key,
+                                                display_type=disp_type,
+                                                display_object=disp_obj)
+
+    # Now return ``obj``
+    if obj.display_type == 'image':
+        return HttpResponse('<img = ...')
+    elif obj.display_type == 'html':
+        return HttpResponse(obj.disp_object)
+    elif obj.display_type == 'binary':
+        return HttpResponse('<a href="%s">%s</a>' % (obj.display_obj,
+                                                      filename[-1]))
+    elif obj.display_type == 'none':
+        return HttpResponse(filename[-1])
 
 @get_items_or_404
 def download_submission(request, submission, revision):

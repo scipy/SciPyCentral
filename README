@@ -115,6 +115,7 @@ Installation
 
 
 #.	``./manage.py syncdb``
+#.  ``./manage.py migrate``          # to run the ``south`` db migrations
 #.	``./manage.py loaddata sample``  # to load licenses, tags and other data
 #.  ``./manage.py rebuild_index``    # to rebuild the Haystack search index
 #.  or ``./manage.py update_index``
@@ -136,6 +137,13 @@ To restore:
     #.  Delete your existing database.
 
     #.  Run: ``./manage.py syncdb`` to create the empty tables in the database.
+
+    #.  ``./manage.py migrate`` to run the ``south`` db migrations
+
+    #.  ``./manage.py reset contenttypes`` to remove the ``contenttypes``
+        objects created by ``syncdb``, which will inevitibly clash with those
+        restored from the database dump (in the next step). See
+        http://stackoverflow.com/questions/853796/problems-with-contenttypes-when-loading-a-fixture-in-django
 
     #.  ``./manage.py loaddata backup-YYYY-MM-DD-HH-MM-SS.json``
 
