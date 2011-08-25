@@ -664,6 +664,11 @@ def new_or_edit_submission(request, bound_form=False):
         send_email((user.email,), ("Thank you for your contribution "
                                         "to SciPy Central"), message=message)
 
+        message = render_to_string('submission/email_website_admin.txt',
+                                   ctx_dict)
+        send_email((settings.SERVER_EMAIL,), ('A new/edited submission was '
+                       'made on SciPy Central'), message=message)
+
         return render_to_response('submission/thank-user.html', ctx_dict,
                               context_instance=RequestContext(request,
                                     {'extra_message': extra_messages,
@@ -829,6 +834,9 @@ def get_display(submission, revision, filename):
 
 @get_items_or_404
 def show_file(request, submission, revision, filename):
+    """
+    Display a ``filename`` from a given ``submission`` and ``revision``
+    """
     key_parts = [str(submission.id), str(revision.id)]
     key_parts.extend(filename)
     key = md5('-'.join(key_parts)).hexdigest()
@@ -1022,7 +1030,4 @@ def show_items(request, what_view='', extra_info=''):
                                                  'page_title': page_title,
                                                  'extra_info': extra_info}))
 
-# This code isn't quite right: a user can create a revision: we should show
-# the particular revision which that user created, not necessarily the
-# latest revision of that submission.
 
