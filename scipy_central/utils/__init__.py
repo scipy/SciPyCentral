@@ -113,8 +113,9 @@ def _slug_strip(value, separator='-'):
     return value
 
 
-def highlight_code(code):
+def highlight_code(code, lexer=None):
     """ Uses Pygments to provide syntax highlighting.
+    By default, the highlighting assumes Python code.
     """
 # See this page for help with colouring: http://pygments.org/docs/tokens/
 #
@@ -152,7 +153,8 @@ def highlight_code(code):
     if code is None:
         return None
     else:
-        return highlight(code, lexers.PythonLexer(),
+        lexer_class = lexers.get_lexer_for_mimetype(lexer or 'text/x-python')
+        return highlight(code, lexer_class,
                                       formatters.HtmlFormatter(linenos=True,
                                                                linenostep=1,))
 

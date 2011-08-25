@@ -123,7 +123,10 @@ class FileSet(models.Model):
                     do_init=False,
                     dvcs_executable=revisioning_executable)
         hash_str = repo.check_out(hash_id)
-        return hash_str == hash_id
+        if hash_str==hash_id:
+            return repo
+        else:
+            return None
 
 
     def list_iterator(self):
