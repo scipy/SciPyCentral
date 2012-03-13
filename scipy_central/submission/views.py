@@ -989,8 +989,8 @@ def show_items(request, what_view='', extra_info=''):
     page_title = ''
     template_name = 'submission/show-entries.html'
     if what_view == 'tag':
-        all_revs = models.Revision.objects.all().\
-                                        filter(tags__slug=slugify(extra_info))
+        all_revs = models.Revision.objects.most_recent().\
+                                filter(tags__slug=slugify(extra_info))
         page_title = 'All entries tagged'
         extra_info = ': "%s"' % extra_info
         entry_order = list(all_revs)
