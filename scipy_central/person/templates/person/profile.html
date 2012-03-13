@@ -2,6 +2,11 @@
 
 {% block title %}User profile: {{theuser.username}}{% endblock %}
 
+{% block extra_head %}
+  {{ block.super }}
+  <meta name="robots" content="noindex" />
+{% endblock %}
+
 {% block content %}
 <div class="row-fluid">
 	<div class="span12">
