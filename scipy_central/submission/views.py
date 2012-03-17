@@ -674,7 +674,7 @@ def create_validation_code(revision):
         slug = slug.encode('utf-8')
     return sha_constructor(salt+slug).hexdigest()
 
-
+@login_required
 def validate_submission(request, code):
     """
     Validate a submission (via an emailed link to the user).
