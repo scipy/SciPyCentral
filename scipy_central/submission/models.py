@@ -148,7 +148,8 @@ class RevisionManager(models.Manager):
         return self.extra(where=[
             "submission_revision.id = "
             "     (SELECT id FROM submission_revision AS __sr_2 "
-            "      WHERE __sr_2.entry_id = submission_revision.entry_id "
+            "      WHERE (__sr_2.entry_id = submission_revision.entry_id "
+            "             AND __sr_2.is_displayed = 1) "
             "      ORDER BY __sr_2.date_created DESC LIMIT 1)"])
 
     def top_authors(self):
