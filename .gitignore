@@ -7,4 +7,5 @@ scipy-central.wpr
 compile
 xapian_index
 site_backup
-.*
+.project
+.pydevproject
