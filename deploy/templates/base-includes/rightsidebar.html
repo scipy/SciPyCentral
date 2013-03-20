@@ -1,0 +1,56 @@
+{% load core_tags %}
+<!--RightSideBar-->
+<div class="spc-rightsidebar span3">
+	<div class="navigation">
+		{% include "search/includes/main-search-box.html" %}
+	</div>
+	
+	{# Only items with an ID are editable (prevents link showing when previewing a new item #}
+	{% if not preview and item.entry %}
+		<div class="navigation">
+			<ul class="unstyled">
+				{# Links and packages can only be edited by their original author; snippets can be edited by anyone #}
+				{% if item.entry.sub_type != 'snippet' %}
+					 {# If the signed-in user is the same as the creator of the current revision: show edit link#}
+					 {% if user.id == item.created_by.id %}
+					 	<li class="nav-title underline-bold">Contribute</li>
+						<li>This is your submission <a href="{% url spc-edit-submission item_id=item.entry.id rev_id=item.rev_id_human %}">want to improve it</a>?</li>
+					{% endif %}
+				{% else %}
+					<li class="nav-title underline-bold">Contribute</li>
+					<li><a href="{% url spc-edit-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Improve this {{item.entry.sub_type}}</a></li>
+				{% endif %}
+			</ul>
+		</div>
+	{% endif %}
+
+	{% if item.entry.sub_type == "snippet" %}
+	<div class="navigation">
+		<ul class="unstyled">
+			<li class="nav-title underline-bold">Software License</li>
+			<li><span>{{item.sub_license.description|safe}} (<a href="{% url spc-about-licenses%}">More details</a>)</span></li>
+		</ul>
+	</div>
+	{% endif %}
+	
+	{% if permalink %}
+	<div class="navigation">
+		<ul class="unstyled">
+			<li class="nav-title underline-bold">Page Information</li>
+			<li>{% if pageviews %} Page views: {{pageviews}} (past {{pageview_days}} days) {% endif %}</li>
+			<li>{% if item.id %}Identifier: #{{item.entry.id}}{% endif %}</li>
+			<li>permalink (this revision): <a href="{{permalink}}">{{permalink}}</a></li>
+			<li>permalink (latest revision): <a href="{{latest_link}}">{{latest_link}}</a></li>
+		</ul>
+	</div>
+	{% endif %}
+	
+	<div class="navigation">
+		<ul class="unstyled">
+			<li class="nav-title underline-bold">Quick Links</li>
+			<li><a href="#">Documentation</a></li>
+			<li><a href="#">Mailing lists</a></li>
+			<li><a href="#">Developer Zone</a></li>
+		</ul>
+	</div>
+</div><!--/rightsidebar span3-->
