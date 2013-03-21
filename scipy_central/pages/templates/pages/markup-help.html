@@ -3,27 +3,45 @@
 {% block title %}Help with markup{% endblock %}
 
 {% block content %}
-
-<div id="spc-static-centering">
-
-<p>We use <a href="http://sphinx.pocoo.org/latest/rest.html">reStructuredText</a>. The &nbsp;<tt> ` </tt>&nbsp; character is the key next to &nbsp;<tt> 1 </tt>&nbsp; and above &nbsp;<tt> Tab </tt>&nbsp; on many keyboards.
-
-<h3 class="spc-help-section"><a href="#mathematics">Mathematics</a></h3>
-Being a website for scientific resources, we expect good mathematics. Use <a href="http://en.wikibooks.org/wiki/LaTeX/Mathematics#Greek_letters">LaTeX notation</a>.
-<div class="spc-item-row">
-    <span class="spc-50-50">This is inline math: \(z = x^2 + y^2\)</span>
-    <span class="spc-50-50"><tt>This is inline math: </tt><tt>\( </tt><tt>z = x^2 + y^2</tt><tt> \)</tt></span>
-</div>
-<div class="spc-item-row">
-    <span class="spc-50-50">and \(a = \sqrt{b}\) is an alternative way.</span>
-    <span class="spc-50-50"><tt>and :math:`a = \sqrt{b}` also gets you math.</tt></span>
-    <div style="clear:both;"></div>
-</div>
-<div class="spc-item-row">
-    <span class="spc-50-50">Longer mathematical statements:<div class="math">
+<div class="row-fluid"> <div class="span12">
+	<div class="row-fluid">
+		<div class="spc-page-title"><h3>Help with Markup</h3></div>
+		<p>We use <a href="http://sphinx.pocoo.org/latest/rest.html">reStructuredText</a>. The &nbsp;<tt> ` </tt>&nbsp; character is the key next to &nbsp;<tt> 1 </tt>&nbsp; and above &nbsp;<tt> Tab </tt>&nbsp; on many keyboards.</p>
+	</div>
+	
+	<div class="row-fluid">
+	<div class="span12">
+		<div class="row-fluid">
+			<h4 class="underline"><a href="#mathematics">Mathematics</a></h4>
+			<p>Being a website for scientific resources, we expect good mathematics. Use <a href="http://en.wikibooks.org/wiki/LaTeX/Mathematics#Greek_letters">LaTeX notation</a>.</p>
+		</div><!--/-->
+		
+		<div class="row-fluid">
+			<div class="span6">
+				<span>This is inline math: \(z = x^2 + y^2\)</span>
+			</div>
+			<div class="span6">
+				<span><tt>This is inline math: </tt><tt>\( </tt><tt>z = x^2 + y^2</tt><tt> \)</tt></span>
+			</div>
+		</div><!--/-->
+		
+		<div class="row-fluid">
+			<div class="span6">
+				<span>and \(a = \sqrt{b}\) is an alternative way.</span>
+			</div>
+			<div class="span6">
+				<span><tt>and :math:`a = \sqrt{b}` also gets you math.</tt></span>
+			</div>
+		</div><!--/-->
+		
+		<div class="row-fluid">
+		<div class="span6">
+			 <span>Longer mathematical statements:<div class="math">
 \[\begin{split}f_1(x, y) &amp;= y - x^2 = 0\\
 f_2(x, y) &amp;= y - x - 1 = 0\end{split}\]</div></span>
-    <span class="spc-50-50"><pre>Longer mathematical statements:
+		</div>
+		<div class="span6">
+		<span><pre>Longer mathematical statements:
 
 .. math::
 
@@ -31,28 +49,47 @@ f_2(x, y) &amp;= y - x - 1 = 0\end{split}\]</div></span>
     f_2(x, y) &= y - x - 1 = 0
 </pre>
 </span>
-</div>
-
-<div style="clear:both;"></div>
-<h3 class="spc-help-section"><a href="#styling">Basic text styling</a></h3>
-
-<div class="spc-item-row">
-    <span class="spc-50-50"><i>Text in italics</i></span>
-    <span class="spc-50-50"><tt>*Text in italics*</tt></span>
-</div>
-<div class="spc-item-row">
-    <span class="spc-50-50"><b>Bold text</b></span>
-    <span class="spc-50-50"><tt>**Bold text**</tt></span>
-</div>
-<div class="spc-item-row">
-    Bold and italics cannot be combined - <i>sorry</i>.
-</div>
-
-<div style="clear:both;"></div>
-<h3 class="spc-help-section"><a href="#bullet-points">Bullet points</a></h3>
-
-<div class="spc-item-row">
-    <span class="spc-50-50">
+		</div>
+		</div><!--/-->
+	</div>
+	</div><!--/row-fluid-->
+	
+	<div class="row-fluid">
+	<div class="span12">
+		<div class="row-fluid">
+			<h4 class="underline"><a href="#styling">Basic text styling</a></h4>
+		</div><!--/-->
+		
+		<div class="row-fluid">
+			<div class="span6"><span><i>Text in italics</i></span>
+			</div>
+			<div class="span6"><span><tt>*Text in italics*</tt></span>
+			</div>
+		</div><!--/-->
+		
+		<div class="row-fluid">
+			<div class="span6"><span><b>Bold text</b></span>
+			</div>
+			<div class="span6"><span><tt>**Bold text**</tt></span>
+			</div>
+		</div><!--/-->
+		
+		<div class="row-fluid">
+			<div class="span6">Bold and italics cannot be combined - <i>sorry</i>.
+			</div>
+		</div><!--/-->
+	</div>
+	</div><!--/row-fluid-->
+	
+	<div class="row-fluid">
+	<div class="span12">
+		<div class="row-fluid">
+			<h4 class="underline"><a href="#bullet-points">Bullet points</a></h4>
+		</div><!--/-->
+		
+		<div class="row-fluid">
+			<div class="span6">
+<span>
 <ul>
 <li>Start each line</li>
 <li>with an asterisk.<ul>
@@ -68,7 +105,9 @@ do not break levels.<ul>
 </ul>
 </li>
 </ul></span>
-    <span class="spc-50-50"><pre>
+			</div>
+			<div class="span6">
+<span><pre>
 *   Start each line
 *   with an asterisk.
 
@@ -83,9 +122,12 @@ do not break levels.<ul>
 
     -   Blank lines are optional.
 </pre></span>
-</div>
-<div class="spc-item-row">
-    <span class="spc-50-50">
+			</div>
+		</div><!--/-->
+		
+		<div class="row-fluid">
+			<div class="span6">
+<span>
 <ol class="arabic simple">
 <li>Start each line</li>
 <li>with a number sign and a period.<ol class="arabic">
@@ -97,7 +139,9 @@ do not break levels.<ul>
 </ol>
 </li>
 </ol></span>
-    <span class="spc-50-50"><pre>
+			</div>
+			<div class="span6">
+<span><pre>
 #.  Start each line
 #.  with a number sign and a period.
 
@@ -106,69 +150,99 @@ do not break levels.<ul>
 
         - And they may be combined.
 </pre></span>
+			</div>
+		</div><!--/-->
+	</div>
+	</div><!--/row-fluid-->
+	
+	
+	<div class="row-fluid">
+	<div class="span12">
+		<div class="row-fluid">
+			<h4 class="underline"><a href="#monospaced-text">Monospaced text</a></h3>
+		</div><!--/-->
+		
+		<div class="row-fluid">
+			<div class="span6"><span>Use backticks to write <tt>monospaced text</tt></span>
+			</div><!--/-->
+			<div class="span6"><span><tt>Use backticks to write ``monospaced text``</tt></span>
+			</div><!--/-->
+		</div>
+	</div>
+	</div><!--/row-fluid-->
+	
+	
+	<div class="row-fluid">
+	<div class="span12">
+		<div class="row-fluid">
+			<h4 class="underline"><a href="#images">Images</a></h4>
+			<p>You will be given a file name after uploading an image (see the bottom of the page where you create new submissions).</p>
+		</div><!--/-->
+		
+		<div class="row-fluid">
+			<div class="span6"><span><img src="{{MEDIA_URL}}internet-web-browser.png"></span>
+			</div>
+			<div class="span6"><span>Full size image <p><tt>:image:`internet-web-browser.png`</tt></span></div>
+		</div><!--/-->
+		
+		<div class="row-fluid">
+			<div class="span6"><span><img src="{{MEDIA_URL}}internet-web-browser.png" width="64"></span>
+			</div>
+			<div class="span6"><span>Reduce the image size <p><tt>:image:`internet-web-browser.png;25`</tt></span></div>
+		</div><!--/-->
+	</div>
+	</div><!--/row-fluid-->
+	
+	<div class="row-fluid">
+	<div class="span12">
+		<div class="row-fluid"><h4 class="underline"><a href="#hyperlinks">External hyperlinks</a></h4></div>
+		
+		<div class="row-fluid">
+			<div class="span6"><span>An <a href="http://example.com">inline</a> hyperlink</span>	
+			</div>
+			<div class="span6"><span ><tt>An `inline &lt;http://example.com&gt;`_ hyperlink</tt></span></div>
+		</div><!--/-->
+		
+		<div class="row-fluid">
+			<div class="span6"><span>Auto-converted when detected: <a href="http://example.com">http://example.com</a></span>
+			</div>
+			<div class="span6"><span><tt>Auto-converted when detected: http://example.com</tt></span>
+			</div>
+		</div><!--/-->
+	</div>
+	</div><!--/row-fluid-->
+	
+	<div class="row-fluid">
+	<div class="span12">
+		<div class="row-fluid"><h4 class="underline"><a href="#internal-links">Internal hyperlinks</a></h4></div>
+		<div class="row-fluid">
+			<div class="span6"><span>Link to a submission <a href="http://scipy-central.org/item/13">item #13</a></span>
+			</div>
+			<div class="span6"><span><tt>Link to a submission :id:`13`</tt> <small>(use the ID number shown on the submission's page)</small></span>
+			</div>
+		</div><!--/-->
+		<div class="row-fluid">
+			<div class="span6"><span>A submission <a href="http://scipy-central.org/item/13">with inline text</a> instead</span>
+			</div>
+			<div class="span6"><span><tt>A submission :id:`with inline text <13>` instead</tt></span>
+			</div>
+		</div><!--/-->
+		
+		<div class="row-fluid">
+			<div class="span6"><span>Tag links: <a href="http://scipy-central.org/item/tag/gpu">tag: gpu</a> or <a href="http://scipy-central.org/item/tag/cpu">inline form</a></span></div>
+			<div class="span6"><span class=" "><tt>Tag links: :tag:`gpu` or :tag:`inline form &lt;cpu&gt;`</tt></span></div>
+		</div>
+		
+		<div class="row-fluid">
+			<div class="span6"><span>Link to a user's profile <a href="http://scipy-central.org/user/3">user #3</a></span></div>
+			<div class="span6"><span><tt>Link to a user's profile :user:`3`</tt> <small>(use ID shown on the user's page)</small></span></div>
+		</div>
+
+	</div>
+	</div><!--/row-fluid-->
+
 </div>
-
-<div style="clear:both;"></div>
-<h3 class="spc-help-section"><a href="#monospaced-text">Monospaced text</a></h3>
-
-<div class="spc-item-row">
-    <span class="spc-50-50">Use backticks to write <tt>monospaced text</tt></span>
-    <span class="spc-50-50"><tt>Use backticks to write ``monospaced text``</tt></span>
-</div>
-
-
-<div style="clear:both;"></div>
-<h3 class="spc-help-section"><a href="#images">Images</a></h3>
-
-<div class="spc-item-row">
-    You will be given a file name after uploading an image (see the bottom of the page where you create new submissions).
-</div>
-
-<div class="spc-item-row">
-    <span class="spc-50-50"><img src="{{MEDIA_URL}}internet-web-browser.png"></span>
-    <span class="spc-50-50">Full size image <p><tt>:image:`internet-web-browser.png`</tt></span>
-</div>
-
-<div class="spc-item-row">
-    <span class="spc-50-50"><img src="{{MEDIA_URL}}internet-web-browser.png" width="64"></span>
-    <span class="spc-50-50">Reduce the image size <p><tt>:image:`internet-web-browser.png;25`</tt></span>
-</div>
-
-
-
-<div style="clear:both;"></div>
-<h3 class="spc-help-section"><a href="#hyperlinks">External hyperlinks</a></h3>
-
-<div class="spc-item-row">
-    <span class="spc-50-50">An <a href="http://example.com">inline</a> hyperlink</span>
-    <span class="spc-50-50"><tt>An `inline &lt;http://example.com&gt;`_ hyperlink</tt></span>
-</div>
-<div class="spc-item-row">
-    <span class="spc-50-50">Auto-converted when detected: <a href="http://example.com">http://example.com</a></span>
-    <span class="spc-50-50"><tt>Auto-converted when detected: http://example.com</tt></span>
-    <div style="clear:both;"></div>
-</div>
-
-<div style="clear:both;"></div>
-<h3 class="spc-help-section"><a href="#internal-links">Internal hyperlinks</a></h3>
-
-<div class="spc-item-row">
-    <span class="spc-50-50">Link to a submission <a href="http://scipy-central.org/item/13">item #13</a></span>
-    <span class="spc-50-50"><tt>Link to a submission :id:`13`</tt> <small>(use the ID number shown on the submission's page)</small></span>
-</div>
-<div class="spc-item-row">
-    <span class="spc-50-50">A submission <a href="http://scipy-central.org/item/13">with inline text</a> instead</span>
-    <span class="spc-50-50"><tt>A submission :id:`with inline text <13>` instead</tt></span>
-</div>
-<div class="spc-item-row">
-    <span class="spc-50-50">Tag links: <a href="http://scipy-central.org/item/tag/gpu">tag: gpu</a> or <a href="http://scipy-central.org/item/tag/cpu">inline form</a></span>
-    <span class="spc-50-50"><tt>Tag links: :tag:`gpu` or :tag:`inline form &lt;cpu&gt;`</tt></span>
-</div>
-<div class="spc-item-row">
-    <span class="spc-50-50">Link to a user's profile <a href="http://scipy-central.org/user/3">user #3</a></span>
-    <span class="spc-50-50"><tt>Link to a user's profile :user:`3`</tt> <small>(use ID shown on the user's page)</small></span>
-</div>
-</div>
+</div><!--/row-fluid-->
 {% endblock %}
 
 
