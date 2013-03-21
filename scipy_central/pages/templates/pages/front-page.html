@@ -1,65 +1,55 @@
-{% extends "base.html" %}
+{% extends "page-base.html" %}
 
 {% block title %}SciPy Central{% endblock %}
 
-{% block content %}
+{% block pageContent %}
 
-<div id="front-page-top">
-
-  <div id="spc-site-statement">
-    A collection of <span style="font-family:'Inconsolata';">code snippets</span>,
-    modules and links for <i>solving scientific problems</i>
-    with <a href="http://scipy.org">SciPy</a> and related Python tools.
-  </div>
-
-  {% include "search/includes/main-search-box.html" %}
-
-  {% include "pages/make-submission-buttons.html" %}
-
-  {% load core_tags %}
-  <div class="spc-portal-container">
-	<div class="spc-portal-row-container">
-	  <div class="spc-portal-row">
-		<div class="spc-portal-left spc-portal">
-		  <h3>Recently changed</h3>
-			<ul>
-			{% for revision in "submission.submission"|latest:8 %}
-			    <li class="spc-li-{{revision.entry.sub_type}}"><a href="{{ revision.get_absolute_url }}">{{ revision.title }}</a>{% if revision.short_human_revision_string %} ({{revision.short_human_revision_string|safe}}){% endif %}</li>
-			{% endfor %}
-			</ul>
-			<a href="{% url spc-show-items what_view="show" extra_info="all-revisions" %}">Show all</a>
+<!--content navbar -->
+<div class="MainHeader">
+	<!--description-->
+	<div class="row-fluid">
+		<div class="span12">
+			<h2 style="font-weight: normal;"><b>Welcome.</b> SciPy Central is a collection of code snippets, modules and links for solving scientific problems with <a href="http://scipy.org" target="_blank">SciPy</a> and related Python tools.</h2>
 		</div>
-		<div class="spc-portal-right">
-		  <h3>Most viewed</h3>
-			<ul>
-		  	{% for item in "submission"|most_viewed:8 %}
-			  <li><a href="{{ item.get_absolute_url }}">{{ item.last_revision.title }}</a></li>
-			{% endfor %}
-			</ul>
-			<p><a href="{% url spc-show-items what_view="sort" extra_info="most-viewed"  %}">Show all</a>
-		</div>
-	  </div>
 	</div>
-	<div style="clear: both;"></div>
-	<div class="spc-portal-row-container">
-	  <div class="spc-portal-row">
-		<div class="spc-portal-left">
-		  <h3>Tag cloud</h3>
-		    {% for item in "submission.TagCreation"|cloud:20 %}
-			  <span><a href="{% url spc-show-items what_view="tag" extra_info=item.tag %}" class="spc-tag-cloud" style="font-size: {{item.score}}%">{{item.tag.name}}</a></span>
-			{% endfor %}
-			<p><a href="{% url spc-show-items what_view="show" extra_info="all-tags" %}">Show all</a>
-		</div>
-		<div class="spc-portal-right">
-		  <h3>Top contributors</h3>
-		  <ul>
-			{% for item in "authors"|top_authors:8 %}
-			  <li><a href="{{ item.get_absolute_url }}">{{ item.user.username }}</a></li>
-			{% endfor %}
-			</ul>
-			<p><a href="{% url spc-show-items what_view="show" extra_info="top-contributors" %}">Show all</a>
-		</div>
-	  </div>
+	<div class="row-fluid">
+		{% include "search/includes/main-search-box.html" %}
 	</div>
-  </div>
+</div><!--/MainHeader-->
+	
+<div class="row-fluid">
+	<div class="span12">
+		<!--content nav tabs-->
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#recent" data-toggle="tab">Recently Changed</a></li>
+			<li><a href="#most" data-toggle="tab">Most Viewed</a></li>
+		</ul><!--/content nav tabs-->
+
+		<!-- CONTENT-->
+		{% load core_tags %}
+		<div class="tab-content">
+			<!--tab-pane active-->
+			<div class="tab-pane active" id="recent">
+			{% for entry in "submission.submission"|latest:10 %}
+					{% include 'search/includes/one-search-result.html' %}
+			{% endfor %}
+			<div class="pagination pagination-small pagination-centered">
+				<ul><li><a href="{% url spc-show-items what_view="show" extra_info="all-revisions" %}">View all</a></li></ul>
+			</div>
+					
+			</div><!--/tab-pane active-->
+			
+			<div class="tab-pane" id="most">
+			{% for entry in "submission.submission"|most_viewed:10 %}
+					{% include 'search/includes/one-search-result.html' %}
+			{% endfor %}
+			<div class="pagination pagination-small pagination-centered">
+				<ul><li><a href="{% url spc-show-items what_view="sort" extra_info="most-viewed" %}">View all</a></li></ul>
+			</div>
+			</div><!--/tab pane-->
+			
+		</div><!--/CONTENT-->
+		
+	</div>
+</div><!--/row-fluid-->
 {% endblock %}
