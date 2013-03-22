@@ -123,6 +123,7 @@ TEMPLATE_DIRS = (
 # To get access to some global variables used in the templates
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     'scipy_central.context_processors.global_template_variables',
+	'django.core.context_processors.request',
 )
 
 INSTALLED_APPS = (
@@ -143,6 +144,7 @@ INSTALLED_APPS = (
     'haystack',
     'registration',
     'south',
+	"widget_tweaks",
 
     #  Local apps
     'scipy_central.filestorage',
