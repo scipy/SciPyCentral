@@ -266,9 +266,9 @@ except IOError:
     DEFAULT_FROM_EMAIL = SERVER_EMAIL
 
     # Where should JQuery be served from?
-    JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js'
-    JQUERYUI_URL = 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js'
-    JQUERYUI_CSS = 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/smoothness/jquery-ui.css'
+    JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'
+    JQUERYUI_URL = 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js'
+    JQUERYUI_CSS = 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/smoothness/jquery-ui.css'
 
     # If you use Piwik, Google Analytics, etc: add the code snippet here that
     # will be placed as the last entry in the closing </head> tag.
