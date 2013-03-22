@@ -1,5 +1,8 @@
 logfile.log
 *.pyc
+deploy/media/code/*
+deploy/media/raw-images/*
+deploy/media/images/*
 deploy/media/screenshots/*
 deploy/local_settings.py
 deploy/scipy-central.sqlite
@@ -7,5 +10,7 @@ scipy-central.wpr
 compile
 xapian_index
 site_backup
+
+# sdk, editors settings
 .project
 .pydevproject
