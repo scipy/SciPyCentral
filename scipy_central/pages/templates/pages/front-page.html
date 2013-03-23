@@ -40,8 +40,10 @@
 			</div><!--/tab-pane active-->
 			
 			<div class="tab-pane" id="most">
-			{% for entry in "submission.submission"|most_viewed:10 %}
+			{% for entry in "submission"|most_viewed:10 %}
+			{% with entry.last_revision as entry %}
 					{% include 'search/includes/one-search-result.html' %}
+			{% endwith %}
 			{% endfor %}
 			<div class="pagination pagination-small pagination-centered">
 				<ul><li><a href="{% url spc-show-items what_view="sort" extra_info="most-viewed" %}">View all</a></li></ul>
