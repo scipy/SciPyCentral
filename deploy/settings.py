@@ -232,7 +232,7 @@ SPC = {
     'entries_per_page': 20,
 
     # SciPy Central version
-    'version': 0.20,
+    'version': 0.30,
 
     # Library submission maximum size (in bytes)
     'library_max_size': 25 * 1024 * 1024,
