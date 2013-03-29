@@ -1,0 +1,66 @@
+<div class="container">
+<!--header-->
+<div class="header">
+	<!--spc-nabvar-->
+	<div class="spc-navbar">
+		<ul class="nav nav-pills pull-right">
+			<li
+			{% url spc-main-page as ref_url %}
+			{% if request.path == ref_url %}class="active"{% endif %}
+			><a href="{% url spc-main-page %}">Home</a></li>
+			
+			<li
+			{% url spc-about-page as ref_url %}
+			{% if request.path == ref_url %}class="active"{% endif %}
+			><a href="{% url spc-about-page %}">About</a></li>
+			
+			<li class="dropdown
+			{% url spc-new-submission as ref_url %}
+			{% if ref_url == request.path %}active{% endif %}">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					Submit
+					<b class="caret"></b>
+				</a>
+				<div class="dropdown-menu" style="padding: 8px; padding-bottom: 0px;">
+					<form method="post" action="{% url spc-new-submission %}">
+					{% csrf_token %}
+						<input class="btn btn-small btn-block" name="link" type="submit" value="Link">
+						<input class="btn btn-small btn-block" name="package" type="submit" value="Library">
+						<input class="btn btn-small btn-block" name="snippet" type="submit" value="Snippet">
+					</form>
+				</div>
+			</li>
+			
+			{% if user.is_active %}
+				<li class="dropdown 
+				{% url spc-user-profile user.profile.slug as ref_url %}
+				{% if ref_url == request.path %}active{% endif %}">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+						{{user.username}}
+						<b class="caret"></b>
+					</a>
+					<div class="dropdown-menu" style="padding: 8px; padding-bottom: 0px;">
+					{% if user.username and user.profile.slug %}
+						<form method="post" action="{% url auth_logout %}">
+						{% csrf_token %}
+							<a class="btn btn-small btn-block" href="{% url spc-user-profile user.profile.slug %}">Profile</a>
+							<input class="btn btn-small btn-block" name="submit" value="Sign out" type="submit">
+						</form>
+					{% endif %}
+					</div>
+				</li>
+				{% else %}
+				<li><a href="{% url auth_login %}">Sign In</a></li>
+			{% endif %}
+		</ul>
+		
+		<ul class="nav nav-pills">
+			<a href="{% url spc-main-page %}"><img src="{{STATIC_URL}}img/scipycentral_logo.png" style="width:200px;"></a>
+		</ul>
+	</div>
+	<!--/spc-navbar-->
+
+</div>
+<!--/header-->
+</div>
+<!--/container-->

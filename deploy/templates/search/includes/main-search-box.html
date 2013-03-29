@@ -1,8 +1,7 @@
-<div id="spc-search">
-    <form method="get" action="{% url haystack_search %}" id="spc-search-form" name="spc_search_form">
-        <input id="spc-search-input" name="q" type="text" placeholder="Search all submissions" value="{{form.data.q}}"/>
-        <input id="spc-search-button" type="submit" value="Search"/>
-    </form>
-    <div style="clear:both;"></div>
-    <!--TODO: Advanced search link-->
-</div>
+<!--Search bar-->
+<div class="spc-header-searchbar">
+	<form method="get" action="{% url haystack_search %}" class="form-search input-append span12">
+		<input class="span11" id="appendInputButton" type="text" name="q" placeholder="Search here...">
+		<button type="submit" class="btn"><i class="icon-search"></i></button>
+	</form>
+</div><!--/SearchBar-->

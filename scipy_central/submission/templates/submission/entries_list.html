@@ -1,73 +1,54 @@
-{% if entries.object_list%}
-<div style="clear:both;"></div>
-<div id="spc-itemdisp-container" class="spc-entries-list">
+{#  The ``entry`` objects must be from the ``submission.Revision`` class   #}
+{#  or from the ``person.UserProfile`` class                               #}
+{% for entry in entries.object_list %}
 
-  <div class="spc-itemdisp-pagination">
-	<span class="step-links">
-	  {% if entries.has_previous %}
-		<a href="?page={{ entries.previous_page_number }}">&laquo; Previous</a> |
-	  {% endif %}
-	  {% if entries.has_previous or entries.has_next %}
-		<span class="current">
-		  Page {{ entries.number }} of {{ entries.paginator.num_pages }}
-		</span>
-	  {% endif %}
-	  {% if entries.has_next %}
-	   | <a href="?page={{ entries.next_page_number }}">Next &raquo;</a>
-	  {% endif %}
-	</span>
-  </div>
-
-
-  <div class="spc-itemdisp-row-container">
-	<div class="spc-itemdisp-row spc-itemdisp-header">
-		<div class="spc-itemdisp-description spc-itemdisp-td">Description<span class="spc-itemdisp-link "></span></div>
-		<div class="spc-itemdisp-created spc-itemdisp-td">Created by/User</div>
-		<div class="spc-itemdisp-tags spc-itemdisp-td">Tags or Interests</div>
-	</div>
-  </div>
-
-<ul>
-  {#  The ``entry`` objects must be from the ``submission.Revision`` class   #}
-  {#  or from the ``person.UserProfile`` class                               #}
-  {% for entry in entries.object_list %}
-
-    {# It's a user #}
+	{# It's a user #}
 	{% if entry.verbose_name == "User profile" %}
 
-	  {# It's a search query result #}
-	  {% if entry.django_CT %}
-		{% with entry.object as entry %}
-		  {% include 'search/includes/one-person-result.html' %}
-		{% endwith %}
+	{# It's a search query result #}
+	{% if entry.django_CT %}
+	{% with entry.object as entry %}
+		{% include 'search/includes/one-person-result.html' %}
+	{% endwith %}
 
-	  {# It's just a list of objects #}
-	  {% else %}
-	    {% include 'search/includes/one-person-result.html' %}
-	  {% endif %}
-
-
-	{# It's a revision object #}
+	{# It's just a list of objects #}
 	{% else %}
-
-	  {# It's a search query result #}
-	  {% if entry.django_CT %}
-		{% with entry.object as entry %}
-		  {% include 'search/includes/one-search-result.html' %}
-		{% endwith %}
-
-	  {# It's just a list of objects #}
-	  {% else %}
-		{% include 'search/includes/one-search-result.html' %}
-	  {% endif %}
-
-
+		{% include 'search/includes/one-person-result.html' %}
 	{% endif %}
-  {% endfor %}
-</ul>
-<div style="clear:both;"></div>
-</div>
+
+
+{# It's a revision object #}
 {% else %}
-  <p>{% if no_entries_message %}{{no_entries_message}}{% else %}There are no items matching your criteria. Create your own?{% endif %}
-  {% include "pages/make-submission-buttons.html" %}
+
+	{# It's a search query result #}
+	{% if entry.django_CT %}
+	{% with entry.object as entry %}
+		{% include 'search/includes/one-search-result.html' %}
+	{% endwith %}
+
+	{# It's just a list of objects #}
+	{% else %}
+	{% include 'search/includes/one-search-result.html' %}
+	{% endif %}
+
+
 {% endif %}
+{% endfor %}
+
+<div class="pagination pagination-centered">
+  <ul>
+		{% if entries.has_previous %}
+			<li><a href="?page={{ entries.previous_page_number }}">Prev</a></li>
+		{% endif %}
+		
+		{% if entries.has_previous or entries.has_next %}
+    <li class="disabled"><a href="#">
+			Page {{ entries.number }} of {{ entries.paginator.num_pages }}</a>
+		</li>
+		{% endif %}
+		
+		{% if entries.has_next %}
+			<li><a href="?page={{ entries.next_page_number }}">Next</a></li>
+		{% endif %}
+  </ul>
+</div>

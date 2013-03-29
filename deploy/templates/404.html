@@ -3,14 +3,15 @@
 {% block title %}Invalid item requested{% endblock %}
 
 {% block content %}
-
-<div id="spc-notice">
-<p><b>The dreaded 404</b>... you requested an invalid item, or an item that's not yet approved for display.
-<br>
-{% if extra_info %}<div style="border: 1px dashed;padding: 10px;clear: both;float: left;">Additional information: <i>{{extra_info}}</i></div>{% endif %}
-<br>
-<br>
-<p>Try <a href="{% url spc-main-page %}">searching for it</a> on the main page.
+<div class="hero-unit">
+	<h1>404</h1>
+	<p class="lead">The page you requested an invalid item, or an item that's not yet approved for display.</p>
+	
+	<br>
+	{% if extra_info %}<p> Additional information: <i>{{extra_info}}</i> </p>{% endif %}
+	
+	<br>
+	
+	<p>Try <a href="{% url spc-main-page %}">searching for it</a> on the main page.</p>
 </div>
-
 {% endblock %}

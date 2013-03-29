@@ -1,23 +1,53 @@
 {# The ``entry`` object must be from the ``submission.Revision`` class #}
 {% if entry %}
-<div class="spc-itemdisp-row-container">
-  <div class="spc-itemdisp-row spc-itemdisp-{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
-	<li>
-	  <div class="spc-itemdisp-description spc-itemdisp-td" id="spc-item-{{entry.pk}}">
-		<div style="width: 42px; float: left;">
-		  {% if entry.entry.sub_type == 'snippet' %}<img src="{{MEDIA_URL}}single-file-list-icon-tiny.png">{% endif %}
-		  {% if entry.entry.sub_type == 'package' %}<img src="{{MEDIA_URL}}multiple-file-list-icon-tiny.png">{% endif %}
-		  {% if entry.entry.sub_type == 'link' %}<img src="{{MEDIA_URL}}external-link-list-icon-tiny.png">{% endif %}
-		</div>
-		<div style="width: 85%; float: left;">
-		  <a class="spc-itemdisp-mainlink" href="{{entry.get_absolute_url}}">{{ entry.title}}</a>
-		  {{ entry.description_html|truncatewords_html:"30"|safe|removetags:"p li ul ol img a math h1 h2 h3 h4 h5 h6"}}
-		</div>
-	  </div>
-	  <div class="spc-itemdisp-created spc-itemdisp-td"><a href="{% url spc-user-profile slug=entry.created_by.profile.slug %}">{{entry.created_by.username}}</a> on {{ entry.date_created|date:"d F Y"}}
-	  {% if entry.short_human_revision_string %}<span class="spc-itemdisp-revinfo">({{entry.short_human_revision_string|safe}})</span>{% endif %}</div>
-	  <div class="spc-itemdisp-tags spc-itemdisp-td">{% for tag in entry.tags.all %}<span><a href="{% url spc-show-items what_view="tag" extra_info=tag %}" class="spc-tag">{{tag.name}}</a></span>{% endfor %}</div>
-	</li>
-  </div>
-</div>
+<div class="row-fluid result">
+	<div class="content">			
+		<!--row-fluid-->
+		<div class="row-fluid">
+			<div class="spc-search-result-title span12">
+				<h4>
+					<a href="{{entry.get_absolute_url}}">{{ entry.title}}</a>
+					<span style="font-size: small; text-transform: uppercase;">
+					{% if entry.entry.sub_type == 'snippet' %}
+						(snippet)
+					{% endif %}
+					{% if entry.entry.sub_type == 'package' %}
+						(package)
+					{% endif %}
+					{% if entry.entry.sub_type == 'link' %}
+						(link)
+					{% endif %}
+					</span> 
+				</h4>
+			</div>
+		</div><!--/row-fluid-->
+		
+		<div class="row-fluid">
+			<div class="spc-search-result-description span12">
+				<p>{{ entry.description_html|truncatewords_html:"30"|safe|removetags:"p li ul ol img a math h1 h2 h3 h4 h5 h6"}}</p>
+			</div>
+		</div><!--/row-fluid-->
+		
+		<!--row-fluid-->
+		<div class="row-fluid">
+			<div class="meta tags span6">
+				<ul class="inline">
+				{% for tag in entry.tags.all %}
+					<li class="btn btn-mini"><a href="{% url spc-show-items what_view="tag" extra_info=tag %}">{{tag.name}}</a></li>
+				{% endfor %}
+				</ul>
+			</div>
+			<div class="meta info span6">
+				<ul class="inline pull-right">
+					{% if entry.short_human_revision_string %}
+						<li>{{entry.short_human_revision_string|safe}}<li>
+					{% endif %}
+					<li>by <a href="{% url spc-user-profile slug=entry.created_by.profile.slug %}">{{entry.created_by.username}}</a></li>
+					<li>on {{ entry.date_created|date:"d F Y"}}</li>
+				</ul>
+			</div>
+		</div><!--row-fluid-->
+		<hr>
+	</div><!--/content-->
+</div><!--/result-->
 {% endif %}

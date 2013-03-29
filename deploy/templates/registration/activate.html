@@ -4,10 +4,11 @@
 {% block title %}Invalid activation key supplied{% endblock %}
 
 {% block content %}
+<div class="lead">
 <h3>Account activation failed</h3>
 
-<p>You supplied an invalid activation key: <tt>{{activation_key}}</tt>
+<p>You supplied an invalid activation key: <b>{{activation_key}}</b></p>
 
-<p>Please request a new <a href="{% url auth_password_reset %}">password reset key</a>.
-
+<p>Please request a new <a href="{% url auth_password_reset %}">password reset key</a></p>
+</div>
 {% endblock %}

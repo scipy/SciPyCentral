@@ -1,141 +1,168 @@
-{% extends "base.html" %}
+{% extends "page-base.html" %}
 {% load humanize %}
 
 {% block title %}{{item.title}}{% endblock %}
 
-{% block content %}
-
-
-  <div id="spc-item-header">
+{% block pageContent %}
+<div class="row-fluid">
+	<div class="spc-snippet span12">
+		<div class="row-fluid">
+		
+			<div class="spc-snippet-header span12">
+				<div class="row-fluid">
+					<div class="spc-page-title span12">
+						<h3>{{item.title}}</h3>
+					</div><!--/snippe title-->
   {% if not preview %}
-	<div id="spc-item-header-left">{% if item.previous_submission %}<a href="{{item.previous_submission}}">Previous<a>{% endif %}</div>
-	<div id="spc-item-header-right">{% if item.next_submission %}<a href="{{item.next_submission}}">Next<a>{% endif %}</div>
+	<span class="">{% if item.previous_submission %}<a href="{{item.previous_submission}}">Previous</a>{% endif %}</span>
+	<span class="pull-right">{% if item.next_submission %}<a href="{{item.next_submission}}">Next</a>{% endif %}</span>
   {% endif %}
-  </div>
-
-
-  <h2>{{item.title}}</h2>
-
-  <div id="spc-profile-user-options">
-    <ul>
-
-      {# Only items with an ID are editable (prevents link showing when previewing a new item #}
-      {% if not preview %}
-
-        {# Links and packages can only be edited by their original author; snippets can be edited by anyone #}
-        {% if item.entry.sub_type != 'snippet' %}
-
-          {# If the signed-in user is the same as the creator of the current revision: show edit link#}
-          {% if user.id == item.created_by.id %}
-            <li>This is your submission: <a href="{% url spc-edit-submission item_id=item.entry.id rev_id=item.rev_id_human %}">want to improve it</a>?</li>
-          {% endif %}
-
-        {% else %}
-          <li><a href="{% url spc-edit-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Improve this {{item.entry.sub_type}}</a></li>
-        {% endif %}
-
-		{% if item.entry.sub_type == "snippet" %}
-		  <li><a href="{% url spc-download-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Download the code</a></li>
-		{% endif %}
-
-      {% endif %}
-    </ul>
-  </div>
-  <div id="spc-itemdisp-container">
-
-    <div class="spc-item-row">
-    </div>
-
-    <div class="spc-item-row">
-      <span class="spc-item-label">Submitted by:</span>
-      <span class="spc-item-entry">{% if item.entry.created_by.profile.is_validated %}<a href="{% url spc-user-profile item.entry.created_by.profile.slug %}">{{item.entry.created_by.username}}</a>, {% if item.entry.date_created %}{{item.entry.date_created|naturalday:"d F Y"}}{% else %}today{% endif %}{% else %}Your name will be here once you validate yourself by email{% endif %}</span>
-    </div>
-
-    {% if item.entry.num_revisions > 1 %}
-     <div class="spc-item-row">
-      <span class="spc-item-label">Update history:</span>
-      <span class="spc-item-entry">{{ item.human_revision_string }}:
-      {% if item.previous_revision %}<a href="{{item.previous_revision.get_absolute_url}}">previous</a><span style="padding-right: 2em;">&nbsp;</span>{% endif %}
-
-      {% if item.next_revision %}<a href="{{ item.next_revision.get_absolute_url }}">next</a>{% endif %}
-      </span>
-    </div>
-    {% endif %}
-
-    {% if item.entry.num_revisions > 1 %}
-     <div class="spc-item-row">
-      <span class="spc-item-label">Updated by:</span>
-      <span class="spc-item-entry">{% if item.created_by.profile.is_validated %}<a href="{% url spc-user-profile item.created_by.profile.slug %}">{{item.created_by.username}}</a>{% else %}Unvalidated user{% endif %}, {% if item.date_created %}{{item.date_created|naturalday:"d F Y"}}{% else %}today{% endif %}</span>
-    </div>
-    {% endif %}
-
-    {% if item.entry.sub_type == "link" %}
-    <div class="spc-item-row">
-      <span class="spc-item-label">Link:</span>
-      <span class="spc-item-entry"><a href="{{item.item_url}}">{{item.item_url}}</a></span>
-    </div>
-    {% endif %}
-    {% if item.entry.sub_type == "snippet" %}
-    <div class="spc-item-row">
-      <span class="spc-item-entry">{{item.item_highlighted_code|safe}}</span>
-    </div>
-	<div class="spc-item-row">
-      <span class="spc-item-label">Software license:</span>
-      <span class="spc-item-entry">{{item.sub_license.description|safe}} (<a href="{% url spc-about-licenses%}">More details</a>)</span>
-    </div>
-    {% endif %}
-	{% if item.entry.sub_type == "package" %}
-    <div class="spc-item-row">
-      <span class="spc-item-label">Files:</span>
-	  {% if preview %}
-		<span class="spc-item-entry"><i>Links to the ZIP file contents will appear here</i></span>
-	  {% else %}
-	    <span class="spc-download-button"><a href="{% url spc-download-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Download all files</a></span>
-	    <span class="spc-item-entry">
-		  <ul>
-			{% for file in package_files %}
-			  <li>{{file}}
-			{% endfor %}
-		  </ul>
-		</span>
-	  {% endif %}
-    </div>
-    {% endif %}
-
-
-    <div class="spc-item-row">
-      <span class="spc-item-label">More information:</span>
-      <span class="spc-item-entry spc-item-description">{{item.description_html|safe}}</span>
-    </div>
-    <div class="spc-item-row">
-      <span class="spc-item-label">Tags:</span>
-      <span class="spc-item-entry">{% for tag in tag_list %}<span><a href="{% url spc-show-items what_view="tag" extra_info=tag %}" class="spc-tag">{{tag.name}}</a></span>{% endfor %}</span>
-    </div>
-    <div style="clear:both;">&nbsp;</div>
-  </div>
-
-  <div id="spc-extra-message">{{extra_html|safe}}</div>
-
-  <div id="spc-item-header">
-  {% if not preview %}
-	<div id="spc-item-header-left">{% if item.previous_submission %}<a href="{{item.previous_submission}}">Previous<a>{% endif %}</div>
-	<div id="spc-item-header-right">{% if item.next_submission %}<a href="{{item.next_submission}}">Next<a>{% endif %}</div>
-  {% endif %}
-  </div>
-
-  <div class="spc-minor-info">
-    {% if pageviews %}<p> Page views: {{pageviews}} (past {{pageview_days}} days){% endif %}
-	{% if permalink %}
-	  <p>{% if item.id %}Identifier #: <b>{{ item.entry.id }}</b>{% endif %}
-	  <p>Permalink to this revision: <a href="{{permalink}}">{{permalink}}</a>
-	  <p>Permalink to latest revision: <a href="{{latest_link}}">{{latest_link}}</a>
-	{% endif %}
-  </div>
-
-
-
-
-
-  <div style="clear: both;"><p>&nbsp;</div>
-
+				</div>
+				
+				<div class="row-fluid">
+					<div class="spc-snippet-info span12">
+					
+						<dl class="dl-horizontal">
+							<dt>Submitted by</dt>
+							<dd><span>{% if item.entry.created_by.profile.is_validated %}<a href="{% url spc-user-profile item.entry.created_by.profile.slug %}">{{item.entry.created_by.username}}</a> on {% if item.entry.date_created %}{{item.entry.date_created|naturalday:"d F Y"}}{% else %}today{% endif %}{% else %}Your name will be here once you validate yourself by email{% endif %}</span></dd>
+						</dl>
+						
+						{% if item.entry.num_revisions > 1 %}
+						<dl class="dl-horizontal">
+							<dt>Update history</dt>
+							<dd>
+								<span>{{ item.human_revision_string }}:
+								{% if item.previous_revision %}
+									<a href="{{item.previous_revision.get_absolute_url}}">previous</a>
+								{% endif %}
+								{% if item.next_revision %}<a href="{{ item.next_revision.get_absolute_url }}">next</a>{% endif %}
+								</span>
+							</dd>
+						</dl>
+						{% endif %}
+						
+						{% if item.entry.num_revisions > 1 %}
+						<dl class="dl-horizontal">
+							<dt>Updated by</dt>
+							<dd>
+								<span>{% if item.created_by.profile.is_validated %}<a href="{% url spc-user-profile item.created_by.profile.slug %}">{{item.created_by.username}}</a>{% else %}Unvalidated user{% endif %} on {% if item.date_created %}{{item.date_created|naturalday:"d F Y"}}{% else %}today{% endif %}</span>
+							</dd>
+						</dl>
+						{% endif %}
+						
+						{% if item.entry.sub_type == "link" %}
+						<dl class="dl-horizontal">
+							<dt>Link</dt>
+							<dd><span><a href="{{item.item_url}}">{{item.item_url}}</a></span></dd>
+						</dl>
+						{% endif %}
+						
+						{% if item.entry.sub_type == "snippet" %}
+							<dl class="dl-horizontal">
+								<dt>Download</dt>
+								<dd>
+								{% if preview %}
+									<i>Links to the ZIP file contents will appear here</i>
+								{% else %}
+									<a href="{% url spc-download-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Download file</a>
+								{% endif %}
+								</dd>
+							</dl>
+						{% endif %}
+						
+						{% if item.entry.sub_type == "package" %}
+							<dl class="dl-horizontal">
+								<dt>Download</dt>
+								<dd>
+								{% if preview %}
+									<i>Links to the ZIP file contents will appear here</i>
+								{% else %}
+									<a href="{% url spc-download-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Download all files</a>
+								{% endif %}
+								</dd>
+							</dl>
+						{% endif %}
+					</div><!--/snippetInfo span12-->
+					
+				</div><!--/row-fluid-->
+			</div><!--/snippet header-->
+			
+		</div>
+		<div class="row-fluid">
+				<div class="spc-snippet-body span12">
+					
+					{% if item.entry.sub_type == "snippet" %}
+					<div class="accordion-group">
+						<!--snippet title-->
+						<div class="accordion-heading">
+							<a class="accordion-toggle" data-toggle="collapse" href="#collapse1">
+							Code <i class="icon-arrow-up"></i> 
+							</a>
+						</div><!--/snippet title-->
+						<div id="collapse1" class="accordion-body collapse in">
+							<div class="accordion-inner">
+								{{item.item_highlighted_code|safe}}
+							</div>
+						</div>
+					</div><!--accordion group-->
+					{% endif %}
+					
+					{% if item.entry.sub_type == "package" %}
+					<div class="accordion-group">
+						<!--snippet title-->
+						<div class="accordion-heading">
+							<a class="accordion-toggle" data-toggle="collapse" href="#collapse2">
+							Files <i class="icon-arrow-up"></i> 
+							</a>
+						</div><!--/snippet title-->
+						<div id="collapse2" class="accordion-body collapse in">
+							<div class="accordion-inner">
+								{% if preview %}
+									<i>Links to the ZIP file contents will appear here</i>
+								{% else %}
+									<ul class="unstyled">
+										{% for file in package_files %}
+											<li>{{file}}<li>
+										{% endfor %}
+									</ul>
+								{% endif %}
+							</div>
+						</div>
+					</div><!--accordion group-->
+					{% endif %}
+					
+					<div class="accordion-group">
+						<!--snippet title-->
+						<div class="accordion-heading">
+							<a class="accordion-toggle" data-toggle="collapse" href="#collapse3">
+							More information <i class="icon-arrow-up"></i> 
+							</a>
+						</div><!--/snippet title-->
+						<div id="collapse3" class="accordion-body collapse in">
+							<div class="accordion-inner">
+								{{item.description_html|safe}}
+							</div>
+						</div>
+					</div><!--accordion group-->
+					
+					{% if extra_html %}
+					<div class="accordion-group">
+						<!--snippet title-->
+						<div class="accordion-heading">
+							<a class="accordion-toggle" data-toggle="collapse" href="#collaps4">
+							Extra message <i class="icon-arrow-up"></i> 
+							</a>
+						</div><!--/snippet title-->
+						<div id="collapse4" class="accordion-body collapse in">
+							<div class="accordion-inner">
+								{{extra_html|safe}}
+							</div>
+						</div>
+					</div><!--accordion group-->
+					{% endif %}
+					
+				</div> <!--root snippet body -->
+		</div>
+	</div><!-- /root snippet-->
+</div><!--/row-fluid-->
 {% endblock %}

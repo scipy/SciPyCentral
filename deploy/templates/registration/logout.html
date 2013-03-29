@@ -3,7 +3,11 @@
 {% block title %}Sign in{% endblock %}
 
 {% block content %}
-
-<p>You have been <i>signed out</i>: <a href="{% url auth_login %}">sign in again</a> or go to the <a href="{% url spc-main-page %}">home page</a>.
-
+<div class="row-fluid">
+	<div class="lead">
+	<p>You have been signed out</p>
+	
+	<p><a href="{% url auth_login %}">sign in again</a> or go to the <a href="{% url spc-main-page %}">home page</a></p>
+	</div>
+</div>
 {% endblock %}

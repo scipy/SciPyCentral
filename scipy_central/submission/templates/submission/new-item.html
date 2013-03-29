@@ -1,11 +1,12 @@
-{% extends "base.html" %}
+{% extends "page-base.html" %}
 
 {% block title %}{{pagetitle}}{% endblock %}
 
-{% block content %}
+{% block pageContent %}
+{% load widget_tweaks %}
 
 <script>
-<!--JQuery example: http://jqueryui.com/demos/autocomplete/#multiple-remote -->
+//JQuery example: http://jqueryui.com/demos/autocomplete/#multiple-remote
 $(function() {
 	function split( val ) {
 		return val.split( /,\s*/ );
@@ -54,97 +55,98 @@ $(function() {
 });
 </script>
 
-
-<div class="spc-form">
-<form action="" method="POST" class="spc-ul-form" enctype="multipart/form-data">
-  {% csrf_token %}
-
-  {% if item.errors %}
-  <div id="spc-form-error-message"><p><b>Some errors were found</b>. Please see fields with
-  <span class="spc-field-error">a coloured background</span></p></div>
-  {% endif %}
-
-  {% for field in item%}
-    {% if field.is_hidden %}
-      {{field.as_widget|safe}}
-	{% else %}
-	<div class="colmask threecol">
-		<div class="colmid">
-			<div class="colleft">
-				<div class="col1 form-field">
-					{{field.as_widget|safe}}
-				</div>
-				<div class="col2 {% if field.errors %}spc-field-error{% endif %}">
-					<label for="{{field.id_for_label}}">{{field.label|safe}}</label>
-					<span>{{field.errors|safe}}</span>
-				</div>
-				<div class="col3" id="help-{{field.id_for_label}}">
-					<span class="spc-helptext">{{field.help_text|safe}}</span>
-				</div>
-			</div>
+<div class="row-fluid">
+<div class="span12">
+	<div class="row-fluid">
+		<div class="span12 spc-page-title" style="padding-bottom:25px;">
+			<h3>Submit Code or Snippet or Link</h3>
 		</div>
 	</div>
-	{%endif %}
-  {% endfor %}
-
-  <div id="spc-preview-edit-submit">
-		<div class="colmask threecol">
-			<div class="colmid">
-				<div class="colleft">
-					<div class="col1 form-field">
-						<input type="submit" name="spc-preview"  value="{{buttontext}}" id="spc-item-preview"/>
-						{{buttontext_extra}}
-					</div>
-					<div class="col2">&nbsp;</div>
-					<div class="col3">
-						&nbsp;
+	<div class="row-fluid">
+		<form action="" method="POST" class="spc-ul-form" enctype="multipart/form-data">
+		{% csrf_token %}
+		
+		{% if item.errors %}
+			<div class="alert alert-error">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<p><b>Some errors were found</b>. Please see fields with a coloured background</p>
+			</div>
+		{% endif %}
+		
+		{% for field in item %}
+			{% if field.is_hidden %}
+				{{field.as_widget|safe}}
+			{% else %}
+				<div class="control-group {% if field.errors %}control-group error{% endif %}">
+					<label class="control-label" for="{{field.id_for_label}}">{{field.label|upper|safe}}</label>
+					<div class="controls">
+						{{field|add_class:"span12"|safe}}
+						{% if field.errors %}
+							<div class="alert alert-error">{{field.errors|safe}}</div>
+						{% endif %}
+						{% if field.help_text %}
+							<div class="alert alert-info"><p>{{field.help_text|safe}}</p></div>
+						{% endif %}
 					</div>
 				</div>
+			{% endif %}
+		{% endfor %}
+		
+		<div class="control-group">
+			<div class="controls">
+				<button class="btn btn-primary btn-block" type="submit"  name="spc-preview">{{buttontext}}</button>
+				{{buttontext_extra}}
 			</div>
 		</div>
+		
+		</form>
+	</div><!--/row-fluid-->
+	
+	<div class="row-fluid">
+	<div class="span12">
+		<div class="row-fluid">
+			<div class="span12" style="text-transform: uppercase;">
+				<h5>(Optional) Add an image or screenshot to your description</h5>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="{{STATIC_URL}}js/jquery.form.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function() {
+			 var options = {
+				 target:    '#spc-item-upload-output-ajax-adds-it',
+				 success: function() { $('#spc-item-upload-output-ajax-adds-it').fadeIn('slow'); },
+				 url:       '{% url spc-screenshot-add %}',
+				 type:      'post',
+				 clearForm:  true,
+				 resetForm:  true,
+			};
+			// bind form using 'ajaxForm'
+			$('#spc-item-upload-add').ajaxForm(options);
+		});
+		</script>
+
+		<form action="" method="post" enctype="multipart/form-data" id="spc-item-upload-add">
+			{% csrf_token %}
+			<div class="control-group">
+				<label class="control-label" for="spc_image_upload">Optionally upload <b>image file(s)</b> to use in your description</label>
+				<div class="controls">
+					<input type="file" placeholder="Choose" id="spc_image_upload" name="spc_image_upload">
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<div class="controls">
+					<button class="btn btn-primary" type="submit"  name="spc-preview">Upload image</button>
+					JPEG or PNG
+				</div>
+			</div>
+		</form>
+		<div id="spc-item-upload-output-ajax-adds-it"></div>
 	</div>
-</form>
-<div style="clear:both;"></div>
+	</div><!--/row-fluid-->
+	
+	
 </div>
-<h3><i>Optional</i>: add an image/screenshot to your description</h3>
-<div id="spc-item-upload" class="spc-form">
-
-	<script type="text/javascript" src="{{MEDIA_URL}}jquery.form.js"></script>
-	<script type="text/javascript">
-	$(document).ready(function() {
-	   var options = {
-		   target:    '#spc-item-upload-output-ajax-adds-it',
-		   success: function() { $('#spc-item-upload-output-ajax-adds-it').fadeIn('slow'); },
-		   url:       '{% url spc-screenshot-add %}',
-		   type:      'post',
-		   clearForm:  true,
-		   resetForm:  true,
-		};
-		// bind form using 'ajaxForm'
-		$('#spc-item-upload-add').ajaxForm(options);
-	});
-	</script>
-
-	<form id="spc-item-upload-add" action="" method="post" enctype="multipart/form-data">
-	   {% csrf_token %}
-		<div class="colmask threecol">
-			<div class="colmid">
-				<div class="colleft">
-					<div class="col1 form-field">
-						<input type="file" placeholder="Choose" id="spc_image_upload" name="spc_image_upload" />
-					</div>
-					<div class="col2">
-						<label for="spc_image_upload">Optionally upload <b>image file(s)</b> to use in your description</label>
-					</div>
-					<div class="col3">
-						<input type="submit" value="Upload image" id="spc-item-upload-button" /> (JPEG or PNG)
-					</div>
-				</div>
-			</div>
-		</div>
-	</form>
-
-	<div id="spc-item-upload-output-ajax-adds-it"></div>
-	<div style="clear: both;"></div>
-</div>
+</div><!--/row-fluid-->
 {% endblock %}
