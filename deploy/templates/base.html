@@ -3,9 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>{% block title %} | SciPy Central{% endblock %}</title>
-	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/spc-bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/spc-extend.css?{{VERSION}}">
-	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/pygments.css?{{VERSION}}">
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/spc-bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/spc-extend.css?{{VERSION}}">
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/pygments.css?{{VERSION}}">
 	<link rel="stylesheet" type="text/css" href="{{JQUERYUI_CSS}}">
 	<script type="text/javascript" src="{{JQUERY_URL}}"></script>
 	<script type="text/javascript" src="{{JQUERYUI_URL}}"></script>
@@ -29,7 +29,7 @@
 <body onload='try{document.spc_search_form.q.focus()}catch(e){};'>
 <style>
   .ui-autocomplete-loading {
-	background: white url('{{MEDIA_URL}}ui-anim_basic_16x16.gif') right center no-repeat;
+	background: white url('{{STATIC_URL}}ui-anim_basic_16x16.gif') right center no-repeat;
   }
 </style>
 {% include "base-includes/header.html" %}
@@ -46,7 +46,7 @@
 {# not yet implemented #}
 {% include "base-includes/footer-outside.html" %}
 
-<script src="{{MEDIA_URL}}/js/bootstrap.min.js"></script>
+<script src="{{STATIC_URL}}js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
 	$('.dropdown-toggle').dropdown()
