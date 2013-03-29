@@ -84,7 +84,7 @@ Now you can do:
 * Windows:
 
       cd deploy
-      env\bin\Scripts\activate
+      env\Scripts\activate
       python manage.py runserver
 """)
 
