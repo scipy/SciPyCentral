@@ -17,8 +17,8 @@ ADMINS = (
 MANAGERS = ADMINS
 DATABASES = {
     'default': {
-        'ENGINE':   '', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME':     '', # Or path to database file if using sqlite3.
+        'ENGINE':   'django.db.backends.sqlite3',
+        'NAME':     'develop.db', # Or path to database file if using sqlite3.
         'USER':     '', # Not used with sqlite3.
         'PASSWORD': '', # Not used with sqlite3.
         'HOST':     '', # Set to empty string for localhost. Not used with sqlite3.
@@ -114,7 +114,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'deploy.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -253,9 +253,11 @@ SPC = {
 # development servers.
 # The default variables that are expected are listed in the ``ImportError``
 # part of the exception below.
-this_dir = __file__[0:__file__.find('settings.py')]
+import os
+
+this_dir = os.path.dirname(__file__)
 try:
-    execfile(this_dir + os.sep + 'local_settings.py')
+    execfile(os.path.join(this_dir, 'local_settings.py'))
 except IOError:
     # See https://docs.djangoproject.com/en/1.3/ref/settings for EMAIL settings
     EMAIL_HOST = ''
@@ -277,7 +279,7 @@ except IOError:
     # You can also overwrite keys from ``SPC`` in the ``local_settings.py`` file
 
 # Put all the search settings in a single file
-execfile(this_dir + os.sep + 'search_settings.py')
+execfile(os.path.join(this_dir, 'search_settings.py'))
 
 
 # A sample logging configuration. The only tangible logging
