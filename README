@@ -64,6 +64,7 @@ Please ensure these Python packages are available on your server:
 
 *   Python Imaging Library (for screenshot handling): ``pip install PIL``
 
+*   Mercurial: http://mercurial.selenic.com
 
 Not required yet (might be as we add more functionality to the site):
 
