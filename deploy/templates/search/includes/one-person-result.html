@@ -31,7 +31,7 @@
 				<ul class="inline">
 					<li>Name: <a href="{% url spc-user-profile slug=entry.slug %}">{{entry.user.username}}</a></li>
 					{% if entry.country %}
-						<li><img class="spc-flag" src="{{MEDIA_URL}}flags/flag-{{entry.country.code|lower}}.png"></li>
+						<li><img class="spc-flag" src="{{STATIC_URL}}flags/flag-{{entry.country.code|lower}}.png"></li>
 					{% endif %}
 				</ul>
 			</div>
