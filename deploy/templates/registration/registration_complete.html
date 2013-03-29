@@ -4,19 +4,20 @@
 {% block title %}Sign-up completed!{% endblock %}
 
 {% block content %}
+<div class="row-fluid">
+	<div class="span4">
+			<img src="{{STATIC_URL}}information-icon.png" width="256" alt="Sign-up completed">
+	</div>
 
-<div style="float: left; height:256px;">
-    <img src="{{MEDIA_URL}}information-icon.png" width="256" alt="Sign-up completed">
+	<div class="span8 lead">
+		<p>Thank you for signing up on SciPy Central</a></p>
+
+		<p>An email has been sent to the address you provided. Please <b>click on the activation link</b> to complete your account application</p>
+
+		<br>
+		<p>Thank you - The SciPy Central Team.</p>
+	</div>
 </div>
-<div>
-<p>Thank you for signing up on SciPy Central</a>.
-
-<p>An email has been sent to the address you provided. Please <b>click on the activation link</b> to complete your account application.
-
-<p>&nbsp;
-<p>Thank you - the SciPy Central team.
-</div>
-
 {% endblock %}
 
 

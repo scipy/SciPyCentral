@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div class="row-fluid">
+		<div class="span9">
+			{% block pageContent %}{% endblock %}
+		</div><!--/span9-->
+		{% include "base-includes/rightsidebar.html" %}
+	</div><!--/row-fluid-->
+{% endblock %}

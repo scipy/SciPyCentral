@@ -232,7 +232,7 @@ def compile_rest_to_html(raw_rest):
 
     pickle_f = ''.join([settings.SPC['comment_compile_dir'], os.sep,
                         '_build', os.sep, 'pickle', os.sep, 'index.fpickle'])
-    with open(pickle_f, 'r') as fhand:
+    with open(pickle_f, 'rb') as fhand:
         obj = pickle.load(fhand)
 
     return obj['body'].encode('utf-8')

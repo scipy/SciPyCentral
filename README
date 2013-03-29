@@ -89,6 +89,7 @@ Installation
         *   ``'haystack'``
         *   ``'registration'``
         *   ``'south'``
+        *   ``'widget_tweaks'``
         *   ``'scipy_central.filestorage'``
         *   ``'scipy_central.pages'``
         *   ``'scipy_central.person'``

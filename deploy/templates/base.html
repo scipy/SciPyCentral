@@ -1,74 +1,75 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-  <meta http-equiv="Content-Language" content="en-us" />
-  <title>{% block title %} | SciPy Central{% endblock %}</title>
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inconsolata">
-  <link rel="stylesheet" href="{{MEDIA_URL}}scipy-central.css?{{VERSION}}" type="text/css" media="Screen"/>
-  <link rel="stylesheet" href="{{MEDIA_URL}}pygments.css?{{VERSION}}" type="text/css" />
-  <link rel="stylesheet" href="{{JQUERYUI_CSS}}" type="text/css" />
-  <script type="text/javascript" src="{{JQUERY_URL}}"></script>
-  <script type="text/javascript" src="{{JQUERYUI_URL}}"></script>
-  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-  {{ANALYTICS_SNIPPET|safe}}
+	<meta charset="UTF-8">
+	<title>{% block title %} | SciPy Central{% endblock %}</title>
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/spc-bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/spc-extend.css?{{VERSION}}">
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/pygments.css?{{VERSION}}">
+	<link rel="stylesheet" type="text/css" href="{{JQUERYUI_CSS}}">
+	<script type="text/javascript" src="{{JQUERY_URL}}"></script>
+	<script type="text/javascript" src="{{JQUERYUI_URL}}"></script>
+	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+	
+	{# handling pygment code overflow correctly #}
+	{% if item.entry.sub_type == "snippet" %}
+	<style type="text/css">
+		pre {
+			white-space: pre;
+			background-color: white;
+			border: none;
+		}
+		.accordion-inner { overflow: auto; }
+	</style>
+	{% endif %}
+	
+	{{ANALYTICS_SNIPPET|safe}}
 </head>
+
 <body onload='try{document.spc_search_form.q.focus()}catch(e){};'>
 <style>
   .ui-autocomplete-loading {
-	background: white url('{{MEDIA_URL}}ui-anim_basic_16x16.gif') right center no-repeat;
+	background: white url('{{STATIC_URL}}ui-anim_basic_16x16.gif') right center no-repeat;
   }
 </style>
-
-{% block extra_head %}{% endblock %}
+{% include "base-includes/header.html" %}
 
 {% block body %}
-
-  <div id="spc-container">
-	<div id="spc-header">
-	  <!--<div class="spc-header-row" id="spc-site-notice">-->
-		<!--This website is in beta-mode. Please make *real* submissions. If you find bugs, <a href="https://github.com/kgdunn/SciPyCentral/issues/">please let us know</a>.-->
-	  <!--</div>-->
-	  <div class="spc-header-row" id="spc-top-menu">
-		<div class="spc-header-left">
-		  <a href="{% url spc-main-page %}" accesskey="h">Home</a>
-		</div>
-		<div class="spc-header-right">
-		  {% if user.is_active %}<a href="{% url spc-user-profile user.profile.slug%}">{{user.username}}</a>{% else %}<a href="{% url auth_login %}">Sign in/Join</a>{% endif %}
-		</div>
-	  </div>
-	  <div class="spc-header-row" id="spc-site-title">
-		<h1><a href="{% url spc-main-page %}" title="Home page for SciPy Central">SciPy Central</a></h1>
-	  </div>
-    </div> <!--#spc-header-->
-    <div style="clear:both;"></div>
-
-    <div id="spc-contentwrap">
-      <div id="spc-content-main">
-        <div id="spc-border">
-          <div id="spc-section-body">
-            {% block content %}{% endblock %}
-          </div><!--#spc-section-body-->
-        </div><!--#spc-border-->
-      </div><!--spc-content-main-->
-    </div><!--#spc-contentwrap-->
-
-    <div id="spc-footer">
-      <div class="spc-footer-left">
-        <ul>
-          <li><a href="{% url spc-about-page %}">About this site</a></li>
-          <li>Site sponsor: <a href="http://connectmv.com/community">ConnectMV, Inc.</a>
-        </ul>
-	  </div>
-      <div class="spc-footer-right">
-        Trademarks are property of their respective owners. Code and comments are
-        owned by their respective posters. © {% now "Y"%} All Rights Reserved.
-	  </div>
-    </div> <!--#spc-footer-->
-
-  </div><!--#spc-container-->
-
+<div class="container">
+	<div class="main">
+		{% block content %}{% endblock %}
+	</div>
+	<!--/main-->
+</div>
 {% endblock %}
+
+{# not yet implemented #}
+{% include "base-includes/footer-outside.html" %}
+
+<script src="{{STATIC_URL}}js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+	$('.dropdown-toggle').dropdown()
+</script>
+
+<script>
+$(document).ready(function()
+{
+  //Handles menu drop down
+  $('.dropdown-menu').find('form').click(function (e) {
+        e.stopPropagation();
+        });
+  });
+</script>
+
+<script type="text/javascript">
+	//handles accordion arrow-up and down in pages
+	$('.accordion-group').collapse();
+	$('.accordion-group').on('show hide', function(e)
+		{ 
+			$(e.target).siblings('.accordion-heading').find('.accordion-toggle i').toggleClass('icon-arrow-down icon-arrow-up', 200); 
+		});
+</script>
+
 </body>
 </html>

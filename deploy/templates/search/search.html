@@ -1,20 +1,19 @@
-{% extends 'base.html' %}
+{% extends "page-base.html" %}
 
+{% block title %}Search Results - SciPy Central{% endblock %}
 
-{% block title %}Search results{% endblock %}
-
-{% block content %}
-
-    {% include "search/includes/main-search-box.html" %}
-
-    {% if query %}
-
-        {% with page as entries %}
-            {% include 'submission/entries_list.html' %}
-        {% endwith %}
-
-    {% else %}
-        {# Show some example queries to run, maybe advanced query syntax #}
-    {% endif %}
-
+{% block pageContent %}
+<div class="row-fluid">
+	<div class="spc-search-result span12">
+		<div class="spc-page-title"><h3>Search Results</h3></div>
+		{% if query %}
+			{% with page as entries %}
+				{% include 'submission/entries_list.html' %}
+			{% endwith %}
+		
+		{% else %}
+			{# Show some example queries to run, maybe advanced query syntax #}
+		{% endif %}
+	</div><!--/span12-->
+</div><!--/search result-->
 {% endblock %}

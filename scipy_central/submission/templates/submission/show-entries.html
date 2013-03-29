@@ -1,10 +1,12 @@
-{% extends "base.html" %}
+{% extends "page-base.html" %}
 
 {% block title %}{{page_title}}{% if extra_info %}{{extra_info}}{% endif %}{% endblock %}
 
-{% block content %}
-
-<div id="spc-itemdisp-pageheader">{{page_title}}{% if extra_info %}{{extra_info}}{% endif %}</div>
-{% include 'submission/entries_list.html' %}
-
+{% block pageContent %}
+<div class="row-fluid">
+	<div class="SearchResult span12">
+		<div class="spc-page-title"><h3>{{page_title|upper}}{% if extra_info %}{{extra_info}}{% endif %}</h3></div>
+		{% include 'submission/entries_list.html' %}
+	</div><!--/span12-->
+</div><!--/search result-->
 {% endblock %}
