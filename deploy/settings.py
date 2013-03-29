@@ -51,12 +51,8 @@ USE_L10N = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-if DEBUG:
-    MEDIA_ROOT = os.path.dirname(__file__) + os.sep + 'media' + os.sep
-else:
-    # For production: you'll want to copy the <base>/media/* files to your
-    # static location and modify this path to match your server.
-    MEDIA_ROOT = '<your path here>'
+
+MEDIA_ROOT = '<your path here>'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -67,7 +63,13 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+# Example: "/home/media/media.lawrence.com/media/"
+if DEBUG:
+    STATIC_ROOT = os.path.dirname(__file__) + os.sep + 'staticfiles' + os.sep
+else:
+    # For production: you'll want to copy the <base>/static/* files to your
+    # static location and modify this path to match your server.
+    STATIC_ROOT = '<your path here>'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -80,6 +82,7 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
+    os.path.dirname(__file__) + os.sep + 'media' + os.sep,
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -195,7 +198,7 @@ SPC = {
     # with ``os.sep``
     #
     # Must end with a trailing ``os.sep`` character
-    'storage_dir': MEDIA_ROOT + 'code' + os.sep,
+    'storage_dir': STATIC_ROOT + 'code' + os.sep,
 
     # Image storage directories. Do not change these settings. They are used
     # in the Sphinx extension to ensure user does not resize image beyond
@@ -207,7 +210,7 @@ SPC = {
     # is created, we retrieve the staged ZIP file and handle it appropriately
     # The staged files are then deleted. i.e. this is like a "tempdir"
     #
-    'ZIP_staging': MEDIA_ROOT + 'zip-staging',
+    'ZIP_staging': STATIC_ROOT + 'zip-staging',
 
     # Where should logfiles be written? If DEBUG != True, then you are
     # responsible that this location is valid and exists. Overwrite the
