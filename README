@@ -76,7 +76,7 @@ Installation
 
 #.  Cloning the SciPy Central code repository:
 
-    ``git clone https://github.com/kgdunn/SciPyCentral.git``
+    ``git clone https://github.com/scipy/SciPyCentral.git``
 
 #.  Ensure the following Django settings are in your ``settings.py`` file:
 
@@ -120,7 +120,6 @@ Installation
         more information at http://docs.djangoproject.com/en/dev/topics/logging
         and also see the ``settings.py`` file that is part of the SciPy
         Central code repository.
-
 
 #.	``./manage.py syncdb``
 #.  ``./manage.py migrate``          # to run the ``south`` db migrations
