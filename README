@@ -56,9 +56,7 @@ Please ensure these Python packages are available on your server:
 
         After installing Xapian, also install xapian-haystack:
 
-        *   ``git clone git://github.com/notanumber/xapian-haystack.git``
-        *   Symlink the ``xapian_backend.py`` file in the above repo to
-            ``haystack/backends/xapian_backend.py`` location.
+        *   ``pip install xapian-haystack``
 
 *   User registration, https://bitbucket.org/ubernostrum/django-registration/: ``pip install django-registration``
 
