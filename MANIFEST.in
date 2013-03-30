@@ -1,0 +1,7 @@
+recursive-include scipy_central *.py *.json *.txt *.html
+include deploy
+recursive-include deploy/templates *.html *.txt
+recursive-include deploy/media *.html *.css *.png *.jpg *.gif *.less *.js
+prune deploy/media/code
+prune deploy/media/compile
+include deploy/media/code/note.txt

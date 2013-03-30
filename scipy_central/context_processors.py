@@ -1,4 +1,5 @@
 from django.conf import settings
+import scipy_central
 
 def global_template_variables(request):
     return {'JQUERY_URL': settings.JQUERY_URL,
@@ -8,5 +9,5 @@ def global_template_variables(request):
              # Assume the submitting user is not validated, by default
              'validated_user': False,
              'short_URL': settings.SPC['short_URL_root'],
-             'VERSION': settings.SPC['version'],
+             'VERSION': scipy_central.__version__,
             }

@@ -1,21 +1,32 @@
+Quick start
+-----------
+
+To set up a development environment quickly, you can install the Virtualenv
+package (https://pypi.python.org/pypi/virtualenv) and then run
+
+    python quickstart.py
+
+This will create a virtualenv under deploy/env and download, use easy_install
+to get correct versions of prerequisites from the Internet, and finally run the
+initial database setup.
+
+
 Prerequisites
 -------------
 
 Please ensure these Python packages are available on your server:
 
-*   Django, http://djangoproject.com: ``easy_install -U django`
+*   Django, http://djangoproject.com: ``pip install "Django>=1.4,<1.5"`
 
-    We developed on Django 1.3.0; earlier versions may also work.
-
-*   Pygments, http://pygments.org: ``easy_install -U pygments``
+*   Pygments, http://pygments.org: ``pip install Pygments``
 
     We used version 1.4 during development; earlier versions may also work.
 
-*   South, http://south.aeracode.org/: ``easy_install -U south``
+*   South, http://south.aeracode.org/: ``pip install South``
 
     We used version 0.7.3 during development; earlier versions may also work.
 
-*   Sphinx, http://sphinx.pocoo.org: ``easy_install -U sphinx``
+*   Sphinx, http://sphinx.pocoo.org: ``pip install Sphinx``
 
     We used version 1.1 during development because it handles MathJax.
 
@@ -25,51 +36,45 @@ Please ensure these Python packages are available on your server:
     bullets, paragraphs, tt-text, etc. ``rst2html`` from ``docutils`` might
     be a better, lightweight substitute in the future.
 
-*   Haystack search, http://haystacksearch.org at version 1.2.0
+*   Haystack search, http://haystacksearch.org: ``pip install django-haystack``
 
-    *   git clone https://github.com/toastdriven/django-haystack.git
-    *   cd django-haystack
-    *   git checkout 00a23e0cd6ac533073c2  # version 1.2.0; not 2.0.0-alpha
-    *   python setup.py install
-    *   Edit the ``search_settings.py`` file under ``deploy`` to customize
-        the search options.
+    We used versions 1.2.x during development.
 
-    We use the Xapian backend with Haystack:
+    You can edit the ``search_settings.py`` file under ``deploy`` to customize
+    the search options.
 
-    *   See the installation instructions at
-        http://docs.haystacksearch.org/dev/installing_search_engines.html
+    We use either the Xapian or the Whoosh backend with Haystack:
 
-        although installation in a hosted environment will require more work.
+    *   Whoosh: ``pip install Whoosh``
+
+    *   For Xapian, see the installation instructions at
+        http://django-haystack.readthedocs.org/en/latest/installing_search_engines.html
+
+        Installation in a hosted environment will require more work.
 
         (We use Xapian version 1.2.6 on our dev and production servers)
 
-    *   After installing Xapian, also install:
+        After installing Xapian, also install xapian-haystack:
 
-        *   ``git clone git://github.com/notanumber/xapian-haystack.git``
-        *   Symlink the ``xapian_backend.py`` file in the above repo to
-            ``haystack/backends/xapian_backend.py`` location.
+        *   ``pip install xapian-haystack``
 
-*   User registration, https://bitbucket.org/ubernostrum/django-registration/
+*   User registration, https://bitbucket.org/ubernostrum/django-registration/: ``pip install django-registration``
 
-    *   hg clone http://bitbucket.org/ubernostrum/django-registration/
-    *   cd django-registration
-    *   python setup.py install
+*   Python Imaging Library (for screenshot handling): ``pip install PIL``
 
-*   Python Imaging Library (for screenshot handling)
-
-    *   This is a requirement for Django and Sphinx.
-
+*   Mercurial: http://mercurial.selenic.com
 
 Not required yet (might be as we add more functionality to the site):
 
-*   easy_install python-openid
+*   ``pip install python-openid``
+
 
 Installation
 --------------
 
 #.  Cloning the SciPy Central code repository:
 
-    ``git clone https://github.com/kgdunn/SciPyCentral.git``
+    ``git clone https://github.com/scipy/SciPyCentral.git``
 
 #.  Ensure the following Django settings are in your ``settings.py`` file:
 
@@ -113,7 +118,6 @@ Installation
         more information at http://docs.djangoproject.com/en/dev/topics/logging
         and also see the ``settings.py`` file that is part of the SciPy
         Central code repository.
-
 
 #.	``./manage.py syncdb``
 #.  ``./manage.py migrate``          # to run the ``south`` db migrations
