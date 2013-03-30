@@ -5,6 +5,7 @@ Simplified BSD-license. (c) Kevin Dunn, 2011.
 Hg wrapper: modified from: https://bitbucket.org/kevindunn/ucommentapp
 """
 import re, subprocess, os
+from django.conf import settings
 
 # http://code.activestate.com/recipes/52224-find-a-file-given-a-search-path/
 def search_file(filename, search_path):
@@ -118,12 +119,19 @@ class DVCSRepo(object):
         actions = self.verbs[verb][2]
         if repo_dir == '':
             repo_dir = self.local_dir
+
+        # Set home directory to here, to avoid using spurious
+        # hgrc/gitconfig files
+        env = dict(os.environ)
+        env['HOME'] = os.path.abspath(os.path.dirname(__file__))
+
         try:
             command[0] = self.verbs[verb][0]
             command.insert(0, self.executable)
             out = subprocess.Popen(command, stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
-                                   cwd=repo_dir)
+                                   cwd=repo_dir,
+                                   env=env)
             if testing:
                 # For some strange reason, unit tests fail if we don't have
                 # a small pause here.
