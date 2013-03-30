@@ -23,9 +23,10 @@ def search_file(filename, search_path):
 
 testing = False
 
-class DVCSError(Exception):
+class DVCSError(RuntimeError):
     """ Exception class used to raise errors related to the DVCS operations."""
     def __init__(self, value, original_message=''):
+        RuntimeError.__init__(self, value)
         self.value = value
         self.original_message = original_message
 
@@ -129,18 +130,16 @@ class DVCSRepo(object):
                 import time
                 time.sleep(0.1)
 
-            stderr = out.stderr.readlines()
-            if stderr:
-                return stderr
+            stdout, stderr = out.communicate()
 
             if out.returncode == 0 or out.returncode is None:
                 if actions.get(0, '') == '<string>':
-                    return out.communicate()[0]
+                    return stdout
                 else:
                     return out.returncode
             else:
-                return out.returncode
-
+                raise DVCSError("DVCS command %r failed %d: %s" % (
+                    command, out.returncode, stderr + stdout))
         except OSError as err:
             if err.strerror == 'No such file or directory':
                 raise DVCSError(('The DVCS executable file was not found, or '
