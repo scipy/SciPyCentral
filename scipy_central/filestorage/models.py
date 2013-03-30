@@ -63,7 +63,7 @@ class FileSet(models.Model):
 
         # Only add this file
         try:
-            repo.add(fname)
+            repo.add([fname])
         except DVCSError as e:
             # Happens if a file with the same name already exists in the repo
             if e.value == 'Could not add one or more files to repository.':
@@ -87,7 +87,7 @@ class FileSet(models.Model):
 
 
         try:
-            repo.add(pattern)
+            repo.add([pattern])
         except DVCSError as e:
             logger.error('DVCS error: %s' % e.original_message)
 
