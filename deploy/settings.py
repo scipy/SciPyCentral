@@ -5,7 +5,9 @@ import django.conf.global_settings as DEFAULT_SETTINGS
 
 # Add the parent to the path, to access files in ``../scipy_central/``
 import os, sys
-parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+deploy_dir = os.path.abspath(os.path.dirname(__file__))
+parent_dir = os.path.join(deploy_dir, os.pardir)
 sys.path.insert(0, parent_dir)
 
 DEBUG = True
@@ -68,7 +70,7 @@ MEDIA_URL = '/media/'
 # Example: "/home/media/media.lawrence.com/static/"
 # Example: "/home/media/media.lawrence.com/media/"
 if DEBUG:
-    STATIC_ROOT = os.path.dirname(__file__) + os.sep + 'staticfiles' + os.sep
+    STATIC_ROOT = os.path.join(deploy_dir, 'staticfiles')
 else:
     # For production: you'll want to copy the <base>/static/* files to your
     # static location and modify this path to match your server.
@@ -85,7 +87,7 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    os.path.dirname(__file__) + os.sep + 'media' + os.sep,
+    os.path.join(deploy_dir, 'media'),
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -123,7 +125,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.abspath(os.path.join(os.path.dirname(__file__), 'templates')),
+    os.path.join(deploy_dir, 'templates'),
 )
 
 # To get access to some global variables used in the templates
@@ -198,17 +200,14 @@ SPC = {
     #
     # <storage><submission_primary_key>/<submission_slug>.py
     # <storage><submission_primary_key>/LICENSE.txt
-    # where <storage> is the variable defined next, as should always end
-    # with ``os.sep``
-    #
-    # Must end with a trailing ``os.sep`` character
-    'storage_dir': STATIC_ROOT + 'code' + os.sep,
+    # where <storage> is the variable defined next
+    'storage_dir': os.path.join(STATIC_ROOT, 'code'),
 
     # Image storage directories. Do not change these settings. They are used
     # in the Sphinx extension to ensure user does not resize image beyond
     # the maximum width or height.
-    'raw_image_dir': 'raw-images/%Y%m' + os.sep,
-    'resized_image_dir': 'images/%Y%m' + os.sep,
+    'raw_image_dir': 'raw-images/%Y%m',
+    'resized_image_dir': 'images/%Y%m',
 
     # Where are ZIP files staged? User's upload ZIP files; only the submission
     # is created, we retrieve the staged ZIP file and handle it appropriately
@@ -249,42 +248,8 @@ SPC = {
     'common_rcs_dirs': ['.hg', '.git', '.bzr', '.svn',],
 }
 
-# All about ``local_settings.py``
-# ===============================
-
-# Use ``local_settings.py`` to store variables that you don't want visible to
-# revision control systems, or for settings that differ between production and
-# development servers.
-# The default variables that are expected are listed in the ``ImportError``
-# part of the exception below.
-import os
-
-this_dir = os.path.dirname(__file__)
-try:
-    execfile(os.path.join(this_dir, 'local_settings.py'))
-except IOError:
-    # See https://docs.djangoproject.com/en/1.3/ref/settings for EMAIL settings
-    EMAIL_HOST = ''
-    EMAIL_HOST_USER = ''
-    EMAIL_HOST_PASSWORD = ''
-    # Visitors will receive email from this address e.g. "admin@example.org"
-    SERVER_EMAIL = ''
-    DEFAULT_FROM_EMAIL = SERVER_EMAIL
-
-    # Where should JQuery be served from?
-    JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'
-    JQUERYUI_URL = 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js'
-    JQUERYUI_CSS = 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/smoothness/jquery-ui.css'
-
-    # If you use Piwik, Google Analytics, etc: add the code snippet here that
-    # will be placed as the last entry in the closing </head> tag.
-    ANALYTICS_SNIPPET = ''
-
-    # You can also overwrite keys from ``SPC`` in the ``local_settings.py`` file
-
 # Put all the search settings in a single file
-execfile(os.path.join(this_dir, 'search_settings.py'))
-
+execfile(os.path.join(deploy_dir, 'search_settings.py'))
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -345,3 +310,34 @@ LOGGING = {
         },
     }
 }
+
+# All about ``local_settings.py``
+# ===============================
+
+# Use ``local_settings.py`` to store variables that you don't want visible to
+# revision control systems, or for settings that differ between production and
+# development servers.
+# The default variables that are expected are listed in the ``ImportError``
+# part of the exception below.
+
+try:
+    execfile(os.path.join(deploy_dir, 'local_settings.py'))
+except IOError:
+    # See https://docs.djangoproject.com/en/1.3/ref/settings for EMAIL settings
+    EMAIL_HOST = ''
+    EMAIL_HOST_USER = ''
+    EMAIL_HOST_PASSWORD = ''
+    # Visitors will receive email from this address e.g. "admin@example.org"
+    SERVER_EMAIL = ''
+    DEFAULT_FROM_EMAIL = SERVER_EMAIL
+
+    # Where should JQuery be served from?
+    JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'
+    JQUERYUI_URL = 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js'
+    JQUERYUI_CSS = 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/smoothness/jquery-ui.css'
+
+    # If you use Piwik, Google Analytics, etc: add the code snippet here that
+    # will be placed as the last entry in the closing </head> tag.
+    ANALYTICS_SNIPPET = ''
+
+    # You can also overwrite keys from ``SPC`` in the ``local_settings.py`` file

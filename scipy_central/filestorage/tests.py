@@ -19,8 +19,8 @@ class DVCS_Tests(TestCase):
         the test.
         """
         self.tempdir = tempfile.mkdtemp()
-        self.local_path = self.tempdir + os.sep + 'local' + os.sep
-        self.remote_path = self.tempdir + os.sep + 'remote' + os.sep
+        self.local_path = os.path.join(self.tempdir, 'local')
+        self.remote_path = os.path.join(self.tempdir, 'remote')
 
     def tearDown(self):
         """ Remove temporary files. """
@@ -40,7 +40,7 @@ class DVCS_Tests(TestCase):
             utils.ensuredir(self.remote_path)
 
 
-            f = open(self.remote_path + 'index.rst', 'w')
+            f = open(os.path.join(self.remote_path, 'index.rst'), 'w')
             f.writelines(['Header\n','======\n', '\n', 'Paragraph 1\n', '\n',
                           'Paragraph 2\n', '\n', 'Paragraph 3\n'])
             f.close()
@@ -62,7 +62,7 @@ class DVCS_Tests(TestCase):
             # Now, in the local repo, make some changes to test
 
             # Add a comment for paragraph 2; commit
-            f = open(self.local_path + 'index.rst', 'w')
+            f = open(os.path.join(self.local_path, 'index.rst'), 'w')
             f.writelines(['Header\n','======\n', '\n', 'Paragraph 1\n', '\n',
                           'Paragraph 2\n', '\n', '.. ucomment:: aaaaaa: 11,\n',
                            '\n', 'Paragraph 3\n'])
@@ -76,7 +76,7 @@ class DVCS_Tests(TestCase):
             self.assertEqual(new_hash, local_hash)
 
             # Now add a comment to paragraph 3, but from the initial revision
-            f = open(self.local_path + 'index.rst', 'w')
+            f = open(os.path.join(self.local_path, 'index.rst'), 'w')
             f.writelines(['Header\n','======\n', '\n', 'Paragraph 1\n', '\n',
                           'Paragraph 2\n', '\n', 'Paragraph 3\n', '\n',
                           '.. ucomment:: bbbbbb: 22,\n'])
@@ -87,14 +87,14 @@ class DVCS_Tests(TestCase):
             hex_str = local_repo.check_out(rev=local_hash)
 
             # Now add a comment to paragraph 1
-            f = open(self.local_path + 'index.rst', 'w')
+            f = open(os.path.join(self.local_path, 'index.rst'), 'w')
             f.writelines(['Header\n','======\n', '\n', 'Paragraph 1\n', '\n',
                           '.. ucomment:: cccccc: 33,\n', '\n', 'Paragraph 2\n',
                            '\n', 'Paragraph 3\n'])
             f.close()
             rev3 = local_repo.update_commit_and_push_updates(message='Para 1')
 
-            f = open(self.local_path + 'index.rst', 'r')
+            f = open(os.path.join(self.local_path, 'index.rst'), 'r')
             lines = f.readlines()
             f.close()
             final_result = ['Header\n', '======\n', '\n', 'Paragraph 1\n',
@@ -111,12 +111,12 @@ class DVCS_Tests(TestCase):
             # local repo without requiring a merge.
             final_result.insert(3, 'A new paragraph.\n')
             final_result.insert(4, '\n')
-            with open(self.remote_path + 'index.rst', 'w') as f_handle:
+            with open(os.path.join(self.remote_path, 'index.rst'), 'w') as f_handle:
                 f_handle.writelines(final_result)
 
             remote_repo.commit(message='Remote update.')
             local_repo.pull_update_and_merge()
 
-            with open(self.local_path + 'index.rst', 'r') as f_handle:
+            with open(os.path.join(self.local_path, 'index.rst'), 'r') as f_handle:
                 local_lines = f_handle.readlines()
             self.assertEqual(local_lines, final_result)

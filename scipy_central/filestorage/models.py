@@ -29,7 +29,7 @@ class FileSet(models.Model):
         """ Override the model's saving function to ensure the repo dir is
         created. """
 
-        utils.ensuredir(storage_dir + self.repo_path)
+        utils.ensuredir(os.path.join(storage_dir, self.repo_path))
         super(FileSet, self).save(*args, **kwargs)
 
 
@@ -37,7 +37,7 @@ class FileSet(models.Model):
         """
         Create an empty repo (``init``) and returns it.
         """
-        repo = DVCSRepo(backend, storage_dir + self.repo_path, do_init=True,
+        repo = DVCSRepo(backend, os.path.join(storage_dir, self.repo_path), do_init=True,
                         dvcs_executable=revisioning_executable)
         # Save the location for next time
         globals()['revisioning_executable'] = repo.executable
@@ -56,7 +56,7 @@ class FileSet(models.Model):
         f.writelines(list_strings)
         f.close()
 
-        repo = DVCSRepo(backend, storage_dir + self.repo_path,
+        repo = DVCSRepo(backend, os.path.join(storage_dir, self.repo_path),
                              dvcs_executable=revisioning_executable)
         # Save the location for next time
         globals()['revisioning_executable'] = repo.executable
@@ -81,7 +81,7 @@ class FileSet(models.Model):
         A commit will be written to the repo if ``commit_msg`` is not empty.
         """
         if repo is None:
-            repo = DVCSRepo(backend, storage_dir + self.repo_path,
+            repo = DVCSRepo(backend, os.path.join(storage_dir, self.repo_path),
                             do_init=False,
                             dvcs_executable=revisioning_executable)
 
@@ -100,7 +100,7 @@ class FileSet(models.Model):
         """
         Returns the current repo hash for this fileset
         """
-        repo = DVCSRepo(backend, storage_dir + self.repo_path,
+        repo = DVCSRepo(backend, os.path.join(storage_dir, self.repo_path),
                             do_init=False,
                             dvcs_executable=revisioning_executable)
         return repo.get_revision_info()[0:60]
@@ -110,7 +110,7 @@ class FileSet(models.Model):
         """
         Returns the DVCS repo object
         """
-        return DVCSRepo(backend, storage_dir + self.repo_path,
+        return DVCSRepo(backend, os.path.join(storage_dir, self.repo_path),
                          dvcs_executable=revisioning_executable)
 
 
@@ -119,7 +119,7 @@ class FileSet(models.Model):
 
         Equivalent, for e.g., to ``hg checkout 28ed0c6faa19`` for that hash_id.
         """
-        repo = DVCSRepo(backend, storage_dir + self.repo_path,
+        repo = DVCSRepo(backend, os.path.join(storage_dir, self.repo_path),
                     do_init=False,
                     dvcs_executable=revisioning_executable)
         hash_str = repo.check_out(hash_id)
@@ -151,16 +151,15 @@ class FileSet(models.Model):
           'yqr.png'
         ]
         """
-        common = os.path.join(storage_dir, self.repo_path) + os.sep
-        for path, dirs, files in os.walk(os.path.join(storage_dir, self.repo_path)):
+        base_dir = os.path.join(storage_dir, self.repo_path)
+        for path, dirs, files in os.walk(base_dir):
             dirname = os.path.split(path)[1]
             if dirname in settings.SPC['common_rcs_dirs']:
                 for entry in dirs[:]:
                     dirs.remove(entry)
             else:
                 for fname in files:
-                    yield (path + os.sep + fname).partition(common)[2]
-
+                    yield os.path.relpath(os.path.join(path, fname), base_dir)
 
     def __unicode__(self):
         return '<storage_dir>/' + self.repo_path

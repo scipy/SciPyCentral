@@ -29,7 +29,7 @@ def make_link_role(base_url, app):
             # height. Also, not greater than 100%
             specs['scaling'] = max(15.0, min(100, specs['scaling']))
 
-        img_dir = app.env.config.SPC['resized_image_dir'].partition(os.sep)[0]
+        img_dir = os.path.join(app.env.config.SPC['resized_image_dir'], os.pardir)
         img_file = os.path.join(img_dir, text_part[0])
         img_obj = app.env.config.SPC['__Screenshot__'].objects.\
                                                      filter(img_file=img_file)

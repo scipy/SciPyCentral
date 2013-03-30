@@ -97,9 +97,7 @@ class DVCSRepo(object):
             try:
                 self.init(repo_dir)
             except DVCSError:
-                if repo_dir[-1] != os.sep:
-                    repo_dir += os.sep
-                if os.path.exists(repo_dir + '.' + backend):
+                if os.path.exists(os.path.join(repo_dir, '.' + backend)):
                     pass
                 else:
                     raise

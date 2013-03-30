@@ -189,8 +189,8 @@ def compile_rest_to_html(raw_rest):
         warning = StringIO()
         try:
             app = Sphinx(srcdir=working_dir, confdir=working_dir,
-                         outdir = build_dir + os.sep + 'pickle',
-                         doctreedir = build_dir + os.sep + 'doctrees',
+                         outdir = os.path.join(build_dir, 'pickle'),
+                         doctreedir = os.path.join(build_dir, 'doctrees'),
                          buildername = 'pickle',
                          status = status,
                          warning = warning,

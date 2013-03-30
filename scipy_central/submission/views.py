@@ -746,7 +746,7 @@ def get_display(submission, revision, filename):
 
     # Set the repo to the correct revision
     repo = submission.fileset.checkout_revision(revision.hash_id)
-    src = os.path.join(repo.local_dir, os.sep.join(filename))
+    src = os.path.join(repo.local_dir, *filename)
 
     if str(mime_type).startswith('image'):
         # We only dislay certain image types
@@ -755,9 +755,9 @@ def get_display(submission, revision, filename):
             disp_type = 'image'
             # Copy image over to media location; we must make a copy, incase
             # a later user views a different revision of the document
-            disp_obj = os.path.normpath(force_unicode(datetime.datetime.now()\
-            .strftime(smart_str(settings.SPC['resized_image_dir']))))\
-                    + os.sep + fname
+            dirname = force_unicode(datetime.datetime.now().strftime(
+                smart_str(settings.SPC['resized_image_dir'])))
+            disp_obj = os.path.normpath(os.path.join(dirname, fname))
             dst = os.path.join(settings.SPC['storage_dir'], disp_obj)
             idx = 1
             while os.path.exists(dst):
