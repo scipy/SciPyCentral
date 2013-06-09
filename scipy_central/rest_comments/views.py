@@ -260,4 +260,3 @@ def rest_to_html_ajax(request, field_name='rst_comment'):
 
     logger.debug("Successfully compiled user's comment.")
     return HttpResponse(html_comment, status=200)
-

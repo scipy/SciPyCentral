@@ -1029,5 +1029,3 @@ def show_items(request, what_view='', extra_info=''):
                                                  'page_title': page_title,
                                                  'extra_info': extra_info,
                                                  'what_view' : what_view,}))
-
-

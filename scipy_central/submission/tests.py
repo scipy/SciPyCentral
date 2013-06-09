@@ -33,6 +33,3 @@ class SimpleTest(TestCase):
             match = view_url.match(item[0]).groupdict()
             for key, val in match.iteritems():
                 self.assertEqual(val, item[1][key])
-
-
-
