@@ -1,5 +1,6 @@
 logfile.log
 *.pyc
+*.bak
 deploy/staticfiles/*
 deploy/media/code/*
 deploy/media/raw-images/*
