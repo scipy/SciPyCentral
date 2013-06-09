@@ -5,7 +5,7 @@ from django.contrib.syndication.views import Feed
 from django.utils.feedgenerator import Atom1Feed
 
 # scipycentral imports
-from scipy_central.submission.models import Revision
+from scipy_central.submission.models import Submission, Revision
 from scipy_central.tagging.models import Tag
 
 class RssSiteFeed(Feed):
@@ -40,6 +40,26 @@ class AtomSiteFeed(RssSiteFeed):
     feed_type = Atom1Feed
     subtitle = RssSiteFeed.description
 
+class RssSubmissionFeed(RssSiteFeed):
+    def get_object(self, request, item_id):
+        the_submission = get_object_or_404(Submission, pk=item_id)
+        return the_submission
+
+    def title(self, obj):
+        # all revisions have same title. so, doesn't matter which element we take.
+        # Each Submission has at least 1 revision (the latest one),
+        rev_obj = obj.revisions.all()[0]
+        return '%s - SciPy Central' % rev_obj.title
+
+    def feed_url(self, obj):
+        return '/feeds/%d/' % obj.pk
+
+    def items(self, obj):
+        return obj.revisions.all()
+
+    description = 'Submission Feed'
+    description_template = RssSiteFeed.description_template
+
 class RssTagFeed(RssSiteFeed):
     def get_object(self, request, tag_slug):
         return get_object_or_404(Tag, slug=slugify(tag_slug))
@@ -50,14 +70,14 @@ class RssTagFeed(RssSiteFeed):
     def link(self, obj):
         return '/item/tag/%s/' % obj.slug
 
-    def feed_url(self, obj):
-        return '/feeds/%s' % obj.slug
+        def feed_url(self, obj):
+            return '/feeds/%s' % obj.slug
 
-    def description(self, obj):
-        return obj.description
+        def description(self, obj):
+            return obj.description
 
-    def categories(self, obj):
-        return tuple(obj.slug)
+        def categories(self, obj):
+            return tuple(obj.slug)
 
-    def items(self, obj):
-        return Revision.objects.all().filter(tags=obj, is_displayed=True).order_by('-date_created')[:30]
+        def items(self, obj):
+            return Revision.objects.all().filter(tags=obj, is_displayed=True).order_by('-date_created')[:30]
