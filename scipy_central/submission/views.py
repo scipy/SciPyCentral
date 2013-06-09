@@ -992,7 +992,6 @@ def show_items(request, what_view='', extra_info=''):
         all_revs = models.Revision.objects.all().\
                                         filter(tags__slug=slugify(extra_info))
         page_title = 'All entries tagged'
-        extra_info = ': "%s"' % extra_info
         entry_order = list(all_revs)
     elif what_view == 'show' and extra_info == 'all-tags':
         page_title = 'All tags'
@@ -1028,6 +1027,5 @@ def show_items(request, what_view='', extra_info=''):
                               context_instance=RequestContext(request,
                                                 {'entries': entries,
                                                  'page_title': page_title,
-                                                 'extra_info': extra_info}))
-
-
+                                                 'extra_info': extra_info,
+                                                 'what_view' : what_view,}))

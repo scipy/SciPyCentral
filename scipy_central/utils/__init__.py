@@ -191,5 +191,3 @@ def paginated_queryset(request, queryset):
         return paginator.page(page)
     except (EmptyPage, InvalidPage):
         return paginator.page(paginator.num_pages)
-
-

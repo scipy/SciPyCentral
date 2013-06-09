@@ -164,4 +164,3 @@ class FileSet(models.Model):
 
     def __unicode__(self):
         return '<storage_dir>/' + self.repo_path
-

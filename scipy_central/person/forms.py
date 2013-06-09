@@ -83,4 +83,3 @@ class SignUpForm(RegistrationForm):
                                               "different email address."))
 
         return self.cleaned_data['email']
-

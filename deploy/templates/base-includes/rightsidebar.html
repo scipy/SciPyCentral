@@ -54,4 +54,16 @@
 			<li><a href="http://Numpy.org" target="_blank">Numpy Website</a></li>
 		</ul>
 	</div>
+
+	<div class="navigation">
+		<ul class="unstyled">
+			<li><img src="{{STATIC_URL}}img/feed-icon-14x14.png"> <a href="{% url spc-rss-recent-submissions %}">most recent submissions feed</a></li>
+			{% if not preview and item.entry %}
+			<li><a href="{% url spc-rss-submission-feed item_id=item.entry.pk %}"><img src="{{STATIC_URL}}img/feed-icon-14x14.png"> This Submission Feed</a></li>
+			{% endif %}
+			{% if what_view == "tag" %}
+			<li><a href="{% url spc-rss-tag-feed extra_info %}"><img src="{{STATIC_URL}}img/feed-icon-14x14.png"> Recent <b>{{extra_info}}</b> submissions feed</a></li>
+			{% endif %}
+		</ul>
+	</div>
 </div><!--/rightsidebar span3-->

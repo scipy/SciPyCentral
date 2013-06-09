@@ -96,5 +96,3 @@ def page_500_error(request):
     t = get_template('500.html')
     html = t.render(RequestContext(request))
     return HttpResponse(html, status=500)
-
-
