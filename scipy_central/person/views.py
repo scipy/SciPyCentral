@@ -219,4 +219,3 @@ def account_activation(user, **kwargs):
         rev.is_displayed = True
         rev.validation_hash = None
         rev.save()
-

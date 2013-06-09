@@ -157,6 +157,7 @@ INSTALLED_APPS = (
     'scipy_central.tagging',
     'scipy_central.screenshot',
     'scipy_central.pagehit',
+    'scipy_central.feeds',
 )
 
 # Authentication related:
