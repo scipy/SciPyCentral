@@ -1,0 +1,17 @@
+{% if obj.entry.sub_type == "snippet" %}
+<h4>Snippet</h4>
+<p><pre>{{obj.item_code}}</pre></p>
+{% endif %}
+
+{% if obj.entry.sub_type == "link" %}
+<h4>Link</h4>
+<p>{{obj.item_url}}</p>
+{% endif %}
+
+{% if obj.entry.sub_type == "package" %}
+<h4>Package</h4>
+<p>{{obj.entry.get_absolute_url}}</p>
+{% endif %}
+
+<h4>Description</h4>
+<p>{{obj.description_html|safe}}</p>
