@@ -70,14 +70,14 @@ class RssTagFeed(RssSiteFeed):
     def link(self, obj):
         return '/item/tag/%s/' % obj.slug
 
-        def feed_url(self, obj):
-            return '/feeds/%s' % obj.slug
+    def feed_url(self, obj):
+        return '/feeds/%s' % obj.slug
 
-        def description(self, obj):
-            return obj.description
+    def description(self, obj):
+        return obj.description
 
-        def categories(self, obj):
-            return tuple(obj.slug)
+    def categories(self, obj):
+        return tuple(obj.slug)
 
-        def items(self, obj):
-            return Revision.objects.all().filter(tags=obj, is_displayed=True).order_by('-date_created')[:30]
+    def items(self, obj):
+        return Revision.objects.all().filter(tags=obj, is_displayed=True).order_by('-date_created')[:30]
