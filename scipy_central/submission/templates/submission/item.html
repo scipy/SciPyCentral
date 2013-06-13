@@ -146,19 +146,9 @@
 					</div><!--accordion group-->
 					
 					{% if extra_html %}
-					<div class="accordion-group">
-						<!--snippet title-->
-						<div class="accordion-heading">
-							<a class="accordion-toggle" data-toggle="collapse" href="#collaps4">
-							Extra message <i class="icon-arrow-up"></i> 
-							</a>
-						</div><!--/snippet title-->
-						<div id="collapse4" class="accordion-body collapse in">
-							<div class="accordion-inner">
-								{{extra_html|safe}}
-							</div>
-						</div>
-					</div><!--accordion group-->
+					<div class="alert alert-info help-text">
+						{{extra_html|safe}}
+					</div>
 					{% endif %}
 					
 				</div> <!--root snippet body -->

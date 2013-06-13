@@ -606,11 +606,11 @@ def new_or_edit_submission(request, bound_form=False):
                 '{% csrf_token %}\n'
                 '{{item.as_hidden}}'  # upload the form values as hidden fields
                 '<div id="spc-preview-edit-submit-button-group">'
-                '<input type="submit" name="spc-cancel" value="Cancel"'
+                '<input class="btn btn-primary" type="submit" name="spc-cancel" value="Cancel"'
                 'id="spc-item-cancel" />\n'
-                '<input type="submit" name="spc-edit"   value="Resume editing"'
+                '<input class="btn btn-primary" type="submit" name="spc-edit"   value="Resume editing"'
                 'id="spc-item-edit" />\n'
-                '<input type="submit" name="spc-submit" '
+                '<input class="btn btn-success" type="submit" name="spc-submit" '
                 'value="{{ finish_button_text }}"'
                 'id="spc-item-submit"/>\n'
                 '</div></form></div>')
