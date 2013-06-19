@@ -40,15 +40,12 @@
 						{{user.username}}
 						<b class="caret"></b>
 					</a>
-					<div class="dropdown-menu" style="padding: 8px; padding-bottom: 0px;">
+					<ul class="dropdown-menu">
 					{% if user.username and user.profile.slug %}
-						<form method="post" action="{% url auth_logout %}">
-						{% csrf_token %}
-							<a class="btn btn-small btn-block" href="{% url spc-user-profile user.profile.slug %}">Profile</a>
-							<input class="btn btn-small btn-block" name="submit" value="Sign out" type="submit">
-						</form>
+						<li><a href="{% url spc-user-profile user.profile.slug %}">Profile</a></li>
+						<li><a href="{% url auth_logout %}">Logout</a></li>
 					{% endif %}
-					</div>
+					</ul>
 				</li>
 				{% else %}
 				<li><a href="{% url auth_login %}">Sign In</a></li>
