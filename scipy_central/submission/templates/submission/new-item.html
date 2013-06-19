@@ -59,9 +59,16 @@ $(function() {
 <div class="span12">
 	<div class="row-fluid">
 		<div class="span12 spc-page-title" style="padding-bottom:25px;">
-			<h3>Submit Code or Snippet or Link</h3>
+			<h3>
+			{% url spc-new-submission item_type='snippet' as ref_url1 %}
+			{% url spc-new-submission item_type='link' as ref_url2 %}
+			{% url spc-new-submission item_type='package' as ref_url3 %}
+			{% if request.path == ref_url1 %}Snippet Submission
+			{% elif request.path == ref_url2 %}Link Submission
+			{% elif request.path == ref_url3 %}Package Submission{% endif %}</h3>
 		</div>
 	</div>
+
 	<div class="row-fluid">
 		<form action="" method="POST" class="spc-ul-form" enctype="multipart/form-data">
 		{% csrf_token %}
