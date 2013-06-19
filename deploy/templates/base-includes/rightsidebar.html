@@ -55,6 +55,17 @@
 		</ul>
 	</div>
 
+
+	<div class="navigation">
+		<ul class="unstyled">
+			<li class="nav-title underline-bold">Top Contributors</li>
+			{% for item in "authors"|top_authors:8 %}
+			<li><a href="{{ item.get_absolute_url }}">{{ item.user.username }}</a></li>
+			{% endfor %}
+			<li><a href="{% url spc-show-items what_view="show" extra_info="top-contributors" %}">Show All</a></li>
+		</ul>
+	</div>
+
 	<div class="navigation">
 		<ul class="unstyled">
 			<li><a href="{% url spc-rss-recent-submissions %}"><img src="{{STATIC_URL}}img/feed-icon-14x14.png"> most recent submissions feed</a></li>
