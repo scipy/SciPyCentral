@@ -1,53 +1,37 @@
 {# The ``entry`` object must be from the ``submission.Revision`` class #}
 {% if entry %}
-<div class="row-fluid result">
-	<div class="content">			
-		<!--row-fluid-->
-		<div class="row-fluid">
-			<div class="spc-search-result-title span12">
-				<h4>
-					<a href="{{entry.get_absolute_url}}">{{ entry.title}}</a>
-					<span style="font-size: small; text-transform: uppercase;">
-					{% if entry.entry.sub_type == 'snippet' %}
-						(snippet)
-					{% endif %}
-					{% if entry.entry.sub_type == 'package' %}
-						(package)
-					{% endif %}
-					{% if entry.entry.sub_type == 'link' %}
-						(link)
-					{% endif %}
-					</span> 
-				</h4>
-			</div>
-		</div><!--/row-fluid-->
-		
-		<div class="row-fluid">
-			<div class="spc-search-result-description span12">
-				<p>{{ entry.description_html|truncatewords_html:"30"|safe|removetags:"p li ul ol img a math h1 h2 h3 h4 h5 h6"}}</p>
-			</div>
-		</div><!--/row-fluid-->
-		
-		<!--row-fluid-->
-		<div class="row-fluid">
-			<div class="meta tags span6">
-				<ul class="inline">
-				{% for tag in entry.tags.all %}
-					<li class="btn btn-mini"><a href="{% url spc-show-items what_view="tag" extra_info=tag %}">{{tag.name}}</a></li>
-				{% endfor %}
-				</ul>
-			</div>
-			<div class="meta info span6">
-				<ul class="inline pull-right">
-					{% if entry.short_human_revision_string %}
-						<li>{{entry.short_human_revision_string|safe}}<li>
-					{% endif %}
-					<li>by <a href="{% url spc-user-profile slug=entry.created_by.profile.slug %}">{{entry.created_by.username}}</a></li>
-					<li>on {{ entry.date_created|date:"d F Y"}}</li>
-				</ul>
-			</div>
-		</div><!--row-fluid-->
-		<hr>
-	</div><!--/content-->
-</div><!--/result-->
+<li class="media">
+	<a class="pull-left" href="#">
+		{% if entry.entry.sub_type == 'snippet' %}
+		<img src="{{STATIC_URL}}single-file-list-icon-tiny.png">
+		{% endif %}
+		{% if entry.entry.sub_type == 'package' %}
+		<img src="{{STATIC_URL}}multiple-file-list-icon-tiny.png">
+		{% endif %}
+		{% if entry.entry.sub_type == 'link' %}
+		<img src="{{STATIC_URL}}external-link-list-icon-tiny.png">
+		{% endif %}
+	</a>
+	<div class="media-body">
+		<h4 class="media-heading">
+			<a href="{{entry.get_absolute_url}}">{{ entry.title}}</a>
+		</h4>
+		<p class="media-description">{{ entry.description_html|truncatewords_html:"30"|safe|removetags:"p li ul ol img a math h1 h2 h3 h4 h5 h6"}}</p>
+
+		<ul class="inline tags pull-left">
+		{% for tag in entry.tags.all %}
+			<li class="btn btn-mini"><a href="{% url spc-show-items what_view="tag" extra_info=tag %}">{{tag.name}}</a></li>
+		{% endfor %}
+		</ul>
+
+		<ul class="inline pull-right muted">
+			{% if entry.short_human_revision_string %}
+				<li><small>{{entry.short_human_revision_string|safe}}</small><li>
+			{% endif %}
+			<li><small>by <a href="{% url spc-user-profile slug=entry.created_by.profile.slug %}">{{entry.created_by.username}}</a></small></li>
+			<li><small>on {{ entry.date_created|date:"d F Y"}}</small></li>
+		</ul>
+	</div>
+</li>
+<hr> <!--helps to create some space between each submission, draw a line "easily"-->
 {% endif %}

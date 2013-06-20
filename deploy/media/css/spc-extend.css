@@ -49,12 +49,6 @@ body {
   font-size: 9.5px;
   font-weight: bold;
 }
-.spc-search-result-title h1,
-.spc-search-result-title h2,
-.spc-search-result-title h3,
-.spc-search-result-title h4 {
-  font-weight: normal;
-}
 .spc-snippet-header {
   margin-bottom: 5px;
 }
