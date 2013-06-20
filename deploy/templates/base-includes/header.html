@@ -15,20 +15,21 @@
 			><a href="{% url spc-about-page %}">About</a></li>
 			
 			<li class="dropdown
-			{% url spc-new-submission as ref_url %}
-			{% if ref_url == request.path %}active{% endif %}">
+			{% url spc-new-submission item_type='snippet' as ref_url1 %}
+			{% url spc-new-submission item_type='link' as ref_url2 %}
+			{% url spc-new-submission item_type='package' as ref_url3 %}
+			{% if request.path == ref_url1 %}active
+			{% elif request.path == ref_url2 %}active
+			{% elif request.path == ref_url3 %}active{% endif %}">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 					Submit
 					<b class="caret"></b>
 				</a>
-				<div class="dropdown-menu" style="padding: 8px; padding-bottom: 0px;">
-					<form method="post" action="{% url spc-new-submission %}">
-					{% csrf_token %}
-						<input class="btn btn-small btn-block" name="link" type="submit" value="Link">
-						<input class="btn btn-small btn-block" name="package" type="submit" value="Library">
-						<input class="btn btn-small btn-block" name="snippet" type="submit" value="Snippet">
-					</form>
-				</div>
+				<ul class="dropdown-menu">
+					<li><a href="{% url spc-new-submission item_type='snippet' %}">Snippet</a></li>
+					<li><a href="{% url spc-new-submission item_type='link' %}">Link</a></li>
+					<li><a href="{% url spc-new-submission item_type='package' %}">Package</a></li>
+				</ul>
 			</li>
 			
 			{% if user.is_active %}
