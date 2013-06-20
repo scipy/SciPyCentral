@@ -18,15 +18,14 @@ def add_screenshot(request):
         img = models.Screenshot(img_file_raw=img_form.\
                                               cleaned_data['spc_image_upload'])
         img.save()
-        msg = ('<div class="spc-item-upload-success" style="float: left;">'
-               'Upload successful. Insert the image in your description as'
+        msg = ('Upload successful. Insert the image in your description as'
                '&nbsp;&nbsp;&nbsp; <tt>:image:`%s`</tt><br>'
-               'Want a <b>smaller</b> image? e.g. scaled down to 40%%: '
-               '&nbsp;&nbsp;&nbsp;<tt>:image:`%s;40`</tt><br></div>') %\
+               '<br>'
+               '<i>Want a smaller image? e.g. scaled down to 40%%:</i> '
+               '&nbsp;<tt>:image:`%s;40`</tt><br>') %\
                             (img.img_file_raw.name.partition('/')[2],
                              img.img_file_raw.name.partition('/')[2])
         return HttpResponse(msg)
     else:
-        msg = ('<div class="spc-field-error" style="float: left; font-style: '
-               'italic;">%s</div>') % img_form.errors.get('spc_image_upload')[0]
+        msg = ('<div class="alert alert-error">%s</div>') % img_form.errors.get('spc_image_upload')[0]
         return HttpResponse(msg)
