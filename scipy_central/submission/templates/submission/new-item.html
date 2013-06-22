@@ -84,7 +84,7 @@ $(function() {
 			{% if field.is_hidden %}
 				{{field.as_widget|safe}}
 			{% else %}
-				<div class="control-group {% if field.errors %}control-group error{% endif %}">
+				<div class="control-group no-lead {% if field.errors %}control-group error{% endif %}">
 					<label class="control-label" for="{{field.id_for_label}}">{{field.label|upper|safe}} {% if field.help_text %}<i class="icon-question-sign" onclick="$('#alert-{{forloop.counter}}').toggle();"></i>{% endif %}</label>
 					<div class="controls">
 						{% if field.help_text %}
@@ -100,6 +100,18 @@ $(function() {
 					</div>
 				</div>
 			{% endif %}
+			{% if field.name == 'description' %}
+				<div class="control-group no-lead">
+					<label class="control-label"><b>ADD AN IMAGE OR SCREENSHOT</b> TO YOUR SUBMISSION (OPTIONAL) <i class="icon-question-sign" onclick="$('#alert-image_upload').toggle();"></i></label>
+					<div class="controls">
+						<div class="alert alert-info help-text" id="alert-image_upload" style="display: none;">
+							<div class="close" onclick="$('#alert-image_upload').hide();">&times;</div>
+							<p><small>Please upload JPEG or PNG images. Please refer to <a href="{% url spc-markup-help %}" target="_blank">markup</a> for adding images in the description</small></p>
+						</div>
+						<a href="#image_upload-modal" role="button" class="btn btn-primary btn-small" data-toggle="modal">Upload Image</a>
+					</div>
+				</div>
+			{% endif %}
 		{% endfor %}
 		
 		<div class="control-group">
@@ -111,51 +123,43 @@ $(function() {
 		
 		</form>
 	</div><!--/row-fluid-->
-	
-	<div class="row-fluid">
-	<div class="span12">
-		<div class="row-fluid">
-			<div class="span12" style="text-transform: uppercase;">
-				<h5>(Optional) Add an image or screenshot to your description</h5>
-			</div>
+
+	<script type="text/javascript" src="{{STATIC_URL}}js/jquery.form.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		 var options = {
+			 target:    '#spc-item-upload-output-ajax-adds-it',
+			 success: function() { $('#spc-item-upload-output-ajax-adds-it').fadeIn('slow'); },
+			 url:       '{% url spc-screenshot-add %}',
+			 type:      'post',
+			 clearForm:  true,
+			 resetForm:  true,
+		};
+		// bind form using 'ajaxForm'
+		$('#spc-item-upload-add').ajaxForm(options);
+	});
+	</script>
+
+
+<form action="" method="post" enctype="multipart/form-data" id="spc-item-upload-add">
+{% csrf_token %}
+	<div id="image_upload-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="image_upload-Label" aria-hidden="true">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+			<h3 id="myModalLabel">Upload image(s) here to add in description</h3>
 		</div>
-
-		<script type="text/javascript" src="{{STATIC_URL}}js/jquery.form.js"></script>
-		<script type="text/javascript">
-		$(document).ready(function() {
-			 var options = {
-				 target:    '#spc-item-upload-output-ajax-adds-it',
-				 success: function() { $('#spc-item-upload-output-ajax-adds-it').fadeIn('slow'); },
-				 url:       '{% url spc-screenshot-add %}',
-				 type:      'post',
-				 clearForm:  true,
-				 resetForm:  true,
-			};
-			// bind form using 'ajaxForm'
-			$('#spc-item-upload-add').ajaxForm(options);
-		});
-		</script>
-
-		<form action="" method="post" enctype="multipart/form-data" id="spc-item-upload-add">
-			{% csrf_token %}
-			<div class="control-group">
-				<label class="control-label" for="spc_image_upload">Optionally upload <b>image file(s)</b> to use in your description</label>
-				<div class="controls">
-					<input type="file" placeholder="Choose" id="spc_image_upload" name="spc_image_upload">
-				</div>
-			</div>
-			
-			<div class="control-group">
-				<div class="controls">
-					<button class="btn btn-primary" type="submit"  name="spc-preview">Upload image</button>
-					JPEG or PNG
-				</div>
-			</div>
-		</form>
-		<div id="spc-item-upload-output-ajax-adds-it"></div>
+		<div class="modal-body">
+			<input style="visibility: hidden;" id="image_upload-file" type="file" placeholder="Choose" name="spc_image_upload">
+			<div class="btn btn-primary pull-left" onclick="document.getElementById('image_upload-file').click(); return false;">Choose File</div>
+			<p class="text-info no-lead" id="spc-item-upload-output-ajax-adds-it"></p>
+		</div>
+		<div class="modal-footer">
+			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+			<button class="btn btn-primary" type="submit"  name="spc-preview">Upload</button>
+		</div>
 	</div>
-	</div><!--/row-fluid-->
-	
+</form>
+
 	
 </div>
 </div><!--/row-fluid-->
