@@ -82,6 +82,12 @@ body {
   padding-top: 10px;
   padding-bottom: 5px;
 }
+.help-text {
+  background-color: #ffffff;
+  border-color: #ffffff;
+  color: #333333;
+  font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+}
 .spc-rightsidebar {
   color: #555555;
 }

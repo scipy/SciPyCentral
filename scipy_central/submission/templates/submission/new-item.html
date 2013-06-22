@@ -78,15 +78,18 @@ $(function() {
 				{{field.as_widget|safe}}
 			{% else %}
 				<div class="control-group {% if field.errors %}control-group error{% endif %}">
-					<label class="control-label" for="{{field.id_for_label}}">{{field.label|upper|safe}}</label>
+					<label class="control-label" for="{{field.id_for_label}}">{{field.label|upper|safe}} {% if field.help_text %}<i class="icon-question-sign" onclick="$('#alert-{{forloop.counter}}').toggle();"></i>{% endif %}</label>
 					<div class="controls">
-						{{field|add_class:"span12"|safe}}
-						{% if field.errors %}
-							<div class="alert alert-error">{{field.errors|safe}}</div>
-						{% endif %}
 						{% if field.help_text %}
-							<div class="alert alert-info"><p>{{field.help_text|safe}}</p></div>
+							<div class="alert alert-info help-text" id="alert-{{forloop.counter}}" style="display: none;">
+								<div class="close" onclick="$('#alert-{{forloop.counter}}').hide();">&times;</div>
+								<p><small>{{field.help_text|safe}}</small></p>
+							</div>
 						{% endif %}
+						{% if field.errors %}
+							<div class="alert alert-error"><small>{{field.errors|safe}}</small></div>
+						{% endif %}
+						{{field|add_class:"span12"|safe}}
 					</div>
 				</div>
 			{% endif %}
