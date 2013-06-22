@@ -55,6 +55,15 @@
 		</ul>
 	</div>
 
+	<div class="navigation">
+		<ul class="unstyled">
+			<li class="nav-title underline-bold">Top Tags</li>
+			{% for item in "submission.TagCreation"|top_tags:15 %}
+			<li><a class="btn btn-mini" href="{% url spc-show-items what_view="tag" extra_info=item.tag %}">{{item.tag.name}}</a> X {{item.score}}</li>
+			{% endfor %}
+		</ul>
+	</div>
+
 
 	<div class="navigation">
 		<ul class="unstyled">
