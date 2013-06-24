@@ -88,6 +88,10 @@ body {
   color: #333333;
   font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
 }
+.no-margin-table td,
+.no-margin-table th {
+  border-top: none;
+}
 .spc-rightsidebar {
   color: #555555;
 }
