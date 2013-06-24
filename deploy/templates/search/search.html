@@ -3,17 +3,13 @@
 {% block title %}Search Results - SciPy Central{% endblock %}
 
 {% block pageContent %}
-<div class="row-fluid">
-	<div class="spc-search-result span12">
-		<div class="spc-page-title"><h3>Search Results</h3></div>
-		{% if query %}
-			{% with page as entries %}
-				{% include 'submission/entries_list.html' %}
-			{% endwith %}
-		
-		{% else %}
-			{# Show some example queries to run, maybe advanced query syntax #}
-		{% endif %}
-	</div><!--/span12-->
-</div><!--/search result-->
+	<h3 class="underline">Search Results</h3>
+	{% if query %}
+		{% with page as entries %}
+		{% include 'submission/entries_list.html' %}
+		{% endwith %}
+
+	{% else %}
+		{# Show some example queries to run, maybe advanced query syntax #}
+	{% endif %}
 {% endblock %}

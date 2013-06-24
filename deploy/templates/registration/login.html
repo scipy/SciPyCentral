@@ -10,8 +10,8 @@
 	<div class="span8">
 	{% include "registration/signin_header.html" %}
 	</div>
-	<div class="signin span4">
-		<div class="spc-page-title"><h3>Sign In</h3></div>
+	<div class="span4">
+		<h3 class="underline">Sign In</h3>
 		<form class="form" action="{% url auth_login %}" method="post">
 		{% csrf_token %}
 			{% if form.non_field_errors %}
@@ -32,34 +32,22 @@
 			{% endif %}
 			
 			{% for field in form %}
-				<div class="control-group {% if field.errors %}control-group error{% endif %}">
-					<label class="control-label" for="{{field.id_for_label}}">{{field.label|safe}}</label>
-					<div class="controls">
-						{{field|add_class:"span12"|safe}}
-						{% if field.errors %}
-							<div class="alert alert-error">
-								{% for error in field.errors %}<i>{{ error|escape }}</i>{% endfor %}
-							</div>
-						{% endif %}
-					</div>
+				<label>{{field.label|safe}}</label>
+				{% if field.errors %}
+				<div class="alert alert-error">
+					{% for error in field.errors %}<small><i>{{ error|escape }}</i></small>{% endfor %}
 				</div>
+				{% endif %}
+				{{field|add_class:"span12"|safe}}
 			{% endfor %}
 			
 			{% if next %}
-				<div class="control-group">
-					<div class="controls">
-						<input type="hidden" name="next" value="{{next}}">
-					</div>
-				</div>
+				<input type="hidden" name="next" value="{{next}}">
 			{% endif %}
 			
-			<div class="control-group">
-				<div class="controls">
-					<button class="btn btn-primary" type="submit" name="submit">Sign in</button>
-					<a class="btn btn-success" href="{% url registration_register %}">Register</a>
-					<span style="padding-top:5px;" class="help-block"><a href="{% url auth_password_reset %}">Forgot your username or password?</a></span>
-				</div>
-			</div>
+			<button class="btn btn-primary" type="submit" name="submit">Sign in</button>
+			<a class="btn btn-success" href="{% url registration_register %}">Register</a>
+			<p class="no-lead"><a href="{% url auth_password_reset %}">Forgot your username or password?</a></p>
 		</form><!--/form-->
 	</div><!--/signin span12-->
 </div><!--/row-fluid-->

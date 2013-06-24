@@ -55,90 +55,83 @@ $(function() {
 });
 </script>
 
-<div class="row-fluid">
-<div class="span12">
-	<div class="row-fluid">
-		<div class="span12 spc-page-title" style="padding-bottom:25px;">
-			<h3>
-			{% url spc-new-submission item_type='snippet' as ref_url1 %}
-			{% url spc-new-submission item_type='link' as ref_url2 %}
-			{% url spc-new-submission item_type='package' as ref_url3 %}
-			{% if request.path == ref_url1 %}Snippet Submission
-			{% elif request.path == ref_url2 %}Link Submission
-			{% elif request.path == ref_url3 %}Package Submission{% endif %}</h3>
-		</div>
+<h3 class="underline">
+{% url spc-new-submission item_type='snippet' as ref_url1 %}
+{% url spc-new-submission item_type='link' as ref_url2 %}
+{% url spc-new-submission item_type='package' as ref_url3 %}
+{% if request.path == ref_url1 %}Snippet Submission
+{% elif request.path == ref_url2 %}Link Submission
+{% elif request.path == ref_url3 %}Package Submission
+{% else %}Edit Profile{% endif %}</h3>
+
+<form action="" method="POST" class="spc-ul-form" enctype="multipart/form-data">
+{% csrf_token %}
+
+{% if item.errors %}
+	<div class="alert alert-error">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<p><b>Some errors were found</b>. Please see fields with a coloured background</p>
 	</div>
+{% endif %}
 
-	<div class="row-fluid">
-		<form action="" method="POST" class="spc-ul-form" enctype="multipart/form-data">
-		{% csrf_token %}
-		
-		{% if item.errors %}
-			<div class="alert alert-error">
-				<button type="button" class="close" data-dismiss="alert">&times;</button>
-				<p><b>Some errors were found</b>. Please see fields with a coloured background</p>
-			</div>
-		{% endif %}
-		
-		{% for field in item %}
-			{% if field.is_hidden %}
-				{{field.as_widget|safe}}
-			{% else %}
-				<div class="control-group no-lead {% if field.errors %}control-group error{% endif %}">
-					<label class="control-label" for="{{field.id_for_label}}">{{field.label|upper|safe}} {% if field.help_text %}<i class="icon-question-sign" onclick="$('#alert-{{forloop.counter}}').toggle();"></i>{% endif %}</label>
-					<div class="controls">
-						{% if field.help_text %}
-							<div class="alert alert-info help-text" id="alert-{{forloop.counter}}" style="display: none;">
-								<div class="close" onclick="$('#alert-{{forloop.counter}}').hide();">&times;</div>
-								<p><small>{{field.help_text|safe}}</small></p>
-							</div>
-						{% endif %}
-						{% if field.errors %}
-							<div class="alert alert-error"><small>{{field.errors|safe}}</small></div>
-						{% endif %}
-						{{field|add_class:"span12"|safe}}
-					</div>
-				</div>
-			{% endif %}
-			{% if field.name == 'description' %}
-				<div class="control-group no-lead">
-					<label class="control-label"><b>ADD AN IMAGE OR SCREENSHOT</b> TO YOUR SUBMISSION (OPTIONAL) <i class="icon-question-sign" onclick="$('#alert-image_upload').toggle();"></i></label>
-					<div class="controls">
-						<div class="alert alert-info help-text" id="alert-image_upload" style="display: none;">
-							<div class="close" onclick="$('#alert-image_upload').hide();">&times;</div>
-							<p><small>Please upload JPEG or PNG images. Please refer to <a href="{% url spc-markup-help %}" target="_blank">markup</a> for adding images in the description</small></p>
-						</div>
-						<a href="#image_upload-modal" role="button" class="btn btn-primary btn-small" data-toggle="modal">Upload Image</a>
-					</div>
-				</div>
-			{% endif %}
-		{% endfor %}
-		
-		<div class="control-group">
+{% for field in item %}
+	{% if field.is_hidden %}
+		{{field.as_widget|safe}}
+	{% else %}
+		<div class="control-group no-lead {% if field.errors %}control-group error{% endif %}">
+			<label class="control-label" for="{{field.id_for_label}}">{{field.label|upper|safe}} {% if field.help_text %}<i class="icon-question-sign" onclick="$('#alert-{{forloop.counter}}').toggle();"></i>{% endif %}</label>
 			<div class="controls">
-				<button class="btn btn-primary pull-right" type="submit"  name="spc-preview">{{buttontext}}</button>
-				{{buttontext_extra}}
+				{% if field.help_text %}
+					<div class="alert alert-info help-text" id="alert-{{forloop.counter}}" style="display: none;">
+						<div class="close" onclick="$('#alert-{{forloop.counter}}').hide();">&times;</div>
+						<p><small>{{field.help_text|safe}}</small></p>
+					</div>
+				{% endif %}
+				{% if field.errors %}
+					<div class="alert alert-error"><small>{{field.errors|safe}}</small></div>
+				{% endif %}
+				{{field|add_class:"span12"|safe}}
 			</div>
 		</div>
-		
-		</form>
-	</div><!--/row-fluid-->
+	{% endif %}
+	{% if field.name == 'description' %}
+		<div class="control-group no-lead">
+			<label class="control-label"><b>ADD AN IMAGE OR SCREENSHOT</b> TO YOUR SUBMISSION (OPTIONAL) <i class="icon-question-sign" onclick="$('#alert-image_upload').toggle();"></i></label>
+			<div class="controls">
+				<div class="alert alert-info help-text" id="alert-image_upload" style="display: none;">
+					<div class="close" onclick="$('#alert-image_upload').hide();">&times;</div>
+					<p><small>Please upload JPEG or PNG images. Please refer to <a href="{% url spc-markup-help %}" target="_blank">markup</a> for adding images in the description</small></p>
+				</div>
+				<a href="#image_upload-modal" role="button" class="btn btn-primary btn-small" data-toggle="modal">Upload Image</a>
+			</div>
+		</div>
+	{% endif %}
+{% endfor %}
 
-	<script type="text/javascript" src="{{STATIC_URL}}js/jquery.form.js"></script>
-	<script type="text/javascript">
-	$(document).ready(function() {
-		 var options = {
-			 target:    '#spc-item-upload-output-ajax-adds-it',
-			 success: function() { $('#spc-item-upload-output-ajax-adds-it').fadeIn('slow'); },
-			 url:       '{% url spc-screenshot-add %}',
-			 type:      'post',
-			 clearForm:  true,
-			 resetForm:  true,
-		};
-		// bind form using 'ajaxForm'
-		$('#spc-item-upload-add').ajaxForm(options);
-	});
-	</script>
+<div class="control-group">
+	<div class="controls">
+		<button class="btn btn-primary pull-right" type="submit"  name="spc-preview">{{buttontext}}</button>
+		{{buttontext_extra}}
+	</div>
+</div>
+
+</form>
+
+<script type="text/javascript" src="{{STATIC_URL}}js/jquery.form.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	 var options = {
+		 target:    '#spc-item-upload-output-ajax-adds-it',
+		 success: function() { $('#spc-item-upload-output-ajax-adds-it').fadeIn('slow'); },
+		 url:       '{% url spc-screenshot-add %}',
+		 type:      'post',
+		 clearForm:  true,
+		 resetForm:  true,
+	};
+	// bind form using 'ajaxForm'
+	$('#spc-item-upload-add').ajaxForm(options);
+});
+</script>
 
 
 <form action="" method="post" enctype="multipart/form-data" id="spc-item-upload-add">
@@ -160,7 +153,4 @@ $(function() {
 	</div>
 </form>
 
-	
-</div>
-</div><!--/row-fluid-->
 {% endblock %}

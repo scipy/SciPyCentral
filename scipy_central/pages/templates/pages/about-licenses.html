@@ -4,68 +4,62 @@
 
 {% block content %}
 <div class="row-fluid">
-	<div class="spc-page-title"><h2>Licenses</h2></div>
+	<h3 class="underline">Licenses</h3>
 	<p class="lead">Licensing is an issue that must be dealt with on a website that is about sharing source code.</p>
 
-	<div>
-		<h4>Background</h4>
-		<p>This website requires a validated email address before displaying any
-		user-submitted code. Code submitted by unvalidated accounts will never
-		show in search results and may be removed after 7 days of submission.</p>
-	</div>
-	
-	<div>
-		<h4>What can you do with the code on this site?</h4>
-		<p>When a user validates their account they agree to:
+	<h4>Background</h4>
+	<p>This website requires a validated email address before displaying any
+	user-submitted code. Code submitted by unvalidated accounts will never
+	show in search results and may be removed after 7 days of submission.</p>
 
-		<ol>
-		<li>Only post code which they wrote themselves and for which they have the
-		legal right to release it.
+	<h4>What can you do with the code on this site?</h4>
+	<p>When a user validates their account they agree to:
 
-		<li>They grant any third party (that is <b><i>you</i></b>, in other words)
-		a royalty-free, non-exclusive license to copy and distribute that code and
-		to make and distribute derivative works based on that code.
+	<ol>
+	<li>Only post code which they wrote themselves and for which they have the
+	legal right to release it.
 
-		<li>Users have accepted that others can, and likely will, make improvements
-		and changes to their submitted code snippets. The original submittor will
-		always be credited on the website and in repository logs.
-		</ol>
-	</div>
+	<li>They grant any third party (that is <b><i>you</i></b>, in other words)
+	a royalty-free, non-exclusive license to copy and distribute that code and
+	to make and distribute derivative works based on that code.
 
-	<div>
-		<h4>I want to submit code, what can/can't I do?</h4>
-		<p>The complete terms of service were provided to you when you validated your
-		account. In short you agreed to:
-		<ul>
-				<li>only submit code which you wrote yourself, or which you have the legal right to release;
-				<li>allow others to freely use that code, make improvements, whether they resumbit those improvements here (hopefully), but they are not under obligation to do so;
-				<li>you will not submit offensive, malicious or destructive code; and
-				<li>we may, at our discretion, remove contributions you made to this site.
-		</ul>
+	<li>Users have accepted that others can, and likely will, make improvements
+	and changes to their submitted code snippets. The original submittor will
+	always be credited on the website and in repository logs.
+	</ol>
 
-		<p>There are only two choices in terms of actual software licenses:
-		<ul>
-				<li>the <a href="http://wiki.creativecommons.org/CC0_FAQ">Creative Commons Zero license</a> (CC0), the "<i>No rights reserved</i>" license, or
-				<li>the <a href="http://en.wikipedia.org/wiki/BSD_licenses">simplified (2-clause) BSD license</a> (BSD).
-		</ul>
+	<h4>I want to submit code, what can/can't I do?</h4>
+	<p>The complete terms of service were provided to you when you validated your
+	account. In short you agreed to:
+	<ul>
+		<li>only submit code which you wrote yourself, or which you have the legal right to release;
+		<li>allow others to freely use that code, make improvements, whether they resumbit those improvements here (hopefully), but they are not under obligation to do so;
+		<li>you will not submit offensive, malicious or destructive code; and
+		<li>we may, at our discretion, remove contributions you made to this site.
+	</ul>
 
-		<p>These two licenses are the most compatible with the aims of this site,
-		described above. If you prefer a different license for your code, please
-		host the code on another website
-		(e.g. GitHub, BitBucket, Google Code), and feel free to <a href="
-		{% url spc-new-submission item_type='link' %}">create a link submission</a>, rather than
-		a code submission.
+	<p>There are only two choices in terms of actual software licenses:
+	<ul>
+		<li>the <a href="http://wiki.creativecommons.org/CC0_FAQ">Creative Commons Zero license</a> (CC0), the "<i>No rights reserved</i>" license, or
+		<li>the <a href="http://en.wikipedia.org/wiki/BSD_licenses">simplified (2-clause) BSD license</a> (BSD).
+	</ul>
 
-		<p>Code snippets must use the CC0 license, since it does not require
-		attribution, which would be onerous for short snippets. We believe it is
-		also the most suitable license for government and university employees that
-		need to release code to the public domain.
+	<p>These two licenses are the most compatible with the aims of this site,
+	described above. If you prefer a different license for your code, please
+	host the code on another website
+	(e.g. GitHub, BitBucket, Google Code), and feel free to <a href="
+	{% url spc-new-submission item_type='link' %}">create a link submission</a>, rather than
+	a code submission.
 
-		<p>Code packages can also chose the BSD license, as it is compatible with
-		the spirit of reciprocity that appears in most open-source, Python-based
-		scientific packages (IPython, matplotlib, SciPy, NumPy, and others).
+	<p>Code snippets must use the CC0 license, since it does not require
+	attribution, which would be onerous for short snippets. We believe it is
+	also the most suitable license for government and university employees that
+	need to release code to the public domain.
 
-	</div>
+	<p>Code packages can also chose the BSD license, as it is compatible with
+	the spirit of reciprocity that appears in most open-source, Python-based
+	scientific packages (IPython, matplotlib, SciPy, NumPy, and others).
+		
 	<p>For more background please take time to
 	<a href="http://groups.google.com/group/scipy-user/browse_thread/thread/0bfda80a8e3f1d91/ade06b3d17308708?#ade06b3d17308708">read the community discussion</a> in this thread.
 </div><!--/row-fluid-->
