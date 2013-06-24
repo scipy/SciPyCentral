@@ -47,6 +47,10 @@ body {
 .no-margin-table th {
   border-top: none;
 }
+.spc-searchbar input,
+.spc-searchbar button {
+  height: 40px;
+}
 .spc-rightsidebar {
   color: #555555;
   padding: 2px 10px;
