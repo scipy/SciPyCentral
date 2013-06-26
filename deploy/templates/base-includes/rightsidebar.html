@@ -6,31 +6,37 @@
 	
 	{# Only items with an ID are editable (prevents link showing when previewing a new item #}
 	{% if not preview and item.entry %}
-	<ul class="unstyled no-lead">
+
 		{# Links and packages can only be edited by their original author; snippets can be edited by anyone #}
+
 		{% if item.entry.sub_type != 'snippet' %}
-			 {# If the signed-in user is the same as the creator of the current revision: show edit link#}
-			 {% if user.id == item.created_by.id %}
-			 	<li class="nav-title underline-bold">Contribute</li>
+			{# If the signed-in user is the same as the creator of the current revision: show edit link#}
+			{% if user.id == item.created_by.id %}
+			<div class="nav-title underline-bold">Contribute</div>
+			<ul class="unstyled no-lead">
 				<li>This is your submission <a href="{% url spc-edit-submission item_id=item.entry.id rev_id=item.rev_id_human %}">want to improve it</a>?</li>
+			</ul>
 			{% endif %}
+
 		{% else %}
-			<li class="nav-title">Contribute</li>
+		<div class="nav-title">Contribute</div>
+		<ul class="unstyled no-lead">
 			<li><a href="{% url spc-edit-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Improve this {{item.entry.sub_type}}</a></li>
+		</ul>
 		{% endif %}
-	</ul>
+
 	{% endif %}
 
 	{% if item.entry.sub_type == "snippet" %}
+	<div class="nav-title">Software License</div>
 	<ul class="unstyled no-lead">
-		<li class="nav-title">Software License</li>
 		<li><span>{{item.sub_license.description|safe}} (<a href="{% url spc-about-licenses%}">More details</a>)</span></li>
 	</ul>
 	{% endif %}
 	
 	{% if permalink %}
+	<div class="nav-title">Page Information</div>
 	<ul class="unstyled no-lead">
-		<li class="nav-title">Page Information</li>
 		<li>{% if pageviews %} Page views: {{pageviews}} (past {{pageview_days}} days) {% endif %}</li>
 		<li>{% if item.id %}Identifier: #{{item.entry.id}}{% endif %}</li>
 		<li>permalink (this revision): <a href="{{permalink}}">{{permalink}}</a></li>
@@ -38,23 +44,23 @@
 	</ul>
 	{% endif %}
 	
+	<div class="nav-title">Quick Links</div>
 	<ul class="unstyled no-lead">
-		<li class="nav-title">Quick Links</li>
 		<li><a href="http://scipy.org/Mailing_Lists" target="_blank">Mailing lists</a></li>
 		<li><a href="http://scipy.org/Developer_Zone" target="_blank">Developer Zone</a></li>
 		<li><a href="http://docs.scipy.org/" target="_blank">SciPy Documentation</a></li>
 		<li><a href="http://Numpy.org" target="_blank">Numpy Website</a></li>
 	</ul>
 
+	<div class="nav-title">Top Tags</div>
 	<ul class="unstyled no-lead">
-		<li class="nav-title">Top Tags</li>
 		{% for item in "submission.TagCreation"|top_tags:15 %}
 		<li><a class="btn btn-mini" href="{% url spc-show-items what_view="tag" extra_info=item.tag %}">{{item.tag.name}}</a> X {{item.score}}</li>
 		{% endfor %}
 	</ul>
 
+	<div class="nav-title">Top Contributors</div>
 	<ul class="unstyled no-lead">
-		<li class="nav-title">Top Contributors</li>
 		{% for item in "authors"|top_authors:8 %}
 		<li><a href="{{ item.get_absolute_url }}">{{ item.user.username }}</a></li>
 		{% endfor %}
@@ -71,8 +77,8 @@
 		{% endif %}
 	</ul>
 
+	<div class="nav-title muted"><small>Copyrights</small></div>
 	<ul class="unstyled no-lead">
-		<li class="nav-title underline-bold muted"><small>Copyrights</small></li>
 		<li class="muted"><small>Trademarks are property of their respective owners. Code and comments are owned by their respective posters. © 2013 All Rights Reserved</small></li>
 	</ul>
 

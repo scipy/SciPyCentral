@@ -59,9 +59,14 @@ body {
 .spc-rightsidebar .nav-title {
   font-weight: bold;
   text-transform: uppercase;
+  padding-top: 5px;
+  padding-left: 5px;
 }
 .spc-rightsidebar li {
   margin: 5px;
+}
+.spc-rightsidebar ul {
+  padding-top: 0px;
 }
 .footer {
   padding: 5px;
