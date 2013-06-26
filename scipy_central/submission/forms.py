@@ -103,7 +103,7 @@ class ZIP_File_Form(forms.Form):
     """
     Code package submission: upload a ZIP file
     """
-    package_file = forms.FileField(label='Your submission in a single ZIP file',
+    package_file = forms.FileField(label='<b>Your submission</b> in a single ZIP file',
             help_text=('25 Mb limit. Do not include any files named <tt>'
                        'LICENSE.txt</tt> or <tt>DESCRIPTION.txt</tt> as these '
                        'will be automatically generated from the information '
@@ -182,7 +182,7 @@ class PackageForm(Submission_Form__Common_Parts, ZIP_File_Form):
     """
     sub_license = forms.ModelChoiceField(License.objects.all(),
             empty_label=None,
-            label="Select a license for your submission",
+            label="Select a <b>license</b> for your submission",
             help_text='<a href="/licenses">More on licenses</a>')
     sub_type = forms.CharField(max_length=10, initial='package',
                                widget=forms.HiddenInput(), required=False)

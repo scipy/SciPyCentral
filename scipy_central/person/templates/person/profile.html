@@ -1,117 +1,112 @@
 {% extends "base.html" %}
 
-{% block title %}User profile: {{theuser.username}}{% endblock %}
+{% block title %}User {{theuser.username}} - SciPy Central{% endblock %}
 
 {% block content %}
 <div class="row-fluid">
-	<div class="span12">
-		<div class="row-fluid">
-			<div class="span12">
-				<div class="spc-page-title">
-					<h4 style="text-transform: uppercase; line-height: 30px;">{{theuser.username}}<span class="pull-right">User profile</span></h4>
-					{% if user.username %}
-						{% if user.profile.slug == theuser.profile.slug %}
-							<span style="font-size: small; text-transform: uppercase;">
-								<ul class="inline pull-right">
-									<li><a href="{% url spc-user-profile-edit user.profile.slug %}">Edit profile</a></li>
-									<li><a href="{% url auth_password_change %}">Change Password</a></li>
-								</ul>
-							</span>
-						{% endif %}
-					{% endif %}
-					<span style="font-size: small;">
-						<ul class="inline">
-							<li style="text-transform: uppercase;">Permalink</li>
-							<li><a href="{{permalink}}">{{permalink}}</a></li> 
-							<li style="text-transform: uppercase;">{% if theuser.id %}Id #{{ theuser.id }}{% endif %}</li>
-						</ul>
-					</span>
-				</div>
-			</div>
-		</div><!--/row-fluid-->
-		
-		<div class="row-fluid">
-			<div class="spc-snippet-info span12" style="padding-top: 20px;">
-				<dl class="dl-horizontal">
-					<dt>Profile</dt>
-					<dd>
+<div class="span12">
+	<h3 class="underline" style="line-height: 30px;"><b>{{theuser.username}}</b></h3>
+	
+	<div class="media">
+		<a class="pull-left" href="#">
+			<img class="media-object" data-src="holder.js/16x16" src="{{theuser.profile.get_gravatar_image}}?r=g&s=150">
+		</a>
+		<div class="media-body">
+			<table class="table no-margin-table">
+				<tr>
+					<td class="muted">Profile</td>
+					<td>About</td>
+					<td>
 						{% if theuser.profile.bio_html %}{{theuser.profile.bio_html|safe}}
-						{% else %}
-							Not provided yet
-						{% endif %}
-					</dd>
-				</dl>
-
-				<dl class="dl-horizontal">
-					<dt>Affiliation</dt>
-					<dd>
-						{% if theuser.profile.affiliation %}<span class="spc-item-entry">{{theuser.profile.affiliation}}</span>{% else %}Not provided yet{% endif %}
-					</dd>
-				</dl>
-				<dl class="dl-horizontal">
-					<dt>Country</dt>
-					<dd>
-						{% if theuser.profile.country %}
-						<img src="{{STATIC_URL}}flags/flag-{{theuser.profile.country.code|lower}}.png" style="width: 20px;" alt="{{theuser.profile.country.name}}"> {{theuser.profile.country.name}}
+						{% else %}Not provided yet{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>Affiliation</td>
+					<td>
+						{% if theuser.profile.affiliation %}
+						{{theuser.profile.affiliation}}
+						{% else %}Not provided yet{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>Country</td>
+					<td>
+						{% if theuser.profile.country %}<img src="{{STATIC_URL}}flags/flag-{{theuser.profile.country.code|lower}}.png" style="width: 20px;" alt="{{theuser.profile.country.name}}"> {{theuser.profile.country.name}}
 						{% else %}Not provided yet
 						{% endif %}
-					</dd>
-				</dl>
-				
-				<dl class="dl-horizontal">
-					<dt>Website</dt>
-					<dd>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>Website</td>
+					<td>
 						{% if theuser.profile.uri %}
 						<a href="{{theuser.profile.uri}}" rel="nofollow">{{theuser.profile.uri}}</a>
-						{% else %}
-							Not provided yet
-						{% endif %}
-					</dd>
-				</dl>
-				
-				<dl class="dl-horizontal">
-					<dt>Interests</dt>
-					<dd>
-						{% if theuser.profile.interests.all %}
-						<ul class="inline tags">
-							{% for tag in theuser.profile.interests.all %}
-							<li class="btn btn-mini">
-								<a href="{% url spc-show-items what_view="tag" extra_info=tag %}">{{tag.name}}</a>
-							</li>
-							{% endfor %}
+						{% else %}Not provided yet{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>Interests</td>
+					<td>
+					{% if theuser.profile.interests.all %}
+					<ul class="inline tags">
+					{% for tag in theuser.profile.interests.all %}
+						<li class="btn btn-mini">
+							<a href="{% url spc-show-items what_view="tag" extra_info=tag %}">{{tag.name}}</a>
+						</li>
+					{% endfor %}
+					</ul>
+					{% else %}Not provided yet{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<td class="muted">Meta</td>
+					<td>Permalink</td>
+					<td><a href="{{permalink}}">{{permalink}}</a></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>User Id</td>
+					<td>{% if theuser.id %}{{ theuser.id }}{% endif %}</td>
+				</tr>
+				{% if user.username %}
+				{% if user.profile.slug == theuser.profile.slug %}
+				<tr>
+					<td></td>
+					<td>Settings</td>
+					<td>
+						<ul class="unstyled">
+							<li><a href="{% url auth_password_change %}">Change password</a></li>
+							<li><a href="{% url spc-user-profile-edit user.profile.slug %}">Edit profile</a></li>
 						</ul>
-						{% else %}
-							Not provided yet
-						{% endif %}
-					</dd>
-				</dl>
-			</div>
-		</div><!--/row-fluid-->
-		
-		<div class="row-fluid">
-			<div class="span12" style="padding-top: 20px;">
-				<!--content nav tabs-->
-				<ul class="nav nav-tabs">
-					<li class="active"><a href="#recent" data-toggle="tab">Submissions</a></li>
-					<li class="pull-right">
-					<a>Only submissions created or edited by
-						{% if user.profile.slug == theuser.profile.slug %} you 
-						{% else %} <b>{{theuser.username}}</b>
-						{% endif %} are shown</a>
-					</li>
-				</ul><!--/content nav tabs-->
-				<!-- CONTENT-->
-				<div class="tab-content">
-					<!--tab-pane active-->
-					<div class="tab-pane active" id="recent">
-					{% if entries %}
-						{% include 'submission/entries_list.html' %}
-					{% endif %}
-					</div><!--/tab-pane active-->
-				</div><!--/CONTENT-->
-			{{extra_html|safe}}
-			</div>
-		</div><!--/row-fluid-->
+					</td>
+				</tr>
+				{% endif %}
+				{% endif %}
+			</table>
+		</div>
 	</div>
+
+		
+	<!--content nav tabs-->
+	<ul class="nav nav-tabs no-lead">
+		<li class="active"><a href="#recent" data-toggle="tab">Submissions</a></li>
+	</ul><!--/content nav tabs-->
+	<!-- CONTENT-->
+	<div class="tab-content">
+		<!--tab-pane active-->
+		<div class="tab-pane active" id="recent">
+		{% if entries %}
+			{% include 'submission/entries_list.html' %}
+		{% endif %}
+		</div><!--/tab-pane active-->
+	</div><!--/CONTENT-->
+	{{extra_html|safe}}
+
+</div>
 </div><!--/row-fluid-->
 {% endblock %}

@@ -1,5 +1,7 @@
 {#  The ``entry`` objects must be from the ``submission.Revision`` class   #}
 {#  or from the ``person.UserProfile`` class                               #}
+
+<ul class="media-list">
 {% for entry in entries.object_list %}
 
 	{# It's a user #}
@@ -34,6 +36,7 @@
 
 {% endif %}
 {% endfor %}
+</ul>
 
 <div class="pagination pagination-centered">
   <ul>

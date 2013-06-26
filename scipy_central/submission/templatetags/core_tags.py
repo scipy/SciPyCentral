@@ -73,6 +73,28 @@ def cloud(model_or_obj, num=5):
     out.sort()
     return out
 
+
+@register.filter
+def top_tags(model_or_obj, num=10):
+    """return top tags based on uses
+    cloud filer is quite similar to top_tags except
+    logarithmic scaling. However, it has been left as it is for future use!
+    """
+    tag_uses = get_tag_uses()
+    if not(tag_uses):
+        return []
+    tag_uses.sort(reverse=True)
+    if num != 0:
+        tag_uses = tag_uses[:num]
+
+    out = []
+    Item = namedtuple('Item', 'slug tag score')
+    for score, pk in tag_uses:
+        tag = Tag.objects.get(id=pk)
+        out.append(Item(tag.slug, tag, int(score)))
+
+    return out
+
 @register.filter
 def latest(model_or_obj, num=5):
     # load up the model if we were given a string

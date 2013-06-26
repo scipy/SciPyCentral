@@ -6,6 +6,7 @@ from django.contrib.sites.models import Site
 from django.contrib.sites.models import RequestSite
 from registration import signals
 from registration.models import RegistrationProfile
+import hashlib
 
 class SciPyRegistrationBackend(DefaultBackend):
 
@@ -146,6 +147,11 @@ class UserProfile(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('spc-user-profile', (), {'slug': self.user.profile.slug})
+
+    def get_gravatar_image(self):
+        email_hash = hashlib.md5(self.user.email).hexdigest()
+        gravatar_url = "http://www.gravatar.com/avatar/"
+        return gravatar_url + email_hash
 
     def __unicode__(self):
         return 'Profile for: ' + self.user.username

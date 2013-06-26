@@ -508,7 +508,7 @@ SUBS = {'snippet': Item(forms.SnippetForm, field_order=['title',
         }
 
 
-def new_or_edit_submission(request, bound_form=False):
+def new_or_edit_submission(request, item_type, bound_form=False):
     """
     Users wants to submit a new link item, or continue editing a submission.
     There are multiple possible paths through the logic here. Careful about
@@ -521,7 +521,7 @@ def new_or_edit_submission(request, bound_form=False):
         sub_type = bound_form.entry.sub_type # for later on...
 
     # Cancel button, or a GET request
-    elif request.method != 'POST' or request.POST.has_key('spc-cancel'):
+    elif request.POST.has_key('spc-cancel'):
         return redirect('spc-main-page')
 
     else:
@@ -539,19 +539,16 @@ def new_or_edit_submission(request, bound_form=False):
     if request.POST.has_key('spc-preview'):
         bound_form = True
 
-    # Find which button was pressed on the front page submission form
-    buttons = [key.rstrip('.x') for key in request.POST.keys()]
-
     buttontext_extra = ''
-    if 'snippet' in buttons:
+    if item_type == 'snippet' and request.method == 'GET':
         itemtype = 'snippet'
-        new_item_or_edit = True # coming from the front page
-    elif 'package' in buttons:
+        new_item_or_edit = True
+    elif item_type == 'package' and request.method == 'GET':
         itemtype = 'package'
         buttontext_extra = '(Upload ZIP file on next page)'
         new_item_or_edit = True
         #return not_implemented_yet(request, 48)
-    elif 'link' in buttons:
+    elif item_type == 'link' and request.method == 'GET':
         itemtype = 'link'
         new_item_or_edit = True
     else:
@@ -600,20 +597,21 @@ def new_or_edit_submission(request, bound_form=False):
         context = RequestContext(request)
         context['item'] = theform
         context['finish_button_text'] = 'Finish submission'
-        html = ('<div id="spc-preview-edit-submit" class="spc-form">'
-                '<form action="{% url spc-new-submission %}" '
-                'method="POST" enctype="multipart/form-data">\n'
-                '{% csrf_token %}\n'
-                '{{item.as_hidden}}'  # upload the form values as hidden fields
-                '<div id="spc-preview-edit-submit-button-group">'
-                '<input type="submit" name="spc-cancel" value="Cancel"'
-                'id="spc-item-cancel" />\n'
-                '<input type="submit" name="spc-edit"   value="Resume editing"'
-                'id="spc-item-edit" />\n'
-                '<input type="submit" name="spc-submit" '
-                'value="{{ finish_button_text }}"'
-                'id="spc-item-submit"/>\n'
-                '</div></form></div>')
+        # %% is required in below string to correctly format
+        html = ("""<div id="spc-preview-edit-submit" class="spc-form">
+                <form action="{%% url spc-new-submission item_type='%s' %%}" 
+                method="POST" enctype="multipart/form-data">\n
+                {%% csrf_token %%}\n
+                {{item.as_hidden}}
+                <div id="spc-preview-edit-submit-button-group">
+                <input class="btn btn-primary" type="submit" name="spc-cancel" value="Cancel"
+                id="spc-item-cancel" />\n
+                <input class="btn btn-primary" type="submit" name="spc-edit"   value="Resume editing"
+                id="spc-item-edit" />\n
+                <input class="btn btn-success" type="submit" name="spc-submit"
+                value="{{ finish_button_text }}"
+                id="spc-item-submit"/>\n
+                </div></form></div>""" % itemtype)
         resp = template.Template(html)
         extra_html = resp.render(template.Context(context))
         return render_to_response('submission/item.html', {},
@@ -940,9 +938,9 @@ def edit_submission(request, submission, revision):
 
     # if by POST, we are in the process of editing, so don't send the revision
     if request.POST:
-        return new_or_edit_submission(request, bound_form=False)
+        return new_or_edit_submission(request, submission.sub_type, bound_form=False)
     else:
-        return new_or_edit_submission(request, bound_form=revision)
+        return new_or_edit_submission(request, submission.sub_type,bound_form=revision)
 
 
 #------------------------------------------------------------------------------

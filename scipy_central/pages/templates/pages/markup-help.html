@@ -3,93 +3,66 @@
 {% block title %}Help with markup{% endblock %}
 
 {% block content %}
-<div class="row-fluid"> <div class="span12">
-	<div class="row-fluid">
-		<div class="spc-page-title"><h3>Help with Markup</h3></div>
-		<p>We use <a href="http://sphinx.pocoo.org/latest/rest.html">reStructuredText</a>. The &nbsp;<tt> ` </tt>&nbsp; character is the key next to &nbsp;<tt> 1 </tt>&nbsp; and above &nbsp;<tt> Tab </tt>&nbsp; on many keyboards.</p>
-	</div>
-	
-	<div class="row-fluid">
-	<div class="span12">
-		<div class="row-fluid">
-			<h4 class="underline"><a href="#mathematics">Mathematics</a></h4>
-			<p>Being a website for scientific resources, we expect good mathematics. Use <a href="http://en.wikibooks.org/wiki/LaTeX/Mathematics#Greek_letters">LaTeX notation</a>.</p>
-		</div><!--/-->
-		
-		<div class="row-fluid">
-			<div class="span6">
-				<span>This is inline math: \(z = x^2 + y^2\)</span>
-			</div>
-			<div class="span6">
-				<span><tt>This is inline math: </tt><tt>\( </tt><tt>z = x^2 + y^2</tt><tt> \)</tt></span>
-			</div>
-		</div><!--/-->
-		
-		<div class="row-fluid">
-			<div class="span6">
-				<span>and \(a = \sqrt{b}\) is an alternative way.</span>
-			</div>
-			<div class="span6">
-				<span><tt>and :math:`a = \sqrt{b}` also gets you math.</tt></span>
-			</div>
-		</div><!--/-->
-		
-		<div class="row-fluid">
-		<div class="span6">
-			 <span>Longer mathematical statements:<div class="math">
-\[\begin{split}f_1(x, y) &amp;= y - x^2 = 0\\
-f_2(x, y) &amp;= y - x - 1 = 0\end{split}\]</div></span>
-		</div>
-		<div class="span6">
-		<span><pre>Longer mathematical statements:
+<h3 class="underline">HELP WITH MARKUP</h3>
+<p>We use <a href="http://sphinx.pocoo.org/latest/rest.html">reStructuredText</a>. The &nbsp;<tt> ` </tt>&nbsp; character is the key next to &nbsp;<tt> 1 </tt>&nbsp; and above &nbsp;<tt> Tab </tt>&nbsp; on many keyboards.</p>
+
+<br>
+
+<h4><a href="#mathematics">MATHEMATICS</a></h4>
+<p>Being a website for scientific resources, we expect good mathematics. Use <a href="http://en.wikibooks.org/wiki/LaTeX/Mathematics#Greek_letters">LaTeX notation</a>.</p>
+
+<table class="table table-hover">
+	<tr>
+		<td>This is inline math: \(z = x^2 + y^2\)</td>
+		<td><tt>This is inline math: </tt><tt>\( </tt><tt>z = x^2 + y^2</tt><tt> \)</tt></td>
+	</tr>
+
+	<tr>
+		<td>and \(a = \sqrt{b}\) is an alternative way.</td>
+		<td><tt>and :math:`a = \sqrt{b}` also gets you math.</tt></td>
+	</tr>
+
+	<tr>
+		<td>
+			Longer mathematical statements:<div class="math">\[\begin{split}f_1(x, y) &amp;= y - x^0\\f_2(x, y) &amp;= y - x - 1 = 0\end{split}\]</div>
+		</td>
+		<td>
+<pre>Longer mathematical statements:
 
 .. math::
 
     f_1(x, y) &= y - x^2 = 0 \\
     f_2(x, y) &= y - x - 1 = 0
 </pre>
-</span>
-		</div>
-		</div><!--/-->
-	</div>
-	</div><!--/row-fluid-->
-	
-	<div class="row-fluid">
-	<div class="span12">
-		<div class="row-fluid">
-			<h4 class="underline"><a href="#styling">Basic text styling</a></h4>
-		</div><!--/-->
-		
-		<div class="row-fluid">
-			<div class="span6"><span><i>Text in italics</i></span>
-			</div>
-			<div class="span6"><span><tt>*Text in italics*</tt></span>
-			</div>
-		</div><!--/-->
-		
-		<div class="row-fluid">
-			<div class="span6"><span><b>Bold text</b></span>
-			</div>
-			<div class="span6"><span><tt>**Bold text**</tt></span>
-			</div>
-		</div><!--/-->
-		
-		<div class="row-fluid">
-			<div class="span6">Bold and italics cannot be combined - <i>sorry</i>.
-			</div>
-		</div><!--/-->
-	</div>
-	</div><!--/row-fluid-->
-	
-	<div class="row-fluid">
-	<div class="span12">
-		<div class="row-fluid">
-			<h4 class="underline"><a href="#bullet-points">Bullet points</a></h4>
-		</div><!--/-->
-		
-		<div class="row-fluid">
-			<div class="span6">
-<span>
+		</td>
+	</tr>
+</table>
+
+<br>
+
+<h4><a href="#styling">BASIC TEXT STYLING</a></h4>
+<table class="table table-hover">
+	<tr>
+		<td><i>Text in italics</i></td>
+		<td><tt>*Text in italics*</tt></td>
+	</tr>
+
+	<tr>
+		<td><b>Bold text</b></td>
+		<td><tt>**Bold text**</tt></td>
+	</tr>
+
+	<tr>
+		<td>Bold and italics cannot be combined - <i>sorry</i></td>
+		<td></td>
+</table>
+
+<br>
+
+<h4><a href="#bullet-points">BULLET POINTS</a></h4>
+<table class="table table-hover">
+	<tr>
+		<td>
 <ul>
 <li>Start each line</li>
 <li>with an asterisk.<ul>
@@ -104,10 +77,10 @@ do not break levels.<ul>
 <li>Blank lines are optional</li>
 </ul>
 </li>
-</ul></span>
-			</div>
-			<div class="span6">
-<span><pre>
+</ul>
+		</td>
+		<td>
+<pre>
 *   Start each line
 *   with an asterisk.
 
@@ -121,13 +94,12 @@ do not break levels.<ul>
     -   will start new bullet points
 
     -   Blank lines are optional.
-</pre></span>
-			</div>
-		</div><!--/-->
-		
-		<div class="row-fluid">
-			<div class="span6">
-<span>
+</pre>
+		</td>
+	</tr>
+
+	<tr>
+		<td>
 <ol class="arabic simple">
 <li>Start each line</li>
 <li>with a number sign and a period.<ol class="arabic">
@@ -138,10 +110,10 @@ do not break levels.<ul>
 </li>
 </ol>
 </li>
-</ol></span>
-			</div>
-			<div class="span6">
-<span><pre>
+</ol>
+		</td>
+		<td>
+<pre>
 #.  Start each line
 #.  with a number sign and a period.
 
@@ -149,100 +121,77 @@ do not break levels.<ul>
     #.  to nest the level
 
         - And they may be combined.
-</pre></span>
-			</div>
-		</div><!--/-->
-	</div>
-	</div><!--/row-fluid-->
-	
-	
-	<div class="row-fluid">
-	<div class="span12">
-		<div class="row-fluid">
-			<h4 class="underline"><a href="#monospaced-text">Monospaced text</a></h3>
-		</div><!--/-->
-		
-		<div class="row-fluid">
-			<div class="span6"><span>Use backticks to write <tt>monospaced text</tt></span>
-			</div><!--/-->
-			<div class="span6"><span><tt>Use backticks to write ``monospaced text``</tt></span>
-			</div><!--/-->
-		</div>
-	</div>
-	</div><!--/row-fluid-->
-	
-	
-	<div class="row-fluid">
-	<div class="span12">
-		<div class="row-fluid">
-			<h4 class="underline"><a href="#images">Images</a></h4>
-			<p>You will be given a file name after uploading an image (see the bottom of the page where you create new submissions).</p>
-		</div><!--/-->
-		
-		<div class="row-fluid">
-			<div class="span6"><span><img src="{{STATIC_URL}}internet-web-browser.png"></span>
-			</div>
-			<div class="span6"><span>Full size image <p><tt>:image:`internet-web-browser.png`</tt></span></div>
-		</div><!--/-->
-		
-		<div class="row-fluid">
-			<div class="span6"><span><img src="{{STATIC_URL}}internet-web-browser.png" width="64"></span>
-			</div>
-			<div class="span6"><span>Reduce the image size <p><tt>:image:`internet-web-browser.png;25`</tt></span></div>
-		</div><!--/-->
-	</div>
-	</div><!--/row-fluid-->
-	
-	<div class="row-fluid">
-	<div class="span12">
-		<div class="row-fluid"><h4 class="underline"><a href="#hyperlinks">External hyperlinks</a></h4></div>
-		
-		<div class="row-fluid">
-			<div class="span6"><span>An <a href="http://example.com">inline</a> hyperlink</span>	
-			</div>
-			<div class="span6"><span ><tt>An `inline &lt;http://example.com&gt;`_ hyperlink</tt></span></div>
-		</div><!--/-->
-		
-		<div class="row-fluid">
-			<div class="span6"><span>Auto-converted when detected: <a href="http://example.com">http://example.com</a></span>
-			</div>
-			<div class="span6"><span><tt>Auto-converted when detected: http://example.com</tt></span>
-			</div>
-		</div><!--/-->
-	</div>
-	</div><!--/row-fluid-->
-	
-	<div class="row-fluid">
-	<div class="span12">
-		<div class="row-fluid"><h4 class="underline"><a href="#internal-links">Internal hyperlinks</a></h4></div>
-		<div class="row-fluid">
-			<div class="span6"><span>Link to a submission <a href="http://scipy-central.org/item/13">item #13</a></span>
-			</div>
-			<div class="span6"><span><tt>Link to a submission :id:`13`</tt> <small>(use the ID number shown on the submission's page)</small></span>
-			</div>
-		</div><!--/-->
-		<div class="row-fluid">
-			<div class="span6"><span>A submission <a href="http://scipy-central.org/item/13">with inline text</a> instead</span>
-			</div>
-			<div class="span6"><span><tt>A submission :id:`with inline text <13>` instead</tt></span>
-			</div>
-		</div><!--/-->
-		
-		<div class="row-fluid">
-			<div class="span6"><span>Tag links: <a href="http://scipy-central.org/item/tag/gpu">tag: gpu</a> or <a href="http://scipy-central.org/item/tag/cpu">inline form</a></span></div>
-			<div class="span6"><span class=" "><tt>Tag links: :tag:`gpu` or :tag:`inline form &lt;cpu&gt;`</tt></span></div>
-		</div>
-		
-		<div class="row-fluid">
-			<div class="span6"><span>Link to a user's profile <a href="http://scipy-central.org/user/3">user #3</a></span></div>
-			<div class="span6"><span><tt>Link to a user's profile :user:`3`</tt> <small>(use ID shown on the user's page)</small></span></div>
-		</div>
+</pre>
+		</td>
+	</tr>
+</table>
 
-	</div>
-	</div><!--/row-fluid-->
+<br>
 
-</div>
-</div><!--/row-fluid-->
+<h4><a href="#monospaced-text">MONOSPACED TEXT</a></h4>
+<table class="table table-hover">
+	<tr>
+		<td>Use backticks to write <tt>monospaced text</tt></td>
+		<td><tt>Use backticks to write ``monospaced text``</tt></td>
+	</tr>
+</table>
+
+<br>
+
+<h4><a href="#images">IMAGES</a></h4>
+<p>You will be given a file name after uploading an image (see the bottom of the page where you create new submissions).</p>
+<table class="table table-hover">
+	<tr>
+		<td><img src="{{STATIC_URL}}internet-web-browser.png"></td>
+		<td>Full size image <p><tt>:image:`internet-web-browser.png`</tt></td>
+	</tr>
+
+	<tr>
+		<td><img src="{{STATIC_URL}}internet-web-browser.png" width="64"></td>
+		<td>Reduce the image size <p><tt>:image:`internet-web-browser.png;25`</tt></td>
+	</tr>
+</table>
+
+<br>
+
+<h4><a href="#hyperlinks">EXTERNAL HYPERLINKS</a></h4>
+<table class="table table-hover">
+	<tr>
+		<td>An <a href="http://example.com">inline</a> hyperlink</td>
+		<td><tt>An `inline &lt;http://example.com&gt;`_ hyperlink</tt></td>
+	</tr>
+
+	<tr>
+		<td>Auto-converted when detected: <a href="http://example.com">http://example.com</a></td>
+		<td><tt>Auto-converted when detected: http://example.com</tt></tt></td>
+	</tr>
+</table>
+
+<br>
+
+<h4><a href="#internal-links">INTERNAL HYPERLINKS</a></h4>
+<table class="table table-hover">
+	<tr>
+		<td>Link to a submission <a href="http://scipy-central.org/item/13">item #13</a></td>
+		<td><tt>Link to a submission :id:`13`</tt> <small>(use the ID number shown on the submission's page)</small></td>
+	</tr>
+
+	<tr>
+		<td>A submission <a href="http://scipy-central.org/item/13">with inline text</a> instead</td>
+		<td><tt>A submission :id:`with inline text <13>` instead</tt></td>
+	</tr>
+
+	<tr>
+		<td>Tag links: <a href="http://scipy-central.org/item/tag/gpu">tag: gpu</a> or <a href="http://scipy-central.org/item/tag/cpu">inline form</a></td>
+		<td><tt>Tag links: :tag:`gpu` or :tag:`inline form &lt;cpu&gt;`</tt></td>
+	</tr>
+
+	<tr>
+		<td>Link to a user's profile <a href="http://scipy-central.org/user/3">user #3</a></td>
+		<td><tt>Link to a user's profile :user:`3`</tt> <small>(use ID shown on the user's page)</small></td>
+	</tr>
+</table>
+
 {% endblock %}
 
 
