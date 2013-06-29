@@ -6,11 +6,11 @@ Web application for running scipy-central.org
 """
 
 REQUIREMENTS = [
-    'Django >=1.4, <1.5',
-    'django-haystack',
+    'Django >=1.4,<1.5',
+    'django-haystack <2.0.0',
     'Whoosh',
     'South',
-    'django-registration',
+    'django-registration ==0.8',
     'django-widget-tweaks',
     'Sphinx',
     'Pygments',
