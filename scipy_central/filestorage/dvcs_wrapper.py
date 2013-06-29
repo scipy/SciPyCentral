@@ -114,6 +114,8 @@ class DVCSRepo(object):
         Runs the given command, as if it were typed at the command line, in the
         directory ``repo_dir``.
         """
+        command = list(command)
+
         verb = command[0]
         actions = self.verbs[verb][2]
         if repo_dir == '':
@@ -132,11 +134,6 @@ class DVCSRepo(object):
                                    stderr=subprocess.PIPE,
                                    cwd=repo_dir,
                                    env=env)
-            if testing:
-                # For some strange reason, unit tests fail if we don't have
-                # a small pause here.
-                import time
-                time.sleep(0.1)
 
             stdout, stderr = out.communicate()
 
@@ -245,6 +242,9 @@ class DVCSRepo(object):
         if user:
             command.append(self.verbs['commit'][1][1])
             command.extend([str(user),])
+        else:
+            command.append(self.verbs['commit'][1][1])
+            command.extend(["System user",])
 
         self.run_dvcs_command(command)
         return self.get_revision_info()
