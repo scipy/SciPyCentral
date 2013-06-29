@@ -134,7 +134,6 @@ def get_form(request, form_class, field_order, bound=False):
                        'snippet_code': bound.item_code,
                        'sub_type': 'snippet',
                        'sub_license': bound.sub_license_id,
-                       'pk': bound.entry.id,
                        }
             if bound.entry.sub_type == 'link':
                 fields['sub_type'] = 'link'
@@ -181,30 +180,23 @@ def get_form(request, form_class, field_order, bound=False):
 
 
 def create_or_edit_submission_revision(request, item, is_displayed,
-                                             user, commit=False, ):
+                                       user, submission=None, commit=False):
     """
-    Creates a new ``Submission`` and ``Revision`` instance. Returns these in
-    a tuple.
+    Creates a new ``Submission`` (only if not given) and ``Revision``
+    instances. Returns these in a tuple.
     """
 
     # NOTE: the ``user`` will always be a valid entry in our database. Code
     # posted by users that have not yet validated themselves is not displayed
     # until they do so.
 
-    if item.cleaned_data['pk']:
-        # We are editing an existing submission: pull it from the DB
-        try:
-            sub = models.Submission.objects.get(id=item.cleaned_data['pk'])
-        except ObjectDoesNotExist:
-            logger.error('Submission was not found when requesting "%s"' %\
-                         request.path)
-            page_404_error(request, ('You requested an invalid submission to '
-                                     'edit'))
-    else:
+    new_submission = False
+    if submission is None:
         # A new submission
-        sub = models.Submission.objects.create_without_commit(created_by=user,
-                                    sub_type=item.cleaned_data['sub_type'])
-
+        new_submission = True
+        submission = models.Submission.objects.create_without_commit(
+            created_by=user, sub_type=item.cleaned_data['sub_type'])
+    sub = submission
 
     # Process any tags
     tag_list = get_and_create_tags(item.cleaned_data['sub_tags'])
@@ -257,15 +249,12 @@ def create_or_edit_submission_revision(request, item, is_displayed,
 
     user_url = settings.SPC['short_URL_root'] + 'user/' + str(user.id)
     if commit:
-        # Save the submission, then the revision. If we have a primary key
-        # (case happens when user is editing a previous submission), then
-        # do not save the submission (because the Submission object has fields
-        # that will never change once it has been first created). Only set
-        # the ``pk`` so that the new revision object is correct.
-        if item.cleaned_data['pk']:
-            # We are updating an existing ``sub`` item (see code above)
-            pass
-        else:
+        # Save the submission, then the revision. If we are editing a
+        # previous submission, then do not save the submission
+        # (because the Submission object has fields that will never
+        # change once it has been first created).
+        if new_submission:
+            # Sets the primary key
             sub.save()
 
         rev.entry_id = sub.id
@@ -302,7 +291,7 @@ def create_or_edit_submission_revision(request, item, is_displayed,
             # Create/ensure destination directory exists
             ensuredir(full_repo_path)
 
-               # Copy ZIP file
+            # Copy ZIP file
             zip_file = request.FILES['package_file']
             dst = os.path.join(full_repo_path, zip_file.name)
             src = os.path.join(settings.SPC['ZIP_staging'], zip_file.name)
@@ -382,9 +371,8 @@ def create_or_edit_submission_revision(request, item, is_displayed,
 
         if sub.sub_type == 'snippet':
             fname = rev.slug.replace('-', '_') + '.py'
-            if not item.cleaned_data['pk']:
-            # Create a new repository for the files
-
+            if new_submission:
+                # Create a new repository for the files
                 sub.fileset = FileSet.objects.create(repo_path=repo_path)
                 sub.save()
                 commit_msg = ('Add "%s" to the repo '
@@ -498,17 +486,17 @@ Also see http://creativecommons.org/publicdomain/zero/1.0/
 Item = namedtuple('Item', 'form field_order')
 SUBS = {'snippet': Item(forms.SnippetForm, field_order=['title',
                         'snippet_code', 'description', 'sub_tags',
-                        'sub_license', 'email', 'sub_type', 'pk']),
+                        'sub_license', 'email', 'sub_type']),
         'package': Item(forms.PackageForm, field_order=['title',
                         'description', 'sub_license',
                         'package_file', 'package_hash',
-                        'sub_tags', 'email', 'sub_type', 'pk']),
+                        'sub_tags', 'email', 'sub_type']),
         'link': Item(forms.LinkForm, field_order=['title', 'description',
-                        'item_url', 'sub_tags', 'email', 'sub_type', 'pk']),
+                        'item_url', 'sub_tags', 'email', 'sub_type']),
         }
 
 
-def new_or_edit_submission(request, item_type, bound_form=False):
+def new_or_edit_submission(request, item_type, bound_form=False, submission=None):
     """
     Users wants to submit a new link item, or continue editing a submission.
     There are multiple possible paths through the logic here. Careful about
@@ -585,10 +573,11 @@ def new_or_edit_submission(request, item_type, bound_form=False):
     # 2. Create the submission and revision or update an existing submission
     #    with a new revision
     _, rev, tag_list = create_or_edit_submission_revision(request,
-                                                    item=theform,
-                                                    is_displayed=authenticated,
-                                                    user=user,
-                                                    commit=commit)
+                                                          item=theform,
+                                                          is_displayed=authenticated,
+                                                          user=user,
+                                                          submission=submission,
+                                                          commit=commit)
 
     # i.e. just previewing ...
     if not(commit):
@@ -685,7 +674,7 @@ def create_validation_code(revision):
         slug = slug.encode('utf-8')
     return sha_constructor(salt+slug).hexdigest()
 
-
+@login_required
 def validate_submission(request, code):
     """
     Validate a submission (via an emailed link to the user).
@@ -929,7 +918,6 @@ def download_submission(request, submission, revision):
 @login_required
 @get_items_or_404
 def edit_submission(request, submission, revision):
-
     if submission.sub_type in ['link', 'package'] and \
                                         request.user != submission.created_by:
         return page_404_error(request, ('You are not authorized to edit that '
@@ -938,9 +926,11 @@ def edit_submission(request, submission, revision):
 
     # if by POST, we are in the process of editing, so don't send the revision
     if request.POST:
-        return new_or_edit_submission(request, submission.sub_type, bound_form=False)
+        return new_or_edit_submission(request, submission.sub_type, bound_form=False,
+                                      submission=submission)
     else:
-        return new_or_edit_submission(request, submission.sub_type,bound_form=revision)
+        return new_or_edit_submission(request, submission.sub_type, bound_form=revision,
+                                      submission=submission)
 
 
 #------------------------------------------------------------------------------
