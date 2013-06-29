@@ -20,48 +20,52 @@ from django import template
 from scipy_central.utils import ensuredir
 from scipy_central.screenshot.models import Screenshot
 
-# We need certain files in place to compile the comments
-# Copy the settings, image extension, and an __init__.py to the appropriate
-# places. The original copy of the ``conf.py`` file, found in the current
-# directory (copy it to comment destination)
-working_dir = settings.SPC['comment_compile_dir']
 
-if Site._meta.installed:
-    site = Site.objects.get_current().domain
-else:
-    site = ''
+def setup_compile_dir(compile_dir):
+    # We need certain files in place to compile the comments
+    # Copy the settings, image extension, and an __init__.py to the appropriate
+    # places. The original copy of the ``conf.py`` file, found in the current
+    # directory (copy it to comment destination)
 
-ext_dir = os.path.abspath(working_dir + os.sep + 'ext')
-ensuredir(working_dir)
-ensuredir(ext_dir)
+    ensuredir(compile_dir)
 
-cf = os.path.abspath(__file__ + os.sep + os.path.pardir) + \
-                                          os.sep + 'sphinx-conf.py'
-conf_file = settings.SPC['comment_compile_dir'] + os.sep + 'conf.py'
-shutil.copyfile(cf, conf_file)
-with file(conf_file, 'r') as conf_file_raw:
-    fc = conf_file_raw.read()
+    if os.path.exists(os.path.join(compile_dir, 'conf.py')):
+        # it's already setup
+        return
 
-resp = template.Template(fc)
-if settings.MEDIA_URL.startswith('http'):
-    conf_file_text = resp.render(template.Context({'FULL_MEDIA_URL': \
-                                           settings.MEDIA_URL}))
-else:
-    conf_file_text = resp.render(template.Context({'FULL_MEDIA_URL': \
-                                           site + settings.MEDIA_URL}))
+    if Site._meta.installed:
+        site = Site.objects.get_current().domain
+    else:
+        site = ''
 
-with file(conf_file, 'w') as conf_file_raw:
-    conf_file_raw.write(conf_file_text)
+    module_dir = os.path.dirname(__file__)
 
-cf = os.path.abspath(__file__ + os.sep + os.path.pardir) + \
-                                                  os.sep + 'images.py'
-shutil.copyfile(cf, settings.SPC['comment_compile_dir'] + os.sep +\
-                                        'ext' + os.sep + 'images.py')
+    ext_dir = os.path.abspath(os.path.join(compile_dir, 'ext'))
+    ensuredir(compile_dir)
+    ensuredir(ext_dir)
 
-cf = os.path.abspath(__file__ + os.sep + os.path.pardir) + \
-                                                  os.sep + '__init__.py'
-shutil.copyfile(cf, settings.SPC['comment_compile_dir'] + os.sep +\
-                                        'ext' + os.sep + '__init__.py')
+    cf = os.path.join(module_dir, 'sphinx-conf.py')
+    conf_file = os.path.join(compile_dir, 'conf.py')
+    shutil.copyfile(cf, conf_file)
+    with file(conf_file, 'r') as conf_file_raw:
+        fc = conf_file_raw.read()
+    
+    resp = template.Template(fc)
+    if settings.MEDIA_URL.startswith('http'):
+        conf_file_text = resp.render(template.Context({'FULL_MEDIA_URL': \
+                                               settings.MEDIA_URL}))
+    else:
+        conf_file_text = resp.render(template.Context({'FULL_MEDIA_URL': \
+                                               site + settings.MEDIA_URL}))
+    
+    with file(conf_file, 'w') as conf_file_raw:
+        conf_file_raw.write(conf_file_text)
+    
+    cf = os.path.join(module_dir, 'images.py')
+    shutil.copyfile(cf, os.path.join(compile_dir, 'ext', 'images.py'))
+
+    cf = os.path.join(module_dir, '__init__.py')
+    shutil.copyfile(cf, os.path.join(compile_dir, 'ext', '__init__.py'))
 
 def compile_rest_to_html(raw_rest):
     """ Compiles the RST string, ``raw_RST`, to HTML.  Performs no
@@ -180,7 +184,8 @@ def compile_rest_to_html(raw_rest):
 
         Returns nothing, but logs if an error occurred.
         """
-        build_dir = os.path.abspath(working_dir + os.sep + '_build')
+        working_dir = os.path.abspath(working_dir)
+        build_dir = os.path.join(working_dir, '_build')
         ensuredir(build_dir)
 
         status = StringIO()
@@ -219,7 +224,7 @@ def compile_rest_to_html(raw_rest):
             logger.error("Non-zero status code when compiling.")
 
     # Ensure the directory where Sphinx will compile the ReST actually exists
-    ensuredir(settings.SPC['comment_compile_dir'])
+    setup_compile_dir(settings.SPC['comment_compile_dir'])
     logger.debug('SPHINX: ' + raw_rest)
     modified_rest = sanitize_raw_rest(raw_rest)
     with open(settings.SPC['comment_compile_dir'] + os.sep + 'index.rst',
