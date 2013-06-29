@@ -4,54 +4,41 @@
 
 {% block pageContent %}
 
-<!--content navbar -->
-<div class="MainHeader">
-	<!--description-->
-	<div class="row-fluid">
-		<div class="span12">
-			<h2 style="font-weight: normal;"><b>Welcome.</b> SciPy Central is a collection of code snippets, modules and links for solving scientific problems with <a href="http://scipy.org" target="_blank">SciPy</a> and related Python tools.</h2>
-		</div>
-	</div>
-	<div class="row-fluid">
-		{% include "search/includes/main-search-box.html" %}
-	</div>
-</div><!--/MainHeader-->
-	
-<div class="row-fluid">
-	<div class="span12">
-		<!--content nav tabs-->
-		<ul class="nav nav-tabs">
-			<li class="active"><a href="#recent" data-toggle="tab">Recently Changed</a></li>
-			<li><a href="#most" data-toggle="tab">Most Viewed</a></li>
-		</ul><!--/content nav tabs-->
+<h2 style="font-weight: normal;"><b>Welcome.</b> SciPy Central is a collection of code snippets, modules and links for solving scientific problems with <a href="http://scipy.org" target="_blank">SciPy</a> and related Python tools.</h2>
 
-		<!-- CONTENT-->
-		{% load core_tags %}
-		<div class="tab-content">
-			<!--tab-pane active-->
-			<div class="tab-pane active" id="recent">
-			{% for entry in "submission.submission"|latest:10 %}
-					{% include 'search/includes/one-search-result.html' %}
-			{% endfor %}
-			<div class="pagination pagination-small pagination-centered">
-				<ul><li><a href="{% url spc-show-items what_view="show" extra_info="all-revisions" %}">View all</a></li></ul>
-			</div>
-					
-			</div><!--/tab-pane active-->
-			
-			<div class="tab-pane" id="most">
-			{% for entry in "submission"|most_viewed:10 %}
-			{% with entry.last_revision as entry %}
-					{% include 'search/includes/one-search-result.html' %}
-			{% endwith %}
-			{% endfor %}
-			<div class="pagination pagination-small pagination-centered">
-				<ul><li><a href="{% url spc-show-items what_view="sort" extra_info="most-viewed" %}">View all</a></li></ul>
-			</div>
-			</div><!--/tab pane-->
-			
-		</div><!--/CONTENT-->
-		
-	</div>
-</div><!--/row-fluid-->
+{% include "search/includes/main-search-box.html" %}
+	
+
+<ul class="nav nav-tabs">
+	<li class="active"><a href="#recent" data-toggle="tab">Recently Changed</a></li>
+	<li><a href="#most" data-toggle="tab">Most Viewed</a></li>
+</ul>
+
+{% load core_tags %}
+<div class="tab-content">
+	<!--tab-pane active-->
+	<div class="tab-pane active" id="recent">
+		{% for entry in "submission.submission"|latest:10 %}
+		<ul class="media-list">
+			{% include 'search/includes/one-search-result.html' %}
+		</ul>
+		{% endfor %}
+		<div class="pagination pagination-small pagination-centered">
+			<ul><li><a href="{% url spc-show-items what_view="show" extra_info="all-revisions" %}">View all</a></li></ul>
+		</div>	
+	</div><!--/tab-pane active-->
+	
+	<div class="tab-pane" id="most">
+		{% for entry in "submission"|most_viewed:10 %}
+		{% with entry.last_revision as entry %}
+		<ul class="media-list">
+			{% include 'search/includes/one-search-result.html' %}
+		</ul>
+		{% endwith %}
+		{% endfor %}
+		<div class="pagination pagination-small pagination-centered">
+			<ul><li><a href="{% url spc-show-items what_view="sort" extra_info="most-viewed" %}">View all</a></li></ul>
+		</div>
+	</div><!--/tab pane-->	
+</div><!--/CONTENT-->
 {% endblock %}
