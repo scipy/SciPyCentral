@@ -1,0 +1,2961 @@
+[
+  {
+    "pk": 3,
+    "model": "auth.user",
+    "fields": {
+      "username": "SciPy Central",
+      "first_name": "",
+      "last_name": "",
+      "is_active": true,
+      "is_superuser": true,
+      "is_staff": true,
+      "last_login": "2011-07-01 17:17:22",
+      "groups": [],
+      "user_permissions": [],
+      "password": "sha1$notsupplied",
+      "email": "admin@scipy-central.org",
+      "date_joined": "2011-07-01 17:17:22"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "person.userprofile",
+    "fields": {
+      "user": 3,
+      "bio": "SciPy Central site administrator",
+      "openid": null,
+      "slug": "scipy-central",
+      "country": 36,
+      "uri": "http://scipy-central.org",
+      "contactable_via_site": true,
+      "affiliation": "N/A",
+      "is_validated": true,
+      "allow_user_to_email": true,
+      "reputation": 0
+    }
+  },
+  {
+    "pk": 2,
+    "model": "person.country",
+    "fields":{
+      "name": "Andorra",
+      "code": "AD"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "person.country",
+    "fields":{
+      "name": "United Arab Emirates",
+      "code": "AE"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "person.country",
+    "fields":{
+      "name": "Afghanistan",
+      "code": "AF"
+    }
+  },
+  {
+    "pk": 5,
+    "model": "person.country",
+    "fields":{
+      "name": "Antigua and Barbuda",
+      "code": "AG"
+    }
+  },
+  {
+    "pk": 6,
+    "model": "person.country",
+    "fields":{
+      "name": "Anguilla",
+      "code": "AI"
+    }
+  },
+  {
+    "pk": 7,
+    "model": "person.country",
+    "fields":{
+      "name": "Albania",
+      "code": "AL"
+    }
+  },
+  {
+    "pk": 8,
+    "model": "person.country",
+    "fields":{
+      "name": "Armenia",
+      "code": "AM"
+    }
+  },
+  {
+    "pk": 9,
+    "model": "person.country",
+    "fields":{
+      "name": "Angola",
+      "code": "AO"
+    }
+  },
+  {
+    "pk": 10,
+    "model": "person.country",
+    "fields":{
+      "name": "Antarctica",
+      "code": "AQ"
+    }
+  },
+  {
+    "pk": 11,
+    "model": "person.country",
+    "fields":{
+      "name": "Argentina",
+      "code": "AR"
+    }
+  },
+  {
+    "pk": 12,
+    "model": "person.country",
+    "fields":{
+      "name": "American Samoa",
+      "code": "AS"
+    }
+  },
+  {
+    "pk": 13,
+    "model": "person.country",
+    "fields":{
+      "name": "Austria",
+      "code": "AT"
+    }
+  },
+  {
+    "pk": 14,
+    "model": "person.country",
+    "fields":{
+      "name": "Australia",
+      "code": "AU"
+    }
+  },
+  {
+    "pk": 15,
+    "model": "person.country",
+    "fields":{
+      "name": "Aruba",
+      "code": "AW"
+    }
+  },
+  {
+    "pk": 16,
+    "model": "person.country",
+    "fields":{
+      "name": "Azerbaijan",
+      "code": "AZ"
+    }
+  },
+  {
+    "pk": 17,
+    "model": "person.country",
+    "fields":{
+      "name": "Bosnia and Herzegovina",
+      "code": "BA"
+    }
+  },
+  {
+    "pk": 18,
+    "model": "person.country",
+    "fields":{
+      "name": "Barbados",
+      "code": "BB"
+    }
+  },
+  {
+    "pk": 19,
+    "model": "person.country",
+    "fields":{
+      "name": "Bangladesh",
+      "code": "BD"
+    }
+  },
+  {
+    "pk": 20,
+    "model": "person.country",
+    "fields":{
+      "name": "Belgium",
+      "code": "BE"
+    }
+  },
+  {
+    "pk": 21,
+    "model": "person.country",
+    "fields":{
+      "name": "Burkina Faso",
+      "code": "BF"
+    }
+  },
+  {
+    "pk": 22,
+    "model": "person.country",
+    "fields":{
+      "name": "Bulgaria",
+      "code": "BG"
+    }
+  },
+  {
+    "pk": 23,
+    "model": "person.country",
+    "fields":{
+      "name": "Bahrain",
+      "code": "BH"
+    }
+  },
+  {
+    "pk": 24,
+    "model": "person.country",
+    "fields":{
+      "name": "Burundi",
+      "code": "BI"
+    }
+  },
+  {
+    "pk": 25,
+    "model": "person.country",
+    "fields":{
+      "name": "Benin",
+      "code": "BJ"
+    }
+  },
+  {
+    "pk": 26,
+    "model": "person.country",
+    "fields":{
+      "name": "Saint Barthélemy",
+      "code": "BL"
+    }
+  },
+  {
+    "pk": 27,
+    "model": "person.country",
+    "fields":{
+      "name": "Bermuda",
+      "code": "BM"
+    }
+  },
+  {
+    "pk": 28,
+    "model": "person.country",
+    "fields":{
+      "name": "Brunei Darussalam",
+      "code": "BN"
+    }
+  },
+  {
+    "pk": 29,
+    "model": "person.country",
+    "fields":{
+      "name": "Bolivia",
+      "code": "BO"
+    }
+  },
+  {
+    "pk": 30,
+    "model": "person.country",
+    "fields":{
+      "name": "Brazil",
+      "code": "BR"
+    }
+  },
+  {
+    "pk": 31,
+    "model": "person.country",
+    "fields":{
+      "name": "The Bahamas",
+      "code": "BS"
+    }
+  },
+  {
+    "pk": 32,
+    "model": "person.country",
+    "fields":{
+      "name": "Bhutan",
+      "code": "BT"
+    }
+  },
+  {
+    "pk": 33,
+    "model": "person.country",
+    "fields":{
+      "name": "Botswana",
+      "code": "BW"
+    }
+  },
+  {
+    "pk": 34,
+    "model": "person.country",
+    "fields":{
+      "name": "Belarus",
+      "code": "BY"
+    }
+  },
+  {
+    "pk": 35,
+    "model": "person.country",
+    "fields":{
+      "name": "Belize",
+      "code": "BZ"
+    }
+  },
+  {
+    "pk": 36,
+    "model": "person.country",
+    "fields":{
+      "name": "Canada",
+      "code": "CA"
+    }
+  },
+  {
+    "pk": 37,
+    "model": "person.country",
+    "fields":{
+      "name": "Cocos (Keeling) Islands",
+      "code": "CC"
+    }
+  },
+  {
+    "pk": 38,
+    "model": "person.country",
+    "fields":{
+      "name": "Congo, The Democratic Republic of the",
+      "code": "CD"
+    }
+  },
+  {
+    "pk": 39,
+    "model": "person.country",
+    "fields":{
+      "name": "Central African Republic",
+      "code": "CF"
+    }
+  },
+  {
+    "pk": 40,
+    "model": "person.country",
+    "fields":{
+      "name": "Congo",
+      "code": "CG"
+    }
+  },
+  {
+    "pk": 41,
+    "model": "person.country",
+    "fields":{
+      "name": "Switzerland",
+      "code": "CH"
+    }
+  },
+  {
+    "pk": 42,
+    "model": "person.country",
+    "fields":{
+      "name": "Cote d'Ivoire",
+      "code": "CI"
+    }
+  },
+  {
+    "pk": 43,
+    "model": "person.country",
+    "fields":{
+      "name": "Cook Islands",
+      "code": "CK"
+    }
+  },
+  {
+    "pk": 44,
+    "model": "person.country",
+    "fields":{
+      "name": "Chile",
+      "code": "CL"
+    }
+  },
+  {
+    "pk": 45,
+    "model": "person.country",
+    "fields":{
+      "name": "Cameroon",
+      "code": "CM"
+    }
+  },
+  {
+    "pk": 46,
+    "model": "person.country",
+    "fields":{
+      "name": "China, People's Republic of",
+      "code": "CN"
+    }
+  },
+  {
+    "pk": 47,
+    "model": "person.country",
+    "fields":{
+      "name": "Colombia",
+      "code": "CO"
+    }
+  },
+  {
+    "pk": 48,
+    "model": "person.country",
+    "fields":{
+      "name": "Costa Rica",
+      "code": "CR"
+    }
+  },
+  {
+    "pk": 49,
+    "model": "person.country",
+    "fields":{
+      "name": "Cuba",
+      "code": "CU"
+    }
+  },
+  {
+    "pk": 50,
+    "model": "person.country",
+    "fields":{
+      "name": "Cape Verde",
+      "code": "CV"
+    }
+  },
+  {
+    "pk": 51,
+    "model": "person.country",
+    "fields":{
+      "name": "Curaçao",
+      "code": "CW"
+    }
+  },
+  {
+    "pk": 52,
+    "model": "person.country",
+    "fields":{
+      "name": "Christmas Island",
+      "code": "CX"
+    }
+  },
+  {
+    "pk": 53,
+    "model": "person.country",
+    "fields":{
+      "name": "Cyprus",
+      "code": "CY"
+    }
+  },
+  {
+    "pk": 54,
+    "model": "person.country",
+    "fields":{
+      "name": "Czech Republic",
+      "code": "CZ"
+    }
+  },
+  {
+    "pk": 55,
+    "model": "person.country",
+    "fields":{
+      "name": "Germany",
+      "code": "DE"
+    }
+  },
+  {
+    "pk": 56,
+    "model": "person.country",
+    "fields":{
+      "name": "Djibouti",
+      "code": "DJ"
+    }
+  },
+  {
+    "pk": 57,
+    "model": "person.country",
+    "fields":{
+      "name": "Denmark",
+      "code": "DK"
+    }
+  },
+  {
+    "pk": 58,
+    "model": "person.country",
+    "fields":{
+      "name": "Dominica",
+      "code": "DM"
+    }
+  },
+  {
+    "pk": 59,
+    "model": "person.country",
+    "fields":{
+      "name": "Dominican Republic",
+      "code": "DO"
+    }
+  },
+  {
+    "pk": 60,
+    "model": "person.country",
+    "fields":{
+      "name": "Algeria",
+      "code": "DZ"
+    }
+  },
+  {
+    "pk": 61,
+    "model": "person.country",
+    "fields":{
+      "name": "Ecuador",
+      "code": "EC"
+    }
+  },
+  {
+    "pk": 62,
+    "model": "person.country",
+    "fields":{
+      "name": "Estonia",
+      "code": "EE"
+    }
+  },
+  {
+    "pk": 63,
+    "model": "person.country",
+    "fields":{
+      "name": "Egypt",
+      "code": "EG"
+    }
+  },
+  {
+    "pk": 64,
+    "model": "person.country",
+    "fields":{
+      "name": "Eritrea",
+      "code": "ER"
+    }
+  },
+  {
+    "pk": 65,
+    "model": "person.country",
+    "fields":{
+      "name": "Spain",
+      "code": "ES"
+    }
+  },
+  {
+    "pk": 66,
+    "model": "person.country",
+    "fields":{
+      "name": "Ethiopia",
+      "code": "ET"
+    }
+  },
+  {
+    "pk": 67,
+    "model": "person.country",
+    "fields":{
+      "name": "Finland",
+      "code": "FI"
+    }
+  },
+  {
+    "pk": 68,
+    "model": "person.country",
+    "fields":{
+      "name": "Fiji",
+      "code": "FJ"
+    }
+  },
+  {
+    "pk": 69,
+    "model": "person.country",
+    "fields":{
+      "name": "Falkland Islands",
+      "code": "FK"
+    }
+  },
+  {
+    "pk": 70,
+    "model": "person.country",
+    "fields":{
+      "name": "Micronesia, Federated States of",
+      "code": "FM"
+    }
+  },
+  {
+    "pk": 71,
+    "model": "person.country",
+    "fields":{
+      "name": "Faroe Islands",
+      "code": "FO"
+    }
+  },
+  {
+    "pk": 72,
+    "model": "person.country",
+    "fields":{
+      "name": "France",
+      "code": "FR"
+    }
+  },
+  {
+    "pk": 73,
+    "model": "person.country",
+    "fields":{
+      "name": "Gabon",
+      "code": "GA"
+    }
+  },
+  {
+    "pk": 74,
+    "model": "person.country",
+    "fields":{
+      "name": "United Kingdom",
+      "code": "GB"
+    }
+  },
+  {
+    "pk": 75,
+    "model": "person.country",
+    "fields":{
+      "name": "Grenada",
+      "code": "GD"
+    }
+  },
+  {
+    "pk": 76,
+    "model": "person.country",
+    "fields":{
+      "name": "Georgia",
+      "code": "GE"
+    }
+  },
+  {
+    "pk": 77,
+    "model": "person.country",
+    "fields":{
+      "name": "Guernsey",
+      "code": "GG"
+    }
+  },
+  {
+    "pk": 78,
+    "model": "person.country",
+    "fields":{
+      "name": "Ghana",
+      "code": "GH"
+    }
+  },
+  {
+    "pk": 79,
+    "model": "person.country",
+    "fields":{
+      "name": "Gibraltar",
+      "code": "GI"
+    }
+  },
+  {
+    "pk": 80,
+    "model": "person.country",
+    "fields":{
+      "name": "Greenland",
+      "code": "GL"
+    }
+  },
+  {
+    "pk": 81,
+    "model": "person.country",
+    "fields":{
+      "name": "Gambia",
+      "code": "GM"
+    }
+  },
+  {
+    "pk": 82,
+    "model": "person.country",
+    "fields":{
+      "name": "Guinea",
+      "code": "GN"
+    }
+  },
+  {
+    "pk": 83,
+    "model": "person.country",
+    "fields":{
+      "name": "Equatorial Guinea",
+      "code": "GQ"
+    }
+  },
+  {
+    "pk": 84,
+    "model": "person.country",
+    "fields":{
+      "name": "Greece",
+      "code": "GR"
+    }
+  },
+  {
+    "pk": 85,
+    "model": "person.country",
+    "fields":{
+      "name": "Guatemala",
+      "code": "GT"
+    }
+  },
+  {
+    "pk": 86,
+    "model": "person.country",
+    "fields":{
+      "name": "Guam",
+      "code": "GU"
+    }
+  },
+  {
+    "pk": 87,
+    "model": "person.country",
+    "fields":{
+      "name": "Guinea-Bissau",
+      "code": "GW"
+    }
+  },
+  {
+    "pk": 88,
+    "model": "person.country",
+    "fields":{
+      "name": "Guyana",
+      "code": "GY"
+    }
+  },
+  {
+    "pk": 89,
+    "model": "person.country",
+    "fields":{
+      "name": "Hong Kong",
+      "code": "HK"
+    }
+  },
+  {
+    "pk": 90,
+    "model": "person.country",
+    "fields":{
+      "name": "Honduras",
+      "code": "HN"
+    }
+  },
+  {
+    "pk": 91,
+    "model": "person.country",
+    "fields":{
+      "name": "Croatia",
+      "code": "HR"
+    }
+  },
+  {
+    "pk": 92,
+    "model": "person.country",
+    "fields":{
+      "name": "Haiti",
+      "code": "HT"
+    }
+  },
+  {
+    "pk": 93,
+    "model": "person.country",
+    "fields":{
+      "name": "Hungary",
+      "code": "HU"
+    }
+  },
+  {
+    "pk": 94,
+    "model": "person.country",
+    "fields":{
+      "name": "Indonesia",
+      "code": "ID"
+    }
+  },
+  {
+    "pk": 95,
+    "model": "person.country",
+    "fields":{
+      "name": "Ireland",
+      "code": "IE"
+    }
+  },
+  {
+    "pk": 96,
+    "model": "person.country",
+    "fields":{
+      "name": "Israel",
+      "code": "IL"
+    }
+  },
+  {
+    "pk": 97,
+    "model": "person.country",
+    "fields":{
+      "name": "Isle of Man",
+      "code": "IM"
+    }
+  },
+  {
+    "pk": 98,
+    "model": "person.country",
+    "fields":{
+      "name": "India",
+      "code": "IN"
+    }
+  },
+  {
+    "pk": 99,
+    "model": "person.country",
+    "fields":{
+      "name": "Iraq",
+      "code": "IQ"
+    }
+  },
+  {
+    "pk": 100,
+    "model": "person.country",
+    "fields":{
+      "name": "Iran",
+      "code": "IR"
+    }
+  },
+  {
+    "pk": 101,
+    "model": "person.country",
+    "fields":{
+      "name": "Iceland",
+      "code": "IS"
+    }
+  },
+  {
+    "pk": 102,
+    "model": "person.country",
+    "fields":{
+      "name": "Italy",
+      "code": "IT"
+    }
+  },
+  {
+    "pk": 103,
+    "model": "person.country",
+    "fields":{
+      "name": "Jersey",
+      "code": "JE"
+    }
+  },
+  {
+    "pk": 104,
+    "model": "person.country",
+    "fields":{
+      "name": "Jamaica",
+      "code": "JM"
+    }
+  },
+  {
+    "pk": 105,
+    "model": "person.country",
+    "fields":{
+      "name": "Jordan",
+      "code": "JO"
+    }
+  },
+  {
+    "pk": 106,
+    "model": "person.country",
+    "fields":{
+      "name": "Japan",
+      "code": "JP"
+    }
+  },
+  {
+    "pk": 107,
+    "model": "person.country",
+    "fields":{
+      "name": "Kenya",
+      "code": "KE"
+    }
+  },
+  {
+    "pk": 108,
+    "model": "person.country",
+    "fields":{
+      "name": "Kyrgyzstan",
+      "code": "KG"
+    }
+  },
+  {
+    "pk": 109,
+    "model": "person.country",
+    "fields":{
+      "name": "Cambodia",
+      "code": "KH"
+    }
+  },
+  {
+    "pk": 110,
+    "model": "person.country",
+    "fields":{
+      "name": "Kiribati",
+      "code": "KI"
+    }
+  },
+  {
+    "pk": 111,
+    "model": "person.country",
+    "fields":{
+      "name": "Comoros",
+      "code": "KM"
+    }
+  },
+  {
+    "pk": 112,
+    "model": "person.country",
+    "fields":{
+      "name": "Saint Kitts and Nevis",
+      "code": "KN"
+    }
+  },
+  {
+    "pk": 113,
+    "model": "person.country",
+    "fields":{
+      "name": "North Korea",
+      "code": "KP"
+    }
+  },
+  {
+    "pk": 114,
+    "model": "person.country",
+    "fields":{
+      "name": "South Korea",
+      "code": "KR"
+    }
+  },
+  {
+    "pk": 115,
+    "model": "person.country",
+    "fields":{
+      "name": "Kuwait",
+      "code": "KW"
+    }
+  },
+  {
+    "pk": 116,
+    "model": "person.country",
+    "fields":{
+      "name": "Cayman Islands",
+      "code": "KY"
+    }
+  },
+  {
+    "pk": 117,
+    "model": "person.country",
+    "fields":{
+      "name": "Kazakhstan",
+      "code": "KZ"
+    }
+  },
+  {
+    "pk": 118,
+    "model": "person.country",
+    "fields":{
+      "name": "Laos",
+      "code": "LA"
+    }
+  },
+  {
+    "pk": 119,
+    "model": "person.country",
+    "fields":{
+      "name": "Lebanon",
+      "code": "LB"
+    }
+  },
+  {
+    "pk": 120,
+    "model": "person.country",
+    "fields":{
+      "name": "Saint Lucia",
+      "code": "LC"
+    }
+  },
+  {
+    "pk": 121,
+    "model": "person.country",
+    "fields":{
+      "name": "Liechtenstein",
+      "code": "LI"
+    }
+  },
+  {
+    "pk": 122,
+    "model": "person.country",
+    "fields":{
+      "name": "Sri Lanka",
+      "code": "LK"
+    }
+  },
+  {
+    "pk": 123,
+    "model": "person.country",
+    "fields":{
+      "name": "Liberia",
+      "code": "LR"
+    }
+  },
+  {
+    "pk": 124,
+    "model": "person.country",
+    "fields":{
+      "name": "Lesotho",
+      "code": "LS"
+    }
+  },
+  {
+    "pk": 125,
+    "model": "person.country",
+    "fields":{
+      "name": "Lithuania",
+      "code": "LT"
+    }
+  },
+  {
+    "pk": 126,
+    "model": "person.country",
+    "fields":{
+      "name": "Luxembourg",
+      "code": "LU"
+    }
+  },
+  {
+    "pk": 127,
+    "model": "person.country",
+    "fields":{
+      "name": "Latvia",
+      "code": "LV"
+    }
+  },
+  {
+    "pk": 128,
+    "model": "person.country",
+    "fields":{
+      "name": "Libya",
+      "code": "LY"
+    }
+  },
+  {
+    "pk": 129,
+    "model": "person.country",
+    "fields":{
+      "name": "Morocco",
+      "code": "MA"
+    }
+  },
+  {
+    "pk": 130,
+    "model": "person.country",
+    "fields":{
+      "name": "Monaco",
+      "code": "MC"
+    }
+  },
+  {
+    "pk": 131,
+    "model": "person.country",
+    "fields":{
+      "name": "Moldova",
+      "code": "MD"
+    }
+  },
+  {
+    "pk": 132,
+    "model": "person.country",
+    "fields":{
+      "name": "Montenegro",
+      "code": "ME"
+    }
+  },
+  {
+    "pk": 133,
+    "model": "person.country",
+    "fields":{
+      "name": "Saint Martin",
+      "code": "MF"
+    }
+  },
+  {
+    "pk": 134,
+    "model": "person.country",
+    "fields":{
+      "name": "Madagascar",
+      "code": "MG"
+    }
+  },
+  {
+    "pk": 135,
+    "model": "person.country",
+    "fields":{
+      "name": "Marshall Islands",
+      "code": "MH"
+    }
+  },
+  {
+    "pk": 136,
+    "model": "person.country",
+    "fields":{
+      "name": "Macedonia, Republic of",
+      "code": "MK"
+    }
+  },
+  {
+    "pk": 137,
+    "model": "person.country",
+    "fields":{
+      "name": "Mali",
+      "code": "ML"
+    }
+  },
+  {
+    "pk": 138,
+    "model": "person.country",
+    "fields":{
+      "name": "Myanmar",
+      "code": "MM"
+    }
+  },
+  {
+    "pk": 139,
+    "model": "person.country",
+    "fields":{
+      "name": "Mongolia",
+      "code": "MN"
+    }
+  },
+  {
+    "pk": 140,
+    "model": "person.country",
+    "fields":{
+      "name": "Macau",
+      "code": "MO"
+    }
+  },
+  {
+    "pk": 141,
+    "model": "person.country",
+    "fields":{
+      "name": "Martinique",
+      "code": "MQ"
+    }
+  },
+  {
+    "pk": 142,
+    "model": "person.country",
+    "fields":{
+      "name": "Mauritania",
+      "code": "MR"
+    }
+  },
+  {
+    "pk": 143,
+    "model": "person.country",
+    "fields":{
+      "name": "Montserrat",
+      "code": "MS"
+    }
+  },
+  {
+    "pk": 144,
+    "model": "person.country",
+    "fields":{
+      "name": "Malta",
+      "code": "MT"
+    }
+  },
+  {
+    "pk": 145,
+    "model": "person.country",
+    "fields":{
+      "name": "Mauritius",
+      "code": "MU"
+    }
+  },
+  {
+    "pk": 146,
+    "model": "person.country",
+    "fields":{
+      "name": "Maldives",
+      "code": "MV"
+    }
+  },
+  {
+    "pk": 147,
+    "model": "person.country",
+    "fields":{
+      "name": "Malawi",
+      "code": "MW"
+    }
+  },
+  {
+    "pk": 148,
+    "model": "person.country",
+    "fields":{
+      "name": "Mexico",
+      "code": "MX"
+    }
+  },
+  {
+    "pk": 149,
+    "model": "person.country",
+    "fields":{
+      "name": "Malaysia",
+      "code": "MY"
+    }
+  },
+  {
+    "pk": 150,
+    "model": "person.country",
+    "fields":{
+      "name": "Mozambique",
+      "code": "MZ"
+    }
+  },
+  {
+    "pk": 151,
+    "model": "person.country",
+    "fields":{
+      "name": "Namibia",
+      "code": "NA"
+    }
+  },
+  {
+    "pk": 152,
+    "model": "person.country",
+    "fields":{
+      "name": "New Caledonia",
+      "code": "NC"
+    }
+  },
+  {
+    "pk": 153,
+    "model": "person.country",
+    "fields":{
+      "name": "Niger",
+      "code": "NE"
+    }
+  },
+  {
+    "pk": 154,
+    "model": "person.country",
+    "fields":{
+      "name": "Norfolk Island",
+      "code": "NF"
+    }
+  },
+  {
+    "pk": 155,
+    "model": "person.country",
+    "fields":{
+      "name": "Nigeria",
+      "code": "NG"
+    }
+  },
+  {
+    "pk": 156,
+    "model": "person.country",
+    "fields":{
+      "name": "Nicaragua",
+      "code": "NI"
+    }
+  },
+  {
+    "pk": 157,
+    "model": "person.country",
+    "fields":{
+      "name": "Netherlands",
+      "code": "NL"
+    }
+  },
+  {
+    "pk": 158,
+    "model": "person.country",
+    "fields":{
+      "name": "Norway",
+      "code": "NO"
+    }
+  },
+  {
+    "pk": 159,
+    "model": "person.country",
+    "fields":{
+      "name": "Nepal",
+      "code": "NP"
+    }
+  },
+  {
+    "pk": 160,
+    "model": "person.country",
+    "fields":{
+      "name": "Nauru",
+      "code": "NR"
+    }
+  },
+  {
+    "pk": 161,
+    "model": "person.country",
+    "fields":{
+      "name": "Niue",
+      "code": "NU"
+    }
+  },
+  {
+    "pk": 162,
+    "model": "person.country",
+    "fields":{
+      "name": "New Zealand",
+      "code": "NZ"
+    }
+  },
+  {
+    "pk": 163,
+    "model": "person.country",
+    "fields":{
+      "name": "Oman",
+      "code": "OM"
+    }
+  },
+  {
+    "pk": 164,
+    "model": "person.country",
+    "fields":{
+      "name": "Panama",
+      "code": "PA"
+    }
+  },
+  {
+    "pk": 165,
+    "model": "person.country",
+    "fields":{
+      "name": "Peru",
+      "code": "PE"
+    }
+  },
+  {
+    "pk": 166,
+    "model": "person.country",
+    "fields":{
+      "name": "French Polynesia",
+      "code": "PF"
+    }
+  },
+  {
+    "pk": 167,
+    "model": "person.country",
+    "fields":{
+      "name": "Papua New Guinea",
+      "code": "PG"
+    }
+  },
+  {
+    "pk": 168,
+    "model": "person.country",
+    "fields":{
+      "name": "Philippines",
+      "code": "PH"
+    }
+  },
+  {
+    "pk": 169,
+    "model": "person.country",
+    "fields":{
+      "name": "Pakistan",
+      "code": "PK"
+    }
+  },
+  {
+    "pk": 170,
+    "model": "person.country",
+    "fields":{
+      "name": "Poland",
+      "code": "PL"
+    }
+  },
+  {
+    "pk": 171,
+    "model": "person.country",
+    "fields":{
+      "name": "Saint Pierre and Miquelon",
+      "code": "PM"
+    }
+  },
+  {
+    "pk": 172,
+    "model": "person.country",
+    "fields":{
+      "name": "Pitcairn Islands",
+      "code": "PN"
+    }
+  },
+  {
+    "pk": 173,
+    "model": "person.country",
+    "fields":{
+      "name": "Puerto Rico",
+      "code": "PR"
+    }
+  },
+  {
+    "pk": 174,
+    "model": "person.country",
+    "fields":{
+      "name": "Portugal",
+      "code": "PT"
+    }
+  },
+  {
+    "pk": 175,
+    "model": "person.country",
+    "fields":{
+      "name": "Palau",
+      "code": "PW"
+    }
+  },
+  {
+    "pk": 176,
+    "model": "person.country",
+    "fields":{
+      "name": "Paraguay",
+      "code": "PY"
+    }
+  },
+  {
+    "pk": 177,
+    "model": "person.country",
+    "fields":{
+      "name": "Qatar",
+      "code": "QA"
+    }
+  },
+  {
+    "pk": 178,
+    "model": "person.country",
+    "fields":{
+      "name": "Réunion",
+      "code": "RE"
+    }
+  },
+  {
+    "pk": 179,
+    "model": "person.country",
+    "fields":{
+      "name": "Romania",
+      "code": "RO"
+    }
+  },
+  {
+    "pk": 180,
+    "model": "person.country",
+    "fields":{
+      "name": "Serbia",
+      "code": "RS"
+    }
+  },
+  {
+    "pk": 181,
+    "model": "person.country",
+    "fields":{
+      "name": "Russia",
+      "code": "RU"
+    }
+  },
+  {
+    "pk": 182,
+    "model": "person.country",
+    "fields":{
+      "name": "Rwanda",
+      "code": "RW"
+    }
+  },
+  {
+    "pk": 183,
+    "model": "person.country",
+    "fields":{
+      "name": "Saudi Arabia",
+      "code": "SA"
+    }
+  },
+  {
+    "pk": 184,
+    "model": "person.country",
+    "fields":{
+      "name": "Solomon Islands",
+      "code": "SB"
+    }
+  },
+  {
+    "pk": 185,
+    "model": "person.country",
+    "fields":{
+      "name": "Seychelles",
+      "code": "SC"
+    }
+  },
+  {
+    "pk": 186,
+    "model": "person.country",
+    "fields":{
+      "name": "Sudan",
+      "code": "SD"
+    }
+  },
+  {
+    "pk": 187,
+    "model": "person.country",
+    "fields":{
+      "name": "Sweden",
+      "code": "SE"
+    }
+  },
+  {
+    "pk": 188,
+    "model": "person.country",
+    "fields":{
+      "name": "Singapore",
+      "code": "SG"
+    }
+  },
+  {
+    "pk": 189,
+    "model": "person.country",
+    "fields":{
+      "name": "Saint Helena, Ascension and Tristan da Cunha",
+      "code": "SH"
+    }
+  },
+  {
+    "pk": 190,
+    "model": "person.country",
+    "fields":{
+      "name": "Slovenia",
+      "code": "SI"
+    }
+  },
+  {
+    "pk": 191,
+    "model": "person.country",
+    "fields":{
+      "name": "Svalbard and Jan Mayen",
+      "code": "SJ"
+    }
+  },
+  {
+    "pk": 192,
+    "model": "person.country",
+    "fields":{
+      "name": "Slovakia",
+      "code": "SK"
+    }
+  },
+  {
+    "pk": 193,
+    "model": "person.country",
+    "fields":{
+      "name": "Sierra Leone",
+      "code": "SL"
+    }
+  },
+  {
+    "pk": 194,
+    "model": "person.country",
+    "fields":{
+      "name": "San Marino",
+      "code": "SM"
+    }
+  },
+  {
+    "pk": 195,
+    "model": "person.country",
+    "fields":{
+      "name": "Senegal",
+      "code": "SN"
+    }
+  },
+  {
+    "pk": 196,
+    "model": "person.country",
+    "fields":{
+      "name": "Somalia",
+      "code": "SO"
+    }
+  },
+  {
+    "pk": 197,
+    "model": "person.country",
+    "fields":{
+      "name": "Suriname",
+      "code": "SR"
+    }
+  },
+  {
+    "pk": 198,
+    "model": "person.country",
+    "fields":{
+      "name": "São Tomé and Príncipe",
+      "code": "ST"
+    }
+  },
+  {
+    "pk": 199,
+    "model": "person.country",
+    "fields":{
+      "name": "El Salvador",
+      "code": "SV"
+    }
+  },
+  {
+    "pk": 200,
+    "model": "person.country",
+    "fields":{
+      "name": "Sint Maarten",
+      "code": "SX"
+    }
+  },
+  {
+    "pk": 201,
+    "model": "person.country",
+    "fields":{
+      "name": "Syria",
+      "code": "SY"
+    }
+  },
+  {
+    "pk": 202,
+    "model": "person.country",
+    "fields":{
+      "name": "Swaziland",
+      "code": "SZ"
+    }
+  },
+  {
+    "pk": 203,
+    "model": "person.country",
+    "fields":{
+      "name": "Turks and Caicos Islands",
+      "code": "TC"
+    }
+  },
+  {
+    "pk": 204,
+    "model": "person.country",
+    "fields":{
+      "name": "Chad",
+      "code": "TD"
+    }
+  },
+  {
+    "pk": 205,
+    "model": "person.country",
+    "fields":{
+      "name": "Togo",
+      "code": "TG"
+    }
+  },
+  {
+    "pk": 206,
+    "model": "person.country",
+    "fields":{
+      "name": "Thailand",
+      "code": "TH"
+    }
+  },
+  {
+    "pk": 207,
+    "model": "person.country",
+    "fields":{
+      "name": "Tajikistan",
+      "code": "TJ"
+    }
+  },
+  {
+    "pk": 208,
+    "model": "person.country",
+    "fields":{
+      "name": "Tokelau",
+      "code": "TK"
+    }
+  },
+  {
+    "pk": 209,
+    "model": "person.country",
+    "fields":{
+      "name": "East Timor",
+      "code": "TL"
+    }
+  },
+  {
+    "pk": 210,
+    "model": "person.country",
+    "fields":{
+      "name": "Turkmenistan",
+      "code": "TM"
+    }
+  },
+  {
+    "pk": 211,
+    "model": "person.country",
+    "fields":{
+      "name": "Tunisia",
+      "code": "TN"
+    }
+  },
+  {
+    "pk": 212,
+    "model": "person.country",
+    "fields":{
+      "name": "Tonga",
+      "code": "TO"
+    }
+  },
+  {
+    "pk": 213,
+    "model": "person.country",
+    "fields":{
+      "name": "Turkey",
+      "code": "TR"
+    }
+  },
+  {
+    "pk": 214,
+    "model": "person.country",
+    "fields":{
+      "name": "Trinidad and Tobago",
+      "code": "TT"
+    }
+  },
+  {
+    "pk": 215,
+    "model": "person.country",
+    "fields":{
+      "name": "Taiwan",
+      "code": "TW"
+    }
+  },
+  {
+    "pk": 216,
+    "model": "person.country",
+    "fields":{
+      "name": "Tanzania",
+      "code": "TZ"
+    }
+  },
+  {
+    "pk": 217,
+    "model": "person.country",
+    "fields":{
+      "name": "Ukraine",
+      "code": "UA"
+    }
+  },
+  {
+    "pk": 218,
+    "model": "person.country",
+    "fields":{
+      "name": "Uganda",
+      "code": "UG"
+    }
+  },
+  {
+    "pk": 219,
+    "model": "person.country",
+    "fields":{
+      "name": "United States of America",
+      "code": "US"
+    }
+  },
+  {
+    "pk": 220,
+    "model": "person.country",
+    "fields":{
+      "name": "Uruguay",
+      "code": "UY"
+    }
+  },
+  {
+    "pk": 221,
+    "model": "person.country",
+    "fields":{
+      "name": "Uzbekistan",
+      "code": "UZ"
+    }
+  },
+  {
+    "pk": 222,
+    "model": "person.country",
+    "fields":{
+      "name": "Vatican City",
+      "code": "VA"
+    }
+  },
+  {
+    "pk": 223,
+    "model": "person.country",
+    "fields":{
+      "name": "Saint Vincent and the Grenadines",
+      "code": "VC"
+    }
+  },
+  {
+    "pk": 224,
+    "model": "person.country",
+    "fields":{
+      "name": "Venezuela",
+      "code": "VE"
+    }
+  },
+  {
+    "pk": 225,
+    "model": "person.country",
+    "fields":{
+      "name": "Virgin Islands, British",
+      "code": "VG"
+    }
+  },
+  {
+    "pk": 226,
+    "model": "person.country",
+    "fields":{
+      "name": "Virgin Islands, U.S.",
+      "code": "VI"
+    }
+  },
+  {
+    "pk": 227,
+    "model": "person.country",
+    "fields":{
+      "name": "Viet Nam",
+      "code": "VN"
+    }
+  },
+  {
+    "pk": 228,
+    "model": "person.country",
+    "fields":{
+      "name": "Vanuatu",
+      "code": "VU"
+    }
+  },
+  {
+    "pk": 229,
+    "model": "person.country",
+    "fields":{
+      "name": "Samoa",
+      "code": "WS"
+    }
+  },
+  {
+    "pk": 230,
+    "model": "person.country",
+    "fields":{
+      "name": "Yemen",
+      "code": "YE"
+    }
+  },
+  {
+    "pk": 231,
+    "model": "person.country",
+    "fields":{
+      "name": "South Africa, Republic of",
+      "code": "ZA"
+    }
+  },
+  {
+    "pk": 232,
+    "model": "person.country",
+    "fields":{
+      "name": "Zambia",
+      "code": "ZM"
+    }
+  },
+  {
+    "pk": 233,
+    "model": "person.country",
+    "fields":{
+      "name": "Zimbabwe",
+      "code": "ZW"
+    }
+  },
+  {
+    "_comment_": "License code from http://creativecommons.org/publicdomain/zero/1.0/legalcode.txt",
+    "pk": 1,
+    "model": "submission.license",
+    "fields": {
+      "description": "Creative Commons Zero. No rights reserved. Users have permission to do anything with the code.",
+      "text_template": "Creative Commons Legal Code\r\n\r\nCC0 1.0 Universal\r\n\r\n    CREATIVE COMMONS CORPORATION IS NOT A LAW FIRM AND DOES NOT PROVIDE\r\n    LEGAL SERVICES. DISTRIBUTION OF THIS DOCUMENT DOES NOT CREATE AN\r\n    ATTORNEY-CLIENT RELATIONSHIP. CREATIVE COMMONS PROVIDES THIS\r\n    INFORMATION ON AN \"AS-IS\" BASIS. CREATIVE COMMONS MAKES NO WARRANTIES\r\n    REGARDING THE USE OF THIS DOCUMENT OR THE INFORMATION OR WORKS\r\n    PROVIDED HEREUNDER, AND DISCLAIMS LIABILITY FOR DAMAGES RESULTING FROM\r\n    THE USE OF THIS DOCUMENT OR THE INFORMATION OR WORKS PROVIDED\r\n    HEREUNDER.\r\n\r\nStatement of Purpose\r\n\r\nThe laws of most jurisdictions throughout the world automatically confer\r\nexclusive Copyright and Related Rights (defined below) upon the creator\r\nand subsequent owner(s) (each and all, an \"owner\") of an original work of\r\nauthorship and/or a database (each, a \"Work\").\r\n\r\nCertain owners wish to permanently relinquish those rights to a Work for\r\nthe purpose of contributing to a commons of creative, cultural and\r\nscientific works (\"Commons\") that the public can reliably and without fear\r\nof later claims of infringement build upon, modify, incorporate in other\r\nworks, reuse and redistribute as freely as possible in any form whatsoever\r\nand for any purposes, including without limitation commercial purposes.\r\nThese owners may contribute to the Commons to promote the ideal of a free\r\nculture and the further production of creative, cultural and scientific\r\nworks, or to gain reputation or greater distribution for their Work in\r\npart through the use and efforts of others.\r\n\r\nFor these and/or other purposes and motivations, and without any\r\nexpectation of additional consideration or compensation, the person\r\nassociating CC0 with a Work (the \"Affirmer\"), to the extent that he or she\r\nis an owner of Copyright and Related Rights in the Work, voluntarily\r\nelects to apply CC0 to the Work and publicly distribute the Work under its\r\nterms, with knowledge of his or her Copyright and Related Rights in the\r\nWork and the meaning and intended legal effect of CC0 on those rights.\r\n\r\n1. Copyright and Related Rights. A Work made available under CC0 may be\r\nprotected by copyright and related or neighboring rights (\"Copyright and\r\nRelated Rights\"). Copyright and Related Rights include, but are not\r\nlimited to, the following:\r\n\r\n  i. the right to reproduce, adapt, distribute, perform, display,\r\n     communicate, and translate a Work;\r\n ii. moral rights retained by the original author(s) and/or performer(s);\r\niii. publicity and privacy rights pertaining to a person's image or\r\n     likeness depicted in a Work;\r\n iv. rights protecting against unfair competition in regards to a Work,\r\n     subject to the limitations in paragraph 4(a), below;\r\n  v. rights protecting the extraction, dissemination, use and reuse of data\r\n     in a Work;\r\n vi. database rights (such as those arising under Directive 96/9/EC of the\r\n     European Parliament and of the Council of 11 March 1996 on the legal\r\n     protection of databases, and under any national implementation\r\n     thereof, including any amended or successor version of such\r\n     directive); and\r\nvii. other similar, equivalent or corresponding rights throughout the\r\n     world based on applicable law or treaty, and any national\r\n     implementations thereof.\r\n\r\n2. Waiver. To the greatest extent permitted by, but not in contravention\r\nof, applicable law, Affirmer hereby overtly, fully, permanently,\r\nirrevocably and unconditionally waives, abandons, and surrenders all of\r\nAffirmer's Copyright and Related Rights and associated claims and causes\r\nof action, whether now known or unknown (including existing as well as\r\nfuture claims and causes of action), in the Work (i) in all territories\r\nworldwide, (ii) for the maximum duration provided by applicable law or\r\ntreaty (including future time extensions), (iii) in any current or future\r\nmedium and for any number of copies, and (iv) for any purpose whatsoever,\r\nincluding without limitation commercial, advertising or promotional\r\npurposes (the \"Waiver\"). Affirmer makes the Waiver for the benefit of each\r\nmember of the public at large and to the detriment of Affirmer's heirs and\r\nsuccessors, fully intending that such Waiver shall not be subject to\r\nrevocation, rescission, cancellation, termination, or any other legal or\r\nequitable action to disrupt the quiet enjoyment of the Work by the public\r\nas contemplated by Affirmer's express Statement of Purpose.\r\n\r\n3. Public License Fallback. Should any part of the Waiver for any reason\r\nbe judged legally invalid or ineffective under applicable law, then the\r\nWaiver shall be preserved to the maximum extent permitted taking into\r\naccount Affirmer's express Statement of Purpose. In addition, to the\r\nextent the Waiver is so judged Affirmer hereby grants to each affected\r\nperson a royalty-free, non transferable, non sublicensable, non exclusive,\r\nirrevocable and unconditional license to exercise Affirmer's Copyright and\r\nRelated Rights in the Work (i) in all territories worldwide, (ii) for the\r\nmaximum duration provided by applicable law or treaty (including future\r\ntime extensions), (iii) in any current or future medium and for any number\r\nof copies, and (iv) for any purpose whatsoever, including without\r\nlimitation commercial, advertising or promotional purposes (the\r\n\"License\"). The License shall be deemed effective as of the date CC0 was\r\napplied by Affirmer to the Work. Should any part of the License for any\r\nreason be judged legally invalid or ineffective under applicable law, such\r\npartial invalidity or ineffectiveness shall not invalidate the remainder\r\nof the License, and in such case Affirmer hereby affirms that he or she\r\nwill not (i) exercise any of his or her remaining Copyright and Related\r\nRights in the Work or (ii) assert any associated claims and causes of\r\naction with respect to the Work, in either case contrary to Affirmer's\r\nexpress Statement of Purpose.\r\n\r\n4. Limitations and Disclaimers.\r\n\r\n a. No trademark or patent rights held by Affirmer are waived, abandoned,\r\n    surrendered, licensed or otherwise affected by this document.\r\n b. Affirmer offers the Work as-is and makes no representations or\r\n    warranties of any kind concerning the Work, express, implied,\r\n    statutory or otherwise, including without limitation warranties of\r\n    title, merchantability, fitness for a particular purpose, non\r\n    infringement, or the absence of latent or other defects, accuracy, or\r\n    the present or absence of errors, whether or not discoverable, all to\r\n    the greatest extent permissible under applicable law.\r\n c. Affirmer disclaims responsibility for clearing rights of other persons\r\n    that may apply to the Work or any use thereof, including without\r\n    limitation any person's Copyright and Related Rights in the Work.\r\n    Further, Affirmer disclaims responsibility for obtaining any necessary\r\n    consents, permissions or other rights required for any use of the\r\n    Work.\r\n d. Affirmer understands and acknowledges that Creative Commons is not a\r\n    party to this document and has no duty or obligation with respect to\r\n    this CC0 or use of the Work.",
+      "name": "Creative Commons Zero (CC0)",
+      "slug": "cc0"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "submission.license",
+    "fields": {
+      "description": "The BSD license grants the recipient the right to use the code for any purpose, as long as the original author is acknowledged.",
+      "text_template": "Copyright {{year}} {{copyright_holder}}. All rights reserved.\r\n\r\nRedistribution and use in source and binary forms, with or without modification, are\r\npermitted provided that the following conditions are met:\r\n\r\n   1. Redistributions of source code must retain the above copyright notice, this list of\r\n      conditions and the following disclaimer.\r\n\r\n   2. Redistributions in binary form must reproduce the above copyright notice, this list\r\n      of conditions and the following disclaimer in the documentation and/or other materials\r\n      provided with the distribution.\r\n\r\nTHIS SOFTWARE IS PROVIDED BY {{copyright_holder}} ``AS IS'' AND ANY EXPRESS OR IMPLIED\r\nWARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND\r\nFITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL {{copyright_holder}} OR\r\nCONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR\r\nCONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\r\nSERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON\r\nANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING\r\nNEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF\r\nADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\r\n\r\nThe views and conclusions contained in the software and documentation are those of the\r\nauthors and should not be interpreted as representing official policies, either expressed\r\nor implied, of {{copyright_holder}}.",
+      "name": "Simplified BSD license",
+      "slug": "bsd"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "algorithm",
+      "slug": "algorithm"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "automotive",
+      "tag_type": "subject",
+      "slug": "automotive"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "biotech",
+      "tag_type": "subject",
+      "slug": "biotech"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "chemistry",
+      "tag_type": "subject",
+      "slug": "chemistry"
+    }
+  },
+  {
+    "pk": 5,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "communications",
+      "tag_type": "subject",
+      "slug": "communications"
+    }
+  },
+  {
+    "pk": 6,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "control systems",
+      "slug": "control-systems"
+    }
+  },
+  {
+    "pk": 7,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "documentation",
+      "slug": "documentation"
+    }
+  },
+  {
+    "pk": 8,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "earth sciences",
+      "tag_type": "subject",
+      "slug": "earth-sciences"
+    }
+  },
+  {
+    "pk": 9,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "financial services",
+      "tag_type": "subject",
+      "slug": "financial-services"
+    }
+  },
+  {
+    "pk": 10,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "games",
+      "slug": "games"
+    }
+  },
+  {
+    "pk": 11,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "graphical user interface",
+      "slug": "graphical-user-interface"
+    }
+  },
+  {
+    "pk": 12,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "image processing",
+      "tag_type": "subject",
+      "slug": "image-processing"
+    }
+  },
+  {
+    "pk": 13,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "video processing",
+      "slug": "video-processing"
+    }
+  },
+  {
+    "pk": 14,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "modeling",
+      "tag_type": "subject",
+      "slug": "modeling"
+    }
+  },
+  {
+    "pk": 15,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "pharmaceutical",
+      "tag_type": "subject",
+      "slug": "pharmaceutical"
+    }
+  },
+  {
+    "pk": 16,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "physics",
+      "tag_type": "subject",
+      "slug": "physics"
+    }
+  },
+  {
+    "pk": 17,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "probability",
+      "tag_type": "subject",
+      "slug": "probability"
+    }
+  },
+  {
+    "pk": 18,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "publications",
+      "slug": "publications"
+    }
+  },
+  {
+    "pk": 19,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "simulation",
+      "tag_type": "subject",
+      "slug": "simulation"
+    }
+  },
+  {
+    "pk": 20,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "statistics",
+      "tag_type": "subject",
+      "slug": "statistics"
+    }
+  },
+  {
+    "pk": 21,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "visualization",
+      "tag_type": "subject",
+      "slug": "visualization"
+    }
+  },
+  {
+    "pk": 22,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "dsp",
+      "slug": "dsp"
+    }
+  },
+  {
+    "pk": 23,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "mathematics",
+      "tag_type": "subject",
+      "slug": "mathematics"
+    }
+  },
+  {
+    "pk": 24,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "gui",
+      "slug": "gui"
+    }
+  },
+  {
+    "pk": 25,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "signal processing",
+      "tag_type": "subject",
+      "slug": "signal-processing"
+    }
+  },
+  {
+    "pk": 26,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "optimization",
+      "tag_type": "subject",
+      "slug": "optimization"
+    }
+  },
+  {
+    "pk": 27,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "data import",
+      "slug": "data import"
+    }
+  },
+  {
+    "pk": 28,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "data export",
+      "slug": "data export"
+    }
+  },
+  {
+    "pk": 29,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "plotting",
+      "slug": "plotting"
+    }
+  },
+  {
+    "pk": 30,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "3D",
+      "slug": "3d"
+    }
+  },
+  {
+    "pk": 31,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "data exploration",
+      "slug": "data-exploration"
+    }
+  },
+  {
+    "pk": 32,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "finance",
+      "slug": "finance"
+    }
+  },
+  {
+    "pk": 33,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "interpolation",
+      "slug": "interpolation"
+    }
+  },
+  {
+    "pk": 34,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "aerospace",
+      "tag_type": "subject",
+      "slug": "aerospace"
+    }
+  },
+  {
+    "pk": 35,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "approximation",
+      "slug": "approximation"
+    }
+  },
+  {
+    "pk": 36,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "linear algebra",
+      "slug": "linear-algebra"
+    }
+  },
+  {
+    "pk": 37,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "matrices",
+      "slug": "matrices"
+    }
+  },
+  {
+    "pk": 38,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "measurement",
+      "slug": "measurement"
+    }
+  },
+  {
+    "pk": 39,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "audio processing",
+      "slug": "audio-processing"
+    }
+  },
+  {
+    "pk": 40,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "filter design",
+      "slug": "filter-design"
+    }
+  },
+  {
+    "pk": 41,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "segmentation",
+      "slug": "segmentation"
+    }
+  },
+  {
+    "pk": 42,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "animation",
+      "slug": "animation"
+    }
+  },
+  {
+    "pk": 43,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "differential equations",
+      "slug": "differential-equations"
+    }
+  },
+  {
+    "pk": 44,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "data structures",
+      "slug": "data-structures"
+    }
+  },
+  {
+    "pk": 45,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "compression",
+      "slug": "compression"
+    }
+  },
+  {
+    "pk": 46,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "tutorial",
+      "slug": "tutorial"
+    }
+  },
+  {
+    "pk": 47,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "integration",
+      "slug": "integration"
+    }
+  },
+  {
+    "pk": 48,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "electronics",
+      "slug": "electronics"
+    }
+  },
+  {
+    "pk": 49,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "neural networks",
+      "slug": "neural-networks"
+    }
+  },
+  {
+    "pk": 50,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "clustering",
+      "slug": "clustering"
+    }
+  },
+  {
+    "pk": 51,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "latex",
+      "slug": "latex"
+    }
+  },
+  {
+    "pk": 52,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "nonlinear",
+      "slug": "nonlinear"
+    }
+  },
+  {
+    "pk": 53,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "polynomial",
+      "slug": "polynomial"
+    }
+  },
+  {
+    "pk": 54,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "cloud",
+      "slug": "cloud"
+    }
+  },
+  {
+    "pk": 55,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "GPU",
+      "slug": "gpu"
+    }
+  },
+  {
+    "pk": 56,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "cuda",
+      "slug": "cuda"
+    }
+  },
+  {
+    "pk": 57,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "parallel",
+      "slug": "parallel"
+    }
+  },
+  {
+    "pk": 58,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "filters",
+      "slug": "filters"
+    }
+  },
+  {
+    "pk": 59,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "fft",
+      "slug": "fft"
+    }
+  },
+  {
+    "pk": 60,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "wavelets",
+      "slug": "wavelets"
+    }
+  },
+  {
+    "pk": 61,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "time series",
+      "slug": "time-series"
+    }
+  },
+  {
+    "pk": 62,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "astronomy",
+      "tag_type": "subject",
+      "slug": "astronomy"
+    }
+  },
+  {
+    "pk": 63,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "stocks",
+      "slug": "stocks"
+    }
+  },
+  {
+    "pk": 64,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "computer vision",
+      "slug": "computer-vision"
+    }
+  },
+  {
+    "pk": 65,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "distributed",
+      "slug": "distributed"
+    }
+  },
+  {
+    "pk": 66,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "pde",
+      "slug": "pde"
+    }
+  },
+  {
+    "pk": 67,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "multivariate",
+      "slug": "multivariate"
+    }
+  },
+  {
+    "pk": 68,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "genomics",
+      "slug": "genomics"
+    }
+  },
+  {
+    "pk": 69,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "API",
+      "slug": "api"
+    }
+  },
+  {
+    "pk": 70,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "interactive",
+      "slug": "interactive"
+    }
+  },
+  {
+    "pk": 71,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "Google App Engine",
+      "slug": "google-app-engine"
+    }
+  },
+  {
+    "pk": 72,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "search",
+      "slug": "search"
+    }
+  },
+  {
+    "pk": 73,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "recommendation",
+      "slug": "recommendation"
+    }
+  },
+  {
+    "pk": 74,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "quantum",
+      "slug": "quantum"
+    }
+  },
+  {
+    "pk": 75,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "matplotlib",
+      "slug": "matplotlib"
+    }
+  },
+  {
+    "pk": 76,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "NumPy",
+      "slug": "numpy"
+    }
+  },
+  {
+    "pk": 77,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "SciPy",
+      "slug": "scipy"
+    }
+  },
+  {
+    "pk": 78,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "PyTables",
+      "slug": "pytables"
+    }
+  },
+  {
+    "pk": 79,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "symbolic",
+      "slug": "symbolic"
+    }
+  },
+  {
+    "pk": 80,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "traits",
+      "slug": "traits"
+    }
+  },
+  {
+    "pk": 81,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "Chaco",
+      "slug": "chaco"
+    }
+  },
+  {
+    "pk": 82,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "SymPy",
+      "slug": "sympy"
+    }
+  },
+  {
+    "pk": 83,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "Bayesian",
+      "slug": "bayesian"
+    }
+  },
+  {
+    "pk": 84,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "PyZMQ",
+      "slug": "pyzmq"
+    }
+  },
+  {
+    "pk": 85,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "IPython",
+      "slug": "ipython"
+    }
+  },
+  {
+    "pk": 86,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "OCR",
+      "slug": "ocr"
+    }
+  },
+  {
+    "pk": 87,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "face detection",
+      "slug": "face-detection"
+    }
+  },
+  {
+    "pk": 88,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "swarm",
+      "slug": "swarm"
+    }
+  },
+  {
+    "pk": 89,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "particle swarm algorithm",
+      "slug": "particle-swarm-algorithm"
+    }
+  },
+  {
+    "pk": 90,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "demo",
+      "slug": "demo"
+    }
+  },
+  {
+    "pk": 91,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "Kalman filter",
+      "slug": "kalman-filter"
+    }
+  },
+  {
+    "pk": 92,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "circle detection",
+      "slug": "circle-detection"
+    }
+  },
+  {
+    "pk": 93,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "econometrics",
+      "tag_type": "subject",
+      "slug": "econometrics"
+    }
+  },
+  {
+    "pk": 94,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "XML",
+      "slug": "xml"
+    }
+  },
+  {
+    "pk": 95,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "noise",
+      "slug": "noise"
+    }
+  },
+  {
+    "pk": 96,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "MATLAB",
+      "slug": "matlab"
+    }
+  },
+  {
+    "pk": 97,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "Excel",
+      "slug": "excel"
+    }
+  },
+  {
+    "pk": 98,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "PCA",
+      "slug": "pca"
+    }
+  },
+  {
+    "pk": 99,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "least squares",
+      "slug": "least-squares"
+    }
+  },
+  {
+    "pk": 100,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "GARCH",
+      "slug": "garch"
+    }
+  },
+  {
+    "pk": 101,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "C++",
+      "slug": "c++"
+    }
+  },
+  {
+    "pk": 102,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "memmap",
+      "slug": "memmap"
+    }
+  },
+  {
+    "pk": 103,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "masked array",
+      "slug": "masked-array"
+    }
+  },
+  {
+    "pk": 104,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "csv",
+      "slug": "csv"
+    }
+  },
+  {
+    "pk": 105,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "NaN",
+      "slug": "nan"
+    }
+  },
+  {
+    "pk": 106,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "sparse",
+      "slug": "sparse"
+    }
+  },
+  {
+    "pk": 107,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "sorting",
+      "slug": "sorting"
+    }
+  },
+  {
+    "pk": 108,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "record array",
+      "slug": "record-array"
+    }
+  },
+  {
+    "pk": 109,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "multicore",
+      "slug": "multicore"
+    }
+  },
+  {
+    "pk": 110,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "memory",
+      "slug": "memory"
+    }
+  },
+  {
+    "pk": 111,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "structured array",
+      "slug": "structured-array"
+    }
+  },
+  {
+    "pk": 112,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "random",
+      "slug": "random"
+    }
+  },
+  {
+    "pk": 113,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "K-means",
+      "slug": "k-means"
+    }
+  },
+  {
+    "pk": 114,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "function zeros",
+      "slug": "function-zeros"
+    }
+  },
+  {
+    "pk": 115,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "indexing",
+      "slug": "indexing"
+    }
+  },
+  {
+    "pk": 116,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "regression",
+      "slug": "regression"
+    }
+  },
+  {
+    "pk": 117,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "Savitzky Golay filtering",
+      "slug": "savitzky-golay-filtering"
+    }
+  },
+  {
+    "pk": 118,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "Markov chains",
+      "slug": "markov-chains"
+    }
+  },
+  {
+    "pk": 119,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "particle filter",
+      "slug": "particle-filter"
+    }
+  },
+  {
+    "pk": 120,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "MINLP",
+      "slug": "minlp"
+    }
+  },
+  {
+    "pk": 121,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "MayaVi",
+      "slug": "mayavi"
+    }
+  },
+  {
+    "pk": 122,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "HDF5",
+      "slug": "hdf5"
+    }
+  },
+  {
+    "pk": 123,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "portfolio optimization",
+      "slug": "portfolio-optimization"
+    }
+  },
+  {
+    "pk": 124,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "SVM",
+      "slug": "svm"
+    }
+  },
+  {
+    "pk": 125,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "OpenGL",
+      "slug": "opengl"
+    }
+  },
+  {
+    "pk": 126,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "object-oriented",
+      "slug": "object-oriented"
+    }
+  },
+  {
+    "pk": 127,
+    "model": "tagging.tag",
+    "fields": {
+      "name": "Monte Carlo",
+      "slug": "monte-carlo"
+    }
+  },
+  {
+    "pk": 128,
+    "model": "tagging.tag",
+    "fields": {
+      "description": null,
+      "tag_type": "regular",
+      "slug": "fsolve",
+      "image": "",
+      "name": "fsolve"
+    }
+  }
+]

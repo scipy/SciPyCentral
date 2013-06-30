@@ -71,6 +71,7 @@ def main():
     os.chdir(DEPLOY_DIR)
     run_cmd([python_bin, 'manage.py', 'syncdb'])
     run_cmd([python_bin, 'manage.py', 'migrate'])
+    run_cmd([python_bin, 'manage.py', 'loaddata', 'base'])
     run_cmd([python_bin, 'manage.py', 'loaddata', 'sample'])
     run_cmd([python_bin, 'manage.py', 'rebuild_index'])
 

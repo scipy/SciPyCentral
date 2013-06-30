@@ -102,7 +102,8 @@ Run::
 
     ./manage.py syncdb
     ./manage.py migrate            # to run the ``south`` db migrations
-    ./manage.py loaddata sample    # to load licenses, tags and other data
+    ./manage.py loaddata base      # to load licenses, tags and other basic data
+    ./manage.py loaddata sample    # to load a few sample submissions
     ./manage.py rebuild_index      # to rebuild the Haystack search index
     ./manage.py update_index
 
