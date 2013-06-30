@@ -143,6 +143,15 @@ class RevisionManager(models.Manager):
     def absolutely_all(self):
         return super(RevisionManager, self).all()
 
+    def most_recent(self):
+        """Most recent revisions only"""
+        return self.extra(where=[
+            "submission_revision.id = "
+            "     (SELECT id FROM submission_revision AS __sr_2 "
+            "      WHERE (__sr_2.entry_id = submission_revision.entry_id "
+            "             AND __sr_2.is_displayed = 1) "
+            "      ORDER BY __sr_2.date_created DESC LIMIT 1)"])
+
     def top_authors(self):
         """ From BSD licensed code:
         http://github.com/coleifer/djangosnippets.org/blob/master/cab/models.py
