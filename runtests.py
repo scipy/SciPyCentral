@@ -19,14 +19,12 @@ def main():
     # Grab the list of our local apps from Django
 
     base_dir = os.path.abspath(os.path.dirname(__file__))
-    deploy_dir = os.path.join(base_dir, 'deploy')
-    app_dir = os.path.join(base_dir, 'scipy_central')
 
     os.chdir(base_dir)
-    sys.path.insert(0, deploy_dir)
 
-    os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
-    mod =__import__('settings')
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'spc_site.settings.development'
+    __import__('spc_site.settings.development')
+    mod = sys.modules['spc_site.settings.development']
     del os.environ['DJANGO_SETTINGS_MODULE']
 
     apps = [x.replace('scipy_central.', '') for x in mod.INSTALLED_APPS
@@ -41,8 +39,7 @@ def main():
 
     verbosity = '2' if args.verbose else '1'
 
-    cmd = [sys.executable,
-           os.path.join('deploy', 'manage.py'),
+    cmd = [sys.executable, 'manage.py',
            'test', '-v', verbosity, '--noinput', '--traceback'] + apps
 
     sys.exit(subprocess.call(cmd))

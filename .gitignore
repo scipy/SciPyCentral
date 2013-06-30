@@ -1,6 +1,7 @@
 logfile.log
 *.pyc
 *.bak
+*~
 deploy/staticfiles/*
 deploy/media/code/*
 deploy/media/raw-images/*
@@ -15,6 +16,8 @@ site_backup
 /.tox
 /MANIFEST
 /dist
+/data
+/env
 /deploy/*.db
 /deploy/env
 /compile

@@ -1,6 +1,9 @@
 # See: http://docs.haystacksearch.org/dev/settings.html for details
 # Many of the settings below are just their default values (to be explicit)
 
+import os
+from .common import DATA_DIR, SPC
+
 HAYSTACK_SEARCH_ENGINE = None
 
 if HAYSTACK_SEARCH_ENGINE is None:

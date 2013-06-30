@@ -11,8 +11,7 @@ import subprocess
 import argparse
 
 ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
-DEPLOY_DIR = os.path.join(ROOT_DIR, 'deploy')
-VENV_DIR = os.path.abspath(os.path.join(DEPLOY_DIR, 'env'))
+VENV_DIR = os.path.abspath(os.path.join(ROOT_DIR, 'env'))
 
 PYVER = "%d.%d" % (sys.version_info[0], sys.version_info[1])
 MERCURIAL_WIN_BINARY = "http://mercurial.selenic.com/release/windows/mercurial-2.5.2.win32-py%s.exe" % PYVER
@@ -47,7 +46,7 @@ def main():
     try:
         find_python()
     except RuntimeError:
-        print("\n-- Creating virtualenv in deploy/env")
+        print("\n-- Creating virtualenv in env/")
         print("$ virtualenv %s" % VENV_DIR)
         virtualenv.create_environment(VENV_DIR)
 
@@ -67,13 +66,12 @@ def main():
     run_cmd([easy_install_bin] + requirements)
 
     print("\n-- Setting up development database")
-    print("$ cd deploy")
-    os.chdir(DEPLOY_DIR)
     run_cmd([python_bin, 'manage.py', 'syncdb'])
     run_cmd([python_bin, 'manage.py', 'migrate'])
     run_cmd([python_bin, 'manage.py', 'loaddata', 'base'])
     run_cmd([python_bin, 'manage.py', 'loaddata', 'sample'])
     run_cmd([python_bin, 'manage.py', 'rebuild_index'])
+    run_cmd([python_bin, 'manage.py', 'collectstatic'])
 
     print(r"""
 -- All done!
@@ -82,13 +80,11 @@ Now you can do:
 
 * Linux & OSX:
 
-      cd deploy
       source env/bin/activate
       python manage.py runserver
 
 * Windows:
 
-      cd deploy
       env\Scripts\activate
       python manage.py runserver
 """)
