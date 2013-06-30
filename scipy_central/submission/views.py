@@ -294,7 +294,8 @@ def create_or_edit_submission_revision(request, item, is_displayed,
             # Copy ZIP file
             zip_file = request.FILES['package_file']
             dst = os.path.join(full_repo_path, zip_file.name)
-            src = os.path.join(settings.SPC['ZIP_staging'], zip_file.name)
+            src = os.path.join(settings.MEDIA_ROOT, settings.SPC['ZIP_staging'],
+                               zip_file.name)
             shutil.copyfile(src, dst)
             # os.remove(src) Keep the original ZIP file, for now
 
@@ -865,7 +866,9 @@ def download_submission(request, submission, revision):
         return response
 
     if submission.sub_type == 'package':
-        zip_dir = os.path.join(settings.SPC['ZIP_staging'], 'download')
+        zip_dir = os.path.join(settings.MEDIA_ROOT,
+                               settings.SPC['ZIP_staging'],
+                               'download')
         ensuredir(zip_dir)
         response = HttpResponse(mimetype="attachment; application/zip")
         zip_name = '%s-%d-%d.zip' % (submission.slug, submission.id,

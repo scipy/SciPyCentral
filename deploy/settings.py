@@ -211,9 +211,9 @@ SPC = {
 
     # Where are ZIP files staged? User's upload ZIP files; only the submission
     # is created, we retrieve the staged ZIP file and handle it appropriately
-    # The staged files are then deleted. i.e. this is like a "tempdir"
-    #
-    'ZIP_staging': STATIC_ROOT + 'zip-staging',
+    # The staged files are then deleted. i.e. this is like a "tempdir".
+    # This path is relative to MEDIA_ROOT.
+    'ZIP_staging': 'zip-staging',
 
     # Where should logfiles be written? If DEBUG != True, then you are
     # responsible that this location is valid and exists. Overwrite the
