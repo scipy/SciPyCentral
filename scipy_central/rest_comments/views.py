@@ -2,7 +2,7 @@
 Converts user's reStructuredText input to HTML.
 """
 # Standard library imports
-import os, pickle, time, shutil, re
+import os, pickle, time, shutil, re, tempfile
 from StringIO import StringIO
 import logging
 logger = logging.getLogger('scipycentral')
@@ -20,48 +20,49 @@ from django import template
 from scipy_central.utils import ensuredir
 from scipy_central.screenshot.models import Screenshot
 
-# We need certain files in place to compile the comments
-# Copy the settings, image extension, and an __init__.py to the appropriate
-# places. The original copy of the ``conf.py`` file, found in the current
-# directory (copy it to comment destination)
-working_dir = settings.SPC['comment_compile_dir']
 
-if Site._meta.installed:
-    site = Site.objects.get_current().domain
-else:
-    site = ''
+def setup_compile_dir(compile_dir):
+    """
+    Setup a directory for Sphinx compilation.
 
-ext_dir = os.path.abspath(working_dir + os.sep + 'ext')
-ensuredir(working_dir)
-ensuredir(ext_dir)
+    We need certain files in place to compile the comments Copy the
+    settings, image extension, and an __init__.py to the appropriate
+    places. The original copy of the ``conf.py`` file, found in the
+    current directory (copy it to comment destination)
+    """
 
-cf = os.path.abspath(__file__ + os.sep + os.path.pardir) + \
-                                          os.sep + 'sphinx-conf.py'
-conf_file = settings.SPC['comment_compile_dir'] + os.sep + 'conf.py'
-shutil.copyfile(cf, conf_file)
-with file(conf_file, 'r') as conf_file_raw:
-    fc = conf_file_raw.read()
+    if Site._meta.installed:
+        site = Site.objects.get_current().domain
+    else:
+        site = ''
 
-resp = template.Template(fc)
-if settings.MEDIA_URL.startswith('http'):
-    conf_file_text = resp.render(template.Context({'FULL_MEDIA_URL': \
-                                           settings.MEDIA_URL}))
-else:
-    conf_file_text = resp.render(template.Context({'FULL_MEDIA_URL': \
-                                           site + settings.MEDIA_URL}))
+    module_dir = os.path.dirname(__file__)
 
-with file(conf_file, 'w') as conf_file_raw:
-    conf_file_raw.write(conf_file_text)
+    ext_dir = os.path.abspath(os.path.join(compile_dir, 'ext'))
+    ensuredir(compile_dir)
+    ensuredir(ext_dir)
 
-cf = os.path.abspath(__file__ + os.sep + os.path.pardir) + \
-                                                  os.sep + 'images.py'
-shutil.copyfile(cf, settings.SPC['comment_compile_dir'] + os.sep +\
-                                        'ext' + os.sep + 'images.py')
+    conf_template_file = os.path.join(module_dir, 'sphinx-conf.py')
+    conf_file = os.path.join(compile_dir, 'conf.py')
 
-cf = os.path.abspath(__file__ + os.sep + os.path.pardir) + \
-                                                  os.sep + '__init__.py'
-shutil.copyfile(cf, settings.SPC['comment_compile_dir'] + os.sep +\
-                                        'ext' + os.sep + '__init__.py')
+    with file(conf_template_file, 'r') as f:
+        conf_template = template.Template(f.read())
+
+    if settings.MEDIA_URL.startswith('http'):
+        conf = conf_template.render(template.Context({'FULL_MEDIA_URL':
+                                                      settings.MEDIA_URL}))
+    else:
+        conf = conf_template.render(template.Context({'FULL_MEDIA_URL':
+                                                      site + settings.MEDIA_URL}))
+
+    with file(conf_file, 'w') as f:
+        f.write(conf)
+
+    fn = os.path.join(module_dir, 'images.py')
+    shutil.copyfile(fn, os.path.join(compile_dir, 'ext', 'images.py'))
+
+    fn = os.path.join(module_dir, '__init__.py')
+    shutil.copyfile(fn, os.path.join(compile_dir, 'ext', '__init__.py'))
 
 def compile_rest_to_html(raw_rest):
     """ Compiles the RST string, ``raw_RST`, to HTML.  Performs no
@@ -180,7 +181,8 @@ def compile_rest_to_html(raw_rest):
 
         Returns nothing, but logs if an error occurred.
         """
-        build_dir = os.path.abspath(working_dir + os.sep + '_build')
+        working_dir = os.path.abspath(working_dir)
+        build_dir = os.path.join(working_dir, '_build')
         ensuredir(build_dir)
 
         status = StringIO()
@@ -218,22 +220,24 @@ def compile_rest_to_html(raw_rest):
         if app.statuscode != 0:
             logger.error("Non-zero status code when compiling.")
 
-    # Ensure the directory where Sphinx will compile the ReST actually exists
+    # Create a directory where Sphinx will compile the ReST
     ensuredir(settings.SPC['comment_compile_dir'])
-    logger.debug('SPHINX: ' + raw_rest)
-    modified_rest = sanitize_raw_rest(raw_rest)
-    with open(settings.SPC['comment_compile_dir'] + os.sep + 'index.rst',
-                                                                   'w') as fh:
-        fh.write(modified_rest)
+    compile_dir = tempfile.mkdtemp(dir=settings.SPC['comment_compile_dir'])
+    try:
+        setup_compile_dir(compile_dir)
+        logger.debug('SPHINX: ' + raw_rest)
+        modified_rest = sanitize_raw_rest(raw_rest)
+        with open(os.path.join(compile_dir, 'index.rst'), 'w') as fh:
+            fh.write(modified_rest)
 
+        # Compile the comment
+        call_sphinx_to_compile(compile_dir)
 
-    # Compile the comment
-    call_sphinx_to_compile(settings.SPC['comment_compile_dir'])
-
-    pickle_f = ''.join([settings.SPC['comment_compile_dir'], os.sep,
-                        '_build', os.sep, 'pickle', os.sep, 'index.fpickle'])
-    with open(pickle_f, 'rb') as fhand:
-        obj = pickle.load(fhand)
+        pickle_f = os.path.join(compile_dir, '_build', 'pickle', 'index.fpickle')
+        with open(pickle_f, 'rb') as fhand:
+            obj = pickle.load(fhand)
+    finally:
+        shutil.rmtree(compile_dir)
 
     return obj['body'].encode('utf-8')
 
