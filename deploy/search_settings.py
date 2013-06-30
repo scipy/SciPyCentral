@@ -7,7 +7,7 @@ if HAYSTACK_SEARCH_ENGINE is None:
     try:
         import xapian
         HAYSTACK_SEARCH_ENGINE = 'xapian'
-        HAYSTACK_XAPIAN_PATH = os.path.join(os.path.dirname(__file__), 'xapian_index')
+        HAYSTACK_XAPIAN_PATH = os.path.join(DATA_DIR, 'xapian_index')
     except ImportError:
         pass
 
@@ -15,7 +15,7 @@ if HAYSTACK_SEARCH_ENGINE is None:
     try:
         import whoosh
         HAYSTACK_SEARCH_ENGINE = 'whoosh'
-        HAYSTACK_WHOOSH_PATH = os.path.join(os.path.dirname(__file__), 'whoosh_index')
+        HAYSTACK_WHOOSH_PATH = os.path.join(DATA_DIR, 'whoosh_index')
     except ImportError:
         pass
 

@@ -1,14 +1,12 @@
 # Django settings for ``deploy`` project.
 import django.conf.global_settings as DEFAULT_SETTINGS
 
-
-
-# Add the parent to the path, to access files in ``../scipy_central/``
 import os, sys
 
-deploy_dir = os.path.abspath(os.path.dirname(__file__))
-parent_dir = os.path.join(deploy_dir, os.pardir)
-sys.path.insert(0, parent_dir)
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+DATA_DIR = os.path.join(BASE_DIR, 'data')
+
+sys.path.insert(0, os.path.join(BASE_DIR, os.pardir))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -20,7 +18,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE':   'django.db.backends.sqlite3',
-        'NAME':     'develop.db', # Or path to database file if using sqlite3.
+        'NAME':     os.path.join(DATA_DIR, 'develop.db'), # Or path to database file if using sqlite3.
         'USER':     '', # Not used with sqlite3.
         'PASSWORD': '', # Not used with sqlite3.
         'HOST':     '', # Set to empty string for localhost. Not used with sqlite3.
@@ -53,11 +51,7 @@ USE_L10N = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-
-if DEBUG:
-    MEDIA_ROOT = os.path.dirname(__file__) + os.sep + 'mediafiles' + os.sep
-else:
-    MEDIA_ROOT = '<your path here>'
+MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -69,12 +63,7 @@ MEDIA_URL = '/media/'
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
 # Example: "/home/media/media.lawrence.com/media/"
-if DEBUG:
-    STATIC_ROOT = os.path.join(deploy_dir, 'staticfiles')
-else:
-    # For production: you'll want to copy the <base>/static/* files to your
-    # static location and modify this path to match your server.
-    STATIC_ROOT = '<your path here>'
+STATIC_ROOT = os.path.join(DATA_DIR, 'static')
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -87,7 +76,7 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    os.path.join(deploy_dir, 'media'),
+    os.path.join(BASE_DIR, 'media'),
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -125,13 +114,13 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(deploy_dir, 'templates'),
+    os.path.join(BASE_DIR, 'templates'),
 )
 
 # To get access to some global variables used in the templates
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     'scipy_central.context_processors.global_template_variables',
-	'django.core.context_processors.request',
+    'django.core.context_processors.request',
 )
 
 INSTALLED_APPS = (
@@ -152,7 +141,7 @@ INSTALLED_APPS = (
     'haystack',
     'registration',
     'south',
-	"widget_tweaks",
+    "widget_tweaks",
 
     #  Local apps
     'scipy_central.filestorage',
@@ -201,7 +190,7 @@ SPC = {
     # <storage><submission_primary_key>/<submission_slug>.py
     # <storage><submission_primary_key>/LICENSE.txt
     # where <storage> is the variable defined next
-    'storage_dir': os.path.join(STATIC_ROOT, 'code'),
+    'storage_dir': os.path.join(DATA_DIR, 'code'),
 
     # Image storage directories. Do not change these settings. They are used
     # in the Sphinx extension to ensure user does not resize image beyond
@@ -218,11 +207,11 @@ SPC = {
     # Where should logfiles be written? If DEBUG != True, then you are
     # responsible that this location is valid and exists. Overwrite the
     # location in ``local_settings.py`` below.
-    'logfile_location': 'logfile.log',
+    'logfile_location': os.path.join(DATA_DIR, 'spc.log'),
 
     # Comments are compiled (using Sphinx) in this location. Again, you are
     # required to sure this location exists for production servers.
-    'comment_compile_dir': 'compile',
+    'comment_compile_dir': os.path.join(DATA_DIR, 'compile'),
 
     # Default name of license file (e.g. 'COPYING.TXT')
     'license_filename': 'LICENSE.TXT',
@@ -249,7 +238,7 @@ SPC = {
 }
 
 # Put all the search settings in a single file
-execfile(os.path.join(deploy_dir, 'search_settings.py'))
+execfile(os.path.join(BASE_DIR, 'search_settings.py'))
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -321,7 +310,7 @@ LOGGING = {
 # part of the exception below.
 
 try:
-    execfile(os.path.join(deploy_dir, 'local_settings.py'))
+    execfile(os.path.join(BASE_DIR, 'local_settings.py'))
 except IOError:
     # See https://docs.djangoproject.com/en/1.3/ref/settings for EMAIL settings
     EMAIL_HOST = ''
