@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 """
-quickstart.py -- set up a virtual environment with necessary dependencies installed
+quickstart.py
+
+Set up a virtual environment with necessary dependencies installed
 
 """
 import sys
@@ -8,7 +10,8 @@ import os
 import subprocess
 import argparse
 
-DEPLOY_DIR = os.path.join(os.path.dirname(__file__), 'deploy')
+ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
+DEPLOY_DIR = os.path.join(ROOT_DIR, 'deploy')
 VENV_DIR = os.path.abspath(os.path.join(DEPLOY_DIR, 'env'))
 
 PYVER = "%d.%d" % (sys.version_info[0], sys.version_info[1])
@@ -24,12 +27,6 @@ def find_python():
     raise RuntimeError("Something went wrong in virtualenv creation: "
                        "python and pip not found!")
 
-try:
-    import virtualenv
-except ImportError:
-    print("ERROR: You need to install Virtualenv (https://pypi.python.org/pypi/virtualenv) first")
-    sys.exit(0)
-
 def run_cmd(cmd):
     print("$ %s" % " ".join(cmd))
     ret = subprocess.call(cmd)
@@ -42,6 +39,12 @@ def main():
     args = p.parse_args()
 
     try:
+        import virtualenv
+    except ImportError:
+        print("ERROR: You need to install Virtualenv (https://pypi.python.org/pypi/virtualenv) first")
+        sys.exit(0)
+
+    try:
         find_python()
     except RuntimeError:
         print("\n-- Creating virtualenv in deploy/env")
@@ -50,9 +53,10 @@ def main():
 
     python_bin, easy_install_bin = find_python()
 
+    os.chdir(ROOT_DIR)
+
     print("\n-- Installing required modules")
-    run_cmd([python_bin, 'setup.py', 'egg_info'])
-    with open(os.path.join('scipy_central.egg-info', 'requires.txt'), 'r') as f:
+    with open('requirements.txt', 'r') as f:
         requirements = [x.strip() for x in f.read().splitlines() if x.strip()]
 
     if sys.platform.startswith('win'):

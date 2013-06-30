@@ -5,19 +5,6 @@ Web application for running scipy-central.org
 
 """
 
-REQUIREMENTS = [
-    'Django >=1.4,<1.5',
-    'django-haystack <2.0.0',
-    'Whoosh',
-    'South',
-    'django-registration ==0.8',
-    'django-widget-tweaks',
-    'Sphinx',
-    'Pygments',
-    'Pillow',
-    'Mercurial',
-]
-
 METADATA = dict(
     name='scipy_central',
     maintainer = "SciPy Developers",
@@ -67,8 +54,14 @@ def get_version():
         version += "-" + git_version()[:6]
     return version
 
+def get_requirements():
+    with open('requirements.txt', 'r') as f:
+        return [x.strip() for x in f.read().splitlines() if x.strip()]
+
+os.chdir(os.path.abspath(os.path.dirname(__file__)))
+
 setup(version=get_version(),
       description = DESCRIPTION.splitlines()[0],
       long_description = "".join(DESCRIPTION.splitlines()[2:]),
-      install_requires=REQUIREMENTS,
+      install_requires=get_requirements(),
       **METADATA)

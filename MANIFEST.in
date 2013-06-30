@@ -1,5 +1,6 @@
 recursive-include scipy_central *.py *.json *.txt *.html
 include deploy
+include requirements.txt
 recursive-include deploy/templates *.html *.txt
 recursive-include deploy/media *.html *.css *.png *.jpg *.gif *.less *.js
 prune deploy/media/code
