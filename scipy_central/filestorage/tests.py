@@ -46,7 +46,7 @@ class DVCS_Tests(TestCase):
             f.close()
 
             remote_repo = dvcs.DVCSRepo(backend, self.remote_path)
-            remote_repo.add('.')
+            remote_repo.add(['.'])
             remote_repo.commit('Initial commit', user="Alan Thompson")
             remote_hash = remote_repo.get_revision_info()
 
