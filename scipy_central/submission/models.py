@@ -1,3 +1,5 @@
+import os
+
 from django.db import models
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -369,7 +371,7 @@ class ZipFile(models.Model):
 
     def save(self, *args, **kwargs):
         """ Override the model's saving function to create the slug """
-        ensuredir(settings.SPC['ZIP_staging'])
+        ensuredir(os.path.join(settings.MEDIA_ROOT, settings.SPC['ZIP_staging']))
         super(ZipFile, self).save(*args, **kwargs)
 
 
