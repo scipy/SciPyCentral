@@ -3,7 +3,7 @@ from registration.forms import RegistrationForm
 from django.contrib.auth.models import User
 import re
 from models import UserProfile, Country
-from scipy_central.utils import rest_help_extra
+from scipy_central.apps.utils import rest_help_extra
 
 
 rest_help = ('Tell the community a bit more about yourself. ') + rest_help_extra

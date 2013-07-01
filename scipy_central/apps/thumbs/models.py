@@ -6,14 +6,14 @@ class Thumbs(models.Model):
     """
 
     # Who is voting? Null for anonymous users.
-    person = models.ForeignKey('scipy_central.Person', null=True, blank=True)
+    person = models.ForeignKey('scipy_central.apps.Person', null=True, blank=True)
 
     # submission: if voting for a submission, otherwise Null.
-    submission = models.ForeignKey('scipy_central.Submission', null=True,
+    submission = models.ForeignKey('scipy_central.apps.Submission', null=True,
                                    blank=True)
 
     # Which comment is being voted on. Can be null.
-    comment = models.ForeignKey('scipy_central.Comment', null=True,
+    comment = models.ForeignKey('scipy_central.apps.Comment', null=True,
                                 blank=True)
 
     # When the vote was cast

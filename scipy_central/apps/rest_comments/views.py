@@ -17,8 +17,8 @@ from django.conf import settings
 from django import template
 
 # Internal import
-from scipy_central.utils import ensuredir
-from scipy_central.screenshot.models import Screenshot
+from scipy_central.apps.utils import ensuredir
+from scipy_central.apps.screenshot.models import Screenshot
 
 
 def setup_compile_dir(compile_dir):

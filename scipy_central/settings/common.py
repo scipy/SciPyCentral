@@ -6,9 +6,9 @@ BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
 
 DATA_DIR = os.path.join(BASE_DIR, os.pardir, 'data')
 
-ROOT_URLCONF = 'spc_site.urls'
+ROOT_URLCONF = 'scipy_central.urls'
 
-WSGI_APPLICATION = 'spc_site.wsgi.application'
+WSGI_APPLICATION = 'scipy_central.wsgi.application'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -25,14 +25,14 @@ INSTALLED_APPS = (
     'registration',
     "widget_tweaks",
 
-    'scipy_central.filestorage',
-    'scipy_central.pages',
-    'scipy_central.person',
-    'scipy_central.submission',
-    'scipy_central.tagging',
-    'scipy_central.screenshot',
-    'scipy_central.pagehit',
-    'scipy_central.feeds',
+    'scipy_central.apps.filestorage',
+    'scipy_central.apps.pages',
+    'scipy_central.apps.person',
+    'scipy_central.apps.submission',
+    'scipy_central.apps.tagging',
+    'scipy_central.apps.screenshot',
+    'scipy_central.apps.pagehit',
+    'scipy_central.apps.feeds',
 
     'south',
 )
@@ -78,7 +78,7 @@ ACCOUNT_ACTIVATION_DAYS = 7
 
 REGISTRATION_OPEN = True
 
-CSRF_FAILURE_VIEW = 'scipy_central.pages.views.csrf_failure'
+CSRF_FAILURE_VIEW = 'scipy_central.apps.pages.views.csrf_failure'
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -120,6 +120,8 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 # Link the user is redirected to if not logged in and they try to perform
 # a function that only logged in users can do
 LOGIN_URL = '/user/login/'
+
+LOGIN_REDIRECT_URL = '/user/profile/'
 
 # django-registration required setting
 ACCOUNT_ACTIVATION_DAYS = 7

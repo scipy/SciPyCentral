@@ -1,11 +1,8 @@
-recursive-include scipy_central *.py *.json *.txt *.html
-recursive-include spc_site *.py
-recursive-include spc_site/templates *.html *.txt
-recursive-include spc_site/static *.html *.css *.png *.jpg *.gif *.less *.js
+recursive-include scipy_central *.py *.json *.txt *.html *.css *.png *.jpg *.gif *.less *.js
 include requirements.txt tox.ini *.py *.txt *.rst THANKS LICENSE
 prune data
 include data/note.txt
 include data/code/note.txt
 include data/cache/note.txt
 include data/cache/compile/note.txt
-include data/media/note.txt
+include data/uploads/note.txt

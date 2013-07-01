@@ -5,8 +5,8 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 
-from scipy_central.person.models import User
-from scipy_central.utils import ensuredir
+from scipy_central.apps.person.models import User
+from scipy_central.apps.utils import ensuredir
 
 class Module(models.Model):
     """

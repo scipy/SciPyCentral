@@ -3,7 +3,7 @@ from datetime import date
 from collections import defaultdict
 
 # Imports from other SPC apps
-from scipy_central.utils import get_IP_address
+from scipy_central.apps.utils import get_IP_address
 
 import models
 

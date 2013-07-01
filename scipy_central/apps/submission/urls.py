@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import url, patterns
 
-urlpatterns = patterns('scipy_central.submission.views',
+urlpatterns = patterns('scipy_central.apps.submission.views',
 
     # SHOW ITEMS in different ways
     # ============================

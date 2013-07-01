@@ -3,7 +3,7 @@ from django.conf import settings
 from django.forms.forms import BoundField
 from django.utils.safestring import mark_safe
 from models import License, Revision
-from scipy_central.utils import rest_help_extra
+from scipy_central.apps.utils import rest_help_extra
 required_css_class = 'spc-form-required'
 error_css_class = 'spc-form-error'
 

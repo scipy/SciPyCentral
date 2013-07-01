@@ -1,5 +1,6 @@
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.core.exceptions import ValidationError
 
 import logging
 logger = logging.getLogger('scipycentral')

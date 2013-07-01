@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-from scipy_central.utils import unique_slugify
+from scipy_central.apps.utils import unique_slugify
 from registration.backends.default import DefaultBackend
 from django.contrib.sites.models import Site
 from django.contrib.sites.models import RequestSite

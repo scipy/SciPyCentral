@@ -5,10 +5,10 @@ from django.db.models.query import QuerySet
 from django.db.models.fields import DateTimeField, DateField
 from django import template
 
-from scipy_central.pagehit.views import get_pagehits
-from scipy_central.submission.models import Revision, Submission
-from scipy_central.tagging.models import Tag
-from scipy_central.tagging.views import get_tag_uses
+from scipy_central.apps.pagehit.views import get_pagehits
+from scipy_central.apps.submission.models import Revision, Submission
+from scipy_central.apps.tagging.models import Tag
+from scipy_central.apps.tagging.views import get_tag_uses
 
 from collections import namedtuple
 from math import log

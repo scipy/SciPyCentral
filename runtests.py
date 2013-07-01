@@ -22,13 +22,14 @@ def main():
 
     os.chdir(base_dir)
 
-    os.environ['DJANGO_SETTINGS_MODULE'] = 'spc_site.settings.development'
-    __import__('spc_site.settings.development')
-    mod = sys.modules['spc_site.settings.development']
+    settings_module = 'scipy_central.settings.development'
+    os.environ['DJANGO_SETTINGS_MODULE'] = settings_module
+    __import__(settings_module)
+    mod = sys.modules[settings_module]
     del os.environ['DJANGO_SETTINGS_MODULE']
 
-    apps = [x.replace('scipy_central.', '') for x in mod.INSTALLED_APPS
-            if x.startswith('scipy_central.')]
+    apps = [x.replace('scipy_central.apps.', '') for x in mod.INSTALLED_APPS
+            if x.startswith('scipy_central.apps.')]
 
     if not apps:
         print("No apps found to run tests for!")

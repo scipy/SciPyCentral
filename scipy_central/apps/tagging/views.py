@@ -5,7 +5,7 @@ from django.utils.encoding import force_unicode
 from django.core.exceptions import ValidationError
 
 import models
-from scipy_central.submission.models import TagCreation
+from scipy_central.apps.submission.models import TagCreation
 
 import datetime
 from collections import defaultdict

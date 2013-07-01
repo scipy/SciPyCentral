@@ -2,7 +2,7 @@ from django.http import HttpResponse, Http404
 from django.utils import simplejson
 import models
 
-from scipy_central.screenshot.forms import ScreenshotForm
+from scipy_central.apps.screenshot.forms import ScreenshotForm
 
 def add_screenshot(request):
     """

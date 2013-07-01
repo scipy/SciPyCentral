@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import patterns, url
 import feeds
 
-urlpatterns = patterns('scipy_central.feeds.views',
+urlpatterns = patterns('scipy_central.apps.feeds.views',
 
         # recent submission feed in rss
         url(r'^$', feeds.RssSiteFeed(), name='spc-rss-recent-submissions'),

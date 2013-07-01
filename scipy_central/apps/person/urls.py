@@ -3,12 +3,12 @@ from registration.views import register
 from forms import SignUpForm
 #from models import SciPyRegistrationBackend
 
-urlpatterns = patterns('scipy_central.person.views',
+urlpatterns = patterns('scipy_central.apps.person.views',
     # Just override ``registration`` app's URL for registration so that we
     # can provide our own form class. Everything else from that app's default
     # settings are OK for our site.
     url(r'^register/$', register,
-                    {'backend': 'scipy_central.person.models.SciPyRegistrationBackend',
+                    {'backend': 'scipy_central.apps.person.models.SciPyRegistrationBackend',
                      'form_class': SignUpForm},
                     name='registration_register'),
 

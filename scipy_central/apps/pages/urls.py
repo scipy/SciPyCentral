@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import patterns, url
 
-urlpatterns = patterns('scipy_central.pages.views',
+urlpatterns = patterns('scipy_central.apps.pages.views',
 
     # Front page
     url(r'^$', 'front_page', name='spc-main-page'),

@@ -4,14 +4,14 @@ Simplified BSD-license. (c) Kevin Dunn, 2011.
 """
 
 from django.test import TestCase
-from scipy_central import utils
+from scipy_central.apps import utils
 
 # Python imports
 import os
 import shutil
 import tempfile
 
-import scipy_central.filestorage.dvcs_wrapper as dvcs
+import scipy_central.apps.filestorage.dvcs_wrapper as dvcs
 
 class DVCS_Tests(TestCase):
     def setUp(self):

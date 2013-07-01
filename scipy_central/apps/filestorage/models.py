@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from scipy_central import utils
+from scipy_central.apps import utils
 from django.utils.datastructures import SortedDict
 
 from dvcs_wrapper import DVCSError, DVCSRepo

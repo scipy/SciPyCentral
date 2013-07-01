@@ -13,15 +13,15 @@ from django.core.files.uploadedfile import UploadedFile
 from django.utils.encoding import force_unicode, smart_str
 
 # Imports from this app and other SPC apps
-from scipy_central.person.views import create_new_account_internal
-from scipy_central.filestorage.models import FileSet
-from scipy_central.tagging.views import get_and_create_tags
-from scipy_central.utils import (send_email, paginated_queryset,
+from scipy_central.apps.person.views import create_new_account_internal
+from scipy_central.apps.filestorage.models import FileSet
+from scipy_central.apps.tagging.views import get_and_create_tags
+from scipy_central.apps.utils import (send_email, paginated_queryset,
                                  highlight_code, ensuredir)
-from scipy_central.rest_comments.views import compile_rest_to_html
-from scipy_central.pages.views import page_404_error
-from scipy_central.pagehit.views import create_hit, get_pagehits
-from scipy_central.submission.templatetags.core_tags import top_authors
+from scipy_central.apps.rest_comments.views import compile_rest_to_html
+from scipy_central.apps.pages.views import page_404_error
+from scipy_central.apps.pagehit.views import create_hit, get_pagehits
+from scipy_central.apps.submission.templatetags.core_tags import top_authors
 import models
 import forms
 

@@ -3,8 +3,8 @@ from django.template import RequestContext
 from django.template.loader import get_template
 from django.http import HttpResponse
 
-from scipy_central.utils import get_IP_address
-from scipy_central.pagehit.views import create_hit
+from scipy_central.apps.utils import get_IP_address
+from scipy_central.apps.pagehit.views import create_hit
 
 from haystack.views import SearchView
 

@@ -5,8 +5,8 @@ from django.contrib.syndication.views import Feed
 from django.utils.feedgenerator import Atom1Feed
 
 # scipycentral imports
-from scipy_central.submission.models import Submission, Revision
-from scipy_central.tagging.models import Tag
+from scipy_central.apps.submission.models import Submission, Revision
+from scipy_central.apps.tagging.models import Tag
 
 class RssSiteFeed(Feed):
     title = "Recent Submissions - Scipy Central"

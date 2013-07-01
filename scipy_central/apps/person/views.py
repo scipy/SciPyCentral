@@ -8,12 +8,12 @@ from django.db.utils import IntegrityError
 
 
 # Imports from other SciPy Central apps
-from scipy_central.pages.views import page_404_error
-from scipy_central.submission.models import Revision
-from scipy_central.rest_comments.views import compile_rest_to_html
-from scipy_central.utils import paginated_queryset, send_email
-from scipy_central.tagging.views import get_and_create_tags
-from scipy_central.pagehit.views import create_hit
+from scipy_central.apps.pages.views import page_404_error
+from scipy_central.apps.submission.models import Revision
+from scipy_central.apps.rest_comments.views import compile_rest_to_html
+from scipy_central.apps.utils import paginated_queryset, send_email
+from scipy_central.apps.tagging.views import get_and_create_tags
+from scipy_central.apps.pagehit.views import create_hit
 
 import models
 import forms
