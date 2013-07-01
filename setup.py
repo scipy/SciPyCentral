@@ -12,8 +12,7 @@ METADATA = dict(
     url = "http://github.com/scipy/SciPyCentral",
     download_url = "http://github.com/scipy/SciPyCentral",
     license = 'BSD',
-    packages=['scipy_central', 'scipy_central_deploy'],
-    package_dir={'scipy_central_deploy': 'deploy'},
+    packages=['scipy_central'],
 )
 
 #----------------------------------------

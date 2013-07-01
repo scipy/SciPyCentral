@@ -19,18 +19,17 @@ def main():
     # Grab the list of our local apps from Django
 
     base_dir = os.path.abspath(os.path.dirname(__file__))
-    deploy_dir = os.path.join(base_dir, 'deploy')
-    app_dir = os.path.join(base_dir, 'scipy_central')
 
     os.chdir(base_dir)
-    sys.path.insert(0, deploy_dir)
 
-    os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
-    mod =__import__('settings')
+    settings_module = 'scipy_central.settings.development'
+    os.environ['DJANGO_SETTINGS_MODULE'] = settings_module
+    __import__(settings_module)
+    mod = sys.modules[settings_module]
     del os.environ['DJANGO_SETTINGS_MODULE']
 
-    apps = [x.replace('scipy_central.', '') for x in mod.INSTALLED_APPS
-            if x.startswith('scipy_central.')]
+    apps = [x.replace('scipy_central.apps.', '') for x in mod.INSTALLED_APPS
+            if x.startswith('scipy_central.apps.')]
 
     if not apps:
         print("No apps found to run tests for!")
@@ -41,8 +40,7 @@ def main():
 
     verbosity = '2' if args.verbose else '1'
 
-    cmd = [sys.executable,
-           os.path.join('deploy', 'manage.py'),
+    cmd = [sys.executable, 'manage.py',
            'test', '-v', verbosity, '--noinput', '--traceback'] + apps
 
     sys.exit(subprocess.call(cmd))
