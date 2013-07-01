@@ -47,7 +47,7 @@ MIDDLEWARE_CLASSES = (
 
 AUTH_PROFILE_MODULE = 'person.UserProfile'
 
-MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
+MEDIA_ROOT = os.path.join(DATA_DIR, 'uploads')
 
 STATIC_ROOT = os.path.join(DATA_DIR, 'static')
 
