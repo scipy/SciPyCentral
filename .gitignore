@@ -1,26 +1,11 @@
-logfile.log
+# general ignores
 *.pyc
 *.bak
-deploy/staticfiles/*
-deploy/media/code/*
-deploy/media/raw-images/*
-deploy/media/images/*
-deploy/media/screenshots/*
-deploy/local_settings.py
-deploy/scipy-central.sqlite
-scipy-central.wpr
-/deploy/compile
-/deploy/xapian_index
-site_backup
-/.tox
-/MANIFEST
-/dist
-/deploy/*.db
-/deploy/env
-/compile
-/deploy/whoosh_index
-/*.egg-info
-
-# sdk, editors settings
 .project
 .pydevproject
+
+# staticfiles 
+deploy/data/*
+
+# local settings
+deploy/local_settings.py
