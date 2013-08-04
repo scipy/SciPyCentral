@@ -1,32 +1,32 @@
-# See: http://docs.haystacksearch.org/dev/settings.html for details
-# Many of the settings below are just their default values (to be explicit)
+SEARCH_ENGINE = None
 
-HAYSTACK_SEARCH_ENGINE = None
+try:
+	import xapian
+	SEARCH_ENGINE = {
+	    'default': {
+	        'ENGINE': 'xapian_backend.XapianEngine',
+	        'PATH': os.path.join(DATA_DIR, 'xapian_index'),
+	        'INCLUDE_SPELLING': True,
+	        'BATCH_SIZE': 100,
+	    },
+	}
 
-if HAYSTACK_SEARCH_ENGINE is None:
-    try:
-        import xapian
-        HAYSTACK_SEARCH_ENGINE = 'xapian'
-        HAYSTACK_XAPIAN_PATH = os.path.join(DATA_DIR, 'xapian_index')
-    except ImportError:
-        pass
+except ImportError:
+	import whoosh
+	SEARCH_ENGINE = {
+	    'default': {
+	        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+	        'PATH': os.path.join(DATA_DIR, 'whoosh_index'),
+	        'STORAGE': 'file',
+	        'POST_LIMIT': 128 * 1024 * 1024,
+	        'INCLUDE_SPELLING': True,
+	        'BATCH_SIZE': 100,
+	    },
+	}
 
-if HAYSTACK_SEARCH_ENGINE is None:
-    try:
-        import whoosh
-        HAYSTACK_SEARCH_ENGINE = 'whoosh'
-        HAYSTACK_WHOOSH_PATH = os.path.join(DATA_DIR, 'whoosh_index')
-    except ImportError:
-        pass
-
-if HAYSTACK_SEARCH_ENGINE is None:
-    raise RuntimeError("Neither xapian nor whoosh is installed")
-
-HAYSTACK_SITECONF = 'scipy_central.search_sites'
+HAYSTACK_CONNECTIONS = SEARCH_ENGINE
 HAYSTACK_DEFAULT_OPERATOR = 'AND'
-HAYSTACK_INCLUDE_SPELLING = True
 HAYSTACK_SEARCH_RESULTS_PER_PAGE = SPC['entries_per_page']
-HAYSTACK_BATCH_SIZE = 100
 HAYSTACK_ITERATOR_LOAD_PER_QUERY = 10
 HAYSTACK_LIMIT_TO_REGISTERED_MODELS = True
 HAYSTACK_SILENTLY_FAIL = True

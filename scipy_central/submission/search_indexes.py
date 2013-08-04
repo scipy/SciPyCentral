@@ -1,9 +1,9 @@
-from haystack import indexes, site
+from haystack import indexes
 from models import Revision
 
 # SearchIndex object for each revision in the database
 
-class RevisionIndex(indexes.RealTimeSearchIndex):
+class RevisionIndex(indexes.SearchIndex, indexes.Indexable):
 
     # The main field to search in: see template search/indexes/submission/revision_text.txt
     text = indexes.CharField(document=True, use_template=True)#model_attr='description')
@@ -20,7 +20,7 @@ class RevisionIndex(indexes.RealTimeSearchIndex):
     def get_model(self):
         return Revision
 
-    def index_queryset(self):
+    def index_queryset(self, **kwargs):
         # The ``Revision`` model has its own managers that does the right
         # thing in calling ``all()``.
         return self.get_model().objects.all()
@@ -33,4 +33,3 @@ class RevisionIndex(indexes.RealTimeSearchIndex):
 
         return self.prepared_data
 
-site.register(Revision, RevisionIndex)
