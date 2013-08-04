@@ -16,13 +16,13 @@
 		<ul class="inline tags pull-left">
 		{% for tag in entry.interests.all %}
 			<li class="btn btn-mini">
-				<a href="{% url spc-show-items what_view="tag" extra_info=tag %}">{{tag.name}}</a>
+				<a href="{% url 'spc-show-items' what_view="tag" extra_info=tag %}">{{tag.name}}</a>
 			</li>
 		{% endfor %}
 		</ul>
 
 		<ul class="inline pull-right muted">
-			<li><small>Username: <a href="{% url spc-user-profile slug=entry.slug %}">{{entry.user.username}}</a></small></li>
+			<li><small>Username: <a href="{% url 'spc-user-profile' slug=entry.slug %}">{{entry.user.username}}</a></small></li>
 			{% if entry.country %}
 				<li><small>Country: <img class="spc-flag" src="{{STATIC_URL}}flags/flag-{{entry.country.code|lower}}.png"></small></li>
 			{% endif %}

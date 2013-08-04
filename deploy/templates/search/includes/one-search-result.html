@@ -20,7 +20,7 @@
 
 		<ul class="inline tags pull-left">
 		{% for tag in entry.tags.all %}
-			<li class="btn btn-mini"><a href="{% url spc-show-items what_view="tag" extra_info=tag %}">{{tag.name}}</a></li>
+			<li class="btn btn-mini"><a href="{% url "spc-show-items" what_view="tag" extra_info=tag %}">{{tag.name}}</a></li>
 		{% endfor %}
 		</ul>
 
@@ -28,7 +28,7 @@
 			{% if entry.short_human_revision_string %}
 				<li><small>{{entry.short_human_revision_string|safe}}</small><li>
 			{% endif %}
-			<li><small>by <a href="{% url spc-user-profile slug=entry.created_by.profile.slug %}">{{entry.created_by.username}}</a></small></li>
+			<li><small>by <a href="{% url "spc-user-profile" slug=entry.created_by.profile.slug %}">{{entry.created_by.username}}</a></small></li>
 			<li><small>on {{ entry.date_created|date:"d F Y"}}</small></li>
 		</ul>
 	</div>

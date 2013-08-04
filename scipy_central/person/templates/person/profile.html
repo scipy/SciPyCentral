@@ -56,7 +56,7 @@
 					<ul class="inline tags">
 					{% for tag in theuser.profile.interests.all %}
 						<li class="btn btn-mini">
-							<a href="{% url spc-show-items what_view="tag" extra_info=tag %}">{{tag.name}}</a>
+							<a href="{% url 'spc-show-items' what_view="tag" extra_info=tag %}">{{tag.name}}</a>
 						</li>
 					{% endfor %}
 					</ul>
@@ -80,8 +80,8 @@
 					<td>Settings</td>
 					<td>
 						<ul class="unstyled">
-							<li><a href="{% url auth_password_change %}">Change password</a></li>
-							<li><a href="{% url spc-user-profile-edit user.profile.slug %}">Edit profile</a></li>
+							<li><a href="{% url 'auth_password_change' %}">Change password</a></li>
+							<li><a href="{% url 'spc-user-profile-edit' user.profile.slug %}">Edit profile</a></li>
 						</ul>
 					</td>
 				</tr>

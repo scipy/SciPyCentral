@@ -38,7 +38,7 @@
 <ul>
   {#The ``entry`` objects must be from the ``submission.Revision`` class #}
   {% for entry in entries.object_list %}
-	<li><a href="{% url spc-user-profile slug=entry.profile.slug %}">{{entry.username}}</a>
+	<li><a href="{% url 'spc-user-profile' slug=entry.profile.slug %}">{{entry.username}}</a>
 
 	<!--Tags applied by {{entry.username}}: taglist here-->
 

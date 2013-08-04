@@ -2,19 +2,19 @@
 <div class="header">
 	<ul class="nav nav-pills pull-right">
 		<li
-		{% url spc-main-page as ref_url %}
+		{% url 'spc-main-page' as ref_url %}
 		{% if request.path == ref_url %}class="active"{% endif %}
-		><a href="{% url spc-main-page %}">Home</a></li>
+		><a href="{% url 'spc-main-page' %}">Home</a></li>
 		
 		<li
-		{% url spc-about-page as ref_url %}
+		{% url 'spc-about-page' as ref_url %}
 		{% if request.path == ref_url %}class="active"{% endif %}
-		><a href="{% url spc-about-page %}">About</a></li>
+		><a href="{% url 'spc-about-page' %}">About</a></li>
 		
 		<li class="dropdown
-		{% url spc-new-submission item_type='snippet' as ref_url1 %}
-		{% url spc-new-submission item_type='link' as ref_url2 %}
-		{% url spc-new-submission item_type='package' as ref_url3 %}
+		{% url 'spc-new-submission' item_type='snippet' as ref_url1 %}
+		{% url 'spc-new-submission' item_type='link' as ref_url2 %}
+		{% url 'spc-new-submission' item_type='package' as ref_url3 %}
 		{% if request.path == ref_url1 %}active
 		{% elif request.path == ref_url2 %}active
 		{% elif request.path == ref_url3 %}active{% endif %}">
@@ -23,15 +23,15 @@
 				<b class="caret"></b>
 			</a>
 			<ul class="dropdown-menu">
-				<li><a href="{% url spc-new-submission item_type='snippet' %}">Snippet</a></li>
-				<li><a href="{% url spc-new-submission item_type='link' %}">Link</a></li>
-				<li><a href="{% url spc-new-submission item_type='package' %}">Package</a></li>
+				<li><a href="{% url 'spc-new-submission' item_type='snippet' %}">Snippet</a></li>
+				<li><a href="{% url 'spc-new-submission' item_type='link' %}">Link</a></li>
+				<li><a href="{% url 'spc-new-submission' item_type='package' %}">Package</a></li>
 			</ul>
 		</li>
 		
 		{% if user.is_active %}
 		<li class="dropdown 
-		{% url spc-user-profile user.profile.slug as ref_url %}
+		{% url 'spc-user-profile' user.profile.slug as ref_url %}
 		{% if ref_url == request.path %}active{% endif %}">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 				{{user.username}}
@@ -39,21 +39,21 @@
 			</a>
 			<ul class="dropdown-menu">
 			{% if user.username and user.profile.slug %}
-				<li><a href="{% url spc-user-profile user.profile.slug %}">Profile</a></li>
-				<li><a href="{% url auth_logout %}">Logout</a></li>
+				<li><a href="{% url 'spc-user-profile' user.profile.slug %}">Profile</a></li>
+				<li><a href="{% url 'auth_logout' %}">Logout</a></li>
 			{% endif %}
 			</ul>
 		</li>
 		{% else %}
 			<li class="
-			{% url auth_login as ref_url %}
+			{% url 'auth_login' as ref_url %}
 			{% if ref_url == request.path %}active{% endif %}">
-				<a href="{% url auth_login %}">Sign In</a>
+				<a href="{% url 'auth_login' %}">Sign In</a>
 			</li>
 		{% endif %}
 	</ul>
 	
-	<a href="{% url spc-main-page %}"><img src="{{STATIC_URL}}img/scipycentral_logo.png" style="height: 34px;"></a>
+	<a href="{% url 'spc-main-page' %}"><img src="{{STATIC_URL}}img/scipycentral_logo.png" style="height: 34px;"></a>
 </div>
 </div>
 <!--/container-->

@@ -589,7 +589,7 @@ def new_or_edit_submission(request, item_type, bound_form=False, submission=None
         context['finish_button_text'] = 'Finish submission'
         # %% is required in below string to correctly format
         html = ("""<div id="spc-preview-edit-submit" class="spc-form">
-                <form action="{%% url spc-new-submission item_type='%s' %%}" 
+                <form action="{%% url 'spc-new-submission' item_type='%s' %%}" 
                 method="POST" enctype="multipart/form-data">\n
                 {%% csrf_token %%}\n
                 {{item.as_hidden}}
