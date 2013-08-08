@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import url, include, patterns
+from django.conf.urls import url, include, patterns
 urlpatterns = patterns('scipy_central',
 
     # NOTE: internal name for front page (defined in scipy_central.pages.urls)
