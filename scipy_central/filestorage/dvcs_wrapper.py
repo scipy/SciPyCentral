@@ -121,9 +121,7 @@ class DVCSRepo(object):
 
         # Set home directory to here, to avoid using spurious
         # hgrc/gitconfig files
-        env = {
-            'HOME': os.path.abspath(os.path.dirname(__file__))
-        }
+        os.environ['HOME'] = os.path.abspath(os.path.dirname(__file__))
 
         try:
             command[0] = self.verbs[verb][0]
@@ -131,7 +129,7 @@ class DVCSRepo(object):
             out = subprocess.Popen(command, stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
                                    cwd=repo_dir,
-                                   env=env)
+                                   env=os.environ)
 
             stdout, stderr = out.communicate()
 
