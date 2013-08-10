@@ -2,12 +2,12 @@ from django.http import HttpResponse
 from django.utils import simplejson
 from django.template.defaultfilters import slugify
 from django.utils.encoding import force_unicode
+from django.utils import timezone
 from django.core.exceptions import ValidationError
 
 import models
 from scipy_central.submission.models import TagCreation
 
-import datetime
 from collections import defaultdict
 
 
@@ -21,14 +21,13 @@ def get_tag_uses(start_date=None, end_date=None):
     first tuple entry is the number of uses of that tag, allowing for easy
     sorting using Python's ``sort`` method.
     """
-    if start_date is None:
-        start_date = datetime.date.min
-    if end_date is None:
-        end_date = datetime.date.max
+    start_date = start_date or timezone.datetime.min
+    end_date = end_date or timezone.datetime.max
 
-    tags_created = TagCreation.objects.all().\
-                                       filter(date_created__gte=start_date).\
-                                       filter(date_created__lte=end_date)
+    tags_created = TagCreation.objects.filter(
+        date_created__gte=start_date,
+        date_created__lte=end_date
+    )
 
     # Let all the revisions from each submission be grouped, so that duplicate
     # tags across revisions only have a single influence

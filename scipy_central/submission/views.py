@@ -11,6 +11,7 @@ from django.contrib.sites.models import Site
 from django.utils.hashcompat import sha_constructor
 from django.core.files.uploadedfile import UploadedFile
 from django.utils.encoding import force_unicode, smart_str
+from django.utils import timezone
 
 # Imports from this app and other SPC apps
 from scipy_central.person.views import create_new_account_internal
@@ -32,7 +33,6 @@ import random
 import logging
 import os
 import re
-import datetime
 import shutil
 import zipfile
 import tempfile
@@ -264,7 +264,7 @@ def create_or_edit_submission_revision(request, item, is_displayed,
         rev.save()
 
         # Storage location: if we do save files it will be here
-        datenow = datetime.datetime.now()
+        datenow = timezone.now()
         year, month = datenow.strftime('%Y'), datenow.strftime('%m')
         repo_path = os.path.join(year, month, '%06d'% sub.id)
         full_repo_path = os.path.join(settings.SPC['storage_dir'], repo_path)
@@ -439,7 +439,7 @@ def get_license_text(rev):
         if idx > 0:
             url = settings.SPC['short_URL_root'] + 'user/'
             url += str(item.created_by.id) + '/'
-            date = datetime.datetime.strftime(item.date_created, '%d %B %Y')
+            date = timezone.datetime.strftime(item.date_created, '%d %B %Y')
             update_list.append('%s on %s' % (url, date))
 
     update_string = '\n'.join(update_list)
@@ -461,7 +461,7 @@ Also see http://creativecommons.org/publicdomain/zero/1.0/
 -----
 %s
 """ % \
-            (rev.title, datetime.datetime.strftime(rev.entry.date_created,
+            (rev.title, timezone.datetime.strftime(rev.entry.date_created,
                                                    '%d %B %Y'),
             settings.SPC['short_URL_root'] + 'users/' +\
                                            rev.entry.created_by.profile.slug,
@@ -477,7 +477,7 @@ Also see http://creativecommons.org/publicdomain/zero/1.0/
         context = {}
         context['title'] = rev.title
         context['copyright_holder'] = creator_url
-        context['year'] = datetime.datetime.now().year
+        context['year'] = timezone.now().year
         resp = template.Template(text)
         return resp.render(template.Context(context))
 
@@ -714,8 +714,8 @@ def view_item(request, submission, revision):
     latest_link = settings.SPC['short_URL_root'] + str(submission.id) + '/'
 
 
-    pageviews = get_pagehits('submission', start_date=datetime.datetime.now()\
-                        -datetime.timedelta(days=settings.SPC['hit_horizon']),
+    pageviews = get_pagehits('submission', start_date=timezone.now()\
+                        -timezone.timedelta(days=settings.SPC['hit_horizon']),
                         item_pk=submission.id)
 
     package_files = []
@@ -756,7 +756,7 @@ def get_display(submission, revision, filename):
             disp_type = 'image'
             # Copy image over to media location; we must make a copy, incase
             # a later user views a different revision of the document
-            dirname = force_unicode(datetime.datetime.now().strftime(
+            dirname = force_unicode(timezone.now().strftime(
                 smart_str(settings.SPC['resized_image_dir'])))
             disp_obj = os.path.normpath(os.path.join(dirname, fname))
             dst = os.path.join(settings.SPC['storage_dir'], disp_obj)
@@ -940,8 +940,8 @@ def edit_submission(request, submission, revision):
 def sort_items_by_page_views(all_items, item_module_name):
     # TODO(KGD): Cache this reordering of ``items`` for a period of time
 
-    today = datetime.datetime.now()
-    start_date = today - datetime.timedelta(days=settings.SPC['hit_horizon'])
+    today = timezone.now()
+    start_date = today - timezone.timedelta(days=settings.SPC['hit_horizon'])
     page_order = get_pagehits(item_module_name, start_date=start_date,
                                                                end_date=today)
     page_order.sort(reverse=True)
