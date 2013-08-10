@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, url, handler404
 
 urlpatterns = patterns('scipy_central.pages.views',
 
@@ -18,3 +18,5 @@ urlpatterns = patterns('scipy_central.pages.views',
     url(r'search', 'search', name='haystack_search'),
 
 )
+
+handler404 = 'views.page_404_error'
