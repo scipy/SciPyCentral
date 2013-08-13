@@ -1,6 +1,8 @@
 from django import template
+from django.contrib import comments
 from django.contrib.comments.models import CommentFlag
 from django.core.exceptions import ObjectDoesNotExist
+from scipy_central.person.models import User
 from scipy_central.comments.forms import SpcCommentEditForm
 
 register = template.Library()
@@ -31,3 +33,17 @@ def comment_edit_form(comment_object):
         'form': form,
     }
     return context
+
+@register.assignment_tag
+def my_comment_list(user_object, count=20):
+    """
+    Returns list of recent user comments
+    """
+    if isinstance(user_object, User):
+        comments_model = comments.get_model()
+        comment_list = comments_model.objects.filter(user = user_object,
+            is_public = True,
+            is_removed = False)
+        return comment_list.order_by('-submit_date')[:count]
+    else:
+        raise template.TemplateSyntaxError("Invalid argument")

@@ -1,0 +1,20 @@
+<div class="media">
+    <a class="pull-left" href="#">
+        <img src="{{STATIC_URL}}send-email-icon-tiny.png">
+    </a>
+    <div class="media-body">
+        <h4 class="media-heading">
+            <a href="{{comment.user.profile.get_absolute_url}}">{{comment.user.username}}</a>
+            <a href="{{comment.get_absolute_url}}">commented</a> on <a href="{{comment.content_object.get_absolute_url}}">{{comment.content_object.slug}}</a>
+        </h4>
+        <p class="media-description">
+        {% autoescape off %}
+            {{comment.rest_comment}}
+        {% endautoescape %}
+        </p>
+        <ul class="inline pull-left">
+            <li class="muted"><small>{{comment.submit_date}}</small></li>
+        </ul>
+    </div>
+</div>
+<hr> <!--helps to create some space between each submission, draw a line "easily"-->
