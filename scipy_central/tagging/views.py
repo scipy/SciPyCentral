@@ -1,8 +1,8 @@
 from django.http import HttpResponse
 from django.utils import simplejson
-from django.template.defaultfilters import slugify
 from django.utils.encoding import force_unicode
 from django.utils import timezone
+from django.utils.text import slugify
 from django.core.exceptions import ValidationError
 
 import models
