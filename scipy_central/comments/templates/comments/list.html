@@ -1,10 +1,15 @@
 {% load comments %}
 
+{% if request.user.is_authenticated %}
+<script type="text/javascript" src="{{STATIC_URL}}comments/comment-actions.js"></script>
+{% endif %}
+
 {% if not request.user.is_authenticated %}
 <blockquote>
 	<p>Please <a href="{% url auth_login %}">Sign in</a> or <a href="{% url registration_register %}">Register</a> to leave a comment</p>
 </blockquote>
 {% endif %}
+
 <div class="media-list">
 {% get_comment_list for item as comment_list %}
 {% for comment in comment_list %}
@@ -16,4 +21,8 @@
 
 {% if request.user.is_authenticated %}
     {% render_comment_form for item %}
+{% endif %}
+
+{% if request.user.is_authenticated %}
+    {% include "comments/modals.html" %}
 {% endif %}

@@ -1,4 +1,5 @@
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.comments.models import CommentFlag
 from django.contrib.comments.admin import CommentsAdmin
 from django.contrib import admin
 
@@ -22,4 +23,14 @@ class SpcCommentAdmin(CommentsAdmin):
         ),
     )
 
+class SpcCommentFlagAdmin(admin.ModelAdmin):
+    """
+    Admin interface for comment flags
+    """
+    list_display = ('flag', 'user', 'comment', 'flag_date')
+    search_fields = ['user__username', 'comment__user__username', 'flag_date']
+    list_filter = ['flag_date']
+    ordering = ['-flag_date']
+
 admin.site.register(SpcComment, SpcCommentAdmin)
+admin.site.register(CommentFlag, SpcCommentFlagAdmin)

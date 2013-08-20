@@ -1,4 +1,5 @@
 {% load comments %}
+{% load SpcComments %}
 
 <div class="media" id="c{{comment.id}}">
     <a class="pull-left" href="{{comment.user.profile.get_absolute_url}}">
@@ -9,7 +10,21 @@
     </div>
 
     <ul class="inline pull-right muted">
+    {% if request.user.is_authenticated %}
+        {% if comment|is_flagged:request %}
+        <li><span class="label label-info"><small>flagged</small></span></li>
+        {% else %}
+        <li><a class="spc-comment-flag" data-id="{{comment.id}}" data-toggle="modal" href="#spc-comment-flag-modal" role="button"><small>flag</small></a></li>
+        {% endif %}
+    {% endif %}
         <li><small><a href="{% get_comment_permalink comment %}">permalink</a></small></li>
         <li><small>by <a href="{{comment.user.profile.get_absolute_url}}">{{comment.user.username}}</a> on {{comment.submit_date}}</small></li>
     </ul>
+
+    <div class="pull-right">
+        {# flag responses #}
+        <span class="hide label label-info" data-action="flag" data-resp="success"><small>flagged</small></span>
+        <span class="hide label label-important" data-action="flag" data-resp="error"><small>Not flagged</small></span>
+        <span class="hide label label-important" data-action="flag" data-resp="server-error"><small>Server error, please try later</small></span>
+    </div>
 </div>

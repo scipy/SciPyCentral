@@ -14,6 +14,8 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
+SCIPY_CENTRAL_TEAM = 'scipy-dev@scipy.org'
+
 MANAGERS = ADMINS
 DATABASES = {
     'default': {
