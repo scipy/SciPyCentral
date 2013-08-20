@@ -1,5 +1,6 @@
 {% extends "page-base.html" %}
 {% load humanize %}
+{% load comments %}
 
 {% block title %}{{item.title}}{% endblock %}
 
@@ -138,6 +139,22 @@
 		</div>
 	</div>
 </div><!--accordion group-->
+
+{% if not preview %}
+<div class="accordion-group">
+	{% get_comment_count for item as comment_count %}
+	<div class="accordion-heading">
+		<a class="accordion-toggle" data-toggle="collapse" href="#collapse4">
+		Comments (<span id="spc-comment-count">{{comment_count}}</span>) <i class="icon-arrow-up"></i> 
+		</a>
+	</div><!--/snippet title-->
+	<div id="collapse4" class="accordion-body collapse in">
+		<div class="accordion-inner">
+			{% render_comment_list for item %}
+		</div>
+	</div>
+</div><!--accordion group-->
+{% endif %}
 
 {% if extra_html %}
 <div class="alert alert-info help-text">

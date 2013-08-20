@@ -1,0 +1,33 @@
+{% load comments %}
+{% load widget_tweaks %}
+
+<form class="no-lead" action="{% comment_form_target %}" method="post" id="spc-comment-form">
+    {% csrf_token %}
+    {% for field in form %}
+        {% if field.is_hidden or field.name == 'honeypot' %}
+        {{field|attr:"type:hidden"|safe}}
+        {% else %}
+        <div class="control-group">
+            <label class="control-label" for="{{field.id_for_label}}">{{field.label|upper|safe}} <i class="icon-question-sign" onclick="$('#alert-{{forloop.counter}}').toggle();"></i></label>
+            <div class="alert alert-info help-text hide" id="alert-{{forloop.counter}}">
+                <div class="close" onclick="$('#alert-{{forloop.counter}}').hide();">&times;</div>
+                {% include "rest-help-text.html" %}
+            </div>
+
+            <div class="controls">
+                {% if field.errors %}
+                <div class="alert alert-error">{{field.errors|safe}}</div>
+                {% endif %}
+                {{field|add_class:"span12"|safe}}
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+    <input type="hidden" name="next" value="{{request.path}}#comment-form">
+    <div class="control-group">
+        <div class="controls">
+            <input class="btn btn-primary" type="submit" name="preview" value="Preview">
+            <input class="btn btn-success" type="submit" name="submit" value="Post">
+        </div>
+    </div>
+</form>

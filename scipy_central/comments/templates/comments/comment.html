@@ -1,0 +1,15 @@
+{% load comments %}
+
+<div class="media" id="c{{comment.id}}">
+    <a class="pull-left" href="{{comment.user.profile.get_absolute_url}}">
+        <img class="media-object" src="{{comment.user.profile.get_gravatar_image}}?r=g&s=60">
+    </a>
+    <div class="media-body comment-text{{comment.id}}">
+        {{comment.rest_comment|safe}}
+    </div>
+
+    <ul class="inline pull-right muted">
+        <li><small><a href="{% get_comment_permalink comment %}">permalink</a></small></li>
+        <li><small>by <a href="{{comment.user.profile.get_absolute_url}}">{{comment.user.username}}</a> on {{comment.submit_date}}</small></li>
+    </ul>
+</div>
