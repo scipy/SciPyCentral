@@ -10,7 +10,7 @@
 </blockquote>
 {% endif %}
 
-<div class="media-list">
+<div class="media-list" id="spc-comment-list">
 {% get_comment_list for item as comment_list %}
 {% for comment in comment_list %}
 {% if comment.is_public %}
