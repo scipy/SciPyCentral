@@ -6,6 +6,7 @@ JavaScript definitions to handle comments on the site
 $(document).ready(function() {
     var SET_TIME = 5000;
     var $COMMENT_FLAG_MODAL = $('#spc-comment-flag-modal');
+    var $COMMENT_DEL_MODAL = $('#spc-comment-delete-modal');
 
     var $POST_COMMENT = $('#spc-post-comment');
     var $COMMENT_PREVIEW = $POST_COMMENT.find("[data-resp='success'][data-action='preview']");
@@ -131,6 +132,39 @@ $(document).ready(function() {
 
         });
     });
+
+    // delete comment
+    $('body').on('click', '.spc-comment-delete', function() {
+        $COMMENT_DEL_MODAL.data('comment-id', $(this).data('id'));
+    });
+
+    $COMMENT_DEL_MODAL.on('click', "button[data-submit='delete']", function() {
+        var comment_id = $COMMENT_DEL_MODAL.data('comment-id');
+        var $comment_element = $('#c' + comment_id);
+
+        var $error_resp = $comment_element.find("[data-resp='error'][data-action='delete']");
+        var $server_error_resp = $comment_element.find("[data-resp='server-error'][data-action='delete']");
+
+        $.ajax({
+            type: 'post',
+            url: '/comments/user_delete/' + comment_id + '/',
+            data: {},
+            success: function(data) {
+                if (data.success) {
+                    var comment_count = parseInt($COMMENT_COUNT.text().trim(), 10);
+                    $comment_element.remove();
+                    $COMMENT_COUNT.html(comment_count - 1);
+                } else {
+                    $error_resp.stop(true, true).show().fadeOut(SET_TIME);
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                $server_error_resp.stop(true, true).show().fadeOut(SET_TIME);
+            }
+        });
+        $COMMENT_DEL_MODAL.modal('hide');
+    });
+
 
 });
 })(window.jQuery);

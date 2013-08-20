@@ -16,12 +16,20 @@
         {% else %}
         <li><a class="spc-comment-flag" data-id="{{comment.id}}" data-toggle="modal" href="#spc-comment-flag-modal" role="button"><small>flag</small></a></li>
         {% endif %}
+
+        {% ifequal request.user comment.user %}
+        <li><a class="spc-comment-delete" data-id="{{comment.id}}" data-toggle="modal" href="#spc-comment-delete-modal" role="button"><small>delete</small></a></li>
+        {% endifequal %}
     {% endif %}
         <li><small><a href="{% get_comment_permalink comment %}">permalink</a></small></li>
         <li><small>by <a href="{{comment.user.profile.get_absolute_url}}">{{comment.user.username}}</a> on {{comment.submit_date}}</small></li>
     </ul>
 
     <div class="pull-right">
+        {# delete responses #}
+        <span class="hide label label-important" data-action="delete" data-resp="error" ><small>Comment not deleted</small></span>
+        <span class="hide label label-important" data-action="delete" data-resp="server-error"><small>Comment not deleted</small></span>
+        
         {# flag responses #}
         <span class="hide label label-info" data-action="flag" data-resp="success"><small>flagged</small></span>
         <span class="hide label label-important" data-action="flag" data-resp="error"><small>Not flagged</small></span>
