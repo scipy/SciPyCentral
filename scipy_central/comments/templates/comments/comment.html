@@ -6,7 +6,8 @@
         <img class="media-object" src="{{comment.user.profile.get_gravatar_image}}?r=g&s=60">
     </a>
     <div class="media-body comment-text{{comment.id}}">
-        {{comment.rest_comment|safe}}
+        <div class="html-text">{{comment.rest_comment|safe}}</div>
+        <div class="rest-text hide">{{comment.comment|safe}}</div>
     </div>
 
     <ul class="inline pull-right muted">
@@ -19,6 +20,7 @@
 
         {% ifequal request.user comment.user %}
         <li><a class="spc-comment-delete" data-id="{{comment.id}}" data-toggle="modal" href="#spc-comment-delete-modal" role="button"><small>delete</small></a></li>
+        <li><a class="spc-comment-edit" data-id="{{comment.id}}" data-toggle="modal" href="#spc-comment-edit-modal" role="button"><small>edit</small></a></li>
         {% endifequal %}
     {% endif %}
         <li><small><a href="{% get_comment_permalink comment %}">permalink</a></small></li>
@@ -26,6 +28,11 @@
     </ul>
 
     <div class="pull-right">
+    	{# edit responses #}
+        <span class="hide label label-info" data-action="edit" data-resp="success"><small>edited</small></span>
+        <span class="hide label label-important" data-action="edit" data-resp="error" ><small>Comment not edited</small></span>
+        <span class="hide label label-important" data-action="edit" data-resp="server-error"><small>Server error, please try later</small></span>
+
         {# delete responses #}
         <span class="hide label label-important" data-action="delete" data-resp="error" ><small>Comment not deleted</small></span>
         <span class="hide label label-important" data-action="delete" data-resp="server-error"><small>Comment not deleted</small></span>

@@ -1,0 +1,45 @@
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+<div id="spc-comment-edit-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="spc-comment-edit-label" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+        <h3 id="spc-comment-edit-label">Edit Comment</h3>
+    </div>
+    <div class="modal-body">
+        <ul class="nav nav-tabs" style="margin-bottom: 5px;">
+            <li id="edit-comment-tab" class="active"><a href="#edit-comment" data-toggle="tab">Comment <i class="icon-question-sign pointer" onclick="$('#spc-edit-comment-alert-info').toggle();"></i></a></li>
+            <li><a class="spc-comment-preview" href="#edit-preview" data-toggle="tab" data-mode="edit">Preview</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane active" id="edit-comment">
+                <div class="alert alert-info help-text" id="spc-edit-comment-alert-info" style="display: none;">
+                    <div class="close" onclick="$('#spc-edit-comment-alert-info').hide();">&times;</div>
+                    {% include "rest-help-text.html" %}
+                </div>
+                <form id="spc-comment-edit-form" method="post">
+                {% csrf_token %}
+                {% for field in form %} 
+                    {% if field.is_hidden %} {{field}}
+                {% else %}
+                    {{field|add_class:"span12"}}
+                {% endif %}
+                {% endfor %}
+                </form>
+            </div>
+
+            <div class="tab-pane" id="edit-preview">
+                <div class="preview-image"><img src="{% static 'ui-anim_basic_16x16.gif' %}"></div>
+                <div class="show-preview hide" data-resp="success" data-action="preview"></div>
+            </div>
+        </div>
+
+        <div class='alert alert-error hide' data-resp="error" data-action="edit">Unable to show preview</div>
+        <div class='alert alert-error hide' data-resp="server-error" data-action-"edit">Server error, please try later</div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button class="btn btn-success" data-submit="edit">Submit</button>
+    </div>
+</div>

@@ -1,6 +1,8 @@
 from django.conf.urls import url, include, patterns
 
 urlpatterns = patterns('scipy_central.comments.views',
+    # edit comment
+    url(r'^edit/(\d+)/$', 'comments.edit_my_comment', name='spc-edit-my-comment'),
     # delete comment
     url(r'^user_delete/(\d+)/$', 'moderation.delete_my_comment', name='spc-delete-my-comment'),
     # preview comment 

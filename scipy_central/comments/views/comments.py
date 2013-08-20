@@ -1,6 +1,8 @@
 # django imports
 import simplejson, logging, time
+from django.conf import settings
 from django.db import models
+from django.shortcuts import get_object_or_404
 from django.http import Http404, HttpResponse
 from django.utils.html import escape
 from django.contrib import comments
@@ -11,6 +13,7 @@ from django.views.decorators.http import require_POST
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 
 # scipy central imports
+from scipy_central.comments.forms import SpcCommentEditForm
 from scipy_central.rest_comments.views import compile_rest_to_html
 
 # other imports
@@ -112,6 +115,69 @@ def post_comment(request, using=None):
     
     else:
         raise Http404
+
+@csrf_protect
+def edit_my_comment(request, comment_id):
+    if not request.user.is_authenticated():
+        return HttpResponse(status=401)
+
+    if not (request.method == 'POST' and \
+            request.is_ajax()):
+        raise Http404
+
+    response = {}
+    post_data = request.POST.copy()
+    ctype = post_data.get("content_type")
+    object_pk = post_data.get("object_pk")
+
+    if ctype is None or object_pk is None:
+        raise Exception('Missing content_type or object_pk fields')
+
+    try:
+        model = models.get_model(*ctype.split(".", 1))
+        target = model._default_manager.get(pk=object_pk)
+    except TypeError:
+        return CommentPostBadRequest(
+            "Invalid content_type value: %r" % escape(ctype))
+    except AttributeError:
+        return CommentPostBadRequest(
+            "The given content-type %r does not resolve to a valid model." % \
+                escape(ctype))
+    except ObjectDoesNotExist:
+        return CommentPostBadRequest(
+            "No object matching content-type %r and object PK %r exists." % \
+                (escape(ctype), escape(object_pk)))
+    except (ValueError, ValidationError), e:
+        return CommentPostBadRequest(
+            "Attempting go get content-type %r and object PK %r exists raised %s" % \
+                (escape(ctype), escape(object_pk), e.__class__.__name__))
+
+
+    form = SpcCommentEditForm(target, data=request.POST)
+    if form.security_errors():
+        return CommentPostBadRequest(
+                "The comment edit form failed security verification: %s" % \
+                    escape(str(form.security_errors())))
+
+
+    form = form.cleaned_data
+
+    comment = get_object_or_404(comments.get_model(), pk=comment_id, site__pk=settings.SITE_ID)
+    if comment.user == request.user:
+        comment.comment = form['edit_comment']
+        comment.rest_comment = compile_rest_to_html(form['edit_comment'])
+        comment.ip_address = request.META.get('REMOTE_ADDR', None)
+        comment.save()
+
+        response['comment'] = comment.comment
+        response['rest_comment'] = comment.rest_comment
+        response['success'] = True
+
+    else:
+        raise Exception('Invalid authorization: User not permitted to edit comment')
+    
+
+    return HttpResponse(simplejson.dumps(response), mimetype="application/json")
 
 def preview(request):
     """

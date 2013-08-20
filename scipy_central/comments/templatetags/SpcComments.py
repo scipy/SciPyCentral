@@ -1,6 +1,7 @@
 from django import template
 from django.contrib.comments.models import CommentFlag
 from django.core.exceptions import ObjectDoesNotExist
+from scipy_central.comments.forms import SpcCommentEditForm
 
 register = template.Library()
 
@@ -19,3 +20,14 @@ def is_flagged(comment_obj, request):
         return True
     except (ObjectDoesNotExist):
         return False
+
+@register.inclusion_tag('comments/edit-form.html')
+def comment_edit_form(comment_object):
+    """
+    renders comment's edit form
+    """
+    form = SpcCommentEditForm(comment_object)
+    context = {
+        'form': form,
+    }
+    return context

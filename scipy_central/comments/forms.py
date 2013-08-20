@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.comments.forms import CommentForm
+from django.contrib.comments.forms import CommentSecurityForm, CommentForm, COMMENT_MAX_LENGTH
 from django.utils.translation import ugettext_lazy as _
 
 from scipy_central.rest_comments.views import compile_rest_to_html
@@ -19,3 +19,17 @@ class SpcCommentForm(CommentForm):
         rest_comment = compile_rest_to_html(data['comment'])
         data['rest_comment'] = rest_comment
         return data
+
+class SpcCommentEditForm(CommentSecurityForm):
+    honeypot = forms.CharField(required=False,
+        label=_('If you enter anything in this field'\
+                'your comment will be treated as spam'),
+        widget=forms.HiddenInput())
+    edit_comment = forms.CharField(label=_('Comment'), widget=forms.Textarea, 
+        max_length=COMMENT_MAX_LENGTH)
+
+    def clean_honeypot(self):
+        value = self.cleaned_data['honeypot']
+        if value:
+            raise forms.ValidationError(self.fields['honeypot'].label)
+        return value
