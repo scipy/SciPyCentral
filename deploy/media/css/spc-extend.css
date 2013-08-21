@@ -14,6 +14,9 @@ body {
 .no-lead {
   padding-top: 10px;
 }
+.pointer {
+  cursor: pointer;
+}
 .header {
   padding-top: 15px;
   padding-bottom: 15px;
@@ -25,6 +28,9 @@ body {
 }
 .no-lead {
   padding-top: 10px;
+}
+.pointer {
+  cursor: pointer;
 }
 .tags .btn {
   border: none;
@@ -50,6 +56,34 @@ body {
 .spc-searchbar input,
 .spc-searchbar button {
   height: 40px;
+}
+#spc-post-comment.tab-content {
+  min-height: 305px;
+}
+#preview {
+  height: 209px;
+  margin-bottom: 19px;
+}
+.show-preview {
+  border-radius: 4px;
+  border-style: dashed;
+  border-width: 1px;
+  border-color: #999999;
+  height: 198px;
+}
+.preview-image img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 50px;
+}
+#spc-comment-edit-modal .show-preview {
+  padding: 5px;
+  padding-bottom: 0px;
+  height: 193px;
+}
+#spc-comment-edit-modal .tab-content {
+  min-height: 228px;
 }
 .spc-rightsidebar {
   color: #555555;

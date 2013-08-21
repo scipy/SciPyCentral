@@ -1,10 +1,14 @@
 # django imports
 from django.template.defaultfilters import slugify
+from django.http import Http404
 from django.shortcuts import get_object_or_404
+from django.contrib.contenttypes.models import ContentType
 from django.contrib.syndication.views import Feed
+from django.contrib import comments
 from django.utils.feedgenerator import Atom1Feed
 
 # scipycentral imports
+from scipy_central import submission
 from scipy_central.submission.models import Submission, Revision
 from scipy_central.tagging.models import Tag
 
@@ -81,3 +85,44 @@ class RssTagFeed(RssSiteFeed):
 
     def items(self, obj):
         return Revision.objects.all().filter(tags=obj, is_displayed=True).order_by('-date_created')[:30]
+
+class RssCommentFeed(Feed):
+    """
+    Feed of all comments under Revision object
+    """
+    def get_object(self, request, item_id, rev_id):
+        the_submission = get_object_or_404(Submission, pk=int(item_id))
+        all_revisions = the_submission.revisions.all()
+        try:
+            revision = all_revisions[int(rev_id)-1]
+        except (ValueError, IndexError):
+            return Http404
+
+        return revision
+
+    def title(self, obj):
+        return "%s - Comments" % obj.title
+
+    def link(self, obj):
+        return obj.get_absolute_url()
+
+    description = "All comments under the Entry"
+
+    def items(self, obj):
+        rev_contenttype = get_object_or_404(ContentType, app_label='submission', model='revision')
+        all_comments = comments.get_model().objects.filter(
+                        content_type=rev_contenttype, 
+                        object_pk=obj.pk,
+                        is_removed = False)
+        return all_comments.order_by('-submit_date')
+
+    def item_author_name(self, obj):
+        return obj.user.username
+
+    def item_author_link(self, obj):
+        return '/user/profile/%s/' % obj.user.username
+
+    def item_pubdate(self, item):
+        return item.submit_date
+
+    item_copyright = RssSiteFeed.feed_copyright

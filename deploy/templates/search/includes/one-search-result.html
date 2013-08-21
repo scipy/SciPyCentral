@@ -1,5 +1,7 @@
 {# The ``entry`` object must be from the ``submission.Revision`` class #}
 {% if entry %}
+{% load comments %}
+
 <li class="media">
 	<a class="pull-left" href="#">
 		{% if entry.entry.sub_type == 'snippet' %}
@@ -25,6 +27,8 @@
 		</ul>
 
 		<ul class="inline pull-right muted">
+			{% get_comment_count for entry as comment_count %}
+			<li><small><a href="{{entry.get_absolute_url}}#spc-comment-list"><i class="icon-envelope"></i> {{comment_count}}</a></small></li>
 			{% if entry.short_human_revision_string %}
 				<li><small>{{entry.short_human_revision_string|safe}}</small><li>
 			{% endif %}

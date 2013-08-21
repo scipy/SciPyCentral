@@ -8,3 +8,4 @@ Sphinx
 Pygments
 Pillow
 Mercurial
+simplejson

@@ -1,0 +1,44 @@
+{% load comments %}
+{% load widget_tweaks %}
+
+<ul class="nav nav-tabs no-lead" style="margin-bottom: 5px;">
+    <li class="active"><a href="#comment" data-toggle="tab">Comment <i class="icon-question-sign pointer" onclick="$('#spc-comment-alert-info').toggle();"></i></a></li>
+    <li><a class="spc-comment-preview" href="#preview" data-toggle="tab" data-mode="new">Preview</a></li>
+</ul>
+
+<div class="tab-content" id="spc-post-comment">
+    <div class="tab-pane active" id="comment">
+        <div class="hide preview-image"><img src="{{STATIC_URL}}ui-anim_basic_16x16.gif"></div>
+        <div class="alert alert-info help-text" id="spc-comment-alert-info" style="display: none;">
+            <div class="close" onclick="$('#spc-comment-alert-info').hide();">&times;</div>
+            {% include "rest-help-text.html" %}
+        </div>
+
+        <form>
+        {% csrf_token %}
+        {% for field in form %}
+            {% if field.is_hidden or field.name == 'honeypot' %}
+                {{field|attr:"type:hidden"|safe}}
+            {% else %}
+                {{field|add_class:"span12"|safe}}
+            {% endif %}
+        {% endfor %}
+            <input type="hidden" name="next" value="{{request.path}}#comment-form">
+        </form>
+    </div>
+
+    <div class="tab-pane" id="preview">
+        <div class="preview-image"><img src="{{STATIC_URL}}ui-anim_basic_16x16.gif"></div>
+        <div class="hide show-preview" data-resp="success" data-action="preview"></div>
+    </div>
+
+    <div class="pull-left alert alert-info hide" data-resp="success" data-action="comment">Comment successful</div>
+    <div class="pull-left alert alert-error hide" data-resp="error" data-action="comment">Error in your submission</div>
+    <div class="pull-left alert alert-error hide" data-resp="server-error" data-action="comment"><b>Server Error</b>, Please try again later</div>
+
+    <div class="pull-left alert alert-error hide" data-resp="error" data-action="preview">Unable to preview</div>
+    <div class="pull-left alert alert-error hide" data-resp="server-error" data-action="preview"><b>Server Error</b>, Please try again later</div>
+    
+    <button class="btn btn-success pull-right" data-submit="post-comment">Post</button>
+
+</div>

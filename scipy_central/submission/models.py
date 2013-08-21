@@ -234,6 +234,9 @@ class Revision(models.Model):
     # For future use: revision reason
     update_reason = models.CharField(max_length=155, null=True, blank=True)
 
+    # users can only comment if set to True
+    enable_comments = models.BooleanField(default=True)
+
     class Meta:
         ordering = ['date_created']
 
