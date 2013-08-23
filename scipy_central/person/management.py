@@ -12,19 +12,18 @@ def validate_superuser(app, created_models, verbosity, **kwargs):
     #print(app_label, app_name, app_models)
 
     if app_label == 'auth':
-        from django.conf import settings
         from django.core.exceptions import ImproperlyConfigured
         from django.db.models import get_model
         from django.contrib.auth.models import User
-        user_class = get_model(*settings.AUTH_PROFILE_MODULE.split('.', 2))
-        if not user_class:
-            raise ImproperlyConfigured('Could not get custom user model')
+        user_profile = get_model("person", "UserProfile")
+        if not user_profile:
+            raise ImproperlyConfigured('Could not get user profile model')
 
         users = User.objects.all()
         if len(users)==1 and users[0].is_superuser:
-            print('Validating superuser in the subclassed user table')
+            print('Validating superuser in the user profile table')
 
-            user = user_class.objects.create(user=users[0])
+            user = user_profile.objects.create(user=users[0])
             user.is_validated = True
             user.save()
 

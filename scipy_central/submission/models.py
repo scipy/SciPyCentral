@@ -2,10 +2,10 @@ import os
 
 from django.db import models
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator
 
-from scipy_central.person.models import User
 from scipy_central.utils import ensuredir
 from django.utils.text import slugify
 

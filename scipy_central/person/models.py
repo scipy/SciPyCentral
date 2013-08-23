@@ -1,5 +1,5 @@
-from django.contrib.auth.models import User
 from django.db import models
+from django.contrib.auth.models import User
 from scipy_central.utils import unique_slugify
 import hashlib
 
@@ -18,8 +18,21 @@ class Country(models.Model):
 
 
 class UserProfile(models.Model):
-    # See https://docs.djangoproject.com/en/1.3/topics/auth/
+    """
+    Profile settings for `django.contrib.auth.models.User`
+    We are not using django-1.5 User profile extension feature since
+    the below settings don't belong to "authentication" part.
 
+    The UserProfile for every `User` object is created upon
+    receiving signals mentioned in `models.py`
+
+    For future (note):
+        The `openid` field can't be used for authentication
+        in case if we support openid in future!
+
+        Custom user model inherited from Abstract User class
+        has to be used
+    """
     user = models.OneToOneField(User, unique=True, related_name="profile")
 
     # Slug field
