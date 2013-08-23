@@ -152,8 +152,6 @@ INSTALLED_APPS = (
     'scipy_central.feeds',
 )
 
-# Authentication related:
-AUTH_PROFILE_MODULE = 'person.UserProfile'
 # Link the user is redirected to if not logged in and they try to perform
 # a function that only logged in users can do
 LOGIN_URL = '/user/login/'

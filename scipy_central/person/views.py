@@ -137,13 +137,13 @@ def profile_page(request, slug=None, user_id=None):
     """
     try:
         if user_id:
-            the_user = models.User.objects.get(id=user_id)
+            the_user = User.objects.get(id=user_id)
             if the_user.is_active:
                 return redirect(profile_page, the_user.profile.slug)
         elif slug is None:
             the_user = request.user
         else:
-            the_user = models.User.objects.get(profile__slug=slug)
+            the_user = User.objects.get(profile__slug=slug)
     except ObjectDoesNotExist:
         return page_404_error(request, 'No profile for that user.')
 
@@ -182,7 +182,7 @@ def create_new_account_internal(email):
     We assume the ``email`` has already been validated as an email address.
     """
     # First check if that email address have been used; return ``False``
-    previous = models.User.objects.filter(email=email)
+    previous = User.objects.filter(email=email)
     if len(previous) > 0:
         return previous[0]
 
@@ -191,7 +191,7 @@ def create_new_account_internal(email):
                              for i in range(50)])
     username = 'Unvalidated %s-%s' % (email.split('@')[0],
                                       temp_password[2:6])
-    new_user = models.User.objects.create(username=username, email=email)
+    new_user = User.objects.create(username=username, email=email)
 
     new_user.set_password(temp_password)
     new_user.is_active = False

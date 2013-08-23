@@ -1,22 +1,25 @@
-from django.contrib import admin
-from models import User, UserProfile
-from django.contrib.auth.signals import user_logged_in
 from django.db.models import signals
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
+from django.contrib.auth.signals import user_logged_in
+
+# scipy_central imports
+import models, views
 
 # 3rd-party ``registration`` app: connect up the signals
-import views
 from registration.signals import user_registered, user_activated
 
-class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'user', 'is_validated', 'affiliation', 'country',
-                    'reputation', 'bio', 'uri', 'openid',
-                    'contactable_via_site', 'allow_user_to_email')
-    list_display_links = ('user',)
-    list_per_page = 1000
-    ordering = ('user',)
+class UserProfileInline(admin.StackedInline):
+    model = models.UserProfile
+    can_delete = False
+    verbose_name_plural = 'profile'
+    
+class UserAdmin(UserAdmin):
+    inlines = (UserProfileInline, )
 
-admin.site.register(UserProfile, UserProfileAdmin)
-
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
 
 # Hook up the signals here. Doing it in models.py results in circular imports.
 user_registered.connect(views.create_new_account)
