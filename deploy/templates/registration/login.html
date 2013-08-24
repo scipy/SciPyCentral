@@ -12,7 +12,7 @@
 	</div>
 	<div class="span4">
 		<h3 class="underline">Sign In</h3>
-		<form class="form" action="{% url auth_login %}" method="post">
+		<form class="form" action="{% url 'auth_login' %}" method="post">
 		{% csrf_token %}
 			{% if form.non_field_errors %}
 			<div class="alert alert-error">
@@ -46,8 +46,8 @@
 			{% endif %}
 			
 			<button class="btn btn-primary" type="submit" name="submit">Sign in</button>
-			<a class="btn btn-success" href="{% url registration_register %}">Register</a>
-			<p class="no-lead"><a href="{% url auth_password_reset %}">Forgot your username or password?</a></p>
+			<a class="btn btn-success" href="{% url 'registration_register' %}">Register</a>
+			<p class="no-lead"><a href="{% url 'auth_password_reset' %}">Forgot your username or password?</a></p>
 		</form><!--/form-->
 	</div><!--/signin span12-->
 </div><!--/row-fluid-->

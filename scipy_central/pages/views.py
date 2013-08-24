@@ -1,7 +1,5 @@
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
-from django.template.loader import get_template
-from django.http import HttpResponse
 
 from scipy_central.utils import get_IP_address
 from scipy_central.pagehit.views import create_hit
@@ -81,11 +79,13 @@ def page_404_error(request, extra_info=''):
     ip = get_IP_address(request)
     logger.info('404 from %s for request "%s"; extra info=%s' %\
                                           (ip, request.path, str(extra_info)))
-    t = get_template('404.html')
-    c = RequestContext(request)
-    c.update({'extra_info': extra_info})
-    html = t.render(c)
-    return HttpResponse(html, status=404)
+
+    context = {"extra_info": extra_info}
+    response = render_to_response("404.html", {},
+        context_instance=RequestContext(request, context),
+    )
+    response.status_code = 404
+    return response
 
 
 def page_500_error(request):
@@ -93,6 +93,6 @@ def page_500_error(request):
     """
     ip = get_IP_address(request)
     logger.error('500 from %s for request "%s"' % (ip, request.path))
-    t = get_template('500.html')
-    html = t.render(RequestContext(request))
-    return HttpResponse(html, status=500)
+    response = render_to_response("500.html")
+    response.status_code = 500
+    return response

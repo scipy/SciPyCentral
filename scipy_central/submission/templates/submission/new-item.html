@@ -25,7 +25,7 @@ $(function() {
 		})
 		.autocomplete({
 			source: function( request, response ) {
-				$.getJSON( "{% url spc-tagging-ajax %}", {
+				$.getJSON( "{% url 'spc-tagging-ajax' %}", {
 					term: extractLast( request.term )
 				}, response );
 			},
@@ -56,9 +56,9 @@ $(function() {
 </script>
 
 <h3 class="underline">
-{% url spc-new-submission item_type='snippet' as ref_url1 %}
-{% url spc-new-submission item_type='link' as ref_url2 %}
-{% url spc-new-submission item_type='package' as ref_url3 %}
+{% url 'spc-new-submission' item_type='snippet' as ref_url1 %}
+{% url 'spc-new-submission' item_type='link' as ref_url2 %}
+{% url 'spc-new-submission' item_type='package' as ref_url3 %}
 {% if request.path == ref_url1 %}Snippet Submission
 {% elif request.path == ref_url2 %}Link Submission
 {% elif request.path == ref_url3 %}Package Submission
@@ -100,7 +100,7 @@ $(function() {
 			<div class="controls">
 				<div class="alert alert-info help-text" id="alert-image_upload" style="display: none;">
 					<div class="close" onclick="$('#alert-image_upload').hide();">&times;</div>
-					<p><small>Please upload JPEG or PNG images. Please refer to <a href="{% url spc-markup-help %}" target="_blank">markup</a> for adding images in the description</small></p>
+					<p><small>Please upload JPEG or PNG images. Please refer to <a href="{% url 'spc-markup-help' %}" target="_blank">markup</a> for adding images in the description</small></p>
 				</div>
 				<a href="#image_upload-modal" role="button" class="btn btn-primary btn-small" data-toggle="modal">Upload Image</a>
 			</div>
@@ -123,7 +123,7 @@ $(document).ready(function() {
 	 var options = {
 		 target:    '#spc-item-upload-output-ajax-adds-it',
 		 success: function() { $('#spc-item-upload-output-ajax-adds-it').fadeIn('slow'); },
-		 url:       '{% url spc-screenshot-add %}',
+		 url:       '{% url "spc-screenshot-add" %}',
 		 type:      'post',
 		 clearForm:  true,
 		 resetForm:  true,

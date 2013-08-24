@@ -1,10 +1,10 @@
 # Built-in imports
-from datetime import date
 from collections import defaultdict
 
 # Imports from other SPC apps
 from scipy_central.utils import get_IP_address
 
+from django.utils import timezone
 import models
 
 static_items = {'spc-main-page': 1,
@@ -50,24 +50,25 @@ def get_pagehits(item, start_date=None, end_date=None, item_pk=None):
     However, if ``item_pk`` is provided, then it simply returns the total
     number of page views for that item, as an integer.
     """
-    if start_date is None:
-        start_date = date.min
-    if end_date is None:
-        end_date = date.max
+    start_date = start_date or timezone.datetime.min
+    end_date = start_date or timezone.datetime.max
 
     # extra_info=None to avoid counting download hits
     if item_pk is None:
-        page_hits = models.PageHit.objects.filter(item=item).\
-                                       filter(datetime__gte=start_date).\
-                                       filter(datetime__lte=end_date).\
-                                       filter(extra_info=None)
+        page_hits = models.PageHit.objects.filter(
+            item=item,
+            datetime__gte=start_date,
+            datetime__lte=end_date,
+            extra_info=None
+        )
     else:
-        page_hits = models.PageHit.objects.filter(item=item).\
-                                       filter(datetime__gte=start_date).\
-                                       filter(datetime__lte=end_date).\
-                                       filter(item_pk=item_pk).\
-                                       filter(extra_info=None)
-
+        page_hits = models.PageHit.objects.filter(
+            item=item,
+            datetime__gte=start_date,
+            datetime__lte=end_date,
+            item_pk=item_pk,
+            extra_info=None
+        )
         return len(page_hits)
 
     hits_by_pk = defaultdict(int)

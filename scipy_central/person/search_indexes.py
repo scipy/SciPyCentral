@@ -1,9 +1,9 @@
-from haystack import indexes, site
+from haystack import indexes
 from models import UserProfile
 
 # SearchIndex object for each revision in the database
 
-class UserProfileIndex(indexes.RealTimeSearchIndex):
+class UserProfileIndex(indexes.SearchIndex, indexes.Indexable):
 
     # The main field to search in: see template search/indexes/person/userprofile_text.txt
     text = indexes.CharField(document=True, use_template=True)
@@ -14,7 +14,7 @@ class UserProfileIndex(indexes.RealTimeSearchIndex):
     def get_model(self):
         return UserProfile
 
-    def index_queryset(self):
+    def index_queryset(self, **kwargs):
         # The ``Revision`` model has its own managers that does the right
         # thing in calling ``all()``.
         return self.get_model().objects.filter(is_validated=True)
@@ -27,4 +27,3 @@ class UserProfileIndex(indexes.RealTimeSearchIndex):
 
         return self.prepared_data
 
-site.register(UserProfile, UserProfileIndex)

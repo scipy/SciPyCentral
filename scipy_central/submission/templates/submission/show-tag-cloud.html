@@ -8,7 +8,7 @@
 <div class="spc-page-title"><h3>All tags</h3></div>
   <div>
 	{% for item in "submission.TagCreation"|cloud:0 %}
-	  <span class="tags" style="padding: 1px;"><a href="{% url spc-show-items what_view="tag" extra_info=item.tag %}" class="spc-tag-cloud btn btn-small" style="font-size: {{item.score}}%">{{item.tag.name}}</a></span>
+	  <span class="tags" style="padding: 1px;"><a href="{% url 'spc-show-items' what_view="tag" extra_info=item.tag %}" class="spc-tag-cloud btn btn-small" style="font-size: {{item.score}}%">{{item.tag.name}}</a></span>
 	{% endfor %}
   </div>
 {% endblock %}

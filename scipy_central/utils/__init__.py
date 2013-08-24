@@ -1,4 +1,4 @@
-from django.template.defaultfilters import slugify
+from django.utils.text import slugify
 from django.conf import settings
 from django.core.mail import send_mail, BadHeaderError
 from django.core.paginator import Paginator, InvalidPage, EmptyPage

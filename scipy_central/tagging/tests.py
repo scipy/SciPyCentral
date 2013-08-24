@@ -13,13 +13,13 @@ class RepeatedTag(TestCase):
         """
         # Always use ``get_or_create(...)`` rather than relying on
         # ``create(...)`` to return a valid tag.
-        t1, _ = Tag.objects.get_or_create(name='testing tag')
-        t2, _ = Tag.objects.get_or_create(name='testing tag')
+        t1, _ = Tag.objects.get_or_create(name=u'testing tag')
+        t2, _ = Tag.objects.get_or_create(name=u'testing tag')
         self.assertEqual(t1.id, t2.id)
 
     def unicode_tags(self):
         self.assertRaises(ValidationError, Tag.objects.get_or_create,
-                          name='さようなら')
+                          name=u'さようなら')
 
 
 class TagParsing(TestCase):

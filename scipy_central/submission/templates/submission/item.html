@@ -30,7 +30,7 @@
 
 <dl class="dl-horizontal">
 	<dt class="muted">Submitted by</dt>
-	<dd>{% if item.entry.created_by.profile.is_validated %}<a href="{% url spc-user-profile item.entry.created_by.profile.slug %}">{{item.entry.created_by.username}}</a> on {% if item.entry.date_created %}{{item.entry.date_created|naturalday:"d F Y"}}{% else %}today{% endif %}{% else %}Your name will be here once you validate yourself by email{% endif %}</dd>
+	<dd>{% if item.entry.created_by.profile.is_validated %}<a href="{% url 'spc-user-profile' item.entry.created_by.profile.slug %}">{{item.entry.created_by.username}}</a> on {% if item.entry.date_created %}{{item.entry.date_created|naturalday:"d F Y"}}{% else %}today{% endif %}{% else %}Your name will be here once you validate yourself by email{% endif %}</dd>
 
 	{% if item.entry.sub_type == "link" %}
 	<dt class="muted">Link</dt>
@@ -43,7 +43,7 @@
 		{% if preview %}
 			<i>Links to the ZIP file contents will appear here</i>
 		{% else %}
-			<a href="{% url spc-download-submission item_id=item.entry.id rev_id=item.rev_id_human %}">File</a>
+			<a href="{% url 'spc-download-submission' item_id=item.entry.id rev_id=item.rev_id_human %}">File</a>
 		{% endif %}
 	</dd>
 	{% endif %}
@@ -54,7 +54,7 @@
 		{% if preview %}
 			<i>Links to the ZIP file contents will appear here</i>
 		{% else %}
-			<a href="{% url spc-download-submission item_id=item.entry.id rev_id=item.rev_id_human %}">All files</a>
+			<a href="{% url 'spc-download-submission' item_id=item.entry.id rev_id=item.rev_id_human %}">All files</a>
 		{% endif %}
 	</dd>
 	{% endif %}
@@ -70,7 +70,7 @@
 
 	<dt class="muted">Updated by</dt>
 	<dd>
-		{% if item.created_by.profile.is_validated %}<a href="{% url spc-user-profile item.created_by.profile.slug %}">{{item.created_by.username}}</a>{% else %}Unvalidated user{% endif %} on {% if item.date_created %}{{item.date_created|naturalday:"d F Y"}}{% else %}today{% endif %}
+		{% if item.created_by.profile.is_validated %}<a href="{% url 'spc-user-profile' item.created_by.profile.slug %}">{{item.created_by.username}}</a>{% else %}Unvalidated user{% endif %} on {% if item.date_created %}{{item.date_created|naturalday:"d F Y"}}{% else %}today{% endif %}
 	</dd>
 	{% endif %}
 
@@ -78,7 +78,7 @@
 	<dd>
 		<ul class="inline tags">
 		{% for tag in tag_list %}
-			<li class="btn btn-mini"><a href="{% url spc-show-items what_view="tag" extra_info=tag %}">{{tag.name}}</a></li>
+			<li class="btn btn-mini"><a href="{% url 'spc-show-items' what_view="tag" extra_info=tag %}">{{tag.name}}</a></li>
 		{% endfor %}
 		</ul>
 	</dd>

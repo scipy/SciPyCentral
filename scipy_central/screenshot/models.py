@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.core.files import base
+from django.utils import timezone
 from django.utils.encoding import force_unicode, smart_str
 from settings import (IMG_MAX_WIDTH, IMG_MAX_HEIGHT, IMG_QUALITY,
                       IMG_RESIZE_METHOD, IMG_DEFAULT_FORMAT,
@@ -8,7 +9,6 @@ from settings import (IMG_MAX_WIDTH, IMG_MAX_HEIGHT, IMG_QUALITY,
 
 from PIL import Image
 import os
-import datetime
 try:
     from cStringIO import StringIO
 except ImportError:
@@ -70,9 +70,9 @@ class Screenshot(models.Model):
         else:
             thumb_file = base.ContentFile(orig)
 
-        dirname = force_unicode(datetime.datetime.now().strftime(
+        dirname = force_unicode(timezone.now().strftime(
             smart_str(settings.SPC['resized_image_dir'])))
-        location = os.path.normpath(dirname, self.img_file_raw.name)
+        location = os.path.normpath(dirname + self.img_file_raw.name)
         self.img_file = self.img_file.storage.save(location, thumb_file)
 
         super(Screenshot, self).save(*args, **kwargs)
