@@ -14,6 +14,8 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
+SCIPY_CENTRAL_TEAM = 'scipy-dev@scipy.org'
+
 MANAGERS = ADMINS
 DATABASES = {
     'default': {
@@ -137,6 +139,10 @@ INSTALLED_APPS = (
     # Humanize some data entries
     'django.contrib.humanize',
 
+    # place above built-in to override templates
+    'scipy_central.comments',
+    'django.contrib.comments',
+
     # 3rd party apps:
     'haystack',
     'registration',
@@ -153,6 +159,9 @@ INSTALLED_APPS = (
     'scipy_central.pagehit',
     'scipy_central.feeds',
 )
+
+# Custom comments App
+COMMENTS_APP = 'scipy_central.comments'
 
 # Authentication related:
 AUTH_PROFILE_MODULE = 'person.UserProfile'

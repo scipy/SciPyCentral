@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load SpcComments %}
 
 {% block title %}User {{theuser.username}} - SciPy Central{% endblock %}
 
@@ -95,6 +96,7 @@
 	<!--content nav tabs-->
 	<ul class="nav nav-tabs no-lead">
 		<li class="active"><a href="#recent" data-toggle="tab">Submissions</a></li>
+		<li><a href="#comments" data-toggle="tab">Comments</a></li>
 	</ul><!--/content nav tabs-->
 	<!-- CONTENT-->
 	<div class="tab-content">
@@ -104,6 +106,15 @@
 			{% include 'submission/entries_list.html' %}
 		{% endif %}
 		</div><!--/tab-pane active-->
+
+		<div class="tab-pane" id="comments">
+			<div class="media-list">
+			{% my_comment_list theuser as my_comments %}
+			{% for comment in my_comments %}
+				{% include 'comments/comment-entry.html' %}
+			{% endfor %}
+			</div>
+		</div>
 	</div><!--/CONTENT-->
 	{{extra_html|safe}}
 
