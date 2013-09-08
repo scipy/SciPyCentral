@@ -1,8 +1,8 @@
 # django imports
-from django.template.defaultfilters import slugify
 from django.shortcuts import get_object_or_404
 from django.contrib.syndication.views import Feed
 from django.utils.feedgenerator import Atom1Feed
+from django.utils.text import slugify
 
 # scipycentral imports
 from scipy_central.submission.models import Submission, Revision

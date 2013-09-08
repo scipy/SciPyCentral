@@ -3,10 +3,10 @@ import os
 from django.db import models
 from django.conf import settings
 from django.core.urlresolvers import reverse
-from django.template.defaultfilters import slugify
 
 from scipy_central.person.models import User
 from scipy_central.utils import ensuredir
+from django.utils.text import slugify
 
 class Module(models.Model):
     """

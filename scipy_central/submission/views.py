@@ -3,7 +3,6 @@ from django.shortcuts import render_to_response, redirect, HttpResponse
 from django.template import RequestContext
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
-from django.template.defaultfilters import slugify
 from django.template.loader import render_to_string
 from django import template
 from django.contrib.auth.decorators import login_required
@@ -11,6 +10,7 @@ from django.contrib.sites.models import Site
 from django.utils.hashcompat import sha_constructor
 from django.core.files.uploadedfile import UploadedFile
 from django.utils.encoding import force_unicode, smart_str
+from django.utils.text import slugify
 
 # Imports from this app and other SPC apps
 from scipy_central.person.views import create_new_account_internal
