@@ -72,7 +72,7 @@ class Screenshot(models.Model):
 
         dirname = force_unicode(datetime.datetime.now().strftime(
             smart_str(settings.SPC['resized_image_dir'])))
-        location = os.path.normpath(dirname, self.img_file_raw.name)
+        location = os.path.normpath(os.path.join(dirname, self.img_file_raw.name))
         self.img_file = self.img_file.storage.save(location, thumb_file)
 
         super(Screenshot, self).save(*args, **kwargs)
