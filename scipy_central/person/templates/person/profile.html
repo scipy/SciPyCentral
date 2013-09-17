@@ -99,6 +99,9 @@
 	<ul class="nav nav-tabs no-lead">
 		<li class="active"><a href="#recent" data-toggle="tab">Submissions</a></li>
 		<li><a href="#comments" data-toggle="tab">Comments</a></li>
+		{% if theuser == request.user %}
+		<li><a href="#votes" data-toggle="tab">Votes</a></li>
+		{% endif %}
 	</ul><!--/content nav tabs-->
 	<!-- CONTENT-->
 	<div class="tab-content">
@@ -117,6 +120,18 @@
 			{% endfor %}
 			</div>
 		</div>
+
+		{% if theuser == request.user %}
+		<div class="tab-pane" id="votes">
+			<div class="media-list">
+			{% my_votes theuser as votes_list %}
+			{% for thumb in votes_list %}
+				{% include 'thumbs/thumb-entry.html' %}
+			{% endfor %}
+			</div>
+		</div>
+		{% endif %}
+		
 	</div><!--/CONTENT-->
 	{{extra_html|safe}}
 

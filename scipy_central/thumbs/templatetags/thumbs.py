@@ -4,6 +4,7 @@ from django.db.models.loading import get_model
 from django.contrib.auth.models import User
 from django.contrib import comments
 from scipy_central.submission.models import Revision
+from scipy_central.thumbs.models import Thumbs
 from scipy_central.thumbs.scale import REVISION_VOTE, COMMENT_VOTE
 
 
@@ -91,3 +92,17 @@ def get_reputation(user_obj):
         score += COMMENT_VOTE["user"]["up"] * all_votes
 
     return score
+
+@register.assignment_tag
+def my_votes(user_object, count=20):
+    """
+    Returns list of recent user votes
+    """
+    if isinstance(user_object, User):
+        thumbs_list = Thumbs.objects.filter(
+            person=user_object,
+            is_valid=True,
+        ).exclude(vote=None)
+        return thumbs_list.order_by('-submit_date')[:count]
+    else:
+        raise template.TemplateSyntaxError("Invalid argument")
