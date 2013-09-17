@@ -259,6 +259,9 @@ class Revision(models.Model):
     # reputation (aggregate of `thumbs`)
     reputation = models.IntegerField(default=0)
 
+    # wilson score
+    score = models.FloatField(default=0)
+
     class Meta:
         ordering = ['date_created']
 

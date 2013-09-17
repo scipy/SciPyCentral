@@ -11,7 +11,7 @@ class SubmissionAdmin(admin.ModelAdmin):
     ordering = ['-date_created']
 
 class RevisionAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'title', 'reputation', 'created_by', 'date_created',
+    list_display = ('pk', 'title', 'reputation', 'score', 'created_by', 'date_created',
                     'sub_license', 'item_url', 'rev_id', 'is_displayed')
     list_display_links = ('title',)
     ordering = ['-date_created']

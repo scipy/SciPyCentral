@@ -1,10 +1,16 @@
 from scipy_central.thumbs.models import Thumbs
-from django.db.models.signals import pre_save, pre_delete
+from django.db.models.signals import pre_save, post_save, pre_delete, post_delete
 from django.dispatch import receiver
 import logging
 
 logger = logging.getLogger("scipycentral")
 logger.debug("Initializing Thumbs::signals.py")
+
+def perform_score(thumb_obj):
+    ct_obj = thumb_obj.content_object
+    if hasattr(ct_obj, "score"):
+        ct_obj.score = ct_obj.set_score()
+        ct_obj.save()
 
 def perform_reputation(thumb_obj, prev_vote, created):
     ct_obj = thumb_obj.content_object
@@ -33,6 +39,10 @@ def update_reputation(sender, instance, **kwargs):
         instance.vote = None
     perform_reputation(instance, prev_vote, created)
 
+@receiver(post_save, sender=Thumbs)
+def update_wilson_score(sender, instance, **kwargs):
+    perform_score(instance)
+
 @receiver(pre_delete, sender=Thumbs)
 def remove_reputation(sender, instance, using, **kwargs):
     """
@@ -44,3 +54,10 @@ def remove_reputation(sender, instance, using, **kwargs):
     prev_vote = instance.vote
     instance.vote = None
     perform_reputation(instance, prev_vote, created)
+
+@receiver(post_delete, sender=Thumbs)
+def remove_wilson_score(sender, instance, **kwargs):
+    """
+    Update wilson score after deleting object
+    """
+    perform_score(instance)

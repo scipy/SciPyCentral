@@ -980,8 +980,9 @@ def show_items(request, what_view='', extra_info=''):
     page_title = ''
     template_name = 'submission/show-entries.html'
     if what_view == 'tag':
-        all_revs = models.Revision.objects.most_recent().\
-                                filter(tags__slug=slugify(extra_info))
+        all_revs = models.Revision.objects.most_recent().filter(
+            tags__slug=slugify(extra_info)
+        ).order_by('-score', '-reputation', '-date_created')
         page_title = 'All entries tagged'
         entry_order = list(all_revs)
     elif what_view == 'show' and extra_info == 'all-tags':
@@ -994,7 +995,7 @@ def show_items(request, what_view='', extra_info=''):
         extra_info = ''
         entry_order = list(all_revs)
     elif what_view == 'show' and extra_info == 'all-unique-revisions':
-        all_subs = models.Submission.objects.all().order_by('-date_created')
+        all_subs = models.Submission.objects.all().order_by('-score', '-reputation', '-date_created')
         page_title = 'All submissions'
         extra_info = ' (only showing the latest revision)'
         entry_order = [sub.last_revision for sub in all_subs if sub.last_revision.is_displayed]

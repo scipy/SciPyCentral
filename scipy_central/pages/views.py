@@ -7,6 +7,7 @@ from scipy_central.utils import get_IP_address
 from scipy_central.pagehit.views import create_hit
 
 from haystack.views import SearchView
+from haystack.query import SearchQuerySet
 
 import logging
 logger = logging.getLogger('scipycentral')
@@ -43,7 +44,10 @@ def search(request):
         create_hit(request, 'haystack_search', request.GET['q'])
         logger.info('SEARCH [%s]: %s' % (get_IP_address(request),
                                          request.GET['q']))
-    return SearchView().__call__(request)
+    return SearchView(
+        searchqueryset=SearchQuerySet().order_by(
+            '-wilson_score', '-reputation', '-date_created'),
+        ).__call__(request)
 
 
 def markup_help(request):

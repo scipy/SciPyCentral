@@ -17,6 +17,14 @@ class RevisionIndex(indexes.RealTimeSearchIndex):
     # Include the tags as a search fields
     tags = indexes.CharField()
 
+    # `wilson_score` is used instead of `score` because of Namespace pollution in haystack
+    # https://github.com/toastdriven/django-haystack/issues/482
+    wilson_score = indexes.FloatField(model_attr='score', default='')
+    reputation = indexes.FloatField(model_attr='reputation', default='')
+
+    # Include date created as search field
+    date_created = indexes.DateTimeField(model_attr='date_created', default='')
+
     def get_model(self):
         return Revision
 
