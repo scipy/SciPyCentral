@@ -53,6 +53,9 @@ def post_thumbs(request):
                 if ct_obj.user == request.user:
                     raise Http404
 
+            # check moderation settings
+            if not ct_obj.enable_reputation:
+                raise Http404
             
             ip_address = utils.get_IP_address(request)
             submit_date = datetime.datetime.now()

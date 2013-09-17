@@ -262,6 +262,9 @@ class Revision(models.Model):
     # wilson score
     score = models.FloatField(default=0)
 
+    # users can only vote if set to True
+    enable_reputation = models.BooleanField(default=True)
+
     class Meta:
         ordering = ['date_created']
 

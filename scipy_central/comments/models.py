@@ -26,6 +26,9 @@ class SpcComment(Comment):
     # aggregate reputation of `thumbs`
     reputation = models.IntegerField(default=0)
 
+    # users can vote if set to True
+    enable_reputation = models.BooleanField(default=True)
+
     def set_reputation(self):
         """
         Calculate total reputation for the object.

@@ -2,7 +2,7 @@
 
 <script type="text/javascript" src="{{STATIC_URL}}thumbs/thumb-actions.js"></script>
 
-{% if request.user.is_authenticated and request.user != item.created_by %}
+{% if request.user.is_authenticated and request.user != item.created_by and item.enable_reputation %}
 <div class="thumbs">
     <div class="up-arrow pointer
     {% ifequal request.user|vote:item "True" %}active
@@ -15,6 +15,9 @@
     {% endifequal %}" data-submit="thumb" data-thumb-for="r" data-thumb-as="down" data-object-id="{{item.pk}}"></div>
     
 </div>
+
+{% elif not item.enable_reputation %}
+<div class="vote-count reputation text-center">{{item.reputation}}</div>
 
 {% else %}
 <div class="thumbs">
