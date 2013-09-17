@@ -1011,6 +1011,14 @@ def show_items(request, what_view='', extra_info=''):
         page_title = 'Top contributors'
         extra_info = ''
         entry_order = top_authors('', 0)
+    elif what_view == 'show' and extra_info == 'top-rated':
+        all_subs = models.Submission.objects.all().order_by('-date_created')
+        page_title = 'All submissions in order of rating'
+        extra_info = ''
+        # entry_order contains top revision of all submissions
+        entry_order = [sub.last_revision for sub in all_subs if sub.last_revision.is_displayed]
+        # sort entry_order based on revision's `score` attribute
+        entry_order.sort(key=lambda rev: (rev.score, rev.reputation), reverse=True)
     elif what_view == 'validate':
         return validate_submission(request, code=extra_info)
 
