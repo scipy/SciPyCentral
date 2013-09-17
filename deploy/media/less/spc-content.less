@@ -90,7 +90,7 @@
     border-right: @right solid transparent;
 }
 
-.up-arrow{
+.up-arrow {
     .arrow(0px, 15px, 18px, 18px);
     marign: 0 auto;
     margin-bottom: 3px;
@@ -99,12 +99,26 @@
     }
 }
 
-.down-arrow{
+
+.up-arrow-comment {
+    .arrow(0px, 8px, 6px, 6px);
+    &.active {
+        color: rgb(245, 157, 24);
+    }
+}
+
+.down-arrow {
     .arrow(15px, 0px, 18px, 18px);
     marign: 0 auto;
     margin-top: 3px;
     &.active {
         color: rgb(245, 157, 24);
+    }
+}
+
+#spc-comment-list {
+    .vote-count {
+        font-size: 11px;
     }
 }
 

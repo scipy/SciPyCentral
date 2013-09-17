@@ -21,3 +21,9 @@ REVISION_VOTE = {
         'down': 1
     },
 }
+
+COMMENT_VOTE = {
+    'thumb': {
+        'up': 1,
+    },
+}

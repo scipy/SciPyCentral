@@ -17,6 +17,9 @@ body {
 .pointer {
   cursor: pointer;
 }
+.block-inline {
+  display: inline-block;
+}
 .header {
   padding-top: 15px;
   padding-bottom: 15px;
@@ -31,6 +34,9 @@ body {
 }
 .pointer {
   cursor: pointer;
+}
+.block-inline {
+  display: inline-block;
 }
 .tags .btn {
   border: none;
@@ -99,6 +105,18 @@ body {
 .up-arrow.active {
   color: #f59d18;
 }
+.up-arrow-comment {
+  width: 0;
+  height: 0;
+  color: #999999;
+  border-top: 0px solid;
+  border-bottom: 8px solid;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+}
+.up-arrow-comment.active {
+  color: #f59d18;
+}
 .down-arrow {
   width: 0;
   height: 0;
@@ -112,6 +130,9 @@ body {
 }
 .down-arrow.active {
   color: #f59d18;
+}
+#spc-comment-list .vote-count {
+  font-size: 11px;
 }
 .reputation {
   font-weight: bold;

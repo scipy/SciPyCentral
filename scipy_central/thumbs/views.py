@@ -1,5 +1,6 @@
 # python, django imports
 import simplejson, datetime
+from django.contrib import comments
 from django.contrib.contenttypes.models import ContentType
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
@@ -27,20 +28,31 @@ def post_thumbs(request):
                 ct_type = get_object_or_404(ContentType, 
                     app_label='submission', 
                     model='revision')
+            # if voting for (c) SpcComment object
+            elif form['thumb_for'] == 'c':
+                thumb_obj = get_object_or_404(comments.get_model(), pk=form['object_pk'])
+                ct_type = get_object_or_404(ContentType,
+                    app_label='comments',
+                    model='spccomment')
             else:
                 raise Http404
 
             vote = None
             if form['thumb_as'] == 'up':
                 vote = True
-            elif form['thumb_as'] == 'down':
+            elif form['thumb_as'] == 'down' and form['thumb_for'] != 'c':
                 vote = False
             else:
                 raise Http404
-
+            
             ct_obj = ct_type.get_object_for_this_type(pk=form['object_pk'])
-            if ct_obj.created_by == request.user:
-                raise Http404
+            if form['thumb_for'] == 'r':
+                if ct_obj.created_by == request.user:
+                    raise Http404
+            elif form['thumb_for'] == 'c':
+                if ct_obj.user == request.user:
+                    raise Http404
+
             
             ip_address = utils.get_IP_address(request)
             submit_date = datetime.datetime.now()
