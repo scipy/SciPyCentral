@@ -2,18 +2,20 @@
 {% if entry %}
 {% load comments %}
 
-<li class="media">
-	<a class="pull-left" href="#">
+<div class="media">
+	<div class="pull-left" href="#">
+		<div class="text-center reputation">{{entry.reputation}}</div>
+		<div class="text-center muted">votes</div>
 		{% if entry.entry.sub_type == 'snippet' %}
-		<img src="{{STATIC_URL}}single-file-list-icon-tiny.png">
+		<img class="no-lead" src="{{STATIC_URL}}single-file-list-icon-tiny.png">
 		{% endif %}
 		{% if entry.entry.sub_type == 'package' %}
-		<img src="{{STATIC_URL}}multiple-file-list-icon-tiny.png">
+		<img class="no-lead" src="{{STATIC_URL}}multiple-file-list-icon-tiny.png">
 		{% endif %}
 		{% if entry.entry.sub_type == 'link' %}
-		<img src="{{STATIC_URL}}external-link-list-icon-tiny.png">
+		<img class="no-lead" src="{{STATIC_URL}}external-link-list-icon-tiny.png">
 		{% endif %}
-	</a>
+	</div>
 	<div class="media-body">
 		<h4 class="media-heading">
 			<a href="{{entry.get_absolute_url}}">{{ entry.title}}</a>
@@ -36,6 +38,6 @@
 			<li><small>on {{ entry.date_created|date:"d F Y"}}</small></li>
 		</ul>
 	</div>
-</li>
+</div>
 <hr> <!--helps to create some space between each submission, draw a line "easily"-->
 {% endif %}

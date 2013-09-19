@@ -11,6 +11,7 @@
     </div>
 
     <ul class="inline pull-right muted">
+    {% include "thumbs/comment-form.html" %}
     {% if request.user.is_authenticated %}
         {% if comment|is_flagged:request %}
         <li><span class="label label-info"><small>flagged</small></span></li>

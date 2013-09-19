@@ -1,0 +1,23 @@
+{% load thumbs %}
+
+<li class="thumbs">
+    <span class="vote-count">{{comment.reputation}}</span>
+
+    {% if request.user.is_authenticated and request.user != comment.user %}
+    <span class="pointer block-inline up-arrow-comment
+    {% if request.user.is_authenticated %}
+    {% ifequal request.user|vote:comment 'True' %}active
+    {% endifequal %}
+    {% endif %}" data-submit="thumb" data-thumb-for="c" data-thumb-as="up" data-object-id="{{comment.id}}"></span>
+
+    <span class="spc-popover" rel="popover" data-resp="error" data-placement="left" data-title="Oops!" data-content="<b>Error</b> in voting" data-html="true"></span>
+    <span class="spc-popover" rel="popover" data-resp="server-error" data-placement="left" data-title="Oops!" data-content="<b>Server Error</b> Try again later" data-html="true"></span>
+    {% else %}
+        <span class="pointer block-inline up-arrow-comment" data-submit="auth"></span>
+        {% if request.user == comment.user %}
+        <span class="spc-popover" rel="popover" data-resp="error-info" data-placement="left" data-title="Oops!" data-content="You can't vote your comment" data-html="true"></span>
+        {% else %}
+        <span class="spc-popover" rel="popover" data-resp="error-info" data-placement="left" data-title="Login or Signup" data-content="Please <a href='{% url auth_login %}'>signin</a> or <a href='{% url registration_register %}'>register</a> for voting" data-html="true"></span>
+        {% endif %}
+    {% endif %}
+</li>

@@ -159,6 +159,7 @@ INSTALLED_APPS = (
     'scipy_central.screenshot',
     'scipy_central.pagehit',
     'scipy_central.feeds',
+    'scipy_central.thumbs',
 )
 
 # Custom comments App

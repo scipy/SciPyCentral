@@ -118,6 +118,29 @@ def latest(model_or_obj, num=5):
     return [sub.last_revision for sub in subs \
                                      if sub.last_revision.is_displayed][:num]
 
+                                     
+@register.filter
+def top_rated(model_or_obj, num=5):
+    # load up the model if we were given a string
+    if isinstance(model_or_obj, basestring):
+        model_or_obj = get_model(*model_or_obj.split('.'))
+
+    # figure out the manager to query
+    if isinstance(model_or_obj, QuerySet):
+        manager = model_or_obj
+        model_or_obj = model_or_obj.model
+    else:
+        manager = model_or_obj._default_manager
+        
+    subs = manager.all().order_by('-date_created')
+    subs = [sub.last_revision for sub in subs \
+                                     if sub.last_revision.is_displayed][:num]
+
+    # use python sort methods as `subs` is not QuerySet
+    # sorting is done based on wilson score `score` field in Revision object
+    subs.sort(key=lambda sub: (sub.score, sub.reputation), reverse=True)
+    return subs
+
 @register.filter
 def call_manager(model_or_obj, method):
     # load up the model if we were given a string

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load SpcComments %}
+{% load thumbs %}
 
 {% block title %}User {{theuser.username}} - SciPy Central{% endblock %}
 
@@ -9,9 +10,10 @@
 	<h3 class="underline" style="line-height: 30px;"><b>{{theuser.username}}</b></h3>
 	
 	<div class="media">
-		<a class="pull-left" href="#">
+		<div class="pull-left" href="#">
 			<img class="media-object" data-src="holder.js/16x16" src="{{theuser.profile.get_gravatar_image}}?r=g&s=150">
-		</a>
+			<div class="no-lead reputation text-center">{{theuser.profile.reputation}}</div>
+		</div>
 		<div class="media-body">
 			<table class="table no-margin-table">
 				<tr>
@@ -97,6 +99,9 @@
 	<ul class="nav nav-tabs no-lead">
 		<li class="active"><a href="#recent" data-toggle="tab">Submissions</a></li>
 		<li><a href="#comments" data-toggle="tab">Comments</a></li>
+		{% if theuser == request.user %}
+		<li><a href="#votes" data-toggle="tab">Votes</a></li>
+		{% endif %}
 	</ul><!--/content nav tabs-->
 	<!-- CONTENT-->
 	<div class="tab-content">
@@ -115,6 +120,18 @@
 			{% endfor %}
 			</div>
 		</div>
+
+		{% if theuser == request.user %}
+		<div class="tab-pane" id="votes">
+			<div class="media-list">
+			{% my_votes theuser as votes_list %}
+			{% for thumb in votes_list %}
+				{% include 'thumbs/thumb-entry.html' %}
+			{% endfor %}
+			</div>
+		</div>
+		{% endif %}
+		
 	</div><!--/CONTENT-->
 	{{extra_html|safe}}
 

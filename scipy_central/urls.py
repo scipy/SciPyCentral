@@ -32,6 +32,9 @@ urlpatterns = patterns('scipy_central',
 
     # comments
     (r'^comments/', include('scipy_central.comments.urls')),
+
+    # reputation
+    (r'^thumbs/', include('scipy_central.thumbs.urls')),
 )
 from django.conf import settings
 settings.LOGIN_REDIRECT_URL = '/user/profile/'

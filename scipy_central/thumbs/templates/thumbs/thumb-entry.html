@@ -1,0 +1,20 @@
+<div class="media">
+    <div class="media-body">
+        <h4 class="media-heading">
+            <a href="{{thumb.person.profile.get_absolute_url}}">{{thumb.person.username}}</a> 
+            {% if thumb.vote %} up
+            {% else %} down
+            {% endif %} 
+            voted</a> on 
+            {% if thumb.content_type.name == 'revision' %}
+            <a href="{{thumb.content_object.get_absolute_url}}">{{thumb.content_object.slug}}</a>
+            {% elif thumb.content_type.name == 'spc comment' %}
+            <a href="{{thumb.content_object.get_absolute_url}}">{{thumb.content_object}}</a>
+            {% endif %}
+        </h4>
+        <ul class="inline pull-left">
+            <li class="muted"><small>{{thumb.submit_date}}</small></li>
+        </ul>
+    </div>
+</div>
+<hr>

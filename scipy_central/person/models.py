@@ -6,6 +6,7 @@ from django.contrib.sites.models import Site
 from django.contrib.sites.models import RequestSite
 from registration import signals
 from registration.models import RegistrationProfile
+from scipy_central.thumbs import scale
 import hashlib
 
 class SciPyRegistrationBackend(DefaultBackend):
@@ -152,6 +153,34 @@ class UserProfile(models.Model):
         email_hash = hashlib.md5(self.user.email).hexdigest()
         gravatar_url = "http://www.gravatar.com/avatar/"
         return gravatar_url + email_hash
+
+    def calculate_reputation(self, vote, prev_vote, vote_for):
+        """
+        vote, prev_vote: `Thumb` object values
+        vote_for: content object model name
+        """
+        if vote_for == 'revision':
+            up_count = scale.REVISION_VOTE['user']['up']
+            down_count = scale.REVISION_VOTE['user']['down']
+        if vote_for == 'spccomment':
+            up_count = scale.COMMENT_VOTE['user']['up']
+            down_count = None
+
+        if vote == True:
+            rept = self.reputation + up_count
+            if prev_vote == False:
+                rept += down_count
+        elif vote == False:
+            rept = self.reputation - down_count
+            if prev_vote == True:
+                rept -= up_count
+        elif vote == None:
+            rept = self.reputation
+            if prev_vote == True:
+                rept -= up_count
+            elif prev_vote == False:
+                rept += down_count
+        return rept
 
     def __unicode__(self):
         return 'Profile for: ' + self.user.username

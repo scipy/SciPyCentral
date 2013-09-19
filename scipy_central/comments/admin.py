@@ -16,7 +16,8 @@ class SpcCommentAdmin(CommentsAdmin):
             {'fields': ('content_type', 'object_pk', 'site')}
         ),
         (_('Content'),
-            {'fields': ('user', 'user_name', 'user_email', 'user_url', 'comment', 'rest_comment')}
+            {'fields': ('user', 'user_name', 'user_email', 'user_url', 'comment', 
+                'rest_comment', 'reputation',)}
         ),
         (_('Metadata'),
             {'fields': ('submit_date', 'ip_address', 'is_public', 'is_removed')}
