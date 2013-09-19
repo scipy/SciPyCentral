@@ -20,10 +20,17 @@ REVISION_VOTE = {
         'up': 1,
         'down': 1
     },
+    'user': {
+        'up': 5,
+        'down': 2
+    }
 }
 
 COMMENT_VOTE = {
     'thumb': {
         'up': 1,
     },
+    'user': {
+        'up': 2,
+    }
 }

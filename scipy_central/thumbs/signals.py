@@ -21,6 +21,22 @@ def perform_reputation(thumb_obj, prev_vote, created):
     )
     ct_obj.save()
 
+    # update user profile `reputation` fields
+    ct_user = None
+    if hasattr(ct_obj, "created_by"):
+        ct_user = ct_obj.created_by
+    elif hasattr(ct_obj, "user"):
+        ct_user = ct_obj.user
+    try:
+        ct_user.profile.reputation = ct_user.profile.calculate_reputation(
+            vote=thumb_obj.vote,
+            prev_vote=prev_vote,
+            vote_for=ct_obj._meta.module_name
+        )
+        ct_user.profile.save()
+    except AttributeError, e:
+        logger.debug("Unable to find `User` profile for content object" + e)
+
 @receiver(pre_save, sender=Thumbs)
 def update_reputation(sender, instance, **kwargs):
     """
