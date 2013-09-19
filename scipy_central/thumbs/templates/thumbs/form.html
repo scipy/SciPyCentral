@@ -1,0 +1,32 @@
+{% load thumbs %}
+
+<script type="text/javascript" src="{{STATIC_URL}}thumbs/thumb-actions.js"></script>
+
+{% if request.user.is_authenticated and request.user != item.created_by %}
+<div class="thumbs">
+    <div class="up-arrow pointer
+    {% ifequal request.user|vote:item "True" %}active
+    {% endifequal %}" data-submit="thumb" data-thumb-for="r" data-thumb-as="up" data-object-id="{{item.pk}}"></div>
+
+    <div class="vote-count reputation text-center">{{item.reputation}}</div>
+
+    <div class="down-arrow pointer
+    {% ifequal request.user|vote:item "False" %}active
+    {% endifequal %}" data-submit="thumb" data-thumb-for="r" data-thumb-as="down" data-object-id="{{item.pk}}"></div>
+    
+</div>
+
+{% else %}
+<div class="thumbs">
+    <div class="up-arrow pointer" data-submit="auth"></div>
+
+    <div class="vote-count reputation text-center">{{item.reputation}}</div>
+
+    <div class="down-arrow pointer" data-submit="auth"></div>
+    {% if request.user == item.created_by %}
+    <span class="spc-popover" rel="popover" data-resp="error-info" data-placement="bottom" data-title="Can't vote" data-content="You can't vote for your own submission" data-html="true"></span>
+    {% else %}
+    <span class="spc-popover" rel="popover" data-resp="error-info" data-placement="bottom" data-title="Login or Signup" data-content="Please <a href='{% url auth_login %}'>signin</a> or <a href='{% url registration_register %}'>register</a> for voting" data-html="true"></span>
+    {% endif %}
+</div>
+{% endif %}

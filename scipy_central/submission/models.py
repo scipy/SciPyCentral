@@ -1,10 +1,13 @@
-import os
+import os, math
 
 from django.db import models
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
+from django.contrib.contenttypes import generic
 
+from scipy_central.thumbs.models import Thumbs
+from scipy_central.thumbs import scale
 from scipy_central.person.models import User
 from scipy_central.utils import ensuredir
 
@@ -87,6 +90,17 @@ class Submission(models.Model):
 
     # For future use:
     inspired_by = models.ManyToManyField('self', null=True, blank=True)
+
+
+    @property
+    def top_revision(self):
+        """
+        Revision having highest wilson score is returned
+        """
+        try:
+            return self.revisions.order_by('-score')[0]
+        except (KeyError, IndexError):
+            return None
 
     @property
     def last_revision(self):
@@ -237,12 +251,89 @@ class Revision(models.Model):
     # users can only comment if set to True
     enable_comments = models.BooleanField(default=True)
 
+    # All votes (thumbs)
+    thumbs = generic.GenericRelation(Thumbs,
+        content_type_field='content_type',
+        object_id_field='object_pk')
+
+    # reputation (aggregate of `thumbs`)
+    reputation = models.IntegerField(default=0)
+
     class Meta:
         ordering = ['date_created']
 
     def __unicode__(self):
         return self.title[0:50] + '::' + str(self.created_by.username)
 
+    def set_reputation(self):
+        """
+        Calculate total reputation for an object
+        Only needed when `scale` is updated
+        """
+        score = 0
+        # only consider valid thumbs
+        for aThumb in self.thumbs.all().filter(is_valid=True).exclude(vote=None):
+            score += ( 2 * int(aThumb.vote) * scale.REVISION_VOTE['thumb']['up']) \
+            - (1 * scale.REVISION_VOTE['thumb']['down'])
+        return score
+
+    def calculate_reputation(self, vote, prev_vote):
+        """
+        Arguments:
+            `vote`: True or False or None
+            `prev_vote`: True or False or None
+        Returns:
+            updated reputation for Revision object
+            This can be used as 
+                obj.reputation = obj.update_reputation(vote, prev_vote, created)
+                obj.save()
+
+        This method is used to calculate `reputation` field as soon as 
+        changes are observed in `Thumbs` model.
+
+        For un-voting, `None` value has to be passed explicitly
+        as `vote` argument. In case of un-voting, the below would be example
+            if form['thumb_as'] == thumb_obj.vote:
+                thumb_obj.vote = None
+                thumb_obj.save()
+
+        This kind of implementation keeps the code more loosely coupled
+        """
+        rept = self.reputation
+        if vote == True:
+            rept += scale.REVISION_VOTE['thumb']['up']
+            if prev_vote == False:
+                rept += scale.REVISION_VOTE['thumb']['down']
+        elif vote == False:
+            rept -= scale.REVISION_VOTE['thumb']['down']
+            if prev_vote == True:
+                rept -= scale.REVISION_VOTE['thumb']['up'] 
+        else:
+            if prev_vote == True:
+                rept -= scale.REVISION_VOTE['thumb']['up']
+            elif prev_vote == False:
+                rept += scale.REVISION_VOTE['thumb']['down']
+        return rept
+
+    def set_score(self, z=1.96):
+        """
+        Used to set `score` field.
+        The score of the object is calculated based on Wilson's score confidence interval
+        Here we are using a constant confidence level of 95% (0.95)
+        variables:
+            z: fixed value for confidence = 0.95
+
+        http://www.evanmiller.org/how-not-to-sort-by-average-rating.html
+        """
+        votes = self.thumbs.filter(is_valid=True)
+        pos = votes.filter(vote=True).count()
+        n = votes.exclude(vote=None).count()
+        if n == 0:
+            return 0
+        phat = 1.0 * pos / n
+        score = (phat+z*z/(2*n)-z*math.sqrt((phat*(1-phat)+z*z/(4*n))/n))/(1+z*z/n)
+        return score
+    
     @property
     def rev_id(self):
         """ Determines which revision of the submission this is, given the

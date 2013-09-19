@@ -78,3 +78,38 @@
         min-height: 228px;
     }
 }
+
+// thumbs (reputation) arrows
+.arrow (@top, @bottom, @left, @right) {
+    width: 0;
+    height:0;
+    color: @grayLight;
+    border-top: @top solid;
+    border-bottom: @bottom solid;
+    border-left: @left solid transparent;
+    border-right: @right solid transparent;
+}
+
+.up-arrow{
+    .arrow(0px, 15px, 18px, 18px);
+    marign: 0 auto;
+    margin-bottom: 3px;
+    &.active {
+        color: rgb(245, 157, 24);
+    }
+}
+
+.down-arrow{
+    .arrow(15px, 0px, 18px, 18px);
+    marign: 0 auto;
+    margin-top: 3px;
+    &.active {
+        color: rgb(245, 157, 24);
+    }
+}
+
+.reputation {
+    font-weight: bold;
+    font-size: 18px;
+    color: @gray;
+}
