@@ -8,15 +8,6 @@ body {
   -webkit-box-shadow: 0 0 3px #888;
   box-shadow: 0 0 3px #888;
 }
-.underline {
-  border-bottom: 1.5px solid #eeeeee;
-}
-.no-lead {
-  padding-top: 10px;
-}
-.pointer {
-  cursor: pointer;
-}
 .header {
   padding-top: 15px;
   padding-bottom: 15px;

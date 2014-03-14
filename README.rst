@@ -98,6 +98,10 @@ Installation
     and also see the ``settings.py`` file that is part of the SciPy
     Central code repository.
 
+* To make changes in design
+  * Require `less>=1.4.1` for compiling LESS files to css
+  * Follow readme.rst in `./deploy/media/less/` for more information
+
 Run::
 
     ./manage.py syncdb
