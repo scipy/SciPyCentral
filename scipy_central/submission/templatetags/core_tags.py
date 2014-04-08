@@ -34,7 +34,6 @@ def top_authors(field, num=5):
     else:
         return entries
 
-
 @register.filter
 def most_viewed(field, num=5):
     """ Get the most viewed items from the Submission model """
@@ -42,10 +41,12 @@ def most_viewed(field, num=5):
     top_items.sort(reverse=True)
     out = []
     for score, pk in top_items[:num]:
-        out.append(Submission.objects.get(id=pk))
-        out[-1].score = score
+        try:
+            out.append(Submission.objects.get(pk=pk))
+            out[-1].score = score
+        except (Submission.DoesNotExist, IndexError):
+            pass
     return out
-
 
 @register.filter
 def cloud(model_or_obj, num=5):
