@@ -21,10 +21,6 @@ urlpatterns = patterns('scipy_central.submission.views',
     url(r'^(?P<item_id>\d+)/(?P<rev_id>\d+)/download/$',
                         'download_submission', name='spc-download-submission'),
 
-    url(r'^(?P<item_id>\d+)/(?P<rev_id>\d+)/show/(?P<filename>.*?)$',
-                                           'show_file', name='spc-show-file'),
-
-
     # View an existing item: all 3 versions of accessing the item are valid
     #
     # Maximum information:   http://..../23/4/draw-an-ellipse/

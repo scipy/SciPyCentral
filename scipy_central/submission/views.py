@@ -36,9 +36,6 @@ import datetime
 import shutil
 import zipfile
 import tempfile
-import mimetypes; mimetypes.init()
-from pygments.lexers import guess_lexer_for_filename
-from pygments.util import ClassNotFound
 
 logger = logging.getLogger('scipycentral')
 logger.debug('Initializing submission::views.py')
@@ -735,122 +732,6 @@ def view_item(request, submission, revision):
                                  'pageview_days': settings.SPC['hit_horizon'],
                                  'package_files': package_files,
                                 }))
-
-
-def get_display(submission, revision, filename):
-    """
-    Determines how to display a filetype, given its name
-    """
-    fname = filename[-1]
-    mime_guess = mimetypes.guess_type(fname)[0]
-    mime_type, mime_file = mime_guess.split('/')
-
-    # Set the repo to the correct revision
-    repo = submission.fileset.checkout_revision(revision.hash_id)
-    src = os.path.join(repo.local_dir, *filename)
-
-    if str(mime_type).startswith('image'):
-        # We only dislay certain image types
-        VALID_IMAGE_TYPES = ['gif', 'jpeg', 'png', 'bmp']
-        if mime_file in VALID_IMAGE_TYPES:
-            disp_type = 'image'
-            # Copy image over to media location; we must make a copy, incase
-            # a later user views a different revision of the document
-            dirname = force_unicode(datetime.datetime.now().strftime(
-                smart_str(settings.SPC['resized_image_dir'])))
-            disp_obj = os.path.normpath(os.path.join(dirname, fname))
-            dst = os.path.join(settings.SPC['storage_dir'], disp_obj)
-            idx = 1
-            while os.path.exists(dst):
-                disp_obj = disp_obj.split(fname)[0] + '%s_%d.%s' % \
-                               (fname.lower().split('.'+mime_file)[0], idx,
-                                mime_file)
-                dst = os.path.join(settings.SPC['storage_dir'], disp_obj)
-                idx += 1
-
-            # Finally, copy the file across to the web storage area
-            shutil.copy2(src, dst)
-
-        return disp_type, disp_obj
-
-
-    if not repo:
-        # Something went wrong when checking out the repo
-        logger.error('Could not checked out revision "%s" for '
-                             'rev.id=%d' % (revision.hash_id, revision.id))
-        return 'none', None
-
-
-    if str(mime_type).startswith('text'):
-
-        # Read the first 10kb to send to the lexer guessing mechanism
-        if os.path.exists(src):
-            fh = open(src, 'rb')
-            file_content = fh.readlines(10*1024)
-            amount_read = fh.tell()
-            fh.close()
-        else:
-            return 'none', None
-
-        try:
-            lexer = guess_lexer_for_filename(fname.lower(),
-                                             ''.join(file_content))
-        except ClassNotFound:
-            pass
-
-        else:
-            disp_type = 'html'
-            # Only re-read the file if we didn't read it all the first time
-            if os.path.getsize(src) == amount_read:
-                file_content = ''.join(file_content)
-            else:
-                fh = open(src, 'rb')
-                file_content = fh.read()
-                fh.close()
-
-            # TODO(KGD): consider wrapping long text lines for text files
-
-            # Return the highlighted code, if we know the lexer
-            return disp_type, highlight_code(file_content,
-                                             lexer=lexer.mimetypes[0])
-
-    # All other file types are assumed to be binary
-    disp_type = 'binary'
-    #disp_obj = link to file (add this capability to ``FileSet``)
-
-    return disp_type, disp_obj
-
-@get_items_or_404
-def show_file(request, submission, revision, filename):
-    """
-    Display a ``filename`` from a given ``submission`` and ``revision``
-    """
-    key_parts = [str(submission.id), str(revision.id)]
-    key_parts.extend(filename)
-    key = md5('-'.join(key_parts)).hexdigest()
-
-    display = models.DisplayFile.objects.filter(fhash=key)
-    if display:
-        # Get the displayed item from the database rather than checking out
-        # the repository, determining the file type and HTML to display
-        obj = display[0]
-    else:
-        # Create the displayed item and store it in the database
-        disp_type, disp_obj = get_display(submission, revision, filename)
-        obj = models.DisplayFile.objects.create(fhash=key,
-                                                display_type=disp_type,
-                                                display_obj=disp_obj)
-
-    # Now return ``obj``
-    if obj.display_type == 'image':
-        return HttpResponse(u'<img = ...')
-    elif obj.display_type == 'html':
-        return HttpResponse(obj.display_obj)
-    elif obj.display_type == 'binary':
-        return HttpResponse(u'<a href="%s">%s</a>' % (obj.display_obj,
-                                                      filename[-1]))
-    elif obj.display_type == 'none':
-        return HttpResponse(filename[-1])
 
 @get_items_or_404
 def download_submission(request, submission, revision):

@@ -376,23 +376,3 @@ class ZipFile(models.Model):
         """ Override the model's saving function to create the slug """
         ensuredir(os.path.join(settings.MEDIA_ROOT, settings.SPC['ZIP_staging']))
         super(ZipFile, self).save(*args, **kwargs)
-
-
-class DisplayFile(models.Model):
-    """
-    Describes what and how to display a file
-    """
-    # MD5 hash: combines submission and revision id with the full path and name
-    fhash = models.CharField(max_length=32)
-    # How should it be displayed:
-    #    image = display the inline image, given by the link in ``display_obj``
-    #    html = display what is in ``display_obj``
-    #    binary = don't display the object, but give a download link
-    #    none = something went wrong when checking out the file
-    display_type = models.CharField(max_length=10)
-
-    # What should be displayed in the browser
-    display_obj = models.TextField(blank=True, null=True)
-
-    def __unicode__(self):
-        return '%s file: %s' % (self.display_type, self.display_obj[0:50])
