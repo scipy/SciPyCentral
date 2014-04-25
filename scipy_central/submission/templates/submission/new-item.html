@@ -90,7 +90,14 @@ $(function() {
 				{% if field.errors %}
 					<div class="alert alert-error"><small>{{field.errors|safe}}</small></div>
 				{% endif %}
-				{{field|add_class:"span12"|safe}}
+
+				{% if field.name == 'snippet_code' %}
+					{{field|add_class:"span12 hide"|attr:"data-editor:python"|attr:"data-readonly:false"|safe}}
+				{% elif field.name == 'description' %}
+					{{field|add_class:"span12 hide"|attr:"data-editor:plain_text"|attr:"data-readonly:false"|safe}}
+				{% else %}
+					{{field|add_class:"span12"|safe}}
+				{% endif %}
 			</div>
 		</div>
 	{% endif %}

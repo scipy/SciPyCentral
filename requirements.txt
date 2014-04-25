@@ -5,7 +5,6 @@ South
 django-registration ==0.8
 django-widget-tweaks
 Sphinx
-Pygments
 Pillow
 Mercurial
 simplejson
