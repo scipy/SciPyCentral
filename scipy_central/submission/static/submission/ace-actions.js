@@ -10,6 +10,8 @@ $(document).ready(function() {
         var text_val = '';
         if ($textbox.is('textarea')) {
             text_val = $textbox.val();
+        } else if ($textbox.is('div')) {
+            text_val = $textbox.html();
         }
 
         var mode = $textbox.data('editor');

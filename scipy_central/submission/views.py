@@ -16,8 +16,7 @@ from django.utils.encoding import force_unicode, smart_str
 from scipy_central.person.views import create_new_account_internal
 from scipy_central.filestorage.models import FileSet
 from scipy_central.tagging.views import get_and_create_tags
-from scipy_central.utils import (send_email, paginated_queryset,
-                                 highlight_code, ensuredir)
+from scipy_central.utils import send_email, paginated_queryset, ensuredir
 from scipy_central.rest_comments.views import compile_rest_to_html
 from scipy_central.pages.views import page_404_error
 from scipy_central.pagehit.views import create_hit, get_pagehits
@@ -228,8 +227,7 @@ def create_or_edit_submission_revision(request, item, is_displayed,
     # Convert the raw ReST description to HTML using Sphinx: could include
     # math, paragraphs, <tt>, bold, italics, bullets, hyperlinks, etc.
     description_html = compile_rest_to_html(item.cleaned_data['description'])
-    item_highlighted_code = highlight_code(item.cleaned_data.get(\
-                                                        'snippet_code', None))
+
     rev = models.Revision.objects.create_without_commit(
                             entry=sub,
                             title=item.cleaned_data['title'],
@@ -240,7 +238,6 @@ def create_or_edit_submission_revision(request, item, is_displayed,
                             hash_id=hash_id,
                             item_url=item_url,
                             item_code=item_code,
-                            item_highlighted_code=item_highlighted_code,
                             is_displayed=is_displayed,
                             )
 

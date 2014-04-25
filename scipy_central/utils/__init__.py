@@ -3,8 +3,6 @@ from django.conf import settings
 from django.core.mail import send_mail, BadHeaderError
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
-from pygments import formatters, highlight, lexers
-
 import re, os, errno, logging
 logger = logging.getLogger('scipy_central')
 
@@ -111,53 +109,6 @@ def _slug_strip(value, separator='-'):
             re_sep = re.escape(separator)
         value = re.sub(r'^%s+|%s+$' % (re_sep, re_sep), '', value)
     return value
-
-
-def highlight_code(code, lexer=None):
-    """ Uses Pygments to provide syntax highlighting.
-    By default, the highlighting assumes Python code.
-    """
-# See this page for help with colouring: http://pygments.org/docs/tokens/
-#
-#from pygments.styles.default import DefaultStyle
-#from pygments.style import Style
-#from pygments.styles import get_style_by_name
-#from pygments.token import Comment, Keyword, Name, String, Operator, Number
-#from pygments import formatters
-#class SciPyStyle(Style):
-    #default_style = ""
-    #styles = {
-        ##Comment:                '#888',
-        ##Keyword:                'bold #080',
-        ##Name:                   '#080',
-        ##Name.Function:          '#00F',
-        ##Name.Class:             'bold #00F',
-        ##String:                 '#BA2121',
-        #Comment:                '#008000',
-        #Keyword:                'bold #000080',
-        #Name:                   '#000',
-        #Name.Builtin:           '#407090',
-        #Name.Function:          'bold #008080',
-        #Name.Class:             'bold #00F',
-        #Name.Namespace:         '#000000',
-        #Number:                 '#008080',
-        #String:                 '#800080',
-        #String.Doc:             '#800000',
-        #Operator:               '#000000',
-        #Operator.Word:          'bold #AA22FF',
-    #}
-
-#formatter = formatters.HtmlFormatter(style=SciPyStyle)
-#print(formatter.get_style_defs('.highlight'))
-
-    if code is None:
-        return None
-    else:
-        lexer_class = lexers.get_lexer_for_mimetype(lexer or 'text/x-python')
-        return highlight(code, lexer_class,
-                                      formatters.HtmlFormatter(linenos=True,
-                                                               linenostep=1,))
-
 
 def send_email(to_addresses, subject, message, from_address=None):
     """

@@ -205,8 +205,7 @@ class Revision(models.Model):
 
     # For snippet submissions
     item_code = models.TextField(null=True, blank=True)
-    item_highlighted_code = models.TextField(null=True, blank=True)
-
+    
     # For link-type submissions
     item_url = models.URLField(verbose_name="URL for link-type submssions",
                                blank=True, null=True,
