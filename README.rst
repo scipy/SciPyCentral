@@ -159,6 +159,7 @@ attributed at the point of use. In summary though, we have used code from:
 * `django-registration <https://bitbucket.org/ubernostrum/django-registration/>`_
 * `django-avatar <https://github.com/ericflo/django-avatar>`_
 * `Sphinx <http://sphinx.pocoo.org/latest/>`)
+* `Ace Editor <http://ace.c9.io/>`_
 
 The jQuery Forms extensions is MIT licensed (compatible with BSD);
 more information at http://malsup.com/jquery/form/
@@ -166,4 +167,3 @@ more information at http://malsup.com/jquery/form/
 The Rss Feed icon is taken from Wikipedia and its licensed under GNU
 GPL v2, GNU LGPL v2.1, Mozilla Public License v1.1 and is described at
 https://en.wikipedia.org/w/index.php?title=File:Feed-icon.svg&oldid=453635063#License
-
