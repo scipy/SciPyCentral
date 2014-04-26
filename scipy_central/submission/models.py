@@ -282,28 +282,27 @@ class Revision(models.Model):
 
     @property
     def previous_revision(self):
-        all_revs = self.entry.revisions.absolutely_all().order_by('pk')
-        pages = Paginator(all_revs, 1)
-        current_page = pages.page(self.pk)
-        if current_page.has_previous():
-            rev = all_revs.get(
-                pk=current_page.previous_page_number
-            )
-            return rev
-        else:
+        all_revs = list(self.entry.revisions.absolutely_all())
+        try:
+            if all_revs.index(self)-1 >= 0:
+                return all_revs[all_revs.index(self)-1]
+            else:
+                return None
+        except ValueError:
+            # Happens when previewing a submission before submitting it
             return None
 
     @property
     def next_revision(self):
-        all_revs = self.entry.revisions.absolutely_all().order_by('pk')
-        pages = Paginator(all_revs, 1)
-        current_page = pages.page(self.pk)
-        if current_page.has_next():
-            rev = all_revs.get(
-                pk=current_page.next_page_number
-            )
-            return rev
-        else:
+        all_revs = list(self.entry.revisions.absolutely_all())
+        try:
+            if all_revs.index(self)+1 >= len(all_revs):
+                return None
+            else:
+                return all_revs[all_revs.index(self)+1]
+        except ValueError:
+            # Happens when previewing a submission before submitting it
+            # (the template calls on self.next_revision)
             return None
 
     @property
