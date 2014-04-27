@@ -29,6 +29,9 @@ $(document).ready(function() {
         $textbox.removeAttr('tabindex');
 
         var editor = ace.edit(edit_div[0]);
+        editor.setOptions({
+            maxLines: Infinity
+        });
         editor.setReadOnly(is_readonly);
         editor.setTheme('ace/theme/github');
         editor.getSession().setMode('ace/mode/' + mode);
@@ -37,7 +40,7 @@ $(document).ready(function() {
         editor.getSession().on('change', function() {
             if($textbox.is('textarea')) {
                 $textbox.val(editor.getSession().getValue());
-            } 
+            }
         });
     });
 });
