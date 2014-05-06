@@ -9,10 +9,11 @@ logger = logging.getLogger('scipycentral')
 
 # 3rd party (non-Django) imports
 from sphinx.application import Sphinx, SphinxError
+import simplejson
 
 # Django import
 from django.contrib.sites.models import Site
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.conf import settings
 from django import template
 
@@ -242,25 +243,28 @@ def compile_rest_to_html(raw_rest):
     return obj['body'].encode('utf-8')
 
 
-def rest_to_html_ajax(request, field_name='rst_comment'):
+def rest_to_html_ajax(request):
     """
-    The user has typed in a comment and wants to preview it in HTML.
+    Convert reStructuredText to HTML for preview
     """
-    if request.method != 'GET':
-        return HttpResponse('', status=404)
-
-    # Response back to user, if everything goes OK
-    response = HttpResponse(status=200)
-    response['SPC-comment'] = 'Comment-OK'
-
+    if request.method != 'GET' and not request.is_ajax():
+        raise Http404
+    data = {'success': False}
+    try:
+        rest_text = request.GET['rest_text']
+        source = request.GET['source']
+    except KeyError:
+        raise Http404
     start_time = time.time()
-    rst_comment = request.GET[field_name]
-    logger.debug("Compile:: %s" % rst_comment)
-    html_comment = compile_rest_to_html(rst_comment)
+    try:
+        html_text = compile_rest_to_html(rest_text).replace('\n', '<br>')
+        data['html_text'] = html_text
+        data['success'] = True
+    except SphinxError:
+        logger.warning("Unable to compile comment:: Sphinx compile error::\
+            %s" % source)
     end_time = time.time()
-    if (end_time-start_time) > 3:
-        logger.warning(('Comment compile time exceeded 3 seconds; server'
-                          'load too high?'))
-
-    logger.debug("Successfully compiled user's comment.")
-    return HttpResponse(html_comment, status=200)
+    if (end_time-start_time) > 5:
+        logger.warning("Comment compile time exceeded 5 seconds; server load \
+            too high?:: %s" % source)
+    return HttpResponse(simplejson.dumps(data), mimetype='application/json')
