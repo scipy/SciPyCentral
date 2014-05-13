@@ -33,6 +33,9 @@ class DVCSError(RuntimeError):
 class DVCSRepo(object):
     """
     A class for dealing with a DVCS repository.
+
+    Note: requires to turn on `purge` extension shipped by default
+    in config (`.hgrc` file)
     """
     def __init__(self, backend, repo_dir, do_init=True, dvcs_executable=''):
         """
@@ -59,6 +62,9 @@ class DVCSRepo(object):
                 'clone':    ['clone',    [], {}],
                 'init':     ['init',     [], {}],
                 'add':      ['add',      [], {}],
+                'remove':   ['remove',   [], {}],
+                'purge':    ['purge',    [], {}],
+                'update':   ['update',   [], {}],
                 'heads':    ['heads',    [], {0: '<string>'}],
                 'commit':   ['commit',   ['-m', '-u'], {1: 'Nothing changed'}],
                 'push':     ['push',     [], {}],
@@ -191,6 +197,44 @@ class DVCSRepo(object):
         out = self.run_dvcs_command(command)
         if out != None and out != 0 and not(ignore_errors):
             raise DVCSError('Could not add one or more files to repository.',
+                            original_message=str(out))
+
+    def remove(self, patterns, ignore_errors=False):
+        """
+        Removes one or more files to the repository, using Mercurial's syntax for
+        ``hg remove``.  See ``hg help patterns`` for the syntax.
+        """
+        command = [self.verbs['remove'][0],]
+        command.extend(self.verbs['remove'][1])
+        command.extend(patterns)
+        out = self.run_dvcs_command(command)
+        if out != None and out != 0 and not(ignore_errors):
+            raise DVCSError('Could not add/remove one or more files to '
+                            'repository.', original_message=str(out))
+
+    def update(self, patterns, ignore_errors=False):
+        """
+        update to previous commit, using Mercurial's syntax for
+        ``hg update``.  See ``hg help patterns`` for the syntax.
+        """
+        command = [self.verbs['update'][0],]
+        command.extend(self.verbs['update'][1])
+        command.extend(patterns)
+        out = self.run_dvcs_command(command)
+        if out != None and out != 0 and not(ignore_errors):
+            raise DVCSError('Could not update to the specified commit',
+                            original_message=str(out))
+
+    def purge(self, ignore_errors=False):
+        """
+        remove all untracked files, directories
+        `--all` option also deletes ignored files
+        """
+        command = [self.verbs['purge'][0],]
+        command.extend(self.verbs['purge'][1])
+        out = self.run_dvcs_command(command)
+        if out != None and out != 0 and not(ignore_errors):
+            raise DVCSError('Could not purge to the specified commit',
                             original_message=str(out))
 
     def check_out(self, rev='tip'):

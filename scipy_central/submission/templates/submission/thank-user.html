@@ -5,12 +5,18 @@
 {% block content %}
 
 <div class="row-fluid">
-<div class="span12">
-<p class="lead">Thank you for your submission to Scipy Central. {% if show_url%}You can <a href="{{ item.get_absolute_url}}">see your contribution here</a>.{% endif %}
+    <div class="span12">
+        {% if authenticated %}
+            <p class="lead">Thank you for your submission to Scipy Central. You can <a href="{{ item.get_absolute_url}}">see your contribution here</a></p>
 
-<p>{{extra_message|safe}}
+            <p>A confirmation email has been sent to you</p>
+        {% else %}
+            <p class="lead">Thank you for your submission to SciPy Central</p>
 
-<p>Go back to the <a href="{% url spc-main-page %}">main page</a>.
-</div>
+            <p>You have been sent an email to <i>confirm your submission</i> and to create an account (if you do not have one already)</p>
+
+            <p>Unconfirmed submissions cannot be accepted, and <b>will be deleted</b> after {{ days_deleted_after }} days. Please sign in to avoid having to confirm your valuable submission in future</p>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

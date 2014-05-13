@@ -1,0 +1,7 @@
+{{ obj.title }}
+----
+Copyright holder: {{ obj.created_by }} ({{ url_domain }}{{ obj.created_by.profile.get_absolute_url }}) (full details at this page)
+
+----
+
+{{ license_bsd }}
