@@ -1,7 +1,6 @@
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
-from django.core.paginator import Paginator
 
 from scipy_central.person.models import User
 from scipy_central.utils import rest_help_extra
@@ -271,27 +270,33 @@ class Revision(models.Model):
 
     @property
     def previous_submission(self):
-        subs = Submission.objects.all()
-        pages = Paginator(subs, 1)
-        current_page = pages.page(self.entry.pk)
-        if current_page.has_previous():
-            prev_sub = subs.get(
-                pk=current_page.previous_page_number
-            ).get_absolute_url()
-            return prev_sub
+        n = 1
+        sub = Submission.objects.all().filter(pk=self.entry.pk-n)
+        if len(sub):
+            while sub[0].last_revision.is_displayed==False:
+                n += 1
+                sub = Submission.objects.all().filter(pk=self.entry.pk-n)
+                if len(sub):
+                    continue
+                else:
+                    return None
+            return sub[0].get_absolute_url()
         else:
             return None
 
     @property
     def next_submission(self):
-        subs = Submission.objects.all().order_by('pk')
-        pages = Paginator(subs, 1)
-        current_page = pages.page(self.entry.pk)
-        if current_page.has_next():
-            next_sub = subs.get(
-                pk=current_page.next_page_number
-            ).get_absolute_url()
-            return next_sub
+        n = 1
+        sub = Submission.objects.all().filter(pk=self.entry.pk+n)
+        if len(sub):
+            while sub[0].last_revision.is_displayed==False:
+                n += 1
+                sub = Submission.objects.all().filter(pk=self.entry.pk+n)
+                if len(sub):
+                    continue
+                else:
+                    return None
+            return sub[0].get_absolute_url()
         else:
             return None
 
@@ -319,7 +324,6 @@ class Revision(models.Model):
             # Happens when previewing a submission before submitting it
             # (the template calls on self.next_revision)
             return None
-
     @property
     def human_revision_string(self):
         """ Returns the revision information in a helpful way
