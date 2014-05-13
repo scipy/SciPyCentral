@@ -76,7 +76,6 @@
       "created_by": 3,
       "item_code": null,
       "date_created": "2011-07-01 17:00:26",
-      "item_highlighted_code": null,
       "entry": 1,
       "slug": "visvis-an-object-oriented-approach-to-visualization",
       "hash_id": "d41d8cd98f00b204e9800998ecf8427e"
@@ -96,7 +95,6 @@
       "created_by": 3,
       "item_code": null,
       "date_created": "2011-07-01 17:01:37",
-      "item_highlighted_code": null,
       "entry": 1,
       "slug": "visvis-an-object-oriented-approach-to-visualization",
       "hash_id": "d41d8cd98f00b204e9800998ecf8427e"
@@ -116,7 +114,6 @@
       "created_by": 3,
       "item_code": null,
       "date_created": "2011-07-01 17:03:45",
-      "item_highlighted_code": null,
       "entry": 2,
       "slug": "playdoh-parallel-distributed-optimization-library-for-python",
       "hash_id": "d41d8cd98f00b204e9800998ecf8427e"
@@ -136,7 +133,6 @@
       "created_by": 3,
       "item_code": null,
       "date_created": "2011-07-01 17:15:54",
-      "item_highlighted_code": null,
       "entry": 3,
       "slug": "matplotlib-a-plotting-library",
       "hash_id": "d41d8cd98f00b204e9800998ecf8427e"
@@ -156,7 +152,6 @@
       "created_by": 3,
       "item_code": null,
       "date_created": "2011-07-03 12:05:41",
-      "item_highlighted_code": null,
       "entry": 4,
       "slug": "ipython-an-interactive-computing-environment",
       "hash_id": "d41d8cd98f00b204e9800998ecf8427e"
@@ -176,7 +171,6 @@
       "validation_hash": null,
       "item_code": "from scipy.optimize import fsolve\r\nimport numpy as np\r\n\r\ndef f(input_vector):\r\n   x, y = input_vector\r\n   return  np.array([y - x**2, y - x - 1.0])\r\n\r\n\r\n# Solve the function, using (x=1, y=2) as the initial guess\r\nfsolve(f, [1.0, 2.0])",
       "date_created": "2011-07-17 16:36:49",
-      "item_highlighted_code": "<table class=\"highlighttable\"><tr><td class=\"linenos\"><div class=\"linenodiv\"><pre> 1\n 2\n 3\n 4\n 5\n 6\n 7\n 8\n 9\n10</pre></div></td><td class=\"code\"><div class=\"highlight\"><pre><span class=\"kn\">from</span> <span class=\"nn\">scipy.optimize</span> <span class=\"kn\">import</span> <span class=\"n\">fsolve</span>\n<span class=\"kn\">import</span> <span class=\"nn\">numpy</span> <span class=\"kn\">as</span> <span class=\"nn\">np</span>\n\n<span class=\"k\">def</span> <span class=\"nf\">f</span><span class=\"p\">(</span><span class=\"n\">input_vector</span><span class=\"p\">):</span>\n   <span class=\"n\">x</span><span class=\"p\">,</span> <span class=\"n\">y</span> <span class=\"o\">=</span> <span class=\"n\">input_vector</span>\n   <span class=\"k\">return</span>  <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">array</span><span class=\"p\">([</span><span class=\"n\">y</span> <span class=\"o\">-</span> <span class=\"n\">x</span><span class=\"o\">**</span><span class=\"mi\">2</span><span class=\"p\">,</span> <span class=\"n\">y</span> <span class=\"o\">-</span> <span class=\"n\">x</span> <span class=\"o\">-</span> <span class=\"mf\">1.0</span><span class=\"p\">])</span>\n\n\n<span class=\"c\"># Solve the function, using (x=1, y=2) as the initial guess</span>\n<span class=\"n\">fsolve</span><span class=\"p\">(</span><span class=\"n\">f</span><span class=\"p\">,</span> <span class=\"p\">[</span><span class=\"mf\">1.0</span><span class=\"p\">,</span> <span class=\"mf\">2.0</span><span class=\"p\">])</span>\n</pre></div>\n</td></tr></table>",
       "entry": 5,
       "slug": "find-the-points-at-which-two-given-functions-intersect",
       "hash_id": "b0d2f5f786edf3da05d2e4148ca6b7e9"
