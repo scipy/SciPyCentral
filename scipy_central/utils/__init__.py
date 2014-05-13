@@ -7,14 +7,14 @@ import re, os, errno, logging
 logger = logging.getLogger('scipy_central')
 
 rest_help_extra = """Use <a href="http://sphinx.pocoo.org/latest/rest.html">reStructuredText</a>.
-<div class="spc-markup-help"><ul>
-<li class="spc-odd">Use linebreaks between paragraphs</li>
-<li class="spc-even"><tt>*</tt><i>italics</i><tt>*</tt> and <tt>**</tt><b>bold</b><tt>**</tt></li>
-<li class="spc-odd"><tt>`Hyperlinks &lt;http://example.com&gt;`_</tt></li>
-<li class="spc-even"><tt>``monospaced text``</tt></li>
-<li class="spc-odd"><tt>\(</tt><tt>e^{i \pi}+1=0</tt><tt>\)</tt> shows as \(e^{i \pi}+1=0\)</li>
-<li class="spc-even"><a href="/markup-help" target="_blank">More help</a> with bulleted lists, math, hyperlinks and other features</li>
-</div>"""
+<ul>
+    <li>Use linebreaks between paragraphs</li>
+    <li><tt>*</tt><i>italics</i><tt>*</tt> and <tt>**</tt><b>bold</b><tt>**</tt></li>
+    <li><tt>`Hyperlinks &lt;http://example.com&gt;`_</tt></li>
+    <li><tt>``monospaced text``</tt></li>
+    <li><tt>\(</tt><tt>e^{i \pi}+1=0</tt><tt>\)</tt> shows as \(e^{i \pi}+1=0\)</li>
+    <li><a href="/markup-help" target="_blank">More help</a> with bulleted lists, math, hyperlinks and other features</li>
+</ul>"""
 
 
 def ensuredir(path):
