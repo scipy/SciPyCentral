@@ -1,0 +1,38 @@
+{{ obj.title }}
+-----
+Originally written on {{ obj.entry.date_created|date:"d, M Y"}} by {{ obj.entry.created_by}} ({{ url_domain }}{{ obj.entry.created_by.profile.get_absolute_url }})
+ 
+{% if obj.entry.num_revisions > 1 %}
+Subsequent updates by:
+
+{% spaceless %}
+
+{% for i in obj.entry.revisions.all %}
+{% spaceless %}
+
+    {# do not list first revision #}
+
+    {% if forloop.counter > 1 %}
+    {% spaceless %}
+        * {{ i.created_by }} ({{ url_domain }}{{ i.created_by.profile.get_absolute_url }}) on {{ i.date_created|date:"d, M Y" }}
+    {% endspaceless %}
+
+    {% endif %}
+
+{% endspaceless %}
+{% endfor %}
+
+{% endspaceless %}
+{% endif %}
+
+To the extent possible under law, the author(s) have dedicated all copyright
+and related and neighboring rights to this software to the public domain
+worldwide. This software is distributed without any warranty.
+
+You should have received a copy of the CC0 Public Domain Dedication along with
+this software (see below).
+
+Also see http://creativecommons.org/publicdomain/zero/1.0/
+-----
+
+{{ license_cc0 }}

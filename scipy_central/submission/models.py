@@ -1,13 +1,24 @@
-import os
-
 from django.db import models
-from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 from django.core.paginator import Paginator
 
 from scipy_central.person.models import User
-from scipy_central.utils import ensuredir
+from scipy_central.utils import rest_help_extra
+
+rest_help = ('Let the community know what your submission does, how it solves '
+             'the problem, and/or how it works. ') + rest_help_extra
+
+pep8_help = """Please follow <a target="_blank" 
+href="http://www.python.org/dev/peps/pep-0008/">PEP 8 guidelines</a>
+<ul>
+    <li>No more than 80 characters per row</li>
+    <li>Please use spaces and not tabs</li>
+    <li>Use 4 spaces to indent, (use 2 if you must)</li>
+    <li>Spaces around arithmetic operators</li>
+    <li>Comments in the code should supplement your summary</li>
+    </li>
+</ul>"""
 
 class Module(models.Model):
     """
@@ -171,8 +182,8 @@ class Revision(models.Model):
     entry = models.ForeignKey(Submission, related_name="revisions")
 
     # user-provided submission title.
-    title = models.CharField(max_length=150,
-                        help_text='Provide a <b>title</b> for your submission')
+    title = models.CharField(max_length=150, 
+        verbose_name='Provide a title for your submission')
 
     # auto-created slug field
     slug = models.SlugField(max_length=155, editable=False)
@@ -190,14 +201,16 @@ class Revision(models.Model):
     # on license. Use Google for that.
     # The only choices right now are CC0 and simplified-BSD.
     sub_license = models.ForeignKey(License, null=True, blank=True,
-                verbose_name="Choose a license for your submission")
+                verbose_name="Choose a license for your submission",
+                help_text='<a href="/licenses">More on licenses</a>')
 
     # User-provided description of the submission. Uses reStructuredText.
     # Is blank for URL (link) submissions.
-    description = models.TextField(help_text=('<b>Describe and '
-                                              'explain</b> your submission'))
+    description = models.TextField(verbose_name='Describe and explain your submission',
+                                   help_text=rest_help)
 
     # HTML version of the ReST ``description`` field
+    # Auto created field
     description_html = models.TextField()
 
     # Code snippet hash (will use ssdeep later on: 57 characters)
@@ -205,10 +218,12 @@ class Revision(models.Model):
                                editable=False)
 
     # For snippet submissions
-    item_code = models.TextField(null=True, blank=True)
+    item_code = models.TextField(null=True, blank=True,
+        verbose_name='Copy and paste code snippet',
+        help_text=pep8_help)
     
     # For link-type submissions
-    item_url = models.URLField(verbose_name="URL for link-type submssions",
+    item_url = models.URLField(verbose_name="Link to resource",
                                blank=True, null=True,
                 help_text=("Link to the code's website, documentation, or "
                            'publication (<a target="_blank" href="http://en.'
@@ -354,20 +369,3 @@ class TagCreation(models.Model):
 
     def __unicode__(self):
         return self.tag.name
-
-
-class ZipFile(models.Model):
-    """ ZIP file model.
-    """
-    date_added = models.DateTimeField(auto_now=True)
-    zip_hash = models.CharField(max_length=255)
-    raw_zip_file = models.FileField(upload_to=settings.SPC['ZIP_staging'],
-                                     max_length=1024)
-
-    def __unicode__(self):
-        return self.raw_zip_file.name
-
-    def save(self, *args, **kwargs):
-        """ Override the model's saving function to create the slug """
-        ensuredir(os.path.join(settings.MEDIA_ROOT, settings.SPC['ZIP_staging']))
-        super(ZipFile, self).save(*args, **kwargs)

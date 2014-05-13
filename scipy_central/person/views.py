@@ -110,7 +110,7 @@ def profile_page_edit(request, slug):
 
     return render_to_response('submission/new-item.html', {},
                           context_instance=RequestContext(request,
-                                {'item': form,
+                                {'form': form,
                                  'buttontext': 'Update your profile',
                                  'pagetitle': 'Update your profile',
                                 }))

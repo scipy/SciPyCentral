@@ -99,8 +99,12 @@ Installation
     Central code repository.
 
 * To make changes in design
-  * Require `less>=1.4.1` for compiling LESS files to css
-  * Follow readme.rst in `./deploy/media/less/` for more information
+
+  * Require ``less>=1.4.1`` for compiling LESS files to css
+  * Follow readme.rst in ``./deploy/media/less/`` for more information
+
+* Ensure ``purge`` extension is turned on in Mercurial settings (``.hgrc``) 
+
 
 Run::
 
