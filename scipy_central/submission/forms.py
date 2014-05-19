@@ -13,6 +13,12 @@ from scipy_central.submission import models
 import random
 import zipfile
 
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from StringIO import StringIO
+
+
 def get_validation_hash(value):
     """
     Create validation hash for submissions to verify
@@ -131,17 +137,40 @@ class PackageForm(BaseSubmissionForm):
     def clean_package_file(self):
         """
         Validate uploaded package file
+
+        `package_file` memory is not freed if validated.
+        It has to be done once it is stored.
         """
         package_file = self.cleaned_data['package_file']
 
-        # Check package_file is a ZIP file
-        if not zipfile.is_zipfile(package_file):
-            raise forms.ValidationError('Upload a valid ZIP file. It was not valid')
+        # Validate the size of compressed zip file
+        if package_file.size > settings.SPC['library_max_size']:
+            package_file.close()
+            raise forms.ValidationError('ZIP file too large')
 
-        # zipfile object
-        zip_obj = zipfile.ZipFile(package_file)
+        # Buf to be used if uploaded file is small & in memory
+        package_buf = StringIO()
 
-        package_size = 0
+        # If file stored in temporary dir & large size
+        if package_file.multiple_chunks():
+            file_path = package_file.temporary_file_path()
+            if not zipfile.is_zipfile(file_path):
+                package_buf.close()
+                package_file.close()
+                raise forms.ValidationError('Upload a valid ZIP file. It was not valid')
+            zip_obj = zipfile.ZipFile(file_path)
+
+        # or file stored in memory & small size
+        else: 
+            package_buf.write(package_file.read())
+            if not zipfile.is_zipfile(package_buf):
+                package_buf.close()
+                package_file.close()
+                raise forms.ValidationError('Upload a valid ZIP file. It was not valid')
+            zip_obj = zipfile.ZipFile(package_buf)
+            package_file.seek(0)
+
+        package_size = 0 # size of uncompressed ZIP file
         for each_file in zip_obj.infolist():
             # check for malicious unzipping
             # See warning at http://docs.python.org/library/zipfile.html
@@ -151,6 +180,8 @@ class PackageForm(BaseSubmissionForm):
             for idx, entry in enumerate(file_name):
                 if entry.startswith('..') or (idx == 0 and entry == ''):
                     zip_obj.close()
+                    package_buf.close()
+                    package_file.close()
                     raise forms.ValidationError('Please upload a valid ZIP file'
                                                 'File contains invalid file name %s'
                                                 % each_file.filename)
@@ -164,6 +195,8 @@ class PackageForm(BaseSubmissionForm):
                     pass
             except zipfile.BadZipfile:
                 zip_obj.close()
+                package_buf.close()
+                package_file.close()
                 raise forms.ValidationError('Upload a valid ZIP file. %s failed '
                                             'CRC-32 checks' % each_file.filename)
 
@@ -173,8 +206,11 @@ class PackageForm(BaseSubmissionForm):
             package_size += each_file.file_size
             if package_size > settings.SPC['library_max_size']:
                 zip_obj.close()
+                package_buf.close()
+                package_file.close()
                 raise forms.ValidationError('ZIP file too large')
 
         zip_obj.close()
-
+        package_buf.close()
+        
         return self.cleaned_data['package_file']
