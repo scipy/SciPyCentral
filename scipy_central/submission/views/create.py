@@ -124,9 +124,13 @@ class NewSubmission(BaseSubmission):
                 sub_obj.delete()
                 fileset_obj.delete()
                 rev_storage.revert()
+                if sub_obj.sub_type == 'package':
+                    instance.package_file.close()
                 return HttpResponse(status=500)
 
             instance.hash_id = hash_id
+            if sub_obj.sub_type == 'package':
+                instance.package_file.close()
 
         # add tags
         tags_list = get_and_create_tags(form.cleaned_data['sub_tags'])
@@ -206,9 +210,13 @@ class EditSubmission(BaseSubmission):
                 logger.error('Submission Storage Error: %s' % e)
                 instance.delete()
                 rev_storage.revert(hash_id=self.rev_obj.hash_id)
+                if self.sub_obj.sub_type == 'package':
+                    instance.package_file.close()
                 return HttpResponse(status=500)
 
             instance.hash_id = hash_id
+            if self.sub_obj.sub_type == 'package':
+                instance.package_file.close()
 
         # add tags
         tags_list = get_and_create_tags(form.cleaned_data['sub_tags'])
