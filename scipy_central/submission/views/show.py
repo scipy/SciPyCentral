@@ -21,6 +21,12 @@ import os
 import datetime
 import zipfile
 
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from StringIO import StringIO
+
+
 logger = logging.getLogger('scipycentral')
 logger.debug('Initializing submission::views.show.py')
 
@@ -155,6 +161,7 @@ def view_item(request, submission, revision):
                                  'package_files': package_files,
                                 }))
 
+
 @get_items_or_404
 def download_submission(request, submission, revision):
 
@@ -169,54 +176,55 @@ def download_submission(request, submission, revision):
         return response
 
     if submission.sub_type == 'package':
-        zip_dir = os.path.join(settings.MEDIA_ROOT,
-                               settings.SPC['ZIP_staging'],
-                               'download')
-        ensuredir(zip_dir)
-        response = HttpResponse(mimetype="attachment; application/zip")
-        zip_name = '%s-%d-%d.zip' % (submission.slug, submission.id,
-                                     revision.rev_id_human)
-        response['Content-Disposition'] = 'filename=%s' % zip_name
-        full_zip_file = os.path.join(zip_dir, zip_name)
-        if not os.path.exists(full_zip_file):
+        # Checkout the repo to the revision version
+        checkout = submission.fileset.checkout_revision(revision.hash_id)
+        if not checkout:
+            logger.error('Could not checkout revision %s for rev.id %d' 
+                         % (revision.hash_id, revision.pk))
+            return page_404_error('Could not create ZIP file. This error has '
+                                  'been reported')
+        logger.info('Checkout revision %s for rev.id %d' % (revision.hash_id, revision.pk))
 
-            # Set the repo's state to the state when that particular revision
-            # existed
-            out = submission.fileset.checkout_revision(revision.hash_id)
-            if out:
-                logger.info('Checked out revision "%s" for rev.id=%d' % \
-                            (revision.hash_id, revision.id))
-            else:
-                logger.error('Could not checked out revision "%s" for '
-                             'rev.id=%d' % (revision.hash_id, revision.id))
-                return page_404_error(request, ('Could not create the ZIP '
-                                                'file. This error has been '
-                                                'reported.'))
+        package_data = StringIO()
+        zipf = zipfile.ZipFile(package_data, 'w', zipfile.ZIP_DEFLATED)
 
-            zip_f = zipfile.ZipFile(full_zip_file, "w", zipfile.ZIP_DEFLATED)
-            src_dir = os.path.join(settings.SPC['storage_dir'],
-                                   submission.fileset.repo_path)
-            for path, dirs, files in os.walk(src_dir):
-                for name in files:
-                    file_name = os.path.join(path, name)
-                    file_h = open(file_name, "r")
-                    zip_f.write(file_name, file_name.partition(src_dir)[2])
-                    file_h.close()
+        full_repo_path = os.path.abspath(os.path.join(settings.SPC['storage_dir'],
+                                                      submission.fileset.repo_path))
+        for path, dirs, files in os.walk(full_repo_path):
+            # ignore revision backend dir
+            if os.path.split(path)[1] == '.' + settings.SPC['revisioning_backend']:
+                for entry in dirs[:]:
+                    dirs.remove(entry)
+                continue
 
-            for file_h in zip_f.filelist:
-                file_h.create_system = 0
+            for name in files:
+                full_name = os.path.abspath(os.path.join(path, name))
+                zipf.write(full_name, full_name.partition(full_repo_path)[2])
 
-            zip_f.close()
+        for name in zipf.filelist:
+            name.create_system = 0
 
-            # Return the repo checkout back to the most recent revision
-            out = submission.fileset.checkout_revision(submission.\
-                                                       last_revision.hash_id)
+        zipf.close()
 
-        # Return the ZIP file
-        zip_data = open(full_zip_file, "rb")
-        response.write(zip_data.read())
-        zip_data.close()
+        package_data.seek(0)
+
+        response = HttpResponse(mimetype='attachment; application/zip')
+        response['Content-Disposition'] = 'filename=%s-%d-%d.zip' \
+                                          % (submission.slug, submission.pk, 
+                                             revision.rev_id_human)
+        response.write(package_data.read())
+
+        package_data.close()
+
+        # checkout the repo to latest revision
+        last_revision = submission.last_revision
+        checkout = submission.fileset.checkout_revision(last_revision.hash_id)
+        if not checkout:
+            logger.error('Could not checkout out revision %s for  rev.id %d' 
+                         % (last_revision.hash_id, last_revision.pk))
+
         return response
+
 
 def sort_items_by_page_views(all_items, item_module_name):
     # TODO(KGD): Cache this reordering of ``items`` for a period of time
