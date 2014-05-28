@@ -8,7 +8,7 @@
     {% if entry.verbose_name == "User profile" %}
 
         {# It's a search query result #}
-        {% if entry.django_CT %}
+        {% if entry.content_type %}
             {% with entry.object as entry %}
                 {% include 'search/includes/one-person-result.html' %}
             {% endwith %}
@@ -22,7 +22,7 @@
     {% else %}
 
         {# It's a search query result #}
-        {% if entry.django_CT %}
+        {% if entry.content_type %}
             {% with entry.object as entry %}
                 {% include 'search/includes/one-search-result.html' %}
             {% endwith %}
