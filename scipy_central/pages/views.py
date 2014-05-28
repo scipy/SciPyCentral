@@ -35,7 +35,7 @@ def search(request):
     Calls Haystack, but allows us to first log the search query
     """
 
-    if request.GET['q'].strip() == '':
+    if request.GET.get('q', '').strip() == '':
         return redirect(front_page)
 
     # Avoid duplicate logging if search request results in more than 1 page
