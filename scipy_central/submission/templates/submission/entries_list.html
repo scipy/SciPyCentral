@@ -39,7 +39,7 @@
 <div class="pagination pagination-centered">
   <ul>
         {% if entries.has_previous %}
-            <li><a href="?page={{ entries.previous_page_number }}">Prev</a></li>
+            <li><a href="{% url haystack_search %}?q={{ request.GET.q }}&page={{ entries.previous_page_number }}">Prev</a></li>
         {% endif %}
         
         {% if entries.has_previous or entries.has_next %}
@@ -49,7 +49,7 @@
         {% endif %}
         
         {% if entries.has_next %}
-            <li><a href="?page={{ entries.next_page_number }}">Next</a></li>
+            <li><a href="{% url haystack_search %}?q={{ request.GET.q}}&page={{ entries.next_page_number }}">Next</a></li>
         {% endif %}
   </ul>
 </div>
