@@ -4,54 +4,52 @@
 <ul class="media-list">
 {% for entry in entries.object_list %}
 
-	{# It's a user #}
-	{% if entry.verbose_name == "User profile" %}
+    {# It's a user #}
+    {% if entry.verbose_name == "User profile" %}
 
-	{# It's a search query result #}
-	{% if entry.django_CT %}
-	{% with entry.object as entry %}
-		{% include 'search/includes/one-person-result.html' %}
-	{% endwith %}
+        {# It's a search query result #}
+        {% if entry.django_CT %}
+            {% with entry.object as entry %}
+                {% include 'search/includes/one-person-result.html' %}
+            {% endwith %}
 
-	{# It's just a list of objects #}
-	{% else %}
-		{% include 'search/includes/one-person-result.html' %}
-	{% endif %}
+        {# It's just a list of objects #}
+        {% else %}
+            {% include 'search/includes/one-person-result.html' %}
+        {% endif %}
 
+    {# It's a revision object #}
+    {% else %}
 
-{# It's a revision object #}
-{% else %}
+        {# It's a search query result #}
+        {% if entry.django_CT %}
+            {% with entry.object as entry %}
+                {% include 'search/includes/one-search-result.html' %}
+            {% endwith %}
 
-	{# It's a search query result #}
-	{% if entry.django_CT %}
-	{% with entry.object as entry %}
-		{% include 'search/includes/one-search-result.html' %}
-	{% endwith %}
+        {# It's just a list of objects #}
+        {% else %}
+            {% include 'search/includes/one-search-result.html' %}
+        {% endif %}
 
-	{# It's just a list of objects #}
-	{% else %}
-	{% include 'search/includes/one-search-result.html' %}
-	{% endif %}
-
-
-{% endif %}
+    {% endif %}
 {% endfor %}
 </ul>
 
 <div class="pagination pagination-centered">
   <ul>
-		{% if entries.has_previous %}
-			<li><a href="?page={{ entries.previous_page_number }}">Prev</a></li>
-		{% endif %}
-		
-		{% if entries.has_previous or entries.has_next %}
+        {% if entries.has_previous %}
+            <li><a href="?page={{ entries.previous_page_number }}">Prev</a></li>
+        {% endif %}
+        
+        {% if entries.has_previous or entries.has_next %}
     <li class="disabled"><a href="#">
-			Page {{ entries.number }} of {{ entries.paginator.num_pages }}</a>
-		</li>
-		{% endif %}
-		
-		{% if entries.has_next %}
-			<li><a href="?page={{ entries.next_page_number }}">Next</a></li>
-		{% endif %}
+            Page {{ entries.number }} of {{ entries.paginator.num_pages }}</a>
+        </li>
+        {% endif %}
+        
+        {% if entries.has_next %}
+            <li><a href="?page={{ entries.next_page_number }}">Next</a></li>
+        {% endif %}
   </ul>
 </div>
