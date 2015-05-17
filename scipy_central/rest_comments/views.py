@@ -49,12 +49,7 @@ def setup_compile_dir(compile_dir):
     with file(conf_template_file, 'r') as f:
         conf_template = template.Template(f.read())
 
-    if settings.MEDIA_URL.startswith('http'):
-        conf = conf_template.render(template.Context({'FULL_MEDIA_URL':
-                                                      settings.MEDIA_URL}))
-    else:
-        conf = conf_template.render(template.Context({'FULL_MEDIA_URL':
-                                                      site + settings.MEDIA_URL}))
+    conf = conf_template.render(template.Context({'FULL_MEDIA_URL': settings.MEDIA_URL}))
 
     with file(conf_file, 'w') as f:
         f.write(conf)

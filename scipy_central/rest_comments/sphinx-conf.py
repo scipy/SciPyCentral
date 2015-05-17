@@ -31,7 +31,7 @@ extlinks = {'id': ('http://scipy-central.org/item/%s', 'item #'),
 import sys, os
 sys.path.insert(0, os.path.abspath('.'))
 extensions.append('ext.images')
-ext_images = {'image': '{{FULL_MEDIA_URL}}images/%s'}
+ext_images = {'image': '/{{FULL_MEDIA_URL}}images/%s'}
 
 # The suffix of source filenames.
 source_suffix = '.rst'
