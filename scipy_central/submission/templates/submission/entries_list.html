@@ -38,8 +38,14 @@
 
 <div class="pagination pagination-centered">
   <ul>
+        {% url haystack_search as search_path %}
+
         {% if entries.has_previous %}
-            <li><a href="{% url haystack_search %}?q={{ request.GET.q }}&page={{ entries.previous_page_number }}">Prev</a></li>
+            {% if request.path == search_path %}
+                <li><a href="{% url haystack_search %}?q={{ request.GET.q }}&page={{ entries.previous_page_number }}">Prev</a></li>
+            {% else %}
+                <li><a href="?page={{ entries.previous_page_number }}">Prev</a></li>
+            {% endif %}
         {% endif %}
         
         {% if entries.has_previous or entries.has_next %}
@@ -49,7 +55,11 @@
         {% endif %}
         
         {% if entries.has_next %}
-            <li><a href="{% url haystack_search %}?q={{ request.GET.q}}&page={{ entries.next_page_number }}">Next</a></li>
+            {% if request.path == search_path %}
+                <li><a href="{% url haystack_search %}?q={{ request.GET.q}}&page={{ entries.next_page_number }}">Next</a></li>
+            {% else %}
+                <li><a href="?page={{ entries.next_page_number }}">Next</a></li>
+            {% endif %}
         {% endif %}
   </ul>
 </div>
