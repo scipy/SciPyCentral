@@ -64,9 +64,9 @@ class SimpleTest(TestCase):
                                     'source': 'simpletest'},
                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.content,
-                        ('{"html_text": "<p>The <tt class=\\"docutils literal\\">'
+                        ('{"html_text": "<p>The <code class=\\"docutils literal\\">'
                          '<span class=\\"pre\\">long</span> <span class=\\"pre\\">cat</span>'
-                         '</tt> walked</p><br>", "success": true}'))
+                         '</code> walked</p><br>", "success": true}'))
         
 
         response = self.client.get(reverse('spc-rest-convert'), 
