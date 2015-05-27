@@ -88,7 +88,7 @@ class DVCSRepo(object):
             if os.name == 'posix':
                 self.executable = search_file(self.backend,
                                               os.environ['PATH'])
-            elif os.name == 'windows':
+            elif os.name == 'nt':
                 self.executable = search_file(self.backend + '.exe',
                                               os.environ['PATH'])
         if not self.executable:
