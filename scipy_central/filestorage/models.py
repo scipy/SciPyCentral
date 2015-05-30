@@ -1,13 +1,13 @@
 from django.db import models
 from django.conf import settings
 from scipy_central import utils
-from django.utils.datastructures import SortedDict
 
 from dvcs_wrapper import DVCSError, DVCSRepo
 # Python imports
 import os
 import logging
 import shutil
+import json
 storage_dir = settings.SPC['storage_dir']
 backend = settings.SPC['revisioning_backend']
 revisioning_executable = settings.SPC['revisioning_executable']
@@ -131,8 +131,6 @@ class FileSet(models.Model):
 
     def list_iterator(self):
         """
-        COMMENT NOT TRUE YET:
-
         Returns a list of all files in a repo. For example, if the repo has:
             /dir1/abc.png
             /dir1/def.png
@@ -142,24 +140,38 @@ class FileSet(models.Model):
             ghw.png
             yqr.png
 
-        This function will return a Django ``SortedDict`` data structure:
-        [ {'dir1': ['abc.png', 'def.png'],
-          'dir2': [],
-          'dir3': [{'dir4': 'frg.png'}, 'tyr.png'],
-          },
-          'ghw.png',
-          'yqr.png'
-        ]
+        This function will return Python dictionary data structure:
+        {
+            "test": [
+                {
+                    "dir1": [ "abc.txt","def.txt"]
+                },
+                {
+                    "dir2": []
+                },
+                {
+                    "dir3": [
+                        {
+                            "dir4": ["frg.txt"]
+                        },
+                        "tyr.txt"
+                    ]
+                },
+                "fil1.txt",
+                "fil2.txt"
+            ]
+        }
         """
-        base_dir = os.path.join(storage_dir, self.repo_path)
-        for path, dirs, files in os.walk(base_dir):
-            dirname = os.path.split(path)[1]
-            if dirname in settings.SPC['common_rcs_dirs']:
-                for entry in dirs[:]:
-                    dirs.remove(entry)
-            else:
-                for fname in files:
-                    yield os.path.relpath(os.path.join(path, fname), base_dir)
+        def path_to_dict(root):
+            if not os.path.isdir(root):
+                return os.path.split(root)[1]
+            pdic = {}
+            pdic[os.path.split(root)[1]] = [path_to_dict(os.path.join(root, x)) for x in os.listdir(root) \
+                                            if x not in settings.SPC['common_rcs_dirs']]
+            return pdic
 
+        base_dir = os.path.join(storage_dir, self.repo_path)
+        return json.dumps(path_to_dict(base_dir))
+        
     def __unicode__(self):
         return '<storage_dir>/' + self.repo_path

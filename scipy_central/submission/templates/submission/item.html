@@ -7,158 +7,212 @@
 {% block pageContent %}
 
 <div class="media">
-	<a class="pull-left" href="#">
-		{% if item.entry.sub_type == 'snippet' %}
-		<img class="media-object" src="{{STATIC_URL}}single-file-list-icon-tiny.png">
-		{% endif %}
-		{% if item.entry.sub_type == 'package' %}
-		<img class="media-object" src="{{STATIC_URL}}multiple-file-list-icon-tiny.png">
-		{% endif %}
-		{% if item.entry.sub_type == 'link' %}
-		<img class="media-object" src="{{STATIC_URL}}external-link-list-icon-tiny.png">
-		{% endif %}
-	</a>
-	<div class="media-body">
-		<h3 class="media-heading underline">{{item.title}}</h3>
-		{% if not preview %}
-		<ul class="inline">
-			<li>{% if item.previous_submission %}<a href="{{item.previous_submission}}"><small>Previous</small></a>{% endif %}</li>
-			<li>{% if item.next_submission %}<a href="{{item.next_submission}}"><small>Next</small></a>{% endif %}</li>
-		</ul>
-		{% endif %}
-	</div>
+    <a class="pull-left" href="#">
+        {% if item.entry.sub_type == 'snippet' %}
+        <img class="media-object" src="{{STATIC_URL}}single-file-list-icon-tiny.png">
+        {% endif %}
+        {% if item.entry.sub_type == 'package' %}
+        <img class="media-object" src="{{STATIC_URL}}multiple-file-list-icon-tiny.png">
+        {% endif %}
+        {% if item.entry.sub_type == 'link' %}
+        <img class="media-object" src="{{STATIC_URL}}external-link-list-icon-tiny.png">
+        {% endif %}
+    </a>
+    <div class="media-body">
+        <h3 class="media-heading underline">{{item.title}}</h3>
+        {% if not preview %}
+        <ul class="inline">
+            <li>{% if item.previous_submission %}<a href="{{item.previous_submission}}"><small>Previous</small></a>{% endif %}</li>
+            <li>{% if item.next_submission %}<a href="{{item.next_submission}}"><small>Next</small></a>{% endif %}</li>
+        </ul>
+        {% endif %}
+    </div>
 </div>
 
+<script type="text/javascript">
+(function($) {
+$(document).ready(function() {
+
+/**
+ * Takes a filename string (eg: "README.txt") and returns
+ * a) if isSubMenu is true
+ *      <li class="dropdown-submenu"><a href="#" tabindex="-1">filename</a></li>
+ * b) if isSubMenu is false
+ *      <li><a href="#" tabindex="-1">filename</a></li>
+ */
+function createMenuRow(filename, isSubMenu) {
+    var $menu = $("<li>");
+
+    if (isSubMenu === true) {
+        $menu.attr("class", "dropdown-submenu");
+    }
+
+    $menu.html($("<a>").attr("href", "#")
+                       .attr("tabindex", "-1")
+                       .html(filename));
+
+    return $menu;
+}
+
+/**
+ * Takes a filesystem directory's paths as JSON object
+ * and returns Bootstrap's dropdown menu
+ */
+function createMenu(obj) {  
+    var $menu = $();
+    var isObjArray = false;
+
+    if (typeof obj === "string") {
+        return createMenuRow(obj, false);
+    } else if (typeof obj === "object" && Array.isArray(obj)) {
+        isObjArray = true;
+    }
+    
+    if (isObjArray) {
+        $menu = $menu.add($("<ul>").attr("class", "dropdown-menu"));
+    }
+
+    for (var e in obj) {
+       if (!isObjArray) {
+            $menu = $menu.add(createMenuRow(e, true));
+       }
+
+       $menu.append(createMenu(obj[e]));
+    }
+    
+    return $menu;
+}
+
+// Directory paths as JSON
+var $dir = {{ package_files|safe }};
+
+// Ignore the root folder's name
+var rootKey = Object.keys($dir)[0];
+
+// dropdown object
+var $dropdown = $().add(createMenu($dir[rootKey]))
+                   .attr("role", "menu")
+                   .attr("aria-labelledby", "dLabel");
+
+// Add the menu at the appropriate place
+$("#package-menu-btn").parent().append($dropdown);
+
+
+});
+})(window.jQuery);
+</script>
+
 <dl class="dl-horizontal">
-	<dt class="muted">Submitted by</dt>
-	<dd>{% if item.entry.created_by.profile.is_validated %}<a href="{% url spc-user-profile item.entry.created_by.profile.slug %}">{{item.entry.created_by.username}}</a> on {% if item.entry.date_created %}{{item.entry.date_created|naturalday:"d F Y"}}{% else %}today{% endif %}{% else %}Your name will be here once you validate yourself by email{% endif %}</dd>
+    <dt class="muted">Submitted by</dt>
+    <dd>{% if item.entry.created_by.profile.is_validated %}<a href="{% url spc-user-profile item.entry.created_by.profile.slug %}">{{item.entry.created_by.username}}</a> on {% if item.entry.date_created %}{{item.entry.date_created|naturalday:"d F Y"}}{% else %}today{% endif %}{% else %}Your name will be here once you validate yourself by email{% endif %}</dd>
 
-	{% if item.entry.sub_type == "link" %}
-	<dt class="muted">Link</dt>
-	<dd><a href="{{item.item_url}}">{{item.item_url}}</a></dd>
-	{% endif %}
+    {% if item.entry.sub_type == "link" %}
+    <dt class="muted">Link</dt>
+    <dd><a href="{{item.item_url}}">{{item.item_url}}</a></dd>
+    {% endif %}
 
-	{% if item.entry.sub_type == "snippet" %}
-	<dt class="muted">Download</dt>
-	<dd>
-		{% if preview %}
-			<i>Links to the ZIP file contents will appear here</i>
-		{% else %}
-			<a href="{% url spc-download-submission item_id=item.entry.id rev_id=item.rev_id_human %}">File</a>
-		{% endif %}
-	</dd>
-	{% endif %}
+    {% if item.entry.sub_type == "snippet" %}
+    <dt class="muted">Download</dt>
+    <dd>
+        {% if preview %}
+            <i>Links to the ZIP file contents will appear here</i>
+        {% else %}
+            <a href="{% url spc-download-submission item_id=item.entry.id rev_id=item.rev_id_human %}">File</a>
+        {% endif %}
+    </dd>
+    {% endif %}
 
-	{% if item.entry.sub_type == "package" %}
-	<dt class="muted">Download</dt>
-	<dd>
-		{% if preview %}
-			<i>Links to the ZIP file contents will appear here</i>
-		{% else %}
-			<a href="{% url spc-download-submission item_id=item.entry.id rev_id=item.rev_id_human %}">All files</a>
-		{% endif %}
-	</dd>
-	{% endif %}
+    {% if item.entry.sub_type == "package" %}
+    <dt class="muted">Download</dt>
+    <dd>
+        {% if preview %}
+            <i>Links to the ZIP file contents will appear here</i>
+        {% else %}
+            <div class="btn-group">
+                <a class="btn btn-mini" href="{% url spc-download-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Click here</a>
+                <button id="package-menu-btn" class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+            </div>
+        {% endif %}
+    </dd>
+    {% endif %}
 
-	{% if item.entry.num_revisions > 1 %}
-	<dt class="muted">Update history</dt>
-	<dd>{{ item.human_revision_string }}:
-		{% if item.previous_revision %}
-			<a href="{{item.previous_revision.get_absolute_url}}">previous</a>
-		{% endif %}
-		{% if item.next_revision %}<a href="{{ item.next_revision.get_absolute_url }}">next</a>{% endif %}
-	</dd>
+    {% if item.entry.num_revisions > 1 %}
+    <dt class="muted">Update history</dt>
+    <dd>{{ item.human_revision_string }}:
+        {% if item.previous_revision %}
+            <a href="{{item.previous_revision.get_absolute_url}}">previous</a>
+        {% endif %}
+        {% if item.next_revision %}<a href="{{ item.next_revision.get_absolute_url }}">next</a>{% endif %}
+    </dd>
 
-	<dt class="muted">Updated by</dt>
-	<dd>
-		{% if item.created_by.profile.is_validated %}<a href="{% url spc-user-profile item.created_by.profile.slug %}">{{item.created_by.username}}</a>{% else %}Unvalidated user{% endif %} on {% if item.date_created %}{{item.date_created|naturalday:"d F Y"}}{% else %}today{% endif %}
-	</dd>
-	{% endif %}
+    <dt class="muted">Updated by</dt>
+    <dd>
+        {% if item.created_by.profile.is_validated %}<a href="{% url spc-user-profile item.created_by.profile.slug %}">{{item.created_by.username}}</a>{% else %}Unvalidated user{% endif %} on {% if item.date_created %}{{item.date_created|naturalday:"d F Y"}}{% else %}today{% endif %}
+    </dd>
+    {% endif %}
 
-	<dt class="muted">Tags</dt>
-	<dd>
-		<ul class="inline tags">
-		{% for tag in tag_list %}
-			<li class="btn btn-mini"><a href="{% url spc-show-items what_view="tag" extra_info=tag %}">{{tag.name}}</a></li>
-		{% endfor %}
-		</ul>
-	</dd>
+    <dt class="muted">Tags</dt>
+    <dd>
+        <ul class="inline tags">
+        {% for tag in tag_list %}
+            <li class="btn btn-mini"><a href="{% url spc-show-items what_view="tag" extra_info=tag %}">{{tag.name}}</a></li>
+        {% endfor %}
+        </ul>
+    </dd>
 </dl>
 
 
 {% if item.entry.sub_type == "snippet" %}
 <div class="accordion-group">
-	<!--snippet title-->
-	<div class="accordion-heading">
-		<a class="accordion-toggle" data-toggle="collapse" href="#collapse1">
-		Code <i class="icon-arrow-up"></i> 
-		</a>
-	</div><!--/snippet title-->
-	<div id="collapse1" class="accordion-body collapse in">
-		<div class="accordion-inner">
-			<div class="hide" data-editor="python" data-readonly="true">{{item.item_code|safe}}</div>
-		</div>
-	</div>
-</div><!--accordion group-->
-{% endif %}
-
-{% if item.entry.sub_type == "package" %}
-<div class="accordion-group">
-	<!--snippet title-->
-	<div class="accordion-heading">
-		<a class="accordion-toggle" data-toggle="collapse" href="#collapse2">
-		Files <i class="icon-arrow-up"></i> 
-		</a>
-	</div><!--/snippet title-->
-	<div id="collapse2" class="accordion-body collapse in">
-		<div class="accordion-inner">
-			{% if preview %}
-			<i>Links to the ZIP file contents will appear here</i>
-			{% else %}
-			<ul class="unstyled">
-				{% for file in package_files %}
-					<li>{{file}}<li>
-				{% endfor %}
-			</ul>
-			{% endif %}
-		</div>
-	</div>
+    <!--snippet title-->
+    <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" href="#collapse1">
+        Code <i class="icon-arrow-up"></i> 
+        </a>
+    </div><!--/snippet title-->
+    <div id="collapse1" class="accordion-body collapse in">
+        <div class="accordion-inner">
+            <div class="hide" data-editor="python" data-readonly="true">{{item.item_code|safe}}</div>
+        </div>
+    </div>
 </div><!--accordion group-->
 {% endif %}
 
 <div class="accordion-group">
-	<!--snippet title-->
-	<div class="accordion-heading">
-		<a class="accordion-toggle" data-toggle="collapse" href="#collapse3">
-		More information <i class="icon-arrow-up"></i> 
-		</a>
-	</div><!--/snippet title-->
-	<div id="collapse3" class="accordion-body collapse in">
-		<div class="accordion-inner">
-			{{item.description_html|safe}}
-		</div>
-	</div>
+    <!--snippet title-->
+    <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" href="#collapse3">
+        More information <i class="icon-arrow-up"></i> 
+        </a>
+    </div><!--/snippet title-->
+    <div id="collapse3" class="accordion-body collapse in">
+        <div class="accordion-inner">
+            {{item.description_html|safe}}
+        </div>
+    </div>
 </div><!--accordion group-->
 
 {% if not preview %}
 <div class="accordion-group">
-	{% get_comment_count for item as comment_count %}
-	<div class="accordion-heading">
-		<a class="accordion-toggle" data-toggle="collapse" href="#collapse4">
-		Comments (<span id="spc-comment-count">{{comment_count}}</span>) <i class="icon-arrow-up"></i> 
-		</a>
-	</div><!--/snippet title-->
-	<div id="collapse4" class="accordion-body collapse in">
-		<div class="accordion-inner">
-			{% render_comment_list for item %}
-		</div>
-	</div>
+    {% get_comment_count for item as comment_count %}
+    <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" href="#collapse4">
+        Comments (<span id="spc-comment-count">{{comment_count}}</span>) <i class="icon-arrow-up"></i> 
+        </a>
+    </div><!--/snippet title-->
+    <div id="collapse4" class="accordion-body collapse in">
+        <div class="accordion-inner">
+            {% render_comment_list for item %}
+        </div>
+    </div>
 </div><!--accordion group-->
 {% endif %}
 
 {% if extra_html %}
 <div class="alert alert-info help-text">
-	{{extra_html|safe}}
+    {{extra_html|safe}}
 </div>
 {% endif %}
 {% endblock %}
