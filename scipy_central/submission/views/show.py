@@ -147,7 +147,7 @@ def view_item(request, submission, revision):
     if submission.sub_type == 'package':
         # Update the repo to the version required
         submission.fileset.checkout_revision(revision.hash_id)
-        package_files = list(submission.fileset.list_iterator())
+        package_files = submission.fileset.list_iterator()
 
 
     return render_to_response('submission/item.html', {},

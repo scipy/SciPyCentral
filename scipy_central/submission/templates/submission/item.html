@@ -29,6 +29,79 @@
 	</div>
 </div>
 
+<script type="text/javascript">
+(function($) {
+$(document).ready(function() {
+
+/**
+ * Takes a filename string (eg: "README.txt") and returns
+ * a) if isSubMenu is true
+ *		<li class="dropdown-submenu"><a href="#" tabindex="-1">filename</a></li>
+ * b) if isSubMenu is false
+ *      <li><a href="#" tabindex="-1">filename</a></li>
+ */
+function createMenuRow(filename, isSubMenu) {
+	var $menu = $("<li>");
+
+	if (isSubMenu === true) {
+		$menu.attr("class", "dropdown-submenu");
+	}
+
+	$menu.html($("<a>").attr("href", "#")
+					   .attr("tabindex", "-1")
+					   .html(filename));
+
+	return $menu;
+}
+
+/**
+ * Takes a filesystem directory's paths as JSON object
+ * and returns Bootstrap's dropdown menu
+ */
+function createMenu(obj) {	
+	var $menu = $();
+	var isObjArray = false;
+
+	if (typeof obj === "string") {
+		return createMenuRow(obj, false);
+	} else if (typeof obj === "object" && Array.isArray(obj)) {
+		isObjArray = true;
+	}
+	
+	if (isObjArray) {
+		$menu = $menu.add($("<ul>").attr("class", "dropdown-menu"));
+	}
+
+	for (var e in obj) {
+	   if (!isObjArray) {
+			$menu = $menu.add(createMenuRow(e, true));
+	   }
+
+	   $menu.append(createMenu(obj[e]));
+	}
+	
+	return $menu;
+}
+
+// Directory paths as JSON
+var $dir = {{ package_files|safe }};
+
+// Ignore the root folder's name
+var rootKey = Object.keys($dir)[0];
+
+// dropdown object
+var $dropdown = $().add(createMenu($dir[rootKey]))
+				   .attr("role", "menu")
+				   .attr("aria-labelledby", "dLabel");
+
+// Add the menu at the appropriate place
+$("#package-menu-btn").parent().append($dropdown);
+
+
+});
+})(window.jQuery);
+</script>
+
 <dl class="dl-horizontal">
 	<dt class="muted">Submitted by</dt>
 	<dd>{% if item.entry.created_by.profile.is_validated %}<a href="{% url spc-user-profile item.entry.created_by.profile.slug %}">{{item.entry.created_by.username}}</a> on {% if item.entry.date_created %}{{item.entry.date_created|naturalday:"d F Y"}}{% else %}today{% endif %}{% else %}Your name will be here once you validate yourself by email{% endif %}</dd>
@@ -55,7 +128,12 @@
 		{% if preview %}
 			<i>Links to the ZIP file contents will appear here</i>
 		{% else %}
-			<a href="{% url spc-download-submission item_id=item.entry.id rev_id=item.rev_id_human %}">All files</a>
+			<div class="btn-group">
+				<a class="btn btn-mini" href="{% url spc-download-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Click here</a>
+				<button id="package-menu-btn" class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+					<span class="caret"></span>
+				</button>
+			</div>
 		{% endif %}
 	</dd>
 	{% endif %}
@@ -97,30 +175,6 @@
 	<div id="collapse1" class="accordion-body collapse in">
 		<div class="accordion-inner">
 			<div class="hide" data-editor="python" data-readonly="true">{{item.item_code|safe}}</div>
-		</div>
-	</div>
-</div><!--accordion group-->
-{% endif %}
-
-{% if item.entry.sub_type == "package" %}
-<div class="accordion-group">
-	<!--snippet title-->
-	<div class="accordion-heading">
-		<a class="accordion-toggle" data-toggle="collapse" href="#collapse2">
-		Files <i class="icon-arrow-up"></i> 
-		</a>
-	</div><!--/snippet title-->
-	<div id="collapse2" class="accordion-body collapse in">
-		<div class="accordion-inner">
-			{% if preview %}
-			<i>Links to the ZIP file contents will appear here</i>
-			{% else %}
-			<ul class="unstyled">
-				{% for file in package_files %}
-					<li>{{file}}<li>
-				{% endfor %}
-			</ul>
-			{% endif %}
 		</div>
 	</div>
 </div><!--accordion group-->
