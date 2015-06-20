@@ -1,17 +1,19 @@
-# general ignores
-*~
 *.pyc
 *.bak
-.project
-.pydevproject
+*.log
+*.db
+*~
+scipy-central.wpr
+site_backup
+data/code
+data/media
+data/static
+data/cache
+data/compile
+data/xapian_index
+data/whoosh_index
+/MANIFEST
+/dist
+/env
 /.tox
 /*.egg-info
-/dist
-/MANIFEST
-/deploy/env
-
-# staticfiles 
-/deploy/data
-
-# local settings
-/deploy/local_settings.py

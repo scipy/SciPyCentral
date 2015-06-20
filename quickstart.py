@@ -9,10 +9,10 @@ import sys
 import os
 import subprocess
 import argparse
+import errno
 
 ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
-DEPLOY_DIR = os.path.join(ROOT_DIR, 'deploy')
-VENV_DIR = os.path.abspath(os.path.join(DEPLOY_DIR, 'env'))
+VENV_DIR = os.path.abspath(os.path.join(ROOT_DIR, 'env'))
 
 PYVER = "%d.%d" % (sys.version_info[0], sys.version_info[1])
 MERCURIAL_WIN_BINARY = "http://mercurial.selenic.com/release/windows/mercurial-2.5.2.win32-py%s.exe" % PYVER
@@ -54,6 +54,14 @@ def main():
     python_bin, easy_install_bin = find_python()
 
     os.chdir(ROOT_DIR)
+    data_dir = os.path.abspath(os.path.join(ROOT_DIR, "data"))
+    try:
+        os.mkdir(os.path.abspath(os.path.join(ROOT_DIR, "data")))
+    except OSError:
+        if OSError.errno != errno.EEXIST:
+            print("ERROR: Unable to create `data` directory in the root %s" % ROOT_DIR)
+        else:
+            pass
 
     print("\n-- Installing required modules")
     with open('requirements.txt', 'r') as f:
@@ -67,8 +75,6 @@ def main():
     run_cmd([easy_install_bin] + requirements)
 
     print("\n-- Setting up development database")
-    print("$ cd deploy")
-    os.chdir(DEPLOY_DIR)
     run_cmd([python_bin, 'manage.py', 'syncdb'])
     run_cmd([python_bin, 'manage.py', 'migrate'])
     run_cmd([python_bin, 'manage.py', 'loaddata', 'base'])
@@ -82,13 +88,11 @@ Now you can do:
 
 * Linux & OSX:
 
-      cd deploy
       source env/bin/activate
       python manage.py runserver
 
 * Windows:
 
-      cd deploy
       env\Scripts\activate
       python manage.py runserver
 """)

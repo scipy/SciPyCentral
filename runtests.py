@@ -25,8 +25,10 @@ def main():
     os.chdir(base_dir)
     sys.path.insert(0, deploy_dir)
 
-    os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
-    mod =__import__('settings')
+    settings_module = "deploy.settings.local"
+    os.environ['DJANGO_SETTINGS_MODULE'] = settings_module
+    __import__(settings_module)
+    mod = sys.modules[settings_module]
     del os.environ['DJANGO_SETTINGS_MODULE']
 
     apps = [x.replace('scipy_central.', '') for x in mod.INSTALLED_APPS
@@ -41,9 +43,8 @@ def main():
 
     verbosity = '2' if args.verbose else '1'
 
-    cmd = [sys.executable,
-           os.path.join('deploy', 'manage.py'),
-           'test', '-v', verbosity, '--noinput', '--traceback'] + apps
+    cmd = [sys.executable, 'manage.py', 'test', '-v', verbosity, 
+           '--noinput', '--traceback'] + apps
 
     sys.exit(subprocess.call(cmd))
 
