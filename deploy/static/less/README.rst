@@ -17,7 +17,7 @@ The following files in `./deploy/media/css/` are generated from here
 
 Requirements
 ------------
-* ``less>=1.4.1``
+* ``less = 1.4.1``
 
 Configure
 ---------
