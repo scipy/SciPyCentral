@@ -22,7 +22,7 @@
 
 		<ul class="inline tags pull-left">
 		{% for tag in entry.tags.all %}
-			<li class="btn btn-mini"><a href="{% url spc-show-items what_view="tag" extra_info=tag %}">{{tag.name}}</a></li>
+			<li style="padding:0px;"><a class="btn btn-mini" href="{% url spc-show-items what_view="tag" extra_info=tag %}">{{tag.name}}</a></li>
 		{% endfor %}
 		</ul>
 
