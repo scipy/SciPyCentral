@@ -1,30 +1,24 @@
 {% load core_tags %}
 <!--RightSideBar-->
 <div class="spc-rightsidebar span3">
-	
-	
-	{# Only items with an ID are editable (prevents link showing when previewing a new item #}
-	{% if not preview and item.entry %}
+	{# Links and packages can only be edited by their original author; snippets can be edited by anyone #}
+	{% if item.entry %}
+        {% if item.entry.sub_type != 'snippet' %}
+    		{# If the signed-in user is the same as the creator of the current revision: show edit link#}
+    		{% if user.id == item.created_by.id %}
+    		<div class="nav-title underline-bold">Contribute</div>
+    		<ul class="unstyled no-lead">
+    			<li>This is your submission <a href="{% url spc-edit-submission item_id=item.entry.id rev_id=item.rev_id_human %}">want to improve it</a>?</li>
+    		</ul>
+    		{% endif %}
 
-		{# Links and packages can only be edited by their original author; snippets can be edited by anyone #}
-
-		{% if item.entry.sub_type != 'snippet' %}
-			{# If the signed-in user is the same as the creator of the current revision: show edit link#}
-			{% if user.id == item.created_by.id %}
-			<div class="nav-title underline-bold">Contribute</div>
-			<ul class="unstyled no-lead">
-				<li>This is your submission <a href="{% url spc-edit-submission item_id=item.entry.id rev_id=item.rev_id_human %}">want to improve it</a>?</li>
-			</ul>
-			{% endif %}
-
-		{% else %}
-		<div class="nav-title">Contribute</div>
-		<ul class="unstyled no-lead">
-			<li><a href="{% url spc-edit-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Improve this {{item.entry.sub_type}}</a></li>
-		</ul>
-		{% endif %}
-
-	{% endif %}
+    	{% else %}
+    	<div class="nav-title">Contribute</div>
+    	<ul class="unstyled no-lead">
+    		<li><a href="{% url spc-edit-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Improve this {{item.entry.sub_type}}</a></li>
+    	</ul>
+    	{% endif %}
+    {% endif %}
 
 	{% if item.entry.sub_type == "snippet" %}
 	<div class="nav-title">Software License</div>

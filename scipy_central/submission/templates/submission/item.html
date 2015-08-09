@@ -20,12 +20,10 @@
     </a>
     <div class="media-body">
         <h3 class="media-heading underline">{{item.title}}</h3>
-        {% if not preview %}
         <ul class="inline">
             <li>{% if item.previous_submission %}<a href="{{item.previous_submission}}"><small>Previous</small></a>{% endif %}</li>
             <li>{% if item.next_submission %}<a href="{{item.next_submission}}"><small>Next</small></a>{% endif %}</li>
         </ul>
-        {% endif %}
     </div>
 </div>
 
@@ -125,16 +123,12 @@ $("#package-menu-btn").parent().append($dropdown);
     {% if item.entry.sub_type == "package" %}
     <dt class="muted">Download</dt>
     <dd>
-        {% if preview %}
-            <i>Links to the ZIP file contents will appear here</i>
-        {% else %}
-            <div class="btn-group">
-                <a class="btn btn-mini" href="{% url spc-download-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Click here</a>
-                <button id="package-menu-btn" class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                </button>
-            </div>
-        {% endif %}
+        <div class="btn-group">
+            <a class="btn btn-mini" href="{% url spc-download-submission item_id=item.entry.id rev_id=item.rev_id_human %}">Click here</a>
+            <button id="package-menu-btn" class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+        </div>
     </dd>
     {% endif %}
 
@@ -194,7 +188,6 @@ $("#package-menu-btn").parent().append($dropdown);
     </div>
 </div><!--accordion group-->
 
-{% if not preview %}
 <div class="accordion-group">
     {% get_comment_count for item as comment_count %}
     <div class="accordion-heading">
@@ -208,7 +201,6 @@ $("#package-menu-btn").parent().append($dropdown);
         </div>
     </div>
 </div><!--accordion group-->
-{% endif %}
 
 {% if extra_html %}
 <div class="alert alert-info help-text">
