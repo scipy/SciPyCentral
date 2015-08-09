@@ -54,13 +54,9 @@
 					<td>Interests</td>
 					<td>
 					{% if theuser.profile.interests.all %}
-					<ul class="inline tags">
 					{% for tag in theuser.profile.interests.all %}
-						<li class="btn btn-mini">
-							<a href="{% url spc-show-items what_view="tag" extra_info=tag %}">{{tag.name}}</a>
-						</li>
+						<a class="btn btn-mini" href="{% url spc-show-items what_view="tag" extra_info=tag %}">{{tag.name}}</a>
 					{% endfor %}
-					</ul>
 					{% else %}Not provided yet{% endif %}
 					</td>
 				</tr>
