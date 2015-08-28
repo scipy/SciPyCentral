@@ -12,6 +12,7 @@ from sphinx.application import Sphinx, SphinxError
 import simplejson
 
 # Django import
+from django.contrib.auth.decorators import login_required
 from django.contrib.sites.models import Site
 from django.http import HttpResponse, Http404
 from django.conf import settings
@@ -237,7 +238,7 @@ def compile_rest_to_html(raw_rest):
 
     return obj['body'].encode('utf-8')
 
-
+@login_required
 def rest_to_html_ajax(request):
     """
     Convert reStructuredText to HTML for preview

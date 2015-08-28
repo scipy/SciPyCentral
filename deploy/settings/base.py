@@ -179,7 +179,7 @@ SPC = {
     'license_filename': 'LICENSE.TXT',
 
     # Short link URL root (must end with a trailing slash).
-    'short_URL_root': 'http://scpyce.org/',
+    'short_URL_root': 'http://spc.scipy.org/',
 
     # Page hit horizon in days. Lists of views are sorted by the number of page
     # views over the past NNN days (the horizon).
