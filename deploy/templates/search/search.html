@@ -3,13 +3,21 @@
 {% block title %}Search Results - SciPy Central{% endblock %}
 
 {% block pageContent %}
-	<h3 class="underline">Search Results</h3>
-	{% if query %}
-		{% with page as entries %}
-		{% include 'submission/entries_list.html' %}
-		{% endwith %}
 
-	{% else %}
-		{# Show some example queries to run, maybe advanced query syntax #}
-	{% endif %}
+<h3 class="underline">Search Results</h3>
+
+<div class="row-fluid" style="padding-bottom: 10px;">
+    <div class="span12">
+        {% include "search/includes/main-search-box.html" %}
+    </div>
+</div>
+
+{% if query %}
+    {% with page as entries %}
+    {% include 'submission/entries_list.html' %}
+    {% endwith %}
+{% else %}
+    {# Show some example queries to run, maybe advanced query syntax #}
+{% endif %}
+
 {% endblock %}
