@@ -1,11 +1,16 @@
 from django.test import TestCase
 from django.test.client import Client
 
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
 class SimpleTest(TestCase):
     def setUp(self):
         self.client = Client()
+        self.user = User.objects.create_user(username='test', email='test@scipy.org',
+                                             password='notasecret')
+        self.client.post(reverse('auth_login'), {'username': self.user.username,
+                                                 'password': 'notasecret'})
 
     def test_basic(self):
         """ Basic testing for the RST -> HTML conversion using Sphinx."""
