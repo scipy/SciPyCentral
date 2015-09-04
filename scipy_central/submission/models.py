@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, connection
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 
@@ -158,12 +158,13 @@ class RevisionManager(models.Manager):
 
     def most_recent(self):
         """Most recent revisions only"""
+        is_displayed = 1 if connection.vendor == 'sqlite' else 'true'
         return self.extra(where=[
             "submission_revision.id = "
             "     (SELECT id FROM submission_revision AS __sr_2 "
             "      WHERE (__sr_2.entry_id = submission_revision.entry_id "
-            "             AND __sr_2.is_displayed = 1) "
-            "      ORDER BY __sr_2.date_created DESC LIMIT 1)"])
+            "             AND __sr_2.is_displayed = {0}) "
+            "      ORDER BY __sr_2.date_created DESC LIMIT 1)".format(is_displayed)])  
 
     def top_authors(self):
         """ From BSD licensed code:
