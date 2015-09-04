@@ -21,12 +21,12 @@ def validate_superuser(app, created_models, verbosity, **kwargs):
             raise ImproperlyConfigured('Could not get custom user model')
 
         users = User.objects.all()
-        if len(users)==1 and users[0].is_superuser:
-            print('Validating superuser in the subclassed user table')
-
-            user = user_class.objects.create(user=users[0])
-            user.is_validated = True
-            user.save()
+        if len(users) == 1 and users[0].is_superuser:
+            print 'Validating superuser in the subclassed user table'
+            user, created = user_class.objects.get_or_create(user=users[0])
+            if created:
+                user.is_validated = True
+                user.save()
 
     # While we are here (and this isn't user related) check the name of
     # the site. If it is "example.com", change it to "SciPy-Central.org"
