@@ -23,11 +23,22 @@ class PageHit(models.Model):
     datetime = models.DateTimeField(auto_now=True)
     item = models.CharField(max_length=50)
     item_pk = models.IntegerField()
-    extra_info = models.CharField(max_length=512, null=True, blank=True)
+
+    # Support the length at most 2083, the max URL limit in IE or 
+    # usual search index limit
+    extra_info_len = 2083
+    extra_info = models.CharField(max_length=extra_info_len, null=True, blank=True)
 
     def __unicode__(self):
         return '%s at %s' % (self.item, self.datetime)
 
+    def save(self, *args, **kwargs):
+        """
+        Truncate `extra_info` if it exceeds
+        """
+        if isinstance(self.extra_info, str) and len(self.extra_info) > self.extra_info_len:
+            self.extra_info = self.extra_info[:self.extra_info_len]
+        super(PageHit, self).save(*args, **kwargs)
 
     def most_viewed(self, field):
         """ Most viewed in terms of a certain item.
